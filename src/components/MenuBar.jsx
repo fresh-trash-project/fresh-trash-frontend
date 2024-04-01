@@ -1,4 +1,5 @@
 import { AiOutlineMenu } from "react-icons/ai";
+import styled from "styled-components";
 
 const MenuBar = () => {
   return (

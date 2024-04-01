@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import App from "./App.jsx";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
@@ -17,7 +18,7 @@ import ChatList from "./pages/ChatList";
 import Pay from "./pages/Pay";
 
 export const router = createBrowserRouter([
-  { path: "/", element: <Home />, errorElement: <div>404 Not Found</div> },
+  { path: "/", element: <App />, errorElement: <div>404 Not Found</div> },
   { path: "/SignUp", element: <SignUp /> },
   { path: "/SignIn", element: <SignIn /> },
   { path: "/MyPage", element: <MyPage /> },
