@@ -74,7 +74,9 @@ const SignIn = () => {
 
           <div className="toggle-to-signin">
             <span>Don&apos;t have an Account?</span>
-            <button>Sign Up</button>
+            <Link to="/SignUp">
+              <button>Sign Up</button>
+            </Link>
           </div>
         </form>
       </SignInContainer>
@@ -291,6 +293,10 @@ const SignInContainer = styled.div`
           background-color: var(--purple-dpurple);
         }
       }
+      a {
+        text-decoration: none;
+        color: white;
+      }
     }
   }
 `;
@@ -302,7 +308,6 @@ const Logo = styled.div`
     width: 70px;
     height: auto;
     margin: 20px;
-    /* transform: translateX(1000%); */
   }
 `;
 

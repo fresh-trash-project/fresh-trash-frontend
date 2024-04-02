@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import logo from "../assets/logo3.png";
+import { Link } from "react-router-dom";
 import { VscEye } from "react-icons/vsc";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { PiRecycleDuotone } from "react-icons/pi";
@@ -8,6 +9,7 @@ import { FaLeaf } from "react-icons/fa";
 import { TbMoneybag, TbRubberStampOff } from "react-icons/tb";
 import { GiReceiveMoney } from "react-icons/gi";
 import { MdCurrencyExchange } from "react-icons/md";
+import SignIn from "./SignIn";
 
 const SignUp = () => {
   return (
@@ -61,7 +63,9 @@ const SignUp = () => {
 
           <div className="toggle-to-signup">
             <span>Already have an Account?</span>
-            <button>Sign In</button>
+            <Link to="/SignIn">
+              <button>Sign In</button>
+            </Link>
           </div>
         </form>
       </SignUpContainer>
@@ -267,7 +271,6 @@ const SignUpContainer = styled.div`
         padding: 10px 45px;
         border: none;
         border-radius: 10px;
-
         cursor: pointer;
       }
     }
@@ -296,6 +299,10 @@ const SignUpContainer = styled.div`
         &:hover {
           background-color: var(--purple-dpurple);
         }
+      }
+      a {
+        text-decoration: none;
+        color: white;
       }
     }
   }
