@@ -152,7 +152,7 @@ const SignInContainer = styled.div`
       width: 400px;
       max-width: 100%;
       position: absolute;
-      top: 170px;
+      top: 150px;
       right: 40px;
 
       input {
@@ -188,12 +188,12 @@ const SignInContainer = styled.div`
       }
     }
     .password {
-      margin-top: 100px;
+      margin-top: 80px;
       width: 400px;
       max-width: 100%;
       position: absolute;
       right: 40px;
-      top: 170px;
+      top: 150px;
       input {
         background-color: white;
         border: 2px solid grey;
@@ -232,6 +232,9 @@ const SignInContainer = styled.div`
         position: absolute;
         right: 0;
         top:90px;
+        &:hover {
+          color: var(--purple-dpurple);
+        }
       }
     }
 
@@ -312,7 +315,7 @@ const Drawing = styled.div`
   position: absolute;
   top: 55%;
   left: 20px;
-  width: 40%;
+  width: 43%;
   height: 40%;
   border-radius: 200px;
   background-color: var(--green-current);
@@ -325,7 +328,7 @@ const Drawing = styled.div`
     font-weight: 600;
     position: absolute;
     top: 10%;
-    left: 10%;
+    left: 13%;
   }
 
   .trash-bin {

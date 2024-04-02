@@ -43,6 +43,11 @@ const SignUp = () => {
             <button type="submit">인증</button>
           </div>
 
+          <div className="user-name">
+            <input type="text" placeholder="User Name" />
+            <button type="submit">중복확인</button>
+          </div>
+
           <div className="password">
             <input type="password" placeholder="Password" />
             <button>
@@ -133,7 +138,7 @@ const SignUpContainer = styled.div`
       width: 400px;
       max-width: 100%;
       position: absolute;
-      top: 170px;
+      top: 150px;
       right: 40px;
 
       input {
@@ -168,13 +173,52 @@ const SignUpContainer = styled.div`
         right: 3%;
       }
     }
-    .password {
-      margin-top: 100px;
+
+    .user-name {
+      margin-top: 80px;
       width: 400px;
       max-width: 100%;
       position: absolute;
       right: 40px;
-      top: 170px;
+      top: 150px;
+      input {
+        background-color: white;
+        border: 2px solid grey;
+        margin: 20px 0;
+        padding: 10px 15px;
+        font-size: 13px;
+        border-radius: 10px;
+        width: 100%;
+        height: 40px;
+        outline: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      button {
+        background-color: var(--white-ivory);
+        width: 40px;
+        height: auto;
+        font-size: 12px;
+        color: black;
+        padding: 5px 5px;
+        border: 1px solid transparent;
+        border-radius: 40%;
+        cursor: pointer;
+        margin-top: 38px;
+        position: absolute;
+        top: -6px;
+        right: 3%;
+      }
+    }
+
+    .password {
+      margin-top: 160px;
+      width: 400px;
+      max-width: 100%;
+      position: absolute;
+      right: 40px;
+      top: 150px;
       input {
         background-color: white;
         border: 2px solid grey;
@@ -271,7 +315,7 @@ const Drawing = styled.div`
   position: absolute;
   top: 55%;
   left: 20px;
-  width: 40%;
+  width: 43%;
   height: 40%;
   border-radius: 200px;
   background-color: var(--green-current);
