@@ -50,11 +50,11 @@ const SignUp = () => {
             </button>
           </div>
 
-          <div className="button-signin">
+          <div className="button-signup">
             <button type="submit">회원 가입</button>
           </div>
 
-          <div className="toggle-to-signin">
+          <div className="toggle-to-signup">
             <span>Already have an Account?</span>
             <button>Sign In</button>
           </div>
@@ -205,7 +205,7 @@ const SignUpContainer = styled.div`
         right: 3%;
       }
     }
-    .button-signin {
+    .button-signup {
       position: absolute;
       top: 78%;
       right: 40px;
@@ -226,10 +226,10 @@ const SignUpContainer = styled.div`
       }
     }
 
-    .toggle-to-signin {
+    .toggle-to-signup {
       position: absolute;
       right: 40px;
-      top: 85%;
+      top: 90%;
 
       span {
         font-size: 12px;
