@@ -5,7 +5,7 @@ import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { PiRecycleDuotone } from "react-icons/pi";
 import { FaTrash } from "react-icons/fa6";
 import { FaLeaf } from "react-icons/fa";
-import { TbMoneybag } from "react-icons/tb";
+import { TbMoneybag, TbRubberStampOff } from "react-icons/tb";
 import { GiReceiveMoney } from "react-icons/gi";
 import { MdCurrencyExchange } from "react-icons/md";
 
@@ -97,6 +97,7 @@ const SignUpContainer = styled.div`
   overflow: hidden;
 
   .text {
+    width: 200px;
     p {
       font-size: large;
       font-weight: 500;
@@ -106,6 +107,7 @@ const SignUpContainer = styled.div`
       margin-top: 20px;
     }
     .bold {
+      width: 200px;
       font-weight: 900;
       font-size: x-large;
       margin-left: 50px;

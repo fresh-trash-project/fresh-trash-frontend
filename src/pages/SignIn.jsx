@@ -111,18 +111,22 @@ const SignInContainer = styled.div`
   overflow: hidden;
 
   .text {
+    width: 200px;
+    transform: translateX(290%);
     p {
       font-size: large;
       font-weight: 500;
       width: 200px;
       height: auto;
-      margin-left: 20px;
+      margin-right: 20px;
       margin-top: 20px;
+      text-align: end;
     }
     .bold {
+      width: 200px;
       font-weight: 900;
       font-size: x-large;
-      margin-left: 50px;
+      margin-right: 20px;
       margin-top: 5px;
     }
   }
@@ -140,6 +144,7 @@ const SignInContainer = styled.div`
     right: 0;
     height: 100%;
     width: 60%;
+    transform: translateX(-43%);
 
     h1 {
       font-size: xxx-large;
@@ -147,6 +152,7 @@ const SignInContainer = styled.div`
       position: absolute;
       top: 20px;
       left: 20px;
+      transform: translateX(210%);
     }
     .email {
       width: 400px;
@@ -231,7 +237,7 @@ const SignInContainer = styled.div`
         font-size: 12px;
         position: absolute;
         right: 0;
-        top:90px;
+        top: 90px;
         &:hover {
           color: var(--purple-dpurple);
         }
@@ -254,26 +260,16 @@ const SignInContainer = styled.div`
         padding: 10px 45px;
         border: none;
         border-radius: 10px;
-
         cursor: pointer;
+        transform: translateX(-158%);
       }
     }
-
-    .sns-icons{
-      a{
-        width:
-        height:
-        
-      }
-    }
-
-
-
 
     .toggle-to-signin {
       position: absolute;
       right: 40px;
       top: 90%;
+      transform: translateX(-128%);
 
       span {
         font-size: 12px;
@@ -300,10 +296,13 @@ const SignInContainer = styled.div`
 `;
 
 const Logo = styled.div`
+  display: flex;
+  justify-content: end;
   img {
     width: 70px;
     height: auto;
     margin: 20px;
+    /* transform: translateX(1000%); */
   }
 `;
 
@@ -320,6 +319,7 @@ const Drawing = styled.div`
   border-radius: 200px;
   background-color: var(--green-current);
   z-index: 2;
+  transform: translateX(120%);
 
   p {
     font-size: xx-large;
@@ -390,7 +390,8 @@ const Drawing = styled.div`
 const SNSIcons = styled.i`
   position: absolute;
   right: 38px;
-  bottom: 8%;
+  bottom: 6%;
+  transform: translateX(-168%);
   div {
     display: flex;
     align-items: center;
@@ -400,7 +401,7 @@ const SNSIcons = styled.i`
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     width: 20px;
     height: 20px;
-    margin: 5px;
+    margin: 15px;
 
     .naver {
       color: rgb(3, 199, 90);
