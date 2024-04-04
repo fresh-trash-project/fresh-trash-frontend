@@ -20,7 +20,7 @@ export const FooterContainer = styled.div`
 
     .sns-icon {
       width: 6%;
-      height: 30px;
+      height: 8%;
       background-color: white;
       padding: 8px;
       border-radius: 50%;
@@ -38,6 +38,7 @@ export const FooterContainer = styled.div`
     position: absolute;
     bottom: 50px;
   }
+
   .contact {
     &:hover {
       color: var(--green-light);
@@ -64,6 +65,12 @@ export const FooterContainer = styled.div`
 
     p {
       color: white;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    p {
+      font-size: 12px;
     }
   }
 `;
