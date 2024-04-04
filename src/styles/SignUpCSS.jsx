@@ -5,14 +5,14 @@ export const Container = styled.div`
   height: 100vh;
   background-color: var(--purple-lilac);
   background: linear-gradient(
-    to right,
+    45deg,
+    var(--purple-dpurple),
     var(--purple-soft),
     var(--purple-lilac)
   );
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 `;
 
 export const SignUpContainer = styled.div`
@@ -25,25 +25,35 @@ export const SignUpContainer = styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
   overflow: hidden;
 
+  /*//*로고 밑 글씨 */
   .text {
-    width: 200px;
+    width: 30%;
     p {
-      font-size: large;
+      font-size: 20px;
       font-weight: 500;
       width: 200px;
       height: auto;
-      margin-left: 20px;
+      margin-left: 10%;
       margin-top: 20px;
+      @media screen and (max-width: 786px) {
+        font-size: 14px;
+        transition: 0.3s ease-in-out;
+      }
     }
     .bold {
       width: 200px;
       font-weight: 900;
       font-size: x-large;
-      margin-left: 50px;
+      margin-left: 25%;
       margin-top: 5px;
+      @media screen and (max-width: 786px) {
+        font-size: 16px;
+        transition: 0.3s ease-in-out;
+      }
     }
   }
 
+  /*//* 입력란-회색영역 */
   form {
     display: flex;
     flex-direction: column;
@@ -57,16 +67,22 @@ export const SignUpContainer = styled.div`
     right: 0;
     height: 100%;
     width: 60%;
-
+    /* //* Create Account */
     h1 {
       font-size: xxx-large;
       font-weight: 700;
       position: absolute;
       top: 20px;
       left: 20px;
+      @media screen and (max-width: 786px) {
+        font-size: 40px;
+        transition: 0.3s ease-in-out;
+      }
     }
+
+    /* //*이메일      */
     .email {
-      width: 400px;
+      width: 70%;
       max-width: 100%;
       position: absolute;
       top: 150px;
@@ -105,9 +121,10 @@ export const SignUpContainer = styled.div`
       }
     }
 
+    /* //* 닉네임     */
     .user-name {
       margin-top: 80px;
-      width: 400px;
+      width: 70%;
       max-width: 100%;
       position: absolute;
       right: 40px;
@@ -143,9 +160,10 @@ export const SignUpContainer = styled.div`
       }
     }
 
+    /* //*비번 */
     .password {
       margin-top: 160px;
-      width: 400px;
+      width: 70%;
       max-width: 100%;
       position: absolute;
       right: 40px;
@@ -180,10 +198,13 @@ export const SignUpContainer = styled.div`
         right: 3%;
       }
     }
+
+    /* //*회원가입 버튼 */
     .button-signup {
       position: absolute;
+      width: 40%;
       top: 78%;
-      right: 40px;
+      right: 7%;
 
       button {
         width: 100%;
@@ -193,16 +214,17 @@ export const SignUpContainer = styled.div`
         font-size: 25px;
         font-weight: 600;
         letter-spacing: 0.5px;
-        padding: 10px 45px;
+        padding: 7% 1%;
         border: none;
         border-radius: 10px;
         cursor: pointer;
       }
     }
 
+    /*//*토글버튼 */
     .toggle-to-signup {
       position: absolute;
-      right: 40px;
+      right: 5%;
       top: 90%;
 
       span {
@@ -233,6 +255,7 @@ export const SignUpContainer = styled.div`
   }
 `;
 
+// *로고
 export const Logo = styled.div`
   img {
     width: 70px;
@@ -241,10 +264,12 @@ export const Logo = styled.div`
   }
 `;
 
+// *비번 눈
 export const EyeIcon = styled(VscEye)`
   font-size: 20px;
 `;
 
+// *그림
 export const Drawing = styled.div`
   position: absolute;
   top: 55%;
@@ -262,13 +287,17 @@ export const Drawing = styled.div`
     position: absolute;
     top: 10%;
     left: 25%;
+    @media screen and (max-width: 786px) {
+      font-size: 25px;
+      transition: 0.3s ease-in-out;
+    }
   }
 
   .trash-bin {
     position: absolute;
     top: 100px;
     left: 40px;
-    width: 100px;
+    width: 32%;
     height: auto;
   }
 
@@ -277,16 +306,16 @@ export const Drawing = styled.div`
     top: 130px;
     left: 60px;
     color: var(--green-light);
-    width: 60px;
+    width: 20%;
     height: auto;
   }
 
   .leaf {
     position: absolute;
-    top: 70px;
+    top: 80px;
     left: 120px;
     color: var(--green-light);
-    width: 60px;
+    width: 15%;
     height: auto;
   }
 
@@ -295,7 +324,7 @@ export const Drawing = styled.div`
     top: 80px;
     right: 30px;
     color: var(--yellow-saffron);
-    width: 50px;
+    width: 15%;
     height: auto;
   }
 

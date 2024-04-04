@@ -5,7 +5,7 @@ export const Container = styled.div`
   height: 100vh;
   background-color: var(--purple-lilac);
   background: linear-gradient(
-    to right,
+    45deg,
     var(--purple-dpurple),
     var(--purple-soft),
     var(--purple-lilac)
@@ -27,23 +27,32 @@ export const SignInContainer = styled.div`
   overflow: hidden;
 
   .text {
-    width: 200px;
-    transform: translateX(290%);
+    width: 30%;
+    transform: translateX(240%);
     p {
-      font-size: large;
+      font-size: 20px;
       font-weight: 500;
       width: 200px;
       height: auto;
-      margin-right: 20px;
+      margin-right: 10%;
       margin-top: 20px;
-      text-align: end;
+      padding-left: 40%;
+
+      @media screen and (max-width: 786px) {
+        font-size: 14px;
+        transition: 0.3s ease-in-out;
+      }
     }
     .bold {
       width: 200px;
       font-weight: 900;
       font-size: x-large;
-      margin-right: 20px;
+      margin-right: 25%;
       margin-top: 5px;
+      @media screen and (max-width: 786px) {
+        font-size: 16px;
+        transition: 0.3s ease-in-out;
+      }
     }
   }
 
@@ -67,11 +76,15 @@ export const SignInContainer = styled.div`
       font-weight: 700;
       position: absolute;
       top: 20px;
-      left: 20px;
-      transform: translateX(210%);
+
+      transform: translateX(100%);
+      @media screen and (max-width: 786px) {
+        font-size: 40px;
+        transition: 0.3s ease-in-out;
+      }
     }
     .email {
-      width: 400px;
+      width: 70%;
       max-width: 100%;
       position: absolute;
       top: 150px;
@@ -111,7 +124,7 @@ export const SignInContainer = styled.div`
     }
     .password {
       margin-top: 80px;
-      width: 400px;
+      width: 70%;
       max-width: 100%;
       position: absolute;
       right: 40px;
@@ -162,8 +175,9 @@ export const SignInContainer = styled.div`
 
     .button-signin {
       position: absolute;
+      width: 40%;
       top: 78%;
-      right: 40px;
+      right: 7%;
 
       button {
         width: 100%;
@@ -173,19 +187,21 @@ export const SignInContainer = styled.div`
         font-size: 25px;
         font-weight: 600;
         letter-spacing: 0.5px;
-        padding: 10px 45px;
+        padding: 7% 1%;
         border: none;
         border-radius: 10px;
         cursor: pointer;
-        transform: translateX(-158%);
+        transform: translateX(-94%);
       }
     }
 
     .toggle-to-signin {
       position: absolute;
-      right: 40px;
+      width: 50%;
+      right: 5%;
       top: 90%;
-      transform: translateX(-128%);
+      transform: translateX(-60%);
+      /* 이부분이 반응형으로 잘 안됨 */
 
       span {
         font-size: 12px;
@@ -242,19 +258,22 @@ export const Drawing = styled.div`
 
   p {
     font-size: xx-large;
-    width: 300px;
     color: white;
     font-weight: 600;
     position: absolute;
     top: 10%;
     left: 13%;
+    @media screen and (max-width: 786px) {
+      font-size: 23px;
+      transition: 0.3s ease-in-out;
+    }
   }
 
   .trash-bin {
     position: absolute;
     top: 100px;
     left: 40px;
-    width: 100px;
+    width: 32%;
     height: auto;
   }
 
@@ -263,16 +282,16 @@ export const Drawing = styled.div`
     top: 130px;
     left: 60px;
     color: var(--green-light);
-    width: 60px;
+    width: 20%;
     height: auto;
   }
 
   .leaf {
     position: absolute;
-    top: 70px;
+    top: 80px;
     left: 120px;
     color: var(--green-light);
-    width: 60px;
+    width: 15%;
     height: auto;
   }
 
@@ -281,7 +300,7 @@ export const Drawing = styled.div`
     top: 80px;
     right: 30px;
     color: var(--yellow-saffron);
-    width: 50px;
+    width: 15%;
     height: auto;
   }
 
