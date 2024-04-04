@@ -5,9 +5,9 @@ import { FaLeaf } from "react-icons/fa";
 import { GiReceiveMoney } from "react-icons/gi";
 import { MdCurrencyExchange } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { RiKakaoTalkFill } from "react-icons/ri";
+import { RiKakaoTalkFill, RiGoogleFill } from "react-icons/ri";
 import { SiNaver } from "react-icons/si";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import {
   Container,
   SignInContainer,
@@ -78,17 +78,16 @@ const SignIn = () => {
             </div>
 
             <SNSIcons>
-              <div>
-                <Link>
-                  <SiNaver className="naver" />
-                </Link>
-                <Link>
-                  <RiKakaoTalkFill className="kakao" />
-                </Link>
-                <Link>
-                  <FcGoogle className="google" />
-                </Link>
-              </div>
+              <Link>
+                <SiNaver className="naver" />
+              </Link>
+              <Link>
+                <RiKakaoTalkFill className="kakao" />
+              </Link>
+              <Link>
+                <RiGoogleFill className="google" />
+                {/* <FcGoogle className="google" /> */}
+              </Link>
             </SNSIcons>
 
             <div className="button-signin">

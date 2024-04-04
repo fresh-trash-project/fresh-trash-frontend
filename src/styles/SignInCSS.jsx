@@ -327,35 +327,34 @@ export const Drawing = styled.div`
 
 export const SNSIcons = styled.i`
   position: absolute;
-  right: 38px;
-  bottom: 6%;
-  transform: translateX(-168%);
-  div {
-    display: flex;
-    align-items: center;
-  }
+  bottom: 12px;
+  /* transform: translateX(-168%); */
+  margin-left: 35%;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
   a {
-    border: 2px solid transparent;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    width: 20px;
-    height: 20px;
+    border-radius: 50%;
+    width: 5%;
+    height: 20%;
     margin: 15px;
+    padding-bottom: 10px;
 
     .naver {
-      color: rgb(3, 199, 90);
-      width: 20px;
-      height: 20px;
+      /* color: rgb(3, 199, 90); */
+      width: 80%;
+      height: 80%;
     }
     .kakao {
-      color: rgb(255, 232, 18);
-      background-color: black;
-      width: 20px;
-      height: 20px;
+      /* color: rgb(255, 232, 18);
+      background-color: black; */
+      width: 110%;
+      height: 110%;
     }
     .google {
-      width: 20px;
-      height: 20px;
-      font-size: 20px;
+      width: 100%;
+      height: 100%;
     }
   }
 `;
