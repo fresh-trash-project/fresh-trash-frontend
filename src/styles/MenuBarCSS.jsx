@@ -51,7 +51,7 @@ export const Nav = styled.nav`
 `;
 
 export const Hamburger = styled(AiOutlineMenu)`
-  width: 70px;
+  width: 50px;
   height: 50px;
   background: none;
   border: none;
@@ -65,7 +65,7 @@ export const Hamburger = styled(AiOutlineMenu)`
 `;
 
 export const Close = styled(VscChromeClose)`
-  width: 70px;
+  width: 50px;
   height: 50px;
   background: none;
   border: none;
@@ -86,7 +86,7 @@ export const HamburgerLink = styled.div`
   width: 30vw;
   height: 30vh;
   align-items: center;
-  transition: 0.5s ease-in-out;
+  transition: 0.3s ease-in-out;
   top: ${({ state }) => (state ? "80px" : "-400px")};
 
   ul {
