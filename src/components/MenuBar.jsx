@@ -42,15 +42,13 @@ const MenuBar = () => {
       </div>
 
       <div className="navRight">
-        <div>
-          <Link to="/SignIn">로그인</Link>
-        </div>
-        <div>
-          <Link to="SignUp">회원가입</Link>
-        </div>
+        <Link to="/SignIn">로그인</Link>
+
+        <Link to="SignUp">회원가입</Link>
       </div>
 
       <HamburgerLink state={openHamburger}>
+        <div className="white-background">로고</div>
         <ul>
           <li>
             <Link

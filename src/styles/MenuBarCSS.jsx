@@ -46,6 +46,9 @@ export const Nav = styled.nav`
       text-decoration: none;
       margin: 5px;
       width: 100px;
+      @media (max-width: 580px) {
+        font-size: 15px;
+      }
     }
   }
 `;
@@ -83,22 +86,31 @@ export const HamburgerLink = styled.div`
   position: absolute;
   z-index: 5;
   background-color: var(--green-current);
-  width: 30vw;
+  width: 40vw;
   height: 30vh;
   align-items: center;
   transition: 0.3s ease-in-out;
   top: ${({ state }) => (state ? "80px" : "-400px")};
+  border-radius: 0 0 10% 10%;
+
+  .white-background {
+    width: 25%;
+    height: 100%;
+    background-color: var(--white-ivory);
+  }
 
   ul {
     width: 100%;
     list-style-type: none;
     position: absolute;
     top: 0;
+    border-top: 1px solid var(--white-ivory);
     li {
       width: 100%;
-      min-width: 150px;
+
       margin: 1rem 0;
-      margin-left: 2rem;
+      margin-left: 35%;
+
       a {
         text-decoration: none;
         color: white;
@@ -107,6 +119,9 @@ export const HamburgerLink = styled.div`
         transition: 0ms.1s ease-in-out;
         &:hover {
           color: var(--purple-lilac);
+        }
+        @media (max-width: 580px) {
+          font-size: 15px;
         }
       }
       &:first-of-type {
