@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
+
 import { FaWonSign } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 import * as S from "../styles/ProductAddStyle";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { postsState } from "../recoil/RecoilWastes";
 import { createPost } from "../api/WastesApi";
 import { IoIosCamera } from "react-icons/io";
@@ -18,6 +19,7 @@ const ProductAdd = () => {
   const [waste_price, setPrice] = useState("");
   const [address, setAddress] = useState("");
   const [img, setImg] = useState(null);
+  const navigate = useNavigate();
 
   //찾은 주소 inptu 반영
   const handleComplete = (data) => {
@@ -102,6 +104,8 @@ const ProductAdd = () => {
       setPrice("");
       setAddress("");
       setImg(null);
+
+      navigate("/ProductsList");
     } catch (error) {
       console.error("Error uploading image:", error);
     }
