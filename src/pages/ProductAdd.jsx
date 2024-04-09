@@ -17,13 +17,28 @@ const ProductAdd = () => {
   const [content, setContent] = useState("");
   const [sell_status, setSell] = useState("");
   const [waste_price, setPrice] = useState("");
-  const [address, setAddress] = useState("");
+
+  const [address, setAddress] = useState({
+    zipcode: "",
+    state: "",
+    city: "",
+    district: "",
+    detail: "",
+  });
+
   const [img, setImg] = useState(null);
   const navigate = useNavigate();
 
   //찾은 주소 inptu 반영
   const handleComplete = (data) => {
-    setAddress(data.address);
+    setAddress({
+      address: data.address,
+      zipcode: data.zonecode,
+      state: data.sido,
+      city: data.sigungu,
+      district: data.bname,
+      detail: data.buildingName,
+    });
   };
   //주소검색 버튼 클릭시 주소찾기 모달 창 open
   const handleOpenAddressModal = () => {
@@ -57,6 +72,21 @@ const ProductAdd = () => {
       return str.replace(/[^\d]+/g, "");
     };
     return comma(uncomma(str));
+  };
+
+  //제목 글자수 제한
+  const handleTitleChange = (e) => {
+    const inputValue = e.target.value;
+    if (inputValue.length <= 255) {
+      setTitle(inputValue);
+    }
+  };
+  //내용 글자수 제한
+  const handleContentChange = (e) => {
+    const inputValue = e.target.value;
+    if (inputValue.length <= 65535) {
+      setContent(inputValue);
+    }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -176,7 +206,7 @@ const ProductAdd = () => {
               type="text"
               name="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={handleTitleChange}
               placeholder="제목을 입력하세요"
               required
             />
@@ -283,7 +313,7 @@ const ProductAdd = () => {
             <textarea
               name="content"
               value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={handleContentChange}
               rows="4"
               cols="50"
               required
@@ -296,11 +326,20 @@ const ProductAdd = () => {
             </label>
             <input
               type="text"
-              defaultValue={address}
+              // defaultValue={
+              //   address.find((item) => item.key === "address").value
+              // }
+              defaultValue={address.address}
               placeholder="주소/위치를 입력해주세요."
               required
               onClick={handleOpenAddressModal}
             />
+            {/* <input
+              type="text"
+              defaultValue={address.zipcode}
+              placeholder="아"
+            /> */}
+
             <button type="button" onClick={handleOpenAddressModal}>
               주소 검색
             </button>

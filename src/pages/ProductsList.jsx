@@ -8,7 +8,10 @@ const ProductsList = () => {
 
   return (
     <div>
-      <Link to="/ProductAddEdit">
+      <Link to="/ProductAdd">
+        <div>
+          <Link to="/">FreshTrash</Link>
+        </div>
         <p>폐기물 등록</p>
         <FaPlus />
       </Link>
@@ -17,10 +20,14 @@ const ProductsList = () => {
         <ul>
           {posts.map((wastes) => (
             <div key={wastes.id}>
-              <li>
-                <strong>{wastes.title}</strong>: {wastes.content}
-                {/* <img src={post.imgUrl} alt="" /> */}
-              </li>
+              <div>이미지</div>
+              <div>
+                <div>{wastes.title}</div>
+                <div>{wastes.address.zipcode}</div>
+                {/* <div>{wastes.address}</div> */}
+                <div>{wastes.waste_price}</div>
+                <div>{wastes.sell_status}</div>
+              </div>
               {/* <button onClick={() => handleDelete(wastes.id)}>삭제</button> */}
             </div>
           ))}
