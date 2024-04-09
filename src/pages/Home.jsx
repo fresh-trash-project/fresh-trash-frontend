@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <div>
-      <Link to="/ProductAddTest">폐기물 등록</Link>
+      <Link to="/ProductAdd">폐기물 등록</Link>
     </div>
   );
 };
