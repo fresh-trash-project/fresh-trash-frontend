@@ -10,12 +10,15 @@ import MyAuctionList from "./pages/MyAuctionList";
 import MyLikes from "./pages/MyLikes";
 import ProductsList from "./pages/ProductsList";
 import ProductDetail from "./pages/ProductDetail";
-import ProductAddEdit from "./pages/ProductAddEdit";
+import ProductAdd from "./pages/ProductAdd.jsx";
+import ProductEdit from "./pages/ProductEdit.jsx";
 import AuctionList from "./pages/AuctionList";
 import AuctionDetail from "./pages/AuctionDetail";
 import Chat from "./pages/Chat";
 import ChatList from "./pages/ChatList";
 import Pay from "./pages/Pay";
+
+import ProductAddTest from "./pages/ProductAddTest.jsx";
 
 export const router = createBrowserRouter([
   { path: "/", element: <App />, errorElement: <div>404 Not Found</div> },
@@ -28,10 +31,13 @@ export const router = createBrowserRouter([
   { path: "/MyLikes", element: <MyLikes /> },
   { path: "/ProductsList", element: <ProductsList /> },
   { path: "/ProductDetail", element: <ProductDetail /> },
-  { path: "/ProductAddEdit", element: <ProductAddEdit /> },
+  { path: "/ProductAdd", element: <ProductAdd /> },
+  { path: "/ProductEdit", element: <ProductEdit /> },
   { path: "/AuctionList", element: <AuctionList /> },
   { path: "/AuctionDetail", element: <AuctionDetail /> },
   { path: "/Chat", element: <Chat /> },
   { path: "/ChatList", element: <ChatList /> },
   { path: "/Pay", element: <Pay /> },
+
+  { path: "/ProductAddTest", element: <ProductAddTest /> },
 ]);

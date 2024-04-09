@@ -1,0 +1,133 @@
+{
+  "wastes": [
+    {
+      "id": 1,
+      "title": "제목1",
+      "waste_category": "의류",
+      "waste_status": "최상",
+      "sell_status": "거래중",
+      "waste_price": "0",
+      "content": "의류입니다.",
+      "address": "",
+      "img": ""
+    },
+    {
+      "img": {},
+      "title": "제목2",
+      "waste_category": "전자기기",
+      "waste_status": "최상",
+      "sell_status": "거래중",
+      "waste_price": "0",
+      "content": "설명2",
+      "address": "서울 종로구 낙산길 3-4",
+      "id": 2
+    },
+    {
+      "img": {},
+      "title": "제목3",
+      "waste_category": "의류",
+      "waste_status": "최상",
+      "sell_status": "거래중",
+      "waste_price": "1997",
+      "content": "의류입니다.",
+      "address": "서울 종로구 낙산성곽동길 6",
+      "id": 3
+    },
+    {
+      "id": 4
+    },
+    {
+      "id": 5
+    },
+    {
+      "id": 6
+    },
+    {
+      "id": 7
+    },
+    {
+      "id": 8
+    },
+    {
+      "id": 9
+    },
+    {
+      "id": 10
+    },
+    {
+      "title": "제바류",
+      "waste_category": "의류",
+      "waste_status": "상",
+      "sell_status": "거래중",
+      "waste_price": "0",
+      "content": "제발",
+      "address": "충북 청주시 상당구 남사로 70-1",
+      "id": 11
+    },
+    {
+      "id": 12
+    },
+    {
+      "title": "제발333",
+      "waste_category": "뷰티",
+      "waste_status": "상",
+      "sell_status": "거래중",
+      "waste_price": "0",
+      "content": "ss",
+      "address": "경기 화성시 봉담읍 낭내기길 55-5",
+      "id": 13
+    },
+    {
+      "id": 14
+    },
+    {
+      "title": "ff",
+      "waste_category": "가구/인텔어",
+      "waste_status": "최상",
+      "sell_status": "거래완료",
+      "waste_price": "0",
+      "content": "ssdf",
+      "address": "대전 유성구 라온1길 61",
+      "id": 15
+    },
+    {
+      "id": 16
+    },
+    {
+      "title": "ㄴㄴ",
+      "waste_category": "건강",
+      "waste_status": "중",
+      "sell_status": "거래완료",
+      "waste_price": "23",
+      "content": "s",
+      "address": "서울 광진구 긴고랑로 1",
+      "id": 17
+    },
+    {
+      "id": 18
+    },
+    {
+      "title": "ff",
+      "waste_category": "스포츠",
+      "waste_status": "최상",
+      "sell_status": "거래중",
+      "waste_price": "0",
+      "content": "vvvv",
+      "address": "서울 종로구 평창길 2",
+      "id": 19
+    },
+    {
+      "id": 20
+    },
+    {
+      "title": "123",
+      "waste_category": "의류",
+      "waste_status": "중",
+      "sell_status": "거래중",
+      "waste_price": "0",
+      "content": "ss",
+      "address": "광주 동구 남계길 4",
+      "id": 21
+    }
+  ]
+}
