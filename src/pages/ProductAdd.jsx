@@ -30,15 +30,31 @@ const ProductAdd = () => {
       oncomplete: handleComplete,
     }).open();
   };
+  const validImageTypes = ["image/jpeg", "image/jpg", "image/png"];
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImg(file);
+    if (file) {
+      if (validImageTypes.includes(file.type)) {
+        setImg(file);
+      } else {
+        alert("올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)");
+        // 선택한 파일 초기화
+        e.target.value = null;
+      }
+    }
+    // setImg(file);
+  };
 
-    // const reader = new FileReader();
-    // reader.onloadend = () => {
-    //   setImagePreview(reader.result);
-    // };
-    // reader.readAsDataURL(file);
+  const handlePriceChange = (str) => {
+    const comma = (str) => {
+      str = String(str);
+      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+    };
+    const uncomma = (str) => {
+      str = String(str);
+      return str.replace(/[^\d]+/g, "");
+    };
+    return comma(uncomma(str));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,7 +82,7 @@ const ProductAdd = () => {
 
       console.log("응답 데이터:", response.data);
       const newPost = {
-        img: response.data.imagePath,
+        img,
         title,
         waste_category,
         waste_status,
@@ -86,7 +102,6 @@ const ProductAdd = () => {
       setPrice("");
       setAddress("");
       setImg(null);
-      // setImagePreview(null);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -103,7 +118,7 @@ const ProductAdd = () => {
           <IoIosArrowForward />
           <span>폐기물 등록</span>
         </div>
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <form onSubmit={handleSubmit}>
           <div className="img">
             <label htmlFor="img" className="imgButton">
               <IoIosCamera size="80" />
@@ -111,9 +126,8 @@ const ProductAdd = () => {
                 type="file"
                 id="img"
                 name="img"
-                accept="img/*"
+                accept="image/png, image/jpeg, imge/jpg"
                 onChange={handleImageChange}
-                // onChange={(e) => setImg(e.target.files[0])}
                 required
               />
 
@@ -124,14 +138,6 @@ const ProductAdd = () => {
                   className="AttachedImage"
                 />
               )}
-              {/* {imagePreview && (
-                <img
-                  // src={imagePreview}
-                  src={img && URL.createObjectURL(img)}
-                  alt="이미지 미리보기"
-                  className="AttachedImage"
-                />
-              )} */}
             </label>
           </div>
           <div className="box category">
@@ -139,11 +145,9 @@ const ProductAdd = () => {
               카테고리
             </label>
             <select
-              // id="waste_category"
               name="waste_category"
               value={waste_category}
               onChange={(e) => setCategory(e.target.value)}
-              // onChange={handleInputChange}
               required
             >
               <option value="">카테고리를 선택하세요</option>
@@ -166,11 +170,9 @@ const ProductAdd = () => {
             </label>
             <input
               type="text"
-              // id="title"
               name="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              // onChange={handleInputChange}
               placeholder="제목을 입력하세요"
               required
             />
@@ -180,58 +182,43 @@ const ProductAdd = () => {
             <label htmlFor="best">최상</label>
             <input
               type="radio"
-              // id="best"
               name="waste_status"
               value="최상"
               checked={waste_status === "최상"}
               onChange={(e) => setWasteStatus(e.target.value)}
-              // checked={newPost.waste_status === "최상"}
-              // onChange={handleInputChange}
               required
             />
             <label htmlFor="good">상</label>
             <input
               type="radio"
-              // id="good"
               name="waste_status"
               value="상"
               checked={waste_status === "상"}
               onChange={(e) => setWasteStatus(e.target.value)}
-              // checked={newPost.waste_status === "상"}
-              // onChange={handleInputChange}
             />
             <label htmlFor="average">중</label>
             <input
               type="radio"
-              // id="average"
               name="waste_status"
               value="중"
               checked={waste_status === "중"}
               onChange={(e) => setWasteStatus(e.target.value)}
-              // checked={newPost.waste_status === "중"}
-              // onChange={handleInputChange}
             />
             <label htmlFor="poor">하</label>
             <input
               type="radio"
-              // id="poor"
               name="waste_status"
               value="하"
               checked={waste_status === "하"}
               onChange={(e) => setWasteStatus(e.target.value)}
-              // checked={newPost.waste_status === "하"}
-              // onChange={handleInputChange}
             />
             <label htmlFor="worst">최하</label>
             <input
               type="radio"
-              // id="worst"
               name="waste_status"
               value="최하"
               checked={waste_status === "최하"}
               onChange={(e) => setWasteStatus(e.target.value)}
-              // checked={newPost.waste_status === "최하"}
-              // onChange={handleInputChange}
             />
           </div>
           <div className="box Dropdown">
@@ -239,10 +226,7 @@ const ProductAdd = () => {
               거래상태
             </label>
             <select
-              // id="sell_status"
               name="sell_status"
-              // value={newPost.sell_status}
-              // onChange={handleInputChange}
               value={sell_status}
               onChange={(e) => setSell(e.target.value)}
               required
@@ -252,17 +236,17 @@ const ProductAdd = () => {
               <option value="거래완료">거래완료</option>
             </select>
           </div>
-          {waste_price === "0" ? (
+          {waste_price.startsWith("0") ? (
             <div className="box price">
               <label htmlFor="waste_price" className="formTitle inputNone">
                 나눔
               </label>
               <input
                 type="number"
-                // id="waste_price"
                 name="waste_price"
                 value={waste_price}
-                onChange={(e) => setPrice(e.target.value)}
+                onChange={(e) => setPrice(handlePriceChange(e.target.value))}
+                // onChange={(e) => handlePriceChange(e)}
                 placeholder="제안 가격을 입력해주세요."
                 className="inputNone"
                 min="0"
@@ -276,11 +260,12 @@ const ProductAdd = () => {
                 가격
               </label>
               <input
-                type="number"
-                // id="waste_price"
+                type="text"
                 name="waste_price"
                 value={waste_price}
-                onChange={(e) => setPrice(e.target.value)}
+                // onChange={(e) => setPrice(e.target.value)}
+                // onChange={(e) => handlePriceChange(e)}
+                onChange={(e) => setPrice(handlePriceChange(e.target.value))}
                 placeholder="제안 가격을 입력해주세요."
                 min="0"
                 required
@@ -311,15 +296,15 @@ const ProductAdd = () => {
             </label>
             <input
               type="text"
-              value={address}
+              // value={address}
+              defaultValue={address}
               placeholder="주소/위치를 입력해주세요."
               required
-              readOnly
+              onClick={handleOpenAddressModal}
             />
             <button type="button" onClick={handleOpenAddressModal}>
               주소 검색
             </button>
-            {/* {isAddressModalOpen && <DaumPostcode onComplete={handleComplete} />} */}
           </div>
 
           <button type="submit">작성</button>

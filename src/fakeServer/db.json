@@ -128,6 +128,79 @@
       "content": "ss",
       "address": "광주 동구 남계길 4",
       "id": 21
+    },
+    {
+      "id": 22
+    },
+    {
+      "id": 23
+    },
+    {
+      "img": {},
+      "title": "rr",
+      "waste_category": "의류",
+      "waste_status": "최상",
+      "sell_status": "거래중",
+      "waste_price": "4",
+      "content": "e",
+      "address": "서울 광진구 아차산로 187",
+      "id": 24
+    },
+    {
+      "id": 25
+    },
+    {
+      "img": {},
+      "title": "제목1",
+      "waste_category": "의류",
+      "waste_status": "상",
+      "sell_status": "거래중",
+      "waste_price": "0",
+      "content": "내용1",
+      "address": "",
+      "id": 26
+    },
+    {
+      "id": 27
+    },
+    {
+      "img": {},
+      "title": "제목2",
+      "waste_category": "의류",
+      "waste_status": "최상",
+      "sell_status": "거래중",
+      "waste_price": "2000",
+      "content": "dddddd",
+      "address": "부산 영도구 나눔길 1",
+      "id": 28
+    },
+    {
+      "id": 29
+    },
+    {
+      "img": {},
+      "title": "커피",
+      "waste_category": "뷰티",
+      "waste_status": "상",
+      "sell_status": "거래중",
+      "waste_price": "2,000",
+      "content": "커피입니다.",
+      "address": "인천 미추홀구 남주길 5",
+      "id": 30
+    },
+    {
+      "id": 31
+    },
+    {
+      "img": {},
+      "title": "의류",
+      "waste_category": "의류",
+      "waste_status": "상",
+      "sell_status": "거래중",
+      "waste_price": "2,000",
+      "content": "dkssud",
+      "address": "서울 서초구 나루터로 15",
+      "id": 32
     }
   ]
 }
