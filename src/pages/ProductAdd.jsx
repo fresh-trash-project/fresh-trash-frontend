@@ -18,18 +18,18 @@ const ProductAdd = () => {
   const [waste_price, setPrice] = useState("");
   const [address, setAddress] = useState("");
   const [img, setImg] = useState(null);
-  // const [imagePreview, setImagePreview] = useState(null);
 
+  //찾은 주소 inptu 반영
   const handleComplete = (data) => {
     setAddress(data.address);
-    // new Window.close();
   };
-
+  //주소검색 버튼 클릭시 주소찾기 모달 창 open
   const handleOpenAddressModal = () => {
     new window.daum.Postcode({
       oncomplete: handleComplete,
     }).open();
   };
+  //이미지 형식 제한
   const validImageTypes = ["image/jpeg", "image/jpg", "image/png"];
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -42,9 +42,9 @@ const ProductAdd = () => {
         e.target.value = null;
       }
     }
-    // setImg(file);
   };
 
+  //데이터 제출
   const handlePriceChange = (str) => {
     const comma = (str) => {
       str = String(str);
@@ -246,7 +246,6 @@ const ProductAdd = () => {
                 name="waste_price"
                 value={waste_price}
                 onChange={(e) => setPrice(handlePriceChange(e.target.value))}
-                // onChange={(e) => handlePriceChange(e)}
                 placeholder="제안 가격을 입력해주세요."
                 className="inputNone"
                 min="0"
@@ -263,8 +262,6 @@ const ProductAdd = () => {
                 type="text"
                 name="waste_price"
                 value={waste_price}
-                // onChange={(e) => setPrice(e.target.value)}
-                // onChange={(e) => handlePriceChange(e)}
                 onChange={(e) => setPrice(handlePriceChange(e.target.value))}
                 placeholder="제안 가격을 입력해주세요."
                 min="0"
@@ -280,7 +277,6 @@ const ProductAdd = () => {
             </label>
             <br />
             <textarea
-              // id="content"
               name="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -296,7 +292,6 @@ const ProductAdd = () => {
             </label>
             <input
               type="text"
-              // value={address}
               defaultValue={address}
               placeholder="주소/위치를 입력해주세요."
               required
