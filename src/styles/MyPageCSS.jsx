@@ -138,10 +138,10 @@ export const RatingBar = styled.div`
 export const FootStep = styled(IoFootsteps)`
   color: var(--yellow-saffron);
   transform: rotate(90deg);
-  width: 5%;
-  height: 5%;
+  width: 50px;
+  height: 50px;
   position: relative;
-  top: -60px;
+  top: -50px;
 `;
 
 export const MyList = styled.div`
