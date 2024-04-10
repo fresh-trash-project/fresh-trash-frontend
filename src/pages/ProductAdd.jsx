@@ -11,12 +11,12 @@ import { IoIosCamera } from "react-icons/io";
 import axios from "axios";
 const ProductAdd = () => {
   const [posts, setPosts] = useRecoilState(postsState);
-  const [waste_category, setCategory] = useState("");
+  const [wasteCategory, setWasteCategory] = useState("");
   const [title, setTitle] = useState("");
-  const [waste_status, setWasteStatus] = useState("");
+  const [wasteStatus, setWasteStatus] = useState("");
   const [content, setContent] = useState("");
-  const [sell_status, setSell] = useState("");
-  const [waste_price, setPrice] = useState("");
+  const [sellStatus, setSellStatus] = useState("");
+  const [wastePrice, setWastePrice] = useState("");
   const [address, setAddress] = useState({
     zipcode: "",
     state: "",
@@ -93,11 +93,11 @@ const ProductAdd = () => {
 
     const formData = new FormData();
     formData.append("img", img);
-    formData.append("category", waste_category);
+    formData.append("category", wasteCategory);
     formData.append("title", title);
-    formData.append("waste_status", waste_status);
-    formData.append("sell_status", sell_status);
-    formData.append("waste_price", waste_price);
+    formData.append("waste_status", wasteStatus);
+    formData.append("sell_status", sellStatus);
+    formData.append("waste_price", wastePrice);
     formData.append("content", content);
     formData.append("address", address);
 
@@ -105,10 +105,10 @@ const ProductAdd = () => {
       const newPost = {
         img,
         title,
-        waste_category,
-        waste_status,
-        sell_status,
-        waste_price,
+        wasteCategory,
+        wasteStatus,
+        sellStatus,
+        wastePrice,
         content,
         address,
         created_at: new Date().toLocaleDateString(),
@@ -116,12 +116,12 @@ const ProductAdd = () => {
       const createdPost = await createPost(newPost);
       setPosts([...posts, createdPost]);
 
-      setCategory("");
+      setWasteCategory("");
       setTitle("");
       setWasteStatus("");
       setContent("");
-      setSell("");
-      setPrice("");
+      setSellStatus("");
+      setWastePrice("");
       setAddress("");
       setImg(null);
 
@@ -166,8 +166,8 @@ const ProductAdd = () => {
             </label>
             <select
               name="waste_category"
-              value={waste_category}
-              onChange={(e) => setCategory(e.target.value)}
+              value={wasteCategory}
+              onChange={(e) => setWasteCategory(e.target.value)}
               required
             >
               <option value="">카테고리를 선택하세요</option>
@@ -204,7 +204,7 @@ const ProductAdd = () => {
               type="radio"
               name="waste_status"
               value="최상"
-              checked={waste_status === "최상"}
+              checked={wasteStatus === "최상"}
               onChange={(e) => setWasteStatus(e.target.value)}
               required
             />
@@ -213,7 +213,7 @@ const ProductAdd = () => {
               type="radio"
               name="waste_status"
               value="상"
-              checked={waste_status === "상"}
+              checked={wasteStatus === "상"}
               onChange={(e) => setWasteStatus(e.target.value)}
             />
             <label htmlFor="average">중</label>
@@ -221,7 +221,7 @@ const ProductAdd = () => {
               type="radio"
               name="waste_status"
               value="중"
-              checked={waste_status === "중"}
+              checked={wasteStatus === "중"}
               onChange={(e) => setWasteStatus(e.target.value)}
             />
             <label htmlFor="poor">하</label>
@@ -229,7 +229,7 @@ const ProductAdd = () => {
               type="radio"
               name="waste_status"
               value="하"
-              checked={waste_status === "하"}
+              checked={wasteStatus === "하"}
               onChange={(e) => setWasteStatus(e.target.value)}
             />
             <label htmlFor="worst">최하</label>
@@ -237,7 +237,7 @@ const ProductAdd = () => {
               type="radio"
               name="waste_status"
               value="최하"
-              checked={waste_status === "최하"}
+              checked={wasteStatus === "최하"}
               onChange={(e) => setWasteStatus(e.target.value)}
             />
           </div>
@@ -247,8 +247,8 @@ const ProductAdd = () => {
             </label>
             <select
               name="sell_status"
-              value={sell_status}
-              onChange={(e) => setSell(e.target.value)}
+              value={sellStatus}
+              onChange={(e) => setSellStatus(e.target.value)}
               required
             >
               <option value="">선택하세요</option>
@@ -256,16 +256,18 @@ const ProductAdd = () => {
               <option value="거래완료">거래완료</option>
             </select>
           </div>
-          {waste_price.startsWith("0") ? (
+          {wastePrice.startsWith("0") ? (
             <div className="box price">
-              <label htmlFor="waste_price" className="form-title input-none">
+              <label htmlFor="wastePrice" className="form-title input-none">
                 나눔
               </label>
               <input
                 type="number"
-                name="waste_price"
-                value={waste_price}
-                onChange={(e) => setPrice(handlePriceChange(e.target.value))}
+                name="wastePrice"
+                value={wastePrice}
+                onChange={(e) =>
+                  setWastePrice(handlePriceChange(e.target.value))
+                }
                 placeholder="제안 가격을 입력해주세요."
                 className="input-none"
                 min="0"
@@ -275,14 +277,16 @@ const ProductAdd = () => {
             </div>
           ) : (
             <div className="box price">
-              <label htmlFor="waste_price" className="form-title">
+              <label htmlFor="wastePrice" className="form-title">
                 가격
               </label>
               <input
                 type="text"
-                name="waste_price"
-                value={waste_price}
-                onChange={(e) => setPrice(handlePriceChange(e.target.value))}
+                name="wastePrice"
+                value={wastePrice}
+                onChange={(e) =>
+                  setWastePrice(handlePriceChange(e.target.value))
+                }
                 placeholder="제안 가격을 입력해주세요."
                 min="0"
                 required
