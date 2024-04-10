@@ -1,61 +1,25 @@
 {
   "wastes": [
     {
-      "img": {},
-      "title": "제목1",
-      "waste_category": "전자기기",
-      "waste_status": "최상",
-      "sell_status": "거래중",
-      "waste_price": "0",
-      "content": "테스트용 게시물입니다. ",
+      "fileName": {},
+      "title": "예시",
+      "wasteCategory": "의류",
+      "wasteStatus": "상",
+      "sellStatus": "거래중",
+      "wastePrice": "3,000",
+      "content": "예시입니다.",
       "address": {
-        "address": "서울 성북구 낙산길 243-15",
-        "zipcode": "02875",
+        "address": "서울 서초구 안골길 4",
+        "zipcode": "06794",
         "state": "서울",
-        "city": "성북구",
-        "district": "삼선동2가",
-        "detail": "삼선현대힐스테이트"
+        "city": "서초구",
+        "district": "내곡동",
+        "detail": ""
       },
-      "created_at": "2024. 4. 10.",
+      "likeCount": "",
+      "viewCount": "",
+      "created_at": "2024. 4. 11.",
       "id": 1
-    },
-    {
-      "img": {},
-      "title": "다 읽은 도서 팝니다.",
-      "waste_category": "도서",
-      "waste_status": "최상",
-      "sell_status": "거래중",
-      "waste_price": "5,000",
-      "content": "상태 좋습니다.",
-      "address": {
-        "address": "인천 서구 가경주로 10",
-        "zipcode": "22783",
-        "state": "인천",
-        "city": "서구",
-        "district": "가정동",
-        "detail": ""
-      },
-      "created_at": "2024. 4. 10.",
-      "id": 2
-    },
-    {
-      "img": {},
-      "title": "로고입니다,",
-      "waste_category": "의류",
-      "waste_status": "상",
-      "sell_status": "거래중",
-      "waste_price": "0",
-      "content": "로고입니다.",
-      "address": {
-        "address": "서울 서대문구 가재울로 6",
-        "zipcode": "03693",
-        "state": "서울",
-        "city": "서대문구",
-        "district": "남가좌동",
-        "detail": ""
-      },
-      "created_at": "2024. 4. 10.",
-      "id": 3
     }
   ]
 }

@@ -25,7 +25,9 @@ const ProductAdd = () => {
     detail: "",
   });
 
-  const [img, setImg] = useState(null);
+  const [fileName, setFileName] = useState(null);
+  const [likeCount, setLikeCount] = useState("");
+  const [viewCount, setViewCount] = useState("");
   const navigate = useNavigate();
 
   //찾은 주소 inptu 반영
@@ -51,7 +53,7 @@ const ProductAdd = () => {
     const file = e.target.files[0];
     if (file) {
       if (validImageTypes.includes(file.type)) {
-        setImg(file);
+        setFileName(file);
       } else {
         alert("올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)");
         // 선택한 파일 초기화
@@ -92,7 +94,7 @@ const ProductAdd = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("img", img);
+    formData.append("fileName", fileName);
     formData.append("category", wasteCategory);
     formData.append("title", title);
     formData.append("waste_status", wasteStatus);
@@ -100,10 +102,12 @@ const ProductAdd = () => {
     formData.append("waste_price", wastePrice);
     formData.append("content", content);
     formData.append("address", address);
+    formData.append("likeCount", likeCount);
+    formData.append("viewCount", viewCount);
 
     try {
       const newPost = {
-        img,
+        fileName,
         title,
         wasteCategory,
         wasteStatus,
@@ -111,6 +115,8 @@ const ProductAdd = () => {
         wastePrice,
         content,
         address,
+        likeCount,
+        viewCount,
         created_at: new Date().toLocaleDateString(),
       };
       const createdPost = await createPost(newPost);
@@ -123,7 +129,7 @@ const ProductAdd = () => {
       setSellStatus("");
       setWastePrice("");
       setAddress("");
-      setImg(null);
+      setFileName(null);
 
       navigate("/ProductsList");
     } catch (error) {
@@ -151,9 +157,9 @@ const ProductAdd = () => {
                 required
               />
 
-              {img && (
+              {fileName && (
                 <img
-                  src={img && URL.createObjectURL(img)}
+                  src={fileName && URL.createObjectURL(fileName)}
                   alt="게시물 이미지"
                   className="attached-image"
                 />
