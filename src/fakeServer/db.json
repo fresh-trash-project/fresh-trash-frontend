@@ -56,6 +56,25 @@
       },
       "created_at": "2024. 4. 10.",
       "id": 3
+    },
+    {
+      "img": {},
+      "title": "옷입니다",
+      "waste_category": "의류",
+      "waste_status": "최하",
+      "sell_status": "거래중",
+      "waste_price": "0",
+      "content": "상태가 안좋아 나눔합니다.",
+      "address": {
+        "address": "서울 구로구 남부순환로 775",
+        "zipcode": "08236",
+        "state": "서울",
+        "city": "구로구",
+        "district": "개봉동",
+        "detail": "개봉푸르지오"
+      },
+      "created_at": "2024. 4. 10.",
+      "id": 4
     }
   ]
 }
