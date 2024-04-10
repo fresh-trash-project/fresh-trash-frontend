@@ -7,7 +7,7 @@ import { MdCurrencyExchange } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { RiKakaoTalkFill, RiGoogleFill } from "react-icons/ri";
 import { SiNaver } from "react-icons/si";
-// import { FcGoogle } from "react-icons/fc";
+
 import {
   Container,
   SignInContainer,
@@ -16,8 +16,8 @@ import {
   Drawing,
   SNSIcons,
 } from "../styles/SignInCSS";
-import SignUpSignInMobile from "./SignUpSignInMobile";
 import { useEffect, useState } from "react";
+import SignInMobile from "./SignInMobile";
 
 const SignIn = () => {
   const getWindowWidth = () => {
@@ -103,7 +103,7 @@ const SignIn = () => {
           </form>
         </SignInContainer>
       ) : (
-        <SignUpSignInMobile />
+        <SignInMobile />
       )}
     </Container>
   );
