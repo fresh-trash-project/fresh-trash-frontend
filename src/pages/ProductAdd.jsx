@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-
+import Nav from "../components/Nav";
 import { FaWonSign } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 import * as S from "../styles/ProductAddStyle";
@@ -17,7 +17,6 @@ const ProductAdd = () => {
   const [content, setContent] = useState("");
   const [sell_status, setSell] = useState("");
   const [waste_price, setPrice] = useState("");
-
   const [address, setAddress] = useState({
     zipcode: "",
     state: "",
@@ -84,6 +83,7 @@ const ProductAdd = () => {
   //내용 글자수 제한
   const handleContentChange = (e) => {
     const inputValue = e.target.value;
+
     if (inputValue.length <= 65535) {
       setContent(inputValue);
     }
@@ -102,17 +102,6 @@ const ProductAdd = () => {
     formData.append("address", address);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/wastes",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      console.log("응답 데이터:", response.data);
       const newPost = {
         img,
         title,
@@ -122,6 +111,7 @@ const ProductAdd = () => {
         waste_price,
         content,
         address,
+        created_at: new Date().toLocaleDateString(),
       };
       const createdPost = await createPost(newPost);
       setPosts([...posts, createdPost]);
@@ -142,11 +132,7 @@ const ProductAdd = () => {
   };
   return (
     <div>
-      <S.Nav className="nav">
-        <Link to="/">
-          <p>FreshTrash</p>
-        </Link>
-      </S.Nav>
+      <Nav />
       <S.Container>
         <div className="subject">
           <IoIosArrowForward />
@@ -154,7 +140,7 @@ const ProductAdd = () => {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="img">
-            <label htmlFor="img" className="imgButton">
+            <label htmlFor="img" className="img-button">
               <IoIosCamera size="80" />
               <input
                 type="file"
@@ -169,13 +155,13 @@ const ProductAdd = () => {
                 <img
                   src={img && URL.createObjectURL(img)}
                   alt="게시물 이미지"
-                  className="AttachedImage"
+                  className="attached-image"
                 />
               )}
             </label>
           </div>
           <div className="box category">
-            <label htmlFor="waste_category" className="formTitle">
+            <label htmlFor="waste_category" className="form-title">
               카테고리
             </label>
             <select
@@ -199,7 +185,7 @@ const ProductAdd = () => {
             </select>
           </div>
           <div className="box title">
-            <label htmlFor="title" className="formTitle">
+            <label htmlFor="title" className="form-title">
               제목
             </label>
             <input
@@ -255,8 +241,8 @@ const ProductAdd = () => {
               onChange={(e) => setWasteStatus(e.target.value)}
             />
           </div>
-          <div className="box Dropdown">
-            <label htmlFor="sell_status" className="formTitle">
+          <div className="box drop-down">
+            <label htmlFor="sell_status" className="form-title">
               거래상태
             </label>
             <select
@@ -272,7 +258,7 @@ const ProductAdd = () => {
           </div>
           {waste_price.startsWith("0") ? (
             <div className="box price">
-              <label htmlFor="waste_price" className="formTitle inputNone">
+              <label htmlFor="waste_price" className="form-title input-none">
                 나눔
               </label>
               <input
@@ -281,15 +267,15 @@ const ProductAdd = () => {
                 value={waste_price}
                 onChange={(e) => setPrice(handlePriceChange(e.target.value))}
                 placeholder="제안 가격을 입력해주세요."
-                className="inputNone"
+                className="input-none"
                 min="0"
                 required
               />
-              <FaWonSign size="15" className="inputNone" />
+              <FaWonSign size="15" className="input-none" />
             </div>
           ) : (
             <div className="box price">
-              <label htmlFor="waste_price" className="formTitle">
+              <label htmlFor="waste_price" className="form-title">
                 가격
               </label>
               <input
@@ -306,7 +292,7 @@ const ProductAdd = () => {
           )}
 
           <div className="box content">
-            <label htmlFor="content" className="formTitle">
+            <label htmlFor="content" className="form-title">
               설명
             </label>
             <br />
@@ -321,7 +307,7 @@ const ProductAdd = () => {
             ></textarea>
           </div>
           <div className="box address">
-            <label htmlFor="address" className="formTitle">
+            <label htmlFor="address" className="form-title">
               주소
             </label>
             <input

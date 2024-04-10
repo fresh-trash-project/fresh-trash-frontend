@@ -20,7 +20,7 @@ export const Container = styled.div`
     padding: 15px 0;
     border-top: 1px solid var(--grey-box);
   }
-  .Dropdown {
+  .drop-down {
     display: flex;
     justify-content: space-between;
   }
@@ -44,7 +44,7 @@ export const Container = styled.div`
     float: right;
   }
 
-  .formTitle {
+  .form-title {
     margin: 0 10px;
     width: 20%;
     font-weight: bold;
@@ -64,7 +64,7 @@ export const Container = styled.div`
   textarea {
     width: 25rem;
   }
-  .imgButton {
+  .img-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -82,7 +82,7 @@ export const Container = styled.div`
     overflow: hidden;
     border: 0;
   }
-  .AttachedImage {
+  .attached-image {
     max-width: 200px;
     height: 200px;
     position: absolute;
@@ -90,7 +90,7 @@ export const Container = styled.div`
     left: 0;
     border-radius: 7px;
   }
-  .imgEdit {
+  /* .imgEdit {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -102,7 +102,7 @@ export const Container = styled.div`
     cursor: pointer;
 
     color: white;
-  }
+  } */
   input[type="text"],
   input[type="number"] {
     width: 75%;
@@ -117,7 +117,7 @@ export const Container = styled.div`
     -webkit-appearance: none;
     margin: 0;
   }
-  .inputNone {
+  .input-none {
     display: flex;
     opacity: 0.3;
   }

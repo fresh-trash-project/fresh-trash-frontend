@@ -1,399 +1,61 @@
 {
   "wastes": [
     {
-      "id": 1,
-      "title": "제목1",
-      "waste_category": "의류",
-      "waste_status": "최상",
-      "sell_status": "거래중",
-      "waste_price": "0",
-      "content": "의류입니다.",
-      "address": "",
-      "img": ""
-    },
-    {
       "img": {},
-      "title": "제목2",
+      "title": "제목1",
       "waste_category": "전자기기",
       "waste_status": "최상",
       "sell_status": "거래중",
       "waste_price": "0",
-      "content": "설명2",
-      "address": "서울 종로구 낙산길 3-4",
+      "content": "테스트용 게시물입니다. ",
+      "address": {
+        "address": "서울 성북구 낙산길 243-15",
+        "zipcode": "02875",
+        "state": "서울",
+        "city": "성북구",
+        "district": "삼선동2가",
+        "detail": "삼선현대힐스테이트"
+      },
+      "created_at": "2024. 4. 10.",
+      "id": 1
+    },
+    {
+      "img": {},
+      "title": "다 읽은 도서 팝니다.",
+      "waste_category": "도서",
+      "waste_status": "최상",
+      "sell_status": "거래중",
+      "waste_price": "5,000",
+      "content": "상태 좋습니다.",
+      "address": {
+        "address": "인천 서구 가경주로 10",
+        "zipcode": "22783",
+        "state": "인천",
+        "city": "서구",
+        "district": "가정동",
+        "detail": ""
+      },
+      "created_at": "2024. 4. 10.",
       "id": 2
     },
     {
       "img": {},
-      "title": "제목3",
+      "title": "로고입니다,",
       "waste_category": "의류",
-      "waste_status": "최상",
+      "waste_status": "상",
       "sell_status": "거래중",
-      "waste_price": "1997",
-      "content": "의류입니다.",
-      "address": "서울 종로구 낙산성곽동길 6",
+      "waste_price": "0",
+      "content": "로고입니다.",
+      "address": {
+        "address": "서울 서대문구 가재울로 6",
+        "zipcode": "03693",
+        "state": "서울",
+        "city": "서대문구",
+        "district": "남가좌동",
+        "detail": ""
+      },
+      "created_at": "2024. 4. 10.",
       "id": 3
-    },
-    {
-      "id": 4
-    },
-    {
-      "id": 5
-    },
-    {
-      "id": 6
-    },
-    {
-      "id": 7
-    },
-    {
-      "id": 8
-    },
-    {
-      "id": 9
-    },
-    {
-      "id": 10
-    },
-    {
-      "title": "제바류",
-      "waste_category": "의류",
-      "waste_status": "상",
-      "sell_status": "거래중",
-      "waste_price": "0",
-      "content": "제발",
-      "address": "충북 청주시 상당구 남사로 70-1",
-      "id": 11
-    },
-    {
-      "id": 12
-    },
-    {
-      "title": "제발333",
-      "waste_category": "뷰티",
-      "waste_status": "상",
-      "sell_status": "거래중",
-      "waste_price": "0",
-      "content": "ss",
-      "address": "경기 화성시 봉담읍 낭내기길 55-5",
-      "id": 13
-    },
-    {
-      "id": 14
-    },
-    {
-      "title": "ff",
-      "waste_category": "가구/인텔어",
-      "waste_status": "최상",
-      "sell_status": "거래완료",
-      "waste_price": "0",
-      "content": "ssdf",
-      "address": "대전 유성구 라온1길 61",
-      "id": 15
-    },
-    {
-      "id": 16
-    },
-    {
-      "title": "ㄴㄴ",
-      "waste_category": "건강",
-      "waste_status": "중",
-      "sell_status": "거래완료",
-      "waste_price": "23",
-      "content": "s",
-      "address": "서울 광진구 긴고랑로 1",
-      "id": 17
-    },
-    {
-      "id": 18
-    },
-    {
-      "title": "ff",
-      "waste_category": "스포츠",
-      "waste_status": "최상",
-      "sell_status": "거래중",
-      "waste_price": "0",
-      "content": "vvvv",
-      "address": "서울 종로구 평창길 2",
-      "id": 19
-    },
-    {
-      "id": 20
-    },
-    {
-      "title": "123",
-      "waste_category": "의류",
-      "waste_status": "중",
-      "sell_status": "거래중",
-      "waste_price": "0",
-      "content": "ss",
-      "address": "광주 동구 남계길 4",
-      "id": 21
-    },
-    {
-      "id": 22
-    },
-    {
-      "id": 23
-    },
-    {
-      "img": {},
-      "title": "rr",
-      "waste_category": "의류",
-      "waste_status": "최상",
-      "sell_status": "거래중",
-      "waste_price": "4",
-      "content": "e",
-      "address": "서울 광진구 아차산로 187",
-      "id": 24
-    },
-    {
-      "id": 25
-    },
-    {
-      "img": {},
-      "title": "제목1",
-      "waste_category": "의류",
-      "waste_status": "상",
-      "sell_status": "거래중",
-      "waste_price": "0",
-      "content": "내용1",
-      "address": "",
-      "id": 26
-    },
-    {
-      "id": 27
-    },
-    {
-      "img": {},
-      "title": "제목2",
-      "waste_category": "의류",
-      "waste_status": "최상",
-      "sell_status": "거래중",
-      "waste_price": "2000",
-      "content": "dddddd",
-      "address": "부산 영도구 나눔길 1",
-      "id": 28
-    },
-    {
-      "id": 29
-    },
-    {
-      "img": {},
-      "title": "커피",
-      "waste_category": "뷰티",
-      "waste_status": "상",
-      "sell_status": "거래중",
-      "waste_price": "2,000",
-      "content": "커피입니다.",
-      "address": "인천 미추홀구 남주길 5",
-      "id": 30
-    },
-    {
-      "id": 31
-    },
-    {
-      "img": {},
-      "title": "의류",
-      "waste_category": "의류",
-      "waste_status": "상",
-      "sell_status": "거래중",
-      "waste_price": "2,000",
-      "content": "dkssud",
-      "address": "서울 서초구 나루터로 15",
-      "id": 32
-    },
-    {
-      "id": 33
-    },
-    {
-      "img": {},
-      "title": "제목1",
-      "waste_category": "의류",
-      "waste_status": "최상",
-      "sell_status": "거래중",
-      "waste_price": "2,000",
-      "content": "의류입니다.",
-      "address": "서울 서초구 나루터로 15",
-      "id": 34
-    },
-    {
-      "id": 35
-    },
-    {
-      "img": {},
-      "title": "ssssss",
-      "waste_category": "전자기기",
-      "waste_status": "하",
-      "sell_status": "거래완료",
-      "waste_price": "434",
-      "content": "ssss",
-      "address": "서울 성북구 낙산길 243-15",
-      "id": 36
-    },
-    {
-      "id": 37
-    },
-    {
-      "img": {},
-      "title": "안뇽",
-      "waste_category": "의류",
-      "waste_status": "중",
-      "sell_status": "거래중",
-      "waste_price": "0",
-      "content": "dddddd",
-      "address": {
-        "address": "서울 강동구 아리수로 46",
-        "zipcode": "05237",
-        "state": "서울",
-        "city": "강동구",
-        "district": "암사동",
-        "detail": ""
-      },
-      "id": 38
-    },
-    {
-      "id": 39
-    },
-    {
-      "img": {},
-      "title": "ㄹㄹ",
-      "waste_category": "의류",
-      "waste_status": "최상",
-      "sell_status": "거래중",
-      "waste_price": "0",
-      "content": "ccc",
-      "address": {
-        "address": "서울 마포구 큰우물로 3",
-        "zipcode": "04150",
-        "state": "서울",
-        "city": "마포구",
-        "district": "대흥동",
-        "detail": ""
-      },
-      "id": 40
-    },
-    {
-      "id": 41
-    },
-    {
-      "img": {},
-      "title": "ㅇㅇㅇㅇㅇ",
-      "waste_category": "생활/주방",
-      "waste_status": "하",
-      "sell_status": "거래중",
-      "waste_price": "4",
-      "content": "ㅇㅇㅇㅇ",
-      "address": {
-        "address": "서울 서초구 나루터로 15",
-        "zipcode": "06517",
-        "state": "서울",
-        "city": "서초구",
-        "district": "잠원동",
-        "detail": "신동초등학교"
-      },
-      "id": 42
-    },
-    {
-      "id": 43
-    },
-    {
-      "img": {},
-      "title": "ㄹㄹㄹㄹ",
-      "waste_category": "의류",
-      "waste_status": "최상",
-      "sell_status": "거래중",
-      "waste_price": "44",
-      "content": "ㅇㅇㅇ",
-      "address": {
-        "address": "서울 서초구 나루터로 15",
-        "zipcode": "06517",
-        "state": "서울",
-        "city": "서초구",
-        "district": "잠원동",
-        "detail": "신동초등학교"
-      },
-      "id": 44
-    },
-    {
-      "id": 45
-    },
-    {
-      "img": {},
-      "title": "123",
-      "waste_category": "의류",
-      "waste_status": "최하",
-      "sell_status": "거래중",
-      "waste_price": "2,000",
-      "content": "ㅗㅗㅗㅘㅕㅗㅔㅑㅐㅓ",
-      "address": [
-        {
-          "key": "address",
-          "value": "서울 서초구 나루터로 15"
-        },
-        {
-          "key": "zipcode",
-          "value": "06517"
-        },
-        {
-          "key": "state",
-          "value": "서울"
-        },
-        {
-          "key": "city",
-          "value": "서초구"
-        },
-        {
-          "key": "district",
-          "value": "잠원동"
-        },
-        {
-          "key": "detail",
-          "value": "신동초등학교"
-        }
-      ],
-      "id": 46
-    },
-    {
-      "id": 47
-    },
-    {
-      "img": {},
-      "title": "제목3",
-      "waste_category": "생활/주방",
-      "waste_status": "최하",
-      "sell_status": "거래중",
-      "waste_price": "2,000",
-      "content": "ㅇㅇㅇㅇ",
-      "address": {
-        "address": "서울 성북구 낙산길 243-15",
-        "zipcode": "02875",
-        "state": "서울",
-        "city": "성북구",
-        "district": "삼선동2가",
-        "detail": "삼선현대힐스테이트"
-      },
-      "id": 48
-    },
-    {
-      "id": 49
-    },
-    {
-      "img": {},
-      "title": "ffff",
-      "waste_category": "의류",
-      "waste_status": "최상",
-      "sell_status": "거래중",
-      "waste_price": "5,000",
-      "content": "sss",
-      "address": {
-        "address": "서울 성북구 낙산길 243-15",
-        "zipcode": "02875",
-        "state": "서울",
-        "city": "성북구",
-        "district": "삼선동2가",
-        "detail": "삼선현대힐스테이트"
-      },
-      "id": 50
     }
   ]
 }
