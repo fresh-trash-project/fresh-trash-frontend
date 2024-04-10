@@ -10,6 +10,7 @@ export const Nav = styled.div`
     display: flex;
     justify-content: flex-end;
     padding: 1rem 1rem;
+    margin-bottom: 2rem;
     span {
       margin-right: 1rem;
     }

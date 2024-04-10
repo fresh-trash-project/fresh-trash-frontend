@@ -30,7 +30,7 @@ const ProductCard = () => {
           </div>
           <div className="card-bottom">
             <p>{wastes.sell_status} </p>
-            <GoHeart size="40" />
+            <GoHeart size="30" />
           </div>
           <div>{wastes.likes}</div>
 

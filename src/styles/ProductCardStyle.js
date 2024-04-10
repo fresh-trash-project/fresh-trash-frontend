@@ -2,13 +2,12 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: 25rem 25rem 25rem;
+  grid-template-columns: 20rem 20rem 20rem;
   gap: 70px;
   justify-content: center;
-
   .card {
     border: 1px solid var(--grey-box);
-    padding: 2.5em;
+    padding: 1.5rem;
     box-sizing: border-box;
     .product-box {
       display: flex;
@@ -57,7 +56,7 @@ export const Container = styled.div`
       }
     }
   }
-  @media (max-width: 1440px) {
+  /* @media (max-width: 1440px) {
     display: grid;
     grid-template-columns: 22rem 22rem 22rem;
 
@@ -74,7 +73,7 @@ export const Container = styled.div`
         font-size: 1.5rem;
       }
     }
-  }
+  } */
   @media (max-width: 1280px) {
     display: grid;
     grid-template-columns: 19rem 19rem 19rem;
@@ -110,13 +109,14 @@ export const Container = styled.div`
       }
     }
   }
-  @media (max-width: 1024px) {
+
+  @media (max-width: 1080px) {
     display: grid;
-    grid-template-columns: 48rem;
+    grid-template-columns: 40rem;
 
     gap: 70px;
     .card {
-      border: 1px solid var(--grey-box);
+      border-bottom: 1px solid var(--grey-box);
 
       .product-box {
         display: flex;
@@ -126,33 +126,80 @@ export const Container = styled.div`
           margin-right: 3rem;
         }
         .title {
-          margin-bottom: 1.7rem;
-          font-size: 1.8rem;
+          margin-bottom: 1.3rem;
+          font-size: 1.3rem;
         }
         .content {
           .adrress {
             .state {
-              font-size: 1.2rem;
+              font-size: 1rem;
             }
             .city {
-              font-size: 1.2rem;
+              font-size: 1rem;
             }
           }
           .day {
             .created-at {
-              font-size: 1.2rem;
+              font-size: 1rem;
               line-height: 1rem;
             }
           }
         }
         .price {
-          font-size: 1.7rem;
+          font-size: 1.5rem;
           font-weight: bold;
         }
       }
       .sell-status {
         float: right;
-        font-size: 1.7rem;
+        font-size: 1.5rem;
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    display: grid;
+    grid-template-columns: 35rem;
+
+    gap: 70px;
+    .card {
+      border-bottom: 1px solid var(--grey-box);
+
+      .product-box {
+        display: flex;
+        flex-direction: row;
+
+        img {
+          margin-right: 3rem;
+          width: 200px;
+        }
+        .title {
+          margin-bottom: 1.3rem;
+          font-size: 1.3rem;
+        }
+        .content {
+          .adrress {
+            .state {
+              font-size: 1rem;
+            }
+            .city {
+              font-size: 1rem;
+            }
+          }
+          .day {
+            .created-at {
+              font-size: 1rem;
+              line-height: 1rem;
+            }
+          }
+        }
+        .price {
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+      }
+      .sell-status {
+        float: right;
+        font-size: 1.5rem;
       }
     }
   }
