@@ -8,7 +8,7 @@ import Nav from "../components/Nav";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from "react";
 import ProductCard from "../components/ProductCard";
-
+import { IoSearch } from "react-icons/io5";
 const ProductsList = () => {
   const [posts, setPosts] = useRecoilState(postsState);
   console.log(posts);
@@ -51,9 +51,21 @@ const ProductsList = () => {
               </div>
             )}
           </div>
-          <Link to="/ProductAdd">
-            <FaPlus size="25" />
-          </Link>
+
+          <div className="nav-middle-right">
+            <div className="search-wrapper">
+              <select className="search-category">
+                <option>카테고리</option>
+                <option>지역</option>
+                <option>제목</option>
+              </select>
+              <input type="text" />
+              <IoSearch size="25" className="search-icon" />
+            </div>
+            <Link to="/ProductAdd">
+              <FaPlus size="25" />
+            </Link>
+          </div>
         </div>
 
         <div className="nav-bottom">
