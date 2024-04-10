@@ -6,6 +6,8 @@ import { deletePost } from "../api/WastesApi";
 import * as S from "../styles/ProductsListStyle";
 import Nav from "../components/Nav";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useState } from "react";
+import ProductCard from "../components/ProductCard";
 
 const ProductsList = () => {
   const [posts, setPosts] = useRecoilState(postsState);
@@ -22,12 +24,33 @@ const ProductsList = () => {
     }
   };
 
+  //카테고리 hover
+  const [isHovered, setIsHovered] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+  const handleSelectCategory = (category) => {
+    setSelectedCategory(category);
+  };
   return (
     <div>
       <Nav />
       <S.Nav>
         <div className="nav-middle">
-          <GiHamburgerMenu size="25" />
+          <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <GiHamburgerMenu size="25" />
+            {isHovered && (
+              <div>
+                <span onClick={() => handleSelectCategory("all")}>전체</span>
+                <span onClick={() => handleSelectCategory("의류")}>의류</span>
+                <span onClick={() => handleSelectCategory("가전")}>가전</span>
+              </div>
+            )}
+          </div>
           <Link to="/ProductAdd">
             <FaPlus size="25" />
           </Link>
@@ -40,24 +63,9 @@ const ProductsList = () => {
         </div>
       </S.Nav>
 
-      {posts.map((wastes) => (
-        <S.Container key={wastes.id}>
-          <div className="product-box">
-            <img src="https://placehold.jp/300x300.png" alt="임시이미지" />
-            <div>
-              <div className=" title">{wastes.title}</div>
-              <div className=" content">
-                <div className="city">{wastes.address.city}</div>
-                <div className="created-at">{wastes.created_at}</div>
-              </div>
-              <div className=" price">{wastes.waste_price}원</div>
-            </div>
-          </div>
-          <div className="sell-status">{wastes.sell_status}</div>
-          <div>{wastes.likes}</div>
-          {/* <button onClick={() => handleDelete(wastes.id)}>삭제</button> */}
-        </S.Container>
-      ))}
+      <S.CardList>
+        <ProductCard />
+      </S.CardList>
     </div>
   );
 };
