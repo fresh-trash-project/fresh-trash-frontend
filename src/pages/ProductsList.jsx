@@ -3,6 +3,12 @@ import { postsState } from "../recoil/RecoilWastes";
 import { FaPlus } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { deletePost } from "../api/WastesApi";
+import * as S from "../styles/ProductsListStyle";
+import Nav from "../components/Nav";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { useState } from "react";
+import ProductCard from "../components/ProductCard";
+import { IoSearch } from "react-icons/io5";
 const ProductsList = () => {
   const [posts, setPosts] = useRecoilState(postsState);
   console.log(posts);
@@ -19,31 +25,44 @@ const ProductsList = () => {
   };
   return (
     <div>
-      <div>
-        <Link to="/">FreshTrash</Link>
-      </div>
-      <Link to="/ProductAdd">
-        <p>폐기물 등록</p>
-        <FaPlus />
-      </Link>
-      <div>
-        <h2>입력한 내용</h2>
-        <ul>
-          {posts.map((wastes) => (
-            <div key={wastes.id}>
-              <div>이미지</div>
-              <div>
-                <div>{wastes.title}</div>
-                <div>{wastes.address.zipcode}</div>
-                {/* <div>{wastes.address}</div> */}
-                <div>{wastes.waste_price}</div>
-                <div>{wastes.sell_status}</div>
-              </div>
-              <button onClick={() => handleDelete(wastes.id)}>삭제</button>
+      <Nav />
+      <S.Nav>
+        <div className="nav-middle">
+          <div>
+            <GiHamburgerMenu size="25" />
+            <div>
+              <span>전체</span>
+              <span>의류</span>
+              <span>가전</span>
             </div>
-          ))}
-        </ul>
-      </div>
+          </div>
+
+          <div className="nav-middle-right">
+            <div className="search-wrapper">
+              <select className="search-category">
+                <option>카테고리</option>
+                <option>지역</option>
+                <option>제목</option>
+              </select>
+              <input type="text" />
+              <IoSearch size="25" className="search-icon" />
+            </div>
+            <Link to="/ProductAdd">
+              <FaPlus size="25" />
+            </Link>
+          </div>
+        </div>
+
+        <div className="nav-bottom">
+          <span>관심순</span>
+          <span>조회순</span>
+          <span>최신순</span>
+        </div>
+      </S.Nav>
+
+      <S.CardList>
+        <ProductCard />
+      </S.CardList>
     </div>
   );
 };

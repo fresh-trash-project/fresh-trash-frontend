@@ -2,24 +2,45 @@
   "wastes": [
     {
       "fileName": {},
-      "title": "예시",
+      "title": "옷팝니다.",
       "wasteCategory": "의류",
-      "wasteStatus": "상",
+      "wasteStatus": "최상",
       "sellStatus": "거래중",
-      "wastePrice": "3,000",
-      "content": "예시입니다.",
+      "wastePrice": "5,000",
+      "content": "의류 팝니다.",
       "address": {
-        "address": "서울 서초구 안골길 4",
-        "zipcode": "06794",
+        "address": "서울 서대문구 가재울로 6",
+        "zipcode": "03693",
         "state": "서울",
-        "city": "서초구",
-        "district": "내곡동",
+        "city": "서대문구",
+        "district": "남가좌동",
         "detail": ""
       },
       "likeCount": "",
       "viewCount": "",
       "created_at": "2024. 4. 11.",
       "id": 1
+    },
+    {
+      "fileName": {},
+      "title": "주방용품 나눔해요",
+      "wasteCategory": "생활/주방",
+      "wasteStatus": "상",
+      "sellStatus": "거래중",
+      "wastePrice": "0",
+      "content": "나눔합니다.",
+      "address": {
+        "address": "서울 종로구 북촌로1길 9",
+        "zipcode": "03060",
+        "state": "서울",
+        "city": "종로구",
+        "district": "안국동",
+        "detail": ""
+      },
+      "likeCount": "",
+      "viewCount": "",
+      "created_at": "2024. 4. 11.",
+      "id": 2
     }
   ]
 }
