@@ -1,3 +1,4 @@
+
 import Hero from "../components/Hero";
 import greenImg from "../assets/green.jpg";
 import moneyImg from "../assets/money.jpg";
@@ -76,6 +77,26 @@ const Home = () => {
           <FaArrowAltCircleRight className="arrow-right" />
         </Link>
       </ListSlide>
+
+
+      <ListSlide>
+        <section>
+          <div className="slide-top">
+            <div className="slide-top-left">폐기물 등록 </div>
+
+            <div className="slide-top-right">
+              <p>View All</p>
+            </div>
+          </div>
+
+          <div className="slide-content">{/* //* 데이터  */}</div>
+        </section>
+
+        <Link to="/ProductAdd">
+          <FaArrowAltCircleRight className="arrow-right" />
+        </Link>
+      </ListSlide>
+
     </div>
   );
 };
