@@ -10,7 +10,8 @@ import MyAuctionList from "./pages/MyAuctionList";
 import MyLikes from "./pages/MyLikes";
 import ProductsList from "./pages/ProductsList";
 import ProductDetail from "./pages/ProductDetail";
-import ProductAddEdit from "./pages/ProductAddEdit";
+import ProductAdd from "./pages/ProductAdd.jsx";
+import ProductEdit from "./pages/ProductEdit.jsx";
 import AuctionList from "./pages/AuctionList";
 import AuctionDetail from "./pages/AuctionDetail";
 import Chat from "./pages/Chat";
@@ -28,7 +29,8 @@ export const router = createBrowserRouter([
   { path: "/MyLikes", element: <MyLikes /> },
   { path: "/ProductsList", element: <ProductsList /> },
   { path: "/ProductDetail", element: <ProductDetail /> },
-  { path: "/ProductAddEdit", element: <ProductAddEdit /> },
+  { path: "/ProductAdd", element: <ProductAdd /> },
+  { path: "/ProductEdit", element: <ProductEdit /> },
   { path: "/AuctionList", element: <AuctionList /> },
   { path: "/AuctionDetail", element: <AuctionDetail /> },
   { path: "/Chat", element: <Chat /> },
