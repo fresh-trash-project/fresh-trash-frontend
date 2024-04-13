@@ -255,7 +255,8 @@
       "likeCount": 70,
       "viewCount": 55,
       "created_at": "2024. 4. 12.",
-      "id": 13
+      "id": 13,
+      "hearted": false
     },
     {
       "fileName": {},
@@ -278,6 +279,27 @@
       "created_at": "2024. 4. 12.",
       "id": 14,
       "hearted": false
+    },
+    {
+      "fileName": {},
+      "title": "ddfdd",
+      "wasteCategory": "의류",
+      "wasteStatus": "중",
+      "sellStatus": "",
+      "wastePrice": "3,000",
+      "content": "ddddd",
+      "address": {
+        "address": "서울 마포구 굴레방로 1",
+        "zipcode": "04117",
+        "state": "서울",
+        "city": "마포구",
+        "district": "아현동",
+        "detail": ""
+      },
+      "likeCount": 70,
+      "viewCount": 55,
+      "created_at": "2024. 4. 13.",
+      "id": 15
     }
   ]
 }
