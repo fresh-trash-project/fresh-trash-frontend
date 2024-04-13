@@ -1,8 +1,8 @@
-import Header from "./components/Header";
-import AlarmBar from "./components/AlarmBar";
-import Home from "./pages/Home";
-import Footer from "./components/Footer";
-import Hero from "./components/Hero";
+import Header from './components/Header';
+
+import Home from './pages/Home';
+import Footer from './components/Footer';
+import Hero from './components/Hero';
 
 function App() {
   return (
@@ -10,7 +10,6 @@ function App() {
       <Header />
       <Home />
       <Footer />
-      {/* <AlarmBar /> */}
     </div>
   );
 }
