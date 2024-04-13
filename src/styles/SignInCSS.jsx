@@ -77,7 +77,7 @@ export const SignInContainer = styled.div`
       position: absolute;
       top: 20px;
 
-      transform: translateX(100%);
+      transform: translateX(50%);
       @media screen and (max-width: 786px) {
         font-size: 40px;
         transition: 0.3s ease-in-out;

@@ -12,8 +12,8 @@ import {
   EyeIcon,
   Drawing,
 } from "../styles/SignUpCSS";
-import SignUpSignInMobile from "./SignUpSignInMobile.jsx";
 import { useEffect, useState } from "react";
+import SignUpMobile from "./SignUpMobile.jsx";
 
 const SignUp = () => {
   const getWindowWidth = () => {
@@ -93,7 +93,7 @@ const SignUp = () => {
           </form>
         </SignUpContainer>
       ) : (
-        <SignUpSignInMobile />
+        <SignUpMobile />
       )}
     </Container>
   );
