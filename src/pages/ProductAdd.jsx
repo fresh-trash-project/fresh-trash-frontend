@@ -26,8 +26,8 @@ const ProductAdd = () => {
   });
 
   const [fileName, setFileName] = useState(null);
-  const [likeCount, setLikeCount] = useState("");
-  const [viewCount, setViewCount] = useState("");
+  const [likeCount, setLikeCount] = useState(70);
+  const [viewCount, setViewCount] = useState(55);
   const navigate = useNavigate();
 
   //찾은 주소 inptu 반영

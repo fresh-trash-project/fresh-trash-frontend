@@ -32,6 +32,7 @@
   --grey-dgrey: #34495e;
   --grey-dark: #353e4a;
   --grey-box: #d9d9d9;
+  --grey-light: #f0f0f0;
 
   --white-ivory: #fbf8ef;
 }
@@ -122,4 +123,7 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+}
+ul {
+  list-style: none;
 }

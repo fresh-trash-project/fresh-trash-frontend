@@ -28,3 +28,8 @@ export const deletePost = async (wasteId) => {
     throw error; // 오류를 다시 throw하여 컴포넌트에서 처리할 수 있도록 함
   }
 };
+
+export const updatePost = async (wasteId, updatedPost) => {
+  const response = await axios.put(`${API_URL}/wastes/${wasteId}`, updatedPost);
+  return response.data;
+};
