@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import MyPage from "./pages/MyPage";
-import EditProfile from "./pages/EditProfile";
 import MyTradeList from "./pages/MyTradeList";
 import MyAuctionList from "./pages/MyAuctionList";
 import MyLikes from "./pages/MyLikes";
@@ -23,7 +22,6 @@ export const router = createBrowserRouter([
   { path: "/SignUp", element: <SignUp /> },
   { path: "/SignIn", element: <SignIn /> },
   { path: "/MyPage", element: <MyPage /> },
-  { path: "/EditProfile", element: <EditProfile /> },
   { path: "/MyTradeList", element: <MyTradeList /> },
   { path: "/MyAuctionList", element: <MyAuctionList /> },
   { path: "/MyLikes", element: <MyLikes /> },
