@@ -1,0 +1,25 @@
+{
+  "wastes": [
+    {
+      "fileName": {},
+      "title": "예시",
+      "wasteCategory": "의류",
+      "wasteStatus": "상",
+      "sellStatus": "거래중",
+      "wastePrice": "3,000",
+      "content": "예시입니다.",
+      "address": {
+        "address": "서울 서초구 안골길 4",
+        "zipcode": "06794",
+        "state": "서울",
+        "city": "서초구",
+        "district": "내곡동",
+        "detail": ""
+      },
+      "likeCount": "",
+      "viewCount": "",
+      "created_at": "2024. 4. 11.",
+      "id": 1
+    }
+  ]
+}
