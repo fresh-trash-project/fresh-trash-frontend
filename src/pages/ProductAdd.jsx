@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import { useRecoilState } from "recoil";
-import Nav from "../components/Nav";
-import { FaWonSign } from "react-icons/fa6";
-import { IoIosArrowForward } from "react-icons/io";
-import * as S from "../styles/ProductAddStyle";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { postsState } from "../recoil/RecoilWastes";
-import { createPost } from "../api/WastesApi";
-import { IoIosCamera } from "react-icons/io";
-import axios from "axios";
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import Nav from '../components/Nav';
+import { FaWonSign } from 'react-icons/fa6';
+import { IoIosArrowForward } from 'react-icons/io';
+import * as S from '../styles/ProductAddStyle';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { postsState } from '../recoil/RecoilWastes';
+import { createPost } from '../api/WastesApi';
+import { IoIosCamera } from 'react-icons/io';
+import axios from 'axios';
 const ProductAdd = () => {
   const [posts, setPosts] = useRecoilState(postsState);
-  const [wasteCategory, setWasteCategory] = useState("");
-  const [title, setTitle] = useState("");
-  const [wasteStatus, setWasteStatus] = useState("");
-  const [content, setContent] = useState("");
-  const [sellStatus, setSellStatus] = useState("");
-  const [wastePrice, setWastePrice] = useState("");
+  const [wasteCategory, setWasteCategory] = useState('');
+  const [title, setTitle] = useState('');
+  const [wasteStatus, setWasteStatus] = useState('');
+  const [content, setContent] = useState('');
+  const [sellStatus, setSellStatus] = useState('');
+  const [wastePrice, setWastePrice] = useState('');
   const [address, setAddress] = useState({
-    zipcode: "",
-    state: "",
-    city: "",
-    district: "",
-    detail: "",
+    zipcode: '',
+    state: '',
+    city: '',
+    district: '',
+    detail: '',
   });
 
   const [fileName, setFileName] = useState(null);
@@ -31,7 +31,7 @@ const ProductAdd = () => {
   const navigate = useNavigate();
 
   //찾은 주소 inptu 반영
-  const handleComplete = (data) => {
+  const handleComplete = data => {
     setAddress({
       address: data.address,
       zipcode: data.zonecode,
@@ -48,14 +48,14 @@ const ProductAdd = () => {
     }).open();
   };
   //이미지 형식 제한
-  const validImageTypes = ["image/jpeg", "image/jpg", "image/png"];
-  const handleImageChange = (e) => {
+  const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+  const handleImageChange = e => {
     const file = e.target.files[0];
     if (file) {
       if (validImageTypes.includes(file.type)) {
         setFileName(file);
       } else {
-        alert("올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)");
+        alert('올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)');
         // 선택한 파일 초기화
         e.target.value = null;
       }
@@ -63,47 +63,47 @@ const ProductAdd = () => {
   };
 
   //데이터 제출
-  const handlePriceChange = (str) => {
-    const comma = (str) => {
+  const handlePriceChange = str => {
+    const comma = str => {
       str = String(str);
-      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     };
-    const uncomma = (str) => {
+    const uncomma = str => {
       str = String(str);
-      return str.replace(/[^\d]+/g, "");
+      return str.replace(/[^\d]+/g, '');
     };
     return comma(uncomma(str));
   };
 
   //제목 글자수 제한
-  const handleTitleChange = (e) => {
+  const handleTitleChange = e => {
     const inputValue = e.target.value;
     if (inputValue.length <= 255) {
       setTitle(inputValue);
     }
   };
   //내용 글자수 제한
-  const handleContentChange = (e) => {
+  const handleContentChange = e => {
     const inputValue = e.target.value;
 
     if (inputValue.length <= 65535) {
       setContent(inputValue);
     }
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("fileName", fileName);
-    formData.append("category", wasteCategory);
-    formData.append("title", title);
-    formData.append("waste_status", wasteStatus);
-    formData.append("sell_status", sellStatus);
-    formData.append("waste_price", wastePrice);
-    formData.append("content", content);
-    formData.append("address", address);
-    formData.append("likeCount", likeCount);
-    formData.append("viewCount", viewCount);
+    formData.append('fileName', fileName);
+    formData.append('category', wasteCategory);
+    formData.append('title', title);
+    formData.append('waste_status', wasteStatus);
+    formData.append('sell_status', sellStatus);
+    formData.append('waste_price', wastePrice);
+    formData.append('content', content);
+    formData.append('address', address);
+    formData.append('likeCount', likeCount);
+    formData.append('viewCount', viewCount);
 
     try {
       const newPost = {
@@ -122,18 +122,18 @@ const ProductAdd = () => {
       const createdPost = await createPost(newPost);
       setPosts([...posts, createdPost]);
 
-      setWasteCategory("");
-      setTitle("");
-      setWasteStatus("");
-      setContent("");
-      setSellStatus("");
-      setWastePrice("");
-      setAddress("");
+      setWasteCategory('');
+      setTitle('');
+      setWasteStatus('');
+      setContent('');
+      setSellStatus('');
+      setWastePrice('');
+      setAddress('');
       setFileName(null);
 
-      navigate("/ProductsList");
+      navigate('/ProductsList');
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error('Error uploading image:', error);
     }
   };
   return (
@@ -173,7 +173,7 @@ const ProductAdd = () => {
             <select
               name="waste_category"
               value={wasteCategory}
-              onChange={(e) => setWasteCategory(e.target.value)}
+              onChange={e => setWasteCategory(e.target.value)}
               required
             >
               <option value="">카테고리를 선택하세요</option>
@@ -210,8 +210,8 @@ const ProductAdd = () => {
               type="radio"
               name="waste_status"
               value="최상"
-              checked={wasteStatus === "최상"}
-              onChange={(e) => setWasteStatus(e.target.value)}
+              checked={wasteStatus === '최상'}
+              onChange={e => setWasteStatus(e.target.value)}
               required
             />
             <label htmlFor="good">상</label>
@@ -219,35 +219,35 @@ const ProductAdd = () => {
               type="radio"
               name="waste_status"
               value="상"
-              checked={wasteStatus === "상"}
-              onChange={(e) => setWasteStatus(e.target.value)}
+              checked={wasteStatus === '상'}
+              onChange={e => setWasteStatus(e.target.value)}
             />
             <label htmlFor="average">중</label>
             <input
               type="radio"
               name="waste_status"
               value="중"
-              checked={wasteStatus === "중"}
-              onChange={(e) => setWasteStatus(e.target.value)}
+              checked={wasteStatus === '중'}
+              onChange={e => setWasteStatus(e.target.value)}
             />
             <label htmlFor="poor">하</label>
             <input
               type="radio"
               name="waste_status"
               value="하"
-              checked={wasteStatus === "하"}
-              onChange={(e) => setWasteStatus(e.target.value)}
+              checked={wasteStatus === '하'}
+              onChange={e => setWasteStatus(e.target.value)}
             />
             <label htmlFor="worst">최하</label>
             <input
               type="radio"
               name="waste_status"
               value="최하"
-              checked={wasteStatus === "최하"}
-              onChange={(e) => setWasteStatus(e.target.value)}
+              checked={wasteStatus === '최하'}
+              onChange={e => setWasteStatus(e.target.value)}
             />
           </div>
-          <div className="box drop-down">
+          {/* <div className="box drop-down">
             <label htmlFor="sell_status" className="form-title">
               거래상태
             </label>
@@ -261,8 +261,8 @@ const ProductAdd = () => {
               <option value="거래중">거래중</option>
               <option value="거래완료">거래완료</option>
             </select>
-          </div>
-          {wastePrice.startsWith("0") ? (
+          </div> */}
+          {wastePrice.startsWith('0') ? (
             <div className="box price">
               <label htmlFor="wastePrice" className="form-title input-none">
                 나눔
@@ -271,9 +271,7 @@ const ProductAdd = () => {
                 type="number"
                 name="wastePrice"
                 value={wastePrice}
-                onChange={(e) =>
-                  setWastePrice(handlePriceChange(e.target.value))
-                }
+                onChange={e => setWastePrice(handlePriceChange(e.target.value))}
                 placeholder="제안 가격을 입력해주세요."
                 className="input-none"
                 min="0"
@@ -290,9 +288,7 @@ const ProductAdd = () => {
                 type="text"
                 name="wastePrice"
                 value={wastePrice}
-                onChange={(e) =>
-                  setWastePrice(handlePriceChange(e.target.value))
-                }
+                onChange={e => setWastePrice(handlePriceChange(e.target.value))}
                 placeholder="제안 가격을 입력해주세요."
                 min="0"
                 required
