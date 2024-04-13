@@ -82,7 +82,8 @@
       "likeCount": 60,
       "viewCount": 72,
       "created_at": "2024. 4. 11.",
-      "id": 4
+      "id": 4,
+      "hearted": false
     },
     {
       "fileName": {},
