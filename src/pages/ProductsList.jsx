@@ -1,25 +1,25 @@
-import { useRecoilState } from "recoil";
-import { postsState } from "../recoil/RecoilWastes";
-import { FaPlus } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-import { deletePost } from "../api/WastesApi";
-import * as S from "../styles/ProductsListStyle";
-import ProductCard from "../components/ProductCard";
-import Nav from "../components/Nav";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { useState } from "react";
-import { IoSearch } from "react-icons/io5";
-import { GrFormNext } from "react-icons/gr";
-import { GrFormPrevious } from "react-icons/gr";
+import { useRecoilState } from 'recoil';
+import { postsState } from '../recoil/RecoilWastes';
+import { FaPlus } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
+import { deletePost } from '../api/WastesApi';
+import * as S from '../styles/ProductsListStyle';
+import ProductCard from '../components/ProductCard';
+import Nav from '../components/Nav';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import { useState } from 'react';
+import { IoSearch } from 'react-icons/io5';
+import { GrFormNext } from 'react-icons/gr';
+import { GrFormPrevious } from 'react-icons/gr';
 const ITEMS_PER_PAGE = 6;
 const MAX_PAGES_DISPLAY = 6;
 const ProductsList = () => {
   const [posts, setPosts] = useRecoilState(postsState);
   console.log(posts);
 
-  const [selectedCategory, setSelectedCategory] = useState("전체"); // 선택된 카테고리
+  const [selectedCategory, setSelectedCategory] = useState('전체'); // 선택된 카테고리
 
-  const handleCategoryClick = (category) => {
+  const handleCategoryClick = category => {
     setSelectedCategory(category);
   };
 
@@ -39,15 +39,15 @@ const ProductsList = () => {
     setShowModal(false);
   };
 
-  const handleDelete = async (postId) => {
+  const handleDelete = async postId => {
     try {
       // API를 사용하여 제품 삭제
       await deletePost(postId);
       // 상태에서 해당 제품을 제거합니다.
-      setPosts(posts.filter((wastes) => wastes.id !== postId));
-      console.log("제품이 성공적으로 삭제되었습니다.");
+      setPosts(posts.filter(wastes => wastes.id !== postId));
+      console.log('제품이 성공적으로 삭제되었습니다.');
     } catch (error) {
-      console.error("제품 삭제 중 오류가 발생했습니다:", error);
+      console.error('제품 삭제 중 오류가 발생했습니다:', error);
     }
   };
 
@@ -79,38 +79,45 @@ const ProductsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const filteredPosts =
-    selectedCategory === "전체"
+    selectedCategory === '전체'
       ? posts
-      : posts.filter((post) => post.wasteCategory === selectedCategory);
+      : posts.filter(post => post.wasteCategory === selectedCategory);
 
   // 전체 페이지 수 계산
-  const totalPages = Math.ceil(filteredPosts.length / ITEMS_PER_PAGE);
-
+  // const totalPages = filteredPosts ? Math.ceil(filteredPosts.length / ITEMS_PER_PAGE) : 0;
+  const totalPages = filteredPosts
+    ? Math.ceil(filteredPosts.length / ITEMS_PER_PAGE)
+    : 0;
   // 현재 페이지에 해당하는 제품들을 가져옴
-  const currentProducts = filteredPosts.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
-
+  // const currentProducts = filteredPosts.slice(
+  //   (currentPage - 1) * ITEMS_PER_PAGE,
+  //   currentPage * ITEMS_PER_PAGE,
+  // );
+  const currentProducts = filteredPosts
+    ? filteredPosts.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE,
+      )
+    : [];
   const getPageNumbers = () => {
     const startPage = Math.max(
       1,
-      currentPage - Math.floor(MAX_PAGES_DISPLAY / 2)
+      currentPage - Math.floor(MAX_PAGES_DISPLAY / 2),
     );
     const endPage = Math.min(totalPages, startPage + MAX_PAGES_DISPLAY - 1);
     return Array.from(
       { length: endPage - startPage + 1 },
-      (_, index) => index + startPage
+      (_, index) => index + startPage,
     );
   };
 
   // 페이지를 변경하는 함수
-  const handlePageChange = (page) => {
+  const handlePageChange = page => {
     setCurrentPage(page);
   };
 
   // 카테고리를 변경하는 함수
-  const handleCategoryChange = (category) => {
+  const handleCategoryChange = category => {
     setSelectedCategory(category);
     setCurrentPage(1); // 페이지를 첫 페이지로 초기화
   };
@@ -147,26 +154,26 @@ const ProductsList = () => {
         {showModal && (
           <div className="modal" onClick={closeModal}>
             <ul className="modal-content">
-              <li onClick={() => handleCategoryChange("전체")}>전체</li>
-              <li onClick={() => handleCategoryChange("전자기기")}>전자기기</li>
-              <li onClick={() => handleCategoryChange("의류")}>의류</li>
-              <li onClick={() => handleCategoryChange("생활/주방")}>
+              <li onClick={() => handleCategoryChange('전체')}>전체</li>
+              <li onClick={() => handleCategoryChange('전자기기')}>전자기기</li>
+              <li onClick={() => handleCategoryChange('의류')}>의류</li>
+              <li onClick={() => handleCategoryChange('생활/주방')}>
                 생활/주방
               </li>
-              <li onClick={() => handleCategoryChange("뷰티")}>뷰티</li>
-              <li onClick={() => handleCategoryChange("건강")}>건강</li>
-              <li onClick={() => handleCategoryChange("스포츠")}>스포츠</li>
-              <li onClick={() => handleCategoryChange("도서")}>도서</li>
-              <li onClick={() => handleCategoryChange("장난감/게임")}>
+              <li onClick={() => handleCategoryChange('뷰티')}>뷰티</li>
+              <li onClick={() => handleCategoryChange('건강')}>건강</li>
+              <li onClick={() => handleCategoryChange('스포츠')}>스포츠</li>
+              <li onClick={() => handleCategoryChange('도서')}>도서</li>
+              <li onClick={() => handleCategoryChange('장난감/게임')}>
                 장난감/게임
               </li>
-              <li onClick={() => handleCategoryChange("가구/인테리어")}>
+              <li onClick={() => handleCategoryChange('가구/인테리어')}>
                 가구/인테리어
               </li>
-              <li onClick={() => handleCategoryChange("반려동물용품")}>
+              <li onClick={() => handleCategoryChange('반려동물용품')}>
                 반려동물용품
               </li>
-              <li onClick={() => handleCategoryChange("식물")}>식물</li>
+              <li onClick={() => handleCategoryChange('식물')}>식물</li>
             </ul>
           </div>
         )}
@@ -181,11 +188,11 @@ const ProductsList = () => {
       <S.Card>
         {currentProducts
           .filter(
-            (wastes) =>
-              selectedCategory === "전체" ||
-              wastes.wasteCategory === selectedCategory
+            wastes =>
+              selectedCategory === '전체' ||
+              wastes.wasteCategory === selectedCategory,
           )
-          .map((wastes) => (
+          .map(wastes => (
             <ProductCard
               key={wastes.id}
               post={wastes}
@@ -201,7 +208,7 @@ const ProductsList = () => {
         >
           <GrFormPrevious />
         </button>
-        {getPageNumbers().map((pageNumber) => (
+        {getPageNumbers().map(pageNumber => (
           <button key={pageNumber} onClick={() => handlePageChange(pageNumber)}>
             {pageNumber}
           </button>

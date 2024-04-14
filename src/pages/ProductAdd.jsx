@@ -5,6 +5,7 @@ import { FaWonSign } from 'react-icons/fa6';
 import { IoIosArrowForward } from 'react-icons/io';
 import * as S from '../styles/ProductAddStyle';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+
 import { postsState } from '../recoil/RecoilWastes';
 import { createPost } from '../api/WastesApi';
 import { IoIosCamera } from 'react-icons/io';
@@ -121,7 +122,6 @@ const ProductAdd = () => {
       };
       const createdPost = await createPost(newPost);
       setPosts([...posts, createdPost]);
-
       setWasteCategory('');
       setTitle('');
       setWasteStatus('');
@@ -204,7 +204,7 @@ const ProductAdd = () => {
             />
           </div>
           <div className="box state">
-            <div className=" formTitle">폐기물 상태</div>
+            <div className="form-title">폐기물 상태</div>
             <label htmlFor="best">최상</label>
             <input
               type="radio"
@@ -247,21 +247,7 @@ const ProductAdd = () => {
               onChange={e => setWasteStatus(e.target.value)}
             />
           </div>
-          {/* <div className="box drop-down">
-            <label htmlFor="sell_status" className="form-title">
-              거래상태
-            </label>
-            <select
-              name="sell_status"
-              value={sellStatus}
-              onChange={(e) => setSellStatus(e.target.value)}
-              required
-            >
-              <option value="">선택하세요</option>
-              <option value="거래중">거래중</option>
-              <option value="거래완료">거래완료</option>
-            </select>
-          </div> */}
+
           {wastePrice.startsWith('0') ? (
             <div className="box price">
               <label htmlFor="wastePrice" className="form-title input-none">
