@@ -26,8 +26,8 @@ const ProductAdd = () => {
   });
 
   const [fileName, setFileName] = useState(null);
-  const [likeCount, setLikeCount] = useState('');
-  const [viewCount, setViewCount] = useState('');
+  const [likeCount, setLikeCount] = useState(120);
+  const [viewCount, setViewCount] = useState(45);
   const navigate = useNavigate();
 
   //찾은 주소 input 반영
@@ -159,7 +159,7 @@ const ProductAdd = () => {
       <Nav />
 
       <div className="pt-4 lg:pt-5 pb-4 lg:pb-8 px-4 xl:px-2 xl:container mx-auto">
-        <div className="ml-3 text-sm breadcrumbs">
+        <div className="ml-8 text-sm breadcrumbs">
           <ul>
             <li>홈</li>
             <li>폐기물등록</li>

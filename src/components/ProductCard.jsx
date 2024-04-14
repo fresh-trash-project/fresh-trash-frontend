@@ -1,0 +1,111 @@
+import React, { useState } from 'react';
+import { GoHeart } from 'react-icons/go';
+import { GoHeartFill } from 'react-icons/go';
+import { useRecoilState } from 'recoil';
+import { postsState } from '../recoil/RecoilWastes';
+import { updatePost } from '../api/WastesApi';
+import { Link } from 'react-router-dom';
+const ProductCard = ({ post, onDelete }) => {
+  const handleDeleteClick = () => {
+    onDelete(post.id);
+  };
+
+  const [posts, setPosts] = useRecoilState(postsState);
+
+  const handleLikeToggle = async () => {
+    const updatedPost = { ...post };
+    if (updatedPost.hearted) {
+      updatedPost.likeCount -= 1; // 채워진 하트에서 빈 하트로 변경되면 likeCount 감소
+    } else {
+      updatedPost.likeCount += 1; // 빈 하트에서 채워진 하트로 변경되면 likeCount 증가
+    }
+    updatedPost.hearted = !updatedPost.hearted; // 하트 상태 업데이트
+    await updatePost(post.id, updatedPost); // 서버에 업데이트 요청
+    const updatedPosts = posts.map(p => (p.id === post.id ? updatedPost : p));
+    setPosts(updatedPosts); // Recoil 상태 업데이트
+  };
+  return (
+    // <div className="card card-bordered  border-gray-200  lg:card-normal ">
+    //   <figure className="flex mx-20 bg-white overflow-hidden ">
+    //     <img
+    //       className=" transition-transform duration-300"
+    //       src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+    //       alt="임시이미지"
+    //     />
+    //   </figure>
+
+    //   <div className="card-body bg-gray-100  ">
+    //     <p>{post.title}</p>
+
+    //     <div className="flex justify-between text-sm my-2 font-semibold tracking-tight text-gray-900 ">
+    //       <div className="flex gap-2">
+    //         <span>{post.address.state}</span>
+    //         <span>{post.address.city}</span>
+    //       </div>
+    //       <div className="flex items-center">
+    //         <button onClick={handleLikeToggle} className="mr-2">
+    //           {' '}
+    //           {post.hearted ? <GoHeartFill size="30" /> : <GoHeart size="30" />}
+    //         </button>
+    //         <div>{post.likeCount}</div>
+    //       </div>
+    //     </div>
+    //     <div className="flex items-center justify-between">
+    //       <span className="text-2xl font-bold text-gray-900 ">
+    //         {post.wastePrice}원
+    //       </span>
+    //       <Link
+    //         to="/"
+    //         href="#"
+    //         className="text-white bg-green-900 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  "
+    //       >
+    //         상세보기
+    //       </Link>
+    //       {/* <button onClick={handleDeleteClick}>삭제</button> */}
+    //     </div>
+    //   </div>
+    // </div>
+    <div className="card w-96 bg-base-100 shadow-xl">
+      <figure>
+        <img
+          src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+          alt="Shoes"
+        />
+      </figure>
+      <div className="card-body">
+        <div className="card-title mb-3">{post.title}</div>
+        <div className="flex justify-between mb-3">
+          <div className="flex gap-2">
+            <span>{post.address.state}</span>
+            <span>{post.address.city}</span>
+          </div>
+          <div className="flex items-center">
+            <button onClick={handleLikeToggle} className="mr-2">
+              {' '}
+              {post.hearted ? (
+                <GoHeartFill size="30" color="green" />
+              ) : (
+                <GoHeart size="30" color="green" />
+              )}
+            </button>
+            <div>{post.likeCount}</div>
+          </div>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-2xl font-bold text-gray-900 ">
+            {post.wastePrice}원
+          </span>
+          <Link
+            to="/"
+            href="#"
+            className="text-white bg-green-900 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  "
+          >
+            상세보기
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;
