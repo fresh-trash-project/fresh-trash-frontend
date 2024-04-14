@@ -2,24 +2,45 @@
   "wastes": [
     {
       "fileName": {},
-      "title": "예시",
+      "title": "ddddd",
       "wasteCategory": "의류",
-      "wasteStatus": "상",
-      "sellStatus": "거래중",
-      "wastePrice": "3,000",
-      "content": "예시입니다.",
+      "wasteStatus": "최상",
+      "sellStatus": "",
+      "wastePrice": "2,000",
+      "content": "ddddd",
       "address": {
-        "address": "서울 서초구 안골길 4",
-        "zipcode": "06794",
+        "address": "서울 중랑구 양원역로 1",
+        "zipcode": "02064",
         "state": "서울",
-        "city": "서초구",
-        "district": "내곡동",
+        "city": "중랑구",
+        "district": "망우동",
         "detail": ""
       },
       "likeCount": "",
       "viewCount": "",
-      "created_at": "2024. 4. 11.",
+      "created_at": "2024. 4. 14.",
       "id": 1
+    },
+    {
+      "fileName": null,
+      "title": "sssssss",
+      "wasteCategory": "전자기기",
+      "wasteStatus": "상",
+      "sellStatus": "",
+      "wastePrice": "50000",
+      "content": "ssssssss",
+      "address": {
+        "address": "부산 해운대구 APEC로 17",
+        "zipcode": "48060",
+        "state": "부산",
+        "city": "해운대구",
+        "district": "우동",
+        "detail": "센텀리더스마크"
+      },
+      "likeCount": "",
+      "viewCount": "",
+      "created_at": "2024. 4. 14.",
+      "id": 2
     }
   ]
 }
