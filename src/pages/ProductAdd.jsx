@@ -63,16 +63,34 @@ const ProductAdd = () => {
   };
 
   //데이터 제출
-  const handlePriceChange = str => {
-    const comma = str => {
-      str = String(str);
-      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    };
-    const uncomma = str => {
-      str = String(str);
-      return str.replace(/[^\d]+/g, '');
-    };
-    return comma(uncomma(str));
+  // const handlePriceChange = str => {
+  //   const comma = str => {
+  //     str = String(str);
+  //     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  //   };
+  //   const uncomma = str => {
+  //     str = String(str);
+  //     return str.replace(/[^\d]+/g, '');
+  //   };
+  //   return comma(uncomma(str));
+  // };
+  const handlePriceChange = e => {
+    let inputValue = e.target.value;
+    // 입력값에서 콤마를 제거합니다.
+    inputValue = inputValue.replace(/,/g, '');
+    // 입력값에서 숫자와 소수점을 제외한 모든 문자를 제거합니다.
+    const cleanedValue = inputValue.replace(/[^\d.]/g, '');
+    // 입력값이 비어있거나 소수점만 입력된 경우, 그대로 설정합니다.
+    if (cleanedValue === '' || cleanedValue === '.') {
+      setWastePrice(cleanedValue);
+    } else {
+      // 소수점이 여러 개인 경우, 첫 번째 소수점만 유지합니다.
+      const parts = cleanedValue.split('.');
+      const integerPart = parts[0];
+      const decimalPart = parts.length > 1 ? '.' + parts.slice(1).join('') : '';
+      // 숫자로 파싱한 후 다시 문자열로 변환하여 상태로 설정합니다.
+      setWastePrice(parseFloat(integerPart).toLocaleString() + decimalPart);
+    }
   };
 
   //제목 글자수 제한
@@ -141,18 +159,45 @@ const ProductAdd = () => {
       <Nav />
 
       <div className="pt-4 lg:pt-5 pb-4 lg:pb-8 px-4 xl:px-2 xl:container mx-auto">
-        <div className="text-sm breadcrumbs">
+        <div className="ml-3 text-sm breadcrumbs">
           <ul>
             <li>홈</li>
             <li>폐기물등록</li>
           </ul>
         </div>
-        <div className="flex justify-center mt-10  ">
+        <div className=" flex justify-center mt-10  ">
           <form
             onSubmit={handleSubmit}
-            className=" w-full  lg:w-full max-w-2xl"
+            className=" bg-slate-50 w-full p-5 rounded-md lg:w-full max-w-3xl"
           >
             <div className="flex flex-wrap -mx-3 mb-6">
+              <div className="w-full px-3 mb-6 ">
+                <p className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  이미지
+                </p>
+                <label
+                  htmlFor="fileName"
+                  className="flex justify-center items-center w-36 h-36 bg-gray-200 rounded-md"
+                >
+                  <IoIosCamera size="80" />
+                  <input
+                    type="file"
+                    id="fileName"
+                    name="fileName"
+                    accept="image/png, image/jpeg, image/jpg"
+                    className="w-0 h-0 p-0 overflow-hidden border-0"
+                    onChange={handleImageChange}
+                    required
+                  />
+                  {fileName && (
+                    <img
+                      src={fileName && URL.createObjectURL(fileName)}
+                      alt="게시물 이미지"
+                      className="w-36 h-36"
+                    />
+                  )}
+                </label>
+              </div>
               <div className="w-full px-3 mb-6 ">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -169,9 +214,6 @@ const ProductAdd = () => {
                   placeholder="제목을 입력하세요"
                   required
                 />
-                <p className="text-teal-800 text-xs italic">
-                  Please fill out this field.
-                </p>
               </div>
               <div className="w-full px-3 mb-6 ">
                 <label
@@ -230,7 +272,7 @@ const ProductAdd = () => {
                     checked={wasteStatus === '최상'}
                     onChange={e => setWasteStatus(e.target.value)}
                     required
-                    className="radio mr-5 "
+                    className="radio checked:bg-green-900 mr-5 "
                   />
                   <label
                     className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2"
@@ -245,7 +287,7 @@ const ProductAdd = () => {
                     checked={wasteStatus === '상'}
                     onChange={e => setWasteStatus(e.target.value)}
                     required
-                    className="radio mr-5"
+                    className="radio checked:bg-green-900 mr-5"
                   />
                   <label
                     className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2"
@@ -260,7 +302,7 @@ const ProductAdd = () => {
                     checked={wasteStatus === '중'}
                     onChange={e => setWasteStatus(e.target.value)}
                     required
-                    className="radio mr-5"
+                    className="radio checked:bg-green-900 mr-5"
                   />
                   <label
                     className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2"
@@ -275,7 +317,7 @@ const ProductAdd = () => {
                     checked={wasteStatus === '하'}
                     onChange={e => setWasteStatus(e.target.value)}
                     required
-                    className="radio mr-5"
+                    className="radio checked:bg-green-900 mr-5"
                   />
                   <label
                     className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2"
@@ -290,7 +332,7 @@ const ProductAdd = () => {
                     checked={wasteStatus === '최하'}
                     onChange={e => setWasteStatus(e.target.value)}
                     required
-                    className="radio mr-5"
+                    className="radio checked:bg-green-900  mr-5"
                   />
                 </div>
               </div>
@@ -303,11 +345,12 @@ const ProductAdd = () => {
                     나눔
                   </label>
                   <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none  block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     type="number"
                     name="wastePrice"
                     value={wastePrice}
                     onChange={e => setWastePrice(e.target.value)}
+                    // onChange={handlePriceChange}
                     placeholder="제안 가격을 입력해주세요."
                     min="0"
                     required
@@ -322,11 +365,12 @@ const ProductAdd = () => {
                     가격
                   </label>
                   <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none  block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     type="number"
                     name="wastePrice"
                     value={wastePrice}
                     onChange={e => setWastePrice(e.target.value)}
+                    // onChange={handlePriceChange}
                     placeholder="제안 가격을 입력해주세요."
                     min="0"
                     required
@@ -352,9 +396,6 @@ const ProductAdd = () => {
                   required
                   placeholder="설명을 입력해주세요."
                 />
-                <p className="text-gray-600 text-xs italic">
-                  Please fill out this field.
-                </p>
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-2">
@@ -374,15 +415,10 @@ const ProductAdd = () => {
                     required
                     onClick={handleOpenAddressModal}
                   />
-                  {/* <button
-                    className="ml-10 btn btn-xs "
-                    onClick={handleOpenAddressModal}
-                  >
-                    주소검색
-                  </button> */}
+
                   <button
                     onClick={handleOpenAddressModal}
-                    className=" ml-4 bg-green-900 hover:bg-green-700 text-white font-bold py-1 px-4 rounded"
+                    className=" w-32 h-11 ml-4 bg-green-900 hover:bg-green-700 text-white font-bold py-1 px-4 rounded"
                   >
                     주소검색
                   </button>
