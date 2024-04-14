@@ -65,7 +65,7 @@ const ProductCard = ({ post, onDelete }) => {
     //     </div>
     //   </div>
     // </div>
-    <div className="card w-96 bg-base-100 shadow-xl">
+    <div className="card w-80 mt-12 bg-base-100 shadow-xl lg:w-72 xl:w-80 ">
       <figure>
         <img
           src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"

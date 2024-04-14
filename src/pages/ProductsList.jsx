@@ -214,7 +214,7 @@ const ProductsList = () => {
       </div>
       <div className=" pt-4  lg:pt-5 pb-4 lg:pb-8 px-4 xl:px-28 xl:container mx-auto">
         <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 xl:px-2 mb-20 xl:container mx-auto  ">
-          <div className="flex justify-end mb-20">
+          <div className="flex justify-end mb-4">
             <button onClick={handleSortByViews} className="mr-5">
               조회순
             </button>
@@ -223,7 +223,7 @@ const ProductsList = () => {
             </button>
             <button onClick={handleSortByCreatedAt}>최신순</button>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 item_list ">
+          <div className="grid justify-center md:grid-cols-2 justify-items-center lg:grid-cols-3 item_ list ">
             {currentProducts
               .filter(
                 wastes =>
