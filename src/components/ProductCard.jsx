@@ -25,48 +25,8 @@ const ProductCard = ({ post, onDelete }) => {
     setPosts(updatedPosts); // Recoil 상태 업데이트
   };
   return (
-    // <div className="card card-bordered  border-gray-200  lg:card-normal ">
-    //   <figure className="flex mx-20 bg-white overflow-hidden ">
-    //     <img
-    //       className=" transition-transform duration-300"
-    //       src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-    //       alt="임시이미지"
-    //     />
-    //   </figure>
-
-    //   <div className="card-body bg-gray-100  ">
-    //     <p>{post.title}</p>
-
-    //     <div className="flex justify-between text-sm my-2 font-semibold tracking-tight text-gray-900 ">
-    //       <div className="flex gap-2">
-    //         <span>{post.address.state}</span>
-    //         <span>{post.address.city}</span>
-    //       </div>
-    //       <div className="flex items-center">
-    //         <button onClick={handleLikeToggle} className="mr-2">
-    //           {' '}
-    //           {post.hearted ? <GoHeartFill size="30" /> : <GoHeart size="30" />}
-    //         </button>
-    //         <div>{post.likeCount}</div>
-    //       </div>
-    //     </div>
-    //     <div className="flex items-center justify-between">
-    //       <span className="text-2xl font-bold text-gray-900 ">
-    //         {post.wastePrice}원
-    //       </span>
-    //       <Link
-    //         to="/"
-    //         href="#"
-    //         className="text-white bg-green-900 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  "
-    //       >
-    //         상세보기
-    //       </Link>
-    //       {/* <button onClick={handleDeleteClick}>삭제</button> */}
-    //     </div>
-    //   </div>
-    // </div>
-    <div className="card w-80 mt-12 bg-base-100 shadow-xl lg:w-72 xl:w-80 ">
-      <figure>
+    <div className="card w-80 bg-base-100 shadow md:w-72 xl:w-70 2xl:w-80 ">
+      <figure className="">
         <img
           src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
           alt="Shoes"

@@ -212,7 +212,7 @@ const ProductsList = () => {
           <li>폐기물 거래/나눔</li>
         </ul>
       </div>
-      <div className=" pt-4  lg:pt-5 pb-4 lg:pb-8 px-4 xl:px-28 xl:container mx-auto">
+      <div className=" pt-4 px-20 lg:pt-5 pb-4 lg:pb-8 px-36 xl:px-40 xl:container mx-auto 2xl:px-60">
         <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 xl:px-2 mb-20 xl:container mx-auto  ">
           <div className="flex justify-end mb-4">
             <button onClick={handleSortByViews} className="mr-5">
@@ -223,7 +223,7 @@ const ProductsList = () => {
             </button>
             <button onClick={handleSortByCreatedAt}>최신순</button>
           </div>
-          <div className="grid justify-center md:grid-cols-2 justify-items-center lg:grid-cols-3 item_ list ">
+          <div className="grid gap-6 justify-items-center md:grid-cols-2  lg:grid-cols-3 item_ list ">
             {currentProducts
               .filter(
                 wastes =>
