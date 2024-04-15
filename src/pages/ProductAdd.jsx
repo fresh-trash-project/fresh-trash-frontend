@@ -63,17 +63,7 @@ const ProductAdd = () => {
   };
 
   //데이터 제출
-  // const handlePriceChange = str => {
-  //   const comma = str => {
-  //     str = String(str);
-  //     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-  //   };
-  //   const uncomma = str => {
-  //     str = String(str);
-  //     return str.replace(/[^\d]+/g, '');
-  //   };
-  //   return comma(uncomma(str));
-  // };
+
   const handlePriceChange = e => {
     let inputValue = e.target.value;
     // 입력값에서 콤마를 제거합니다.
