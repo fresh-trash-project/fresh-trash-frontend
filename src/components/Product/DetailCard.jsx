@@ -141,9 +141,12 @@ const DetailCard = () => {
                 <p className="mb-6 text-gray-500 dark:text-gray-400">
                   {wastes.content}
                 </p>
-                <div className="flex">
-                  <p className="mr-3">관심수 {wastes.likeCount}</p>
-                  <p>조회수 {wastes.viewCount}</p>
+                <div className="flex justify-between">
+                  <div className="flex">
+                    <p className="mr-3">관심수 {wastes.likeCount}</p>
+                    <p>조회수 {wastes.viewCount}</p>
+                  </div>
+                  <div>작성일 : {wastes.created_at}</div>
                 </div>
                 <hr className="my-6 md:my-8  border-gray-200 dark:border-gray-800" />
                 <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
