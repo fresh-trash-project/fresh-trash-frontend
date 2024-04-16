@@ -187,5 +187,40 @@
       },
       "rating": 5.8
     }
+  ],
+  "usernames": [
+    {
+      "id": 1,
+      "nickname": "freshtrash"
+    },
+    {
+      "id": 2,
+      "nickname": "example_username"
+    },
+    {
+      "nickname": "아이고",
+      "id": 3
+    },
+    {
+      "nickname": "User Name",
+      "id": 4
+    }
+  ],
+  "ratings": [
+    {
+      "rate": 5
+    },
+    {
+      "rate": 5
+    },
+    {
+      "rate": 5
+    },
+    {
+      "rate": 5
+    },
+    {
+      "rate": 5
+    }
   ]
 }
