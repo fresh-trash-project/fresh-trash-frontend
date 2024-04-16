@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { GoHeart } from 'react-icons/go';
 import { GoHeartFill } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
-import { postsState } from '../recoil/RecoilWastes';
-import { updatePost } from '../api/WastesApi';
+import { postsState } from '../../recoil/RecoilWastes';
+import { updatePost } from '../../api/WastesApi';
 import { Link } from 'react-router-dom';
 const ProductCard = ({ post, onDelete }) => {
   const handleDeleteClick = () => {
@@ -56,8 +56,7 @@ const ProductCard = ({ post, onDelete }) => {
             {post.wastePrice}원
           </span>
           <Link
-            to="/"
-            href="#"
+            to={`/${post.id}`}
             className="text-white bg-green-900 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  "
           >
             상세보기
