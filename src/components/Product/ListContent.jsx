@@ -182,9 +182,9 @@ const ListContent = () => {
           <div className="flex">
             <div className="flex-none">
               <Link to="/ProductAdd">
-                <button className="btn btn-square btn-ghost">
+                <div className="btn btn-square btn-ghost">
                   <FaPlus size="25" />
-                </button>
+                </div>
               </Link>
             </div>
           </div>
