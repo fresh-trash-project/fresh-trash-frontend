@@ -41,7 +41,8 @@
       "likeCount": 180,
       "viewCount": 50,
       "created_at": "2024. 4. 15.",
-      "id": 4
+      "id": 4,
+      "hearted": false
     },
     {
       "fileName": {},
@@ -148,6 +149,27 @@
       "created_at": "2024. 4. 15.",
       "id": 9,
       "hearted": false
+    },
+    {
+      "fileName": {},
+      "title": "ddddddddddddddddd",
+      "wasteCategory": "반려동물용품",
+      "wasteStatus": "중",
+      "sellStatus": "",
+      "wastePrice": "6000",
+      "content": "dsdfsdfs",
+      "address": {
+        "address": "경기 화성시 서신면 노노피길 33",
+        "zipcode": "18556",
+        "state": "경기",
+        "city": "화성시",
+        "district": "백미리",
+        "detail": ""
+      },
+      "likeCount": 120,
+      "viewCount": 45,
+      "created_at": "2024. 4. 16.",
+      "id": 10
     }
   ],
   "usernames": [
