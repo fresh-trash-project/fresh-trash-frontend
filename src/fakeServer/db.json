@@ -172,22 +172,7 @@
       "id": 10
     }
   ],
-  "usernames": [
-    {
-      "id": 1,
-      "fileName": "",
-      "nickname": "사용자1",
-      "address": {
-        "address": "대구 달성군 가창면 가창동로 3",
-        "zipcode": "42938",
-        "state": "대구",
-        "city": "달성군",
-        "district": "냉천리",
-        "detail": ""
-      },
-      "rating": 5.8
-    }
-  ],
+
   "usernames": [
     {
       "id": 1,
@@ -204,6 +189,20 @@
     {
       "nickname": "User Name",
       "id": 4
+    },
+    {
+      "id": 5,
+      "fileName": "",
+      "nickname": "사용자1",
+      "address": {
+        "address": "대구 달성군 가창면 가창동로 3",
+        "zipcode": "42938",
+        "state": "대구",
+        "city": "달성군",
+        "district": "냉천리",
+        "detail": ""
+      },
+      "rating": 5.8
     }
   ],
   "ratings": [
