@@ -109,8 +109,8 @@ const DetailCard = () => {
                                   </div>
                                 </div>
                                 <div className="flex text-lg">
-                                  <p className="mr-2">{post.address.state}</p>
-                                  <p>{post.address.city}</p>
+                                  <p className="mr-2">{wastes.address.state}</p>
+                                  <p>{wastes.address.city}</p>
                                 </div>
                               </div>
                             </div>
