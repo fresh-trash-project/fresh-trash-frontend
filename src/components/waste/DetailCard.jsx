@@ -7,10 +7,10 @@ import { MdOutlineStar } from 'react-icons/md';
 import { IoHeartOutline } from 'react-icons/io5';
 import { IoHeartSharp } from 'react-icons/io5';
 import { FiMoreVertical } from 'react-icons/fi';
-import { updatePost } from '../../api/WastesApi';
+import { updatePost, deletePost } from '../../api/WastesApi';
 import { UserInfo } from '../../api/UserAPI';
-import { Link } from 'react-router-dom';
-import Nav from '../Nav';
+import { Link, useNavigate } from 'react-router-dom';
+
 const DetailCard = () => {
   const { id } = useParams();
   const [posts, setPosts] = useRecoilState(postsState);
@@ -29,10 +29,22 @@ const DetailCard = () => {
 
     fetchData();
   }, []);
+  const navigate = useNavigate();
+  const handleDelete = async wasteId => {
+    try {
+      // API를 사용하여 제품 삭제
+      await deletePost(wasteId);
+      // 상태에서 해당 제품을 제거합니다.
+      setPosts(posts.filter(wastes => wastes.id !== wasteId));
+      console.log('제품이 성공적으로 삭제되었습니다.');
+      navigate('/ProductsList');
+    } catch (error) {
+      console.error('제품 삭제 중 오류가 발생했습니다:', error);
+    }
+  };
 
   return (
     <div>
-      <Nav />
       <div className="container">
         <div className="flex justify-between mt-16">
           <div className=" mt-4  text-sm breadcrumbs 2xl:ml-8">
@@ -51,10 +63,12 @@ const DetailCard = () => {
               className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <p>수정하기</p>
+                <Link to={`/ProductEdit/${wastes.id}`}>
+                  <p>수정하기</p>
+                </Link>
               </li>
               <li>
-                <p>삭제하기</p>
+                <p onClick={() => handleDelete(wastes.id)}>삭제하기</p>
               </li>
             </ul>
           </div>

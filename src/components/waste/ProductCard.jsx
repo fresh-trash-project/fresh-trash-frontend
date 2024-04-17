@@ -5,23 +5,23 @@ import { useRecoilState } from 'recoil';
 import { postsState } from '../../recoil/RecoilWastes';
 import { updatePost } from '../../api/WastesApi';
 import { Link } from 'react-router-dom';
-const ProductCard = ({ post, onDelete }) => {
+const ProductCard = ({ wastes, onDelete }) => {
   const handleDeleteClick = () => {
-    onDelete(post.id);
+    onDelete(wastes.id);
   };
 
   const [posts, setPosts] = useRecoilState(postsState);
 
   const handleLikeToggle = async () => {
-    const updatedPost = { ...post };
+    const updatedPost = { ...wastes };
     if (updatedPost.hearted) {
       updatedPost.likeCount -= 1; // 채워진 하트에서 빈 하트로 변경되면 likeCount 감소
     } else {
       updatedPost.likeCount += 1; // 빈 하트에서 채워진 하트로 변경되면 likeCount 증가
     }
     updatedPost.hearted = !updatedPost.hearted; // 하트 상태 업데이트
-    await updatePost(post.id, updatedPost); // 서버에 업데이트 요청
-    const updatedPosts = posts.map(p => (p.id === post.id ? updatedPost : p));
+    await updatePost(wastes.id, updatedPost); // 서버에 업데이트 요청
+    const updatedPosts = posts.map(p => (p.id === wastes.id ? updatedPost : p));
     setPosts(updatedPosts); // Recoil 상태 업데이트
   };
   return (
@@ -33,30 +33,30 @@ const ProductCard = ({ post, onDelete }) => {
         />
       </figure>
       <div className="card-body">
-        <div className="card-title mb-3">{post.title}</div>
+        <div className="card-title mb-3">{wastes.title}</div>
         <div className="flex justify-between mb-3">
           <div className="flex gap-2">
-            <span>{post.address.state}</span>
-            <span>{post.address.city}</span>
+            <span>{wastes.address.state}</span>
+            <span>{wastes.address.city}</span>
           </div>
           <div className="flex items-center">
             <button onClick={handleLikeToggle} className="mr-2">
               {' '}
-              {post.hearted ? (
+              {wastes.hearted ? (
                 <GoHeartFill size="30" color="green" />
               ) : (
                 <GoHeart size="30" color="green" />
               )}
             </button>
-            <div>{post.likeCount}</div>
+            <div>{wastes.likeCount}</div>
           </div>
         </div>
         <div className="flex justify-between">
           <span className="text-2xl font-bold text-gray-900 ">
-            {post.wastePrice}원
+            {wastes.wastePrice}원
           </span>
           <Link
-            to={`/${post.id}`}
+            to={`/ProductDetail/${wastes.id}`}
             className="text-white bg-green-900 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  "
           >
             상세보기

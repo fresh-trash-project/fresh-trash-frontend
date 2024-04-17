@@ -6,6 +6,7 @@ import DetailCard from '../components/waste/DetailCard';
 const ProductDetail = () => {
   return (
     <div>
+      <Nav />
       <DetailCard />
       <Footer />
     </div>

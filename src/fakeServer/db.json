@@ -2,135 +2,7 @@
   "wastes": [
     {
       "fileName": {},
-      "title": "안녕하세요",
-      "wasteCategory": "뷰티",
-      "wasteStatus": "상",
-      "sellStatus": "",
-      "wastePrice": "8000",
-      "content": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel odit nulla vero dolor corrupti necessitatibus numquam voluptatem blanditiis ducimus aliquam voluptates aliquid nemo reiciendis dolorem iure dolore quod, omnis labore?\n",
-      "address": {
-        "address": "서울 구로구 안양천동자전거길 525",
-        "zipcode": "08200",
-        "state": "서울",
-        "city": "구로구",
-        "district": "신도림동",
-        "detail": ""
-      },
-      "likeCount": 150,
-      "viewCount": 30,
-      "created_at": "2024. 4. 15.",
-      "id": 3,
-      "hearted": false
-    },
-    {
-      "fileName": {},
-      "title": "안녕하세요~!!",
-      "wasteCategory": "식물",
-      "wasteStatus": "최하",
-      "sellStatus": "",
-      "wastePrice": "0",
-      "content": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel odit nulla vero dolor corrupti necessitatibus numquam voluptatem blanditiis ducimus aliquam voluptates aliquid nemo reiciendis dolorem iure dolore quod, omnis labore?\n",
-      "address": {
-        "address": "대구 군위군 삼국유사면 안용아길 11",
-        "zipcode": "43155",
-        "state": "대구",
-        "city": "군위군",
-        "district": "학성리",
-        "detail": ""
-      },
-      "likeCount": 180,
-      "viewCount": 50,
-      "created_at": "2024. 4. 15.",
-      "id": 4,
-      "hearted": false
-    },
-    {
-      "fileName": {},
-      "title": "안녕하세요",
-      "wasteCategory": "장난감/게임",
-      "wasteStatus": "최상",
-      "sellStatus": "",
-      "wastePrice": "100000",
-      "content": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel odit nulla vero dolor corrupti necessitatibus numquam voluptatem blanditiis ducimus aliquam voluptates aliquid nemo reiciendis dolorem iure dolore quod, omnis labore?\n",
-      "address": {
-        "address": "서울 성북구 낙산길 243-15",
-        "zipcode": "02875",
-        "state": "서울",
-        "city": "성북구",
-        "district": "삼선동2가",
-        "detail": "삼선현대힐스테이트"
-      },
-      "likeCount": 50,
-      "viewCount": 20,
-      "created_at": "2024. 4. 15.",
-      "id": 5
-    },
-    {
-      "fileName": {},
-      "title": "안녕하세요",
-      "wasteCategory": "장난감/게임",
-      "wasteStatus": "상",
-      "sellStatus": "",
-      "wastePrice": "5000",
-      "content": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel odit nulla vero dolor corrupti necessitatibus numquam voluptatem blanditiis ducimus aliquam voluptates aliquid nemo reiciendis dolorem iure dolore quod, omnis labore?\n",
-      "address": {
-        "address": "서울 종로구 돈화문로5길 28-3",
-        "zipcode": "03139",
-        "state": "서울",
-        "city": "종로구",
-        "district": "낙원동",
-        "detail": ""
-      },
-      "likeCount": 60,
-      "viewCount": 100,
-      "created_at": "2024. 4. 15.",
-      "id": 6
-    },
-    {
-      "fileName": {},
-      "title": "안녕하세요",
-      "wasteCategory": "도서",
-      "wasteStatus": "하",
-      "sellStatus": "",
-      "wastePrice": "200",
-      "content": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel odit nulla vero dolor corrupti necessitatibus numquam voluptatem blanditiis ducimus aliquam voluptates aliquid nemo reiciendis dolorem iure dolore quod, omnis labore?\n",
-      "address": {
-        "address": "인천 부평구 갈산로 2",
-        "zipcode": "21316",
-        "state": "인천",
-        "city": "부평구",
-        "district": "갈산동",
-        "detail": ""
-      },
-      "likeCount": 40,
-      "viewCount": 0,
-      "created_at": "2024. 4. 15.",
-      "id": 7
-    },
-    {
-      "fileName": {},
-      "title": "안녕하세요",
-      "wasteCategory": "반려동물용품",
-      "wasteStatus": "최하",
-      "sellStatus": "",
-      "wastePrice": "600",
-      "content": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel odit nulla vero dolor corrupti necessitatibus numquam voluptatem blanditiis ducimus aliquam voluptates aliquid nemo reiciendis dolorem iure dolore quod, omnis labore?\n",
-      "address": {
-        "address": "인천 강화군 길상면 강화동로 3",
-        "zipcode": "23050",
-        "state": "인천",
-        "city": "강화군",
-        "district": "온수리",
-        "detail": "청기와식당"
-      },
-      "likeCount": 40,
-      "viewCount": 0,
-      "created_at": "2024. 4. 15.",
-      "id": 8
-    },
-    {
-      "fileName": {},
-      "title": "안녕하세요",
+      "title": "수정합니당2222",
       "wasteCategory": "전자기기",
       "wasteStatus": "최상",
       "sellStatus": "",
@@ -144,35 +16,30 @@
         "district": "냉천리",
         "detail": ""
       },
-      "likeCount": 120,
-      "viewCount": 45,
-      "created_at": "2024. 4. 15.",
-      "id": 9,
-      "hearted": false
+      "id": 9
     },
     {
       "fileName": {},
-      "title": "ddddddddddddddddd",
-      "wasteCategory": "반려동물용품",
-      "wasteStatus": "중",
+      "title": "거래합니다 수정합니다.",
+      "wasteCategory": "전자기기",
+      "wasteStatus": "최상",
       "sellStatus": "",
-      "wastePrice": "6000",
-      "content": "dsdfsdfs",
+      "wastePrice": "5000",
+      "content": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, atque, consequuntur sunt excepturi architecto, exercitationem commodi repudiandae id aliquid deleniti alias quam? Dolores animi perferendis vitae quam quasi? Laborum, ratione.",
       "address": {
-        "address": "경기 화성시 서신면 노노피길 33",
-        "zipcode": "18556",
+        "address": "경기 안성시 고삼면 안성대로 1980",
+        "zipcode": "17505",
         "state": "경기",
-        "city": "화성시",
-        "district": "백미리",
+        "city": "안성시",
+        "district": "가유리",
         "detail": ""
       },
       "likeCount": 120,
       "viewCount": 45,
-      "created_at": "2024. 4. 16.",
-      "id": 10
+      "id": 10,
+      "hearted": false
     }
   ],
-
   "usernames": [
     {
       "id": 1,
