@@ -157,13 +157,15 @@ const DetailCard = () => {
                     <IoHeartOutline className="w-5 h-5 -ms-2 me-2" />
                     관심추가
                   </button>
-                  <button
-                    className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
-                    role="button"
-                  >
-                    <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
-                    채팅하기
-                  </button>
+                  <Link to="/Chat">
+                    <div
+                      className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
+                      role="button"
+                    >
+                      <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
+                      채팅하기
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>

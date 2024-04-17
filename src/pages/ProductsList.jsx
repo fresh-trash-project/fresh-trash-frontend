@@ -1,5 +1,5 @@
 import MenuBar from '../components/MenuBar';
-import ListContent from '../components/Product/ListContent';
+import ListContent from '../components/waste/ListContent';
 import Footer from '../components/Footer';
 
 const ProductsList = () => {
