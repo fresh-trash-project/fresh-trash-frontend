@@ -3,13 +3,15 @@ import { useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { postsState } from '../../recoil/RecoilWastes';
 import { updatePost } from '../../api/WastesApi';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { IoIosCamera } from 'react-icons/io';
 import Nav from '../Nav';
 const EditForm = () => {
+  // const productsList = useRecoilValue(postsState);
+  const [posts, setPosts] = useRecoilState(postsState);
   const [wasteCategory, setWasteCategory] = useState('');
   const [title, setTitle] = useState('');
-  const [wasteStatus, setWasteStatus] = useState('');
+  const [wasteStatus, setWasteStatus] = useState('최상');
   const [content, setContent] = useState('');
   const [sellStatus, setSellStatus] = useState('');
   const [wastePrice, setWastePrice] = useState('');
@@ -24,12 +26,13 @@ const EditForm = () => {
   const [fileName, setFileName] = useState(null);
   const [likeCount, setLikeCount] = useState();
   const [viewCount, setViewCount] = useState();
+  const [created_at, setCreated_At] = useState();
   const { id } = useParams();
-  const productsList = useRecoilValue(postsState);
+
   // const wastes = productsList.find(wastes => wastes.id === parseInt(id));
   useEffect(
     () => {
-      const wastes = productsList.find(wastes => wastes.id === parseInt(id));
+      const wastes = posts.find(wastes => wastes.id === parseInt(id));
       if (wastes) {
         setTitle(wastes.title);
         setWasteCategory(wastes.wasteCategory);
@@ -40,12 +43,13 @@ const EditForm = () => {
         setFileName(wastes.fileName);
         setLikeCount(wastes.likeCount);
         setViewCount(wastes.viewCount);
+        setCreated_At(wastes.created_at);
       } else {
         console.log('아이템이 없습니다.');
       }
     },
     [id],
-    productsList,
+    posts,
   );
 
   const navigate = useNavigate();
@@ -62,11 +66,11 @@ const EditForm = () => {
       address,
       likeCount,
       viewCount,
+      created_at,
     };
     try {
       await updatePost(id, updatedData);
-      // navigate(`/ProductDetail/${id}`);
-      navigate('/');
+      navigate(`/ProductDetail/${id}`);
     } catch (error) {
       console.log('Error:', error);
     }
@@ -112,7 +116,7 @@ const EditForm = () => {
         </div>
         <div className=" flex justify-center mt-10  ">
           <form
-            onSubmit={handleSubmit}
+            // onSubmit={handleSubmit}
             className=" bg-slate-50 w-full p-5 rounded-md lg:w-full max-w-3xl"
           >
             <div className="flex flex-wrap -mx-3 mb-6">
@@ -353,16 +357,16 @@ const EditForm = () => {
 
                   <div
                     onClick={handleOpenAddressModal}
-                    className=" w-32 h-11 ml-4 bg-green-900 hover:bg-green-700 text-white font-bold py-1 px-4 rounded"
+                    className=" w-32  ml-4  bg-green-900 hover:bg-green-700 text-white font-bold py-2.5 px-4 rounded text-center "
                   >
-                    주소검색
+                    <p>주소검색</p>
                   </div>
                 </div>
               </div>
             </div>
             <button
-              type="submit"
-              // onClick={handleSubmit}
+              // type="submit"
+              onClick={handleSubmit}
               className=" bg-green-900 hover:bg-green-700 text-white font-bold mt-3 py-3 px-4 rounded bg-green-900!important"
             >
               수정

@@ -2,42 +2,24 @@
   "wastes": [
     {
       "fileName": {},
-      "title": "수정합니당2222",
-      "wasteCategory": "전자기기",
+      "title": "판매합니다",
+      "wasteCategory": "스포츠",
       "wasteStatus": "최상",
       "sellStatus": "",
-      "wastePrice": "100000",
-      "content": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel odit nulla vero dolor corrupti necessitatibus numquam voluptatem blanditiis ducimus aliquam voluptates aliquid nemo reiciendis dolorem iure dolore quod, omnis labore?\n",
+      "wastePrice": "2000",
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum reiciendis, maxime, dolor atque dolore consequuntur consectetur voluptate pariatur esse voluptatem beatae? Necessitatibus non nisi deserunt ad numquam unde suscipit molestiae.\n",
       "address": {
-        "address": "대구 달성군 가창면 가창동로 3",
-        "zipcode": "42938",
-        "state": "대구",
-        "city": "달성군",
-        "district": "냉천리",
-        "detail": ""
-      },
-      "id": 9
-    },
-    {
-      "fileName": {},
-      "title": "거래합니다 수정합니다.",
-      "wasteCategory": "전자기기",
-      "wasteStatus": "최상",
-      "sellStatus": "",
-      "wastePrice": "5000",
-      "content": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, atque, consequuntur sunt excepturi architecto, exercitationem commodi repudiandae id aliquid deleniti alias quam? Dolores animi perferendis vitae quam quasi? Laborum, ratione.",
-      "address": {
-        "address": "경기 안성시 고삼면 안성대로 1980",
-        "zipcode": "17505",
-        "state": "경기",
-        "city": "안성시",
-        "district": "가유리",
+        "address": "인천 서구 가경주로 10",
+        "zipcode": "22783",
+        "state": "인천",
+        "city": "서구",
+        "district": "가정동",
         "detail": ""
       },
       "likeCount": 120,
       "viewCount": 45,
-      "id": 10,
-      "hearted": false
+      "created_at": "2024. 4. 18.",
+      "id": 1
     }
   ],
   "usernames": [

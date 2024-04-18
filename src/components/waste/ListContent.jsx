@@ -231,11 +231,11 @@ const ListContent = () => {
         </div>
       </div>
 
-      <div className="join container flex justify-center mb-16">
+      <div className=" container flex justify-center mb-16">
         <button
           disabled={currentPage === 1}
           onClick={() => handlePageChange(currentPage - 1)}
-          className="join-item btn"
+          className="join-item btn mr-2"
         >
           <GrFormPrevious />
         </button>
@@ -251,7 +251,7 @@ const ListContent = () => {
         <button
           disabled={currentPage === totalPages}
           onClick={() => handlePageChange(currentPage + 1)}
-          className="join-item btn"
+          className="join-item btn ml-2"
         >
           <GrFormNext />
         </button>

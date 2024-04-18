@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { postsState } from '../../recoil/RecoilWastes';
 import { MdOutlineChatBubbleOutline } from 'react-icons/md';
 import { MdOutlineStar } from 'react-icons/md';
 import { IoHeartOutline } from 'react-icons/io5';
 import { IoHeartSharp } from 'react-icons/io5';
 import { FiMoreVertical } from 'react-icons/fi';
-import { updatePost, deletePost } from '../../api/WastesApi';
+import { fetchPosts, deletePost } from '../../api/WastesApi';
 import { UserInfo } from '../../api/UserAPI';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -29,6 +29,11 @@ const DetailCard = () => {
 
     fetchData();
   }, []);
+  useEffect(() => {
+    fetchPosts()
+      .then(data => setPosts(data))
+      .catch(error => console.error('Error:', error));
+  }, [setPosts]);
   const navigate = useNavigate();
   const handleDelete = async wasteId => {
     try {
@@ -42,6 +47,9 @@ const DetailCard = () => {
       console.error('제품 삭제 중 오류가 발생했습니다:', error);
     }
   };
+  const location = useLocation();
+  // const editData = location.state.id;
+  // console.log('EditData', editData);
 
   return (
     <div>
@@ -88,7 +96,6 @@ const DetailCard = () => {
                   alt=""
                 />
               </div>
-
               <div className="mt-6 sm:mt-8 lg:mt-0">
                 <div className="flex justify-between">
                   <div>

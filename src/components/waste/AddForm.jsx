@@ -9,7 +9,7 @@ const AddForm = () => {
   const [posts, setPosts] = useRecoilState(postsState);
   const [wasteCategory, setWasteCategory] = useState('');
   const [title, setTitle] = useState('');
-  const [wasteStatus, setWasteStatus] = useState('');
+  const [wasteStatus, setWasteStatus] = useState('최상');
   const [content, setContent] = useState('');
   const [sellStatus, setSellStatus] = useState('');
   const [wastePrice, setWastePrice] = useState('');
