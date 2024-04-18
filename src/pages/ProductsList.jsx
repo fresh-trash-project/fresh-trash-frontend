@@ -1,7 +1,6 @@
-import MenuBar from '../components/MenuBar';
 import ListContent from '../components/waste/ListContent';
-import Footer from '../components/Footer';
-import Nav from '../components/Nav';
+import Footer from '../components/Home/Footer';
+import Nav from '../components/Home/Nav';
 const ProductsList = () => {
   return (
     <div>

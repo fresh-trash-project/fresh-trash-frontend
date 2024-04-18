@@ -70,6 +70,17 @@ const EditForm = () => {
     };
     try {
       await updatePost(id, updatedData);
+      setTitle(updatedData.title);
+      setWasteCategory(updatedData.wasteCategory);
+      setContent(updatedData.content);
+      setSellStatus(updatedData.sellStatus);
+      setWastePrice(updatedData.wastePrice);
+      setAddress(updatedData.address);
+      setFileName(updatedData.fileName);
+      setLikeCount(updatedData.likeCount);
+      setViewCount(updatedData.viewCount);
+      setCreated_At(updatedData.created_at);
+
       navigate(`/ProductDetail/${id}`);
     } catch (error) {
       console.log('Error:', error);
