@@ -1,19 +1,19 @@
-import logo from "../assets/logo3.png";
-import { Link } from "react-router-dom";
-import { PiRecycleDuotone } from "react-icons/pi";
-import { FaTrash } from "react-icons/fa6";
-import { FaLeaf } from "react-icons/fa";
-import { GiReceiveMoney } from "react-icons/gi";
-import { MdCurrencyExchange } from "react-icons/md";
+import logo from '../assets/logo3.png';
+import { Link } from 'react-router-dom';
+import { PiRecycleDuotone } from 'react-icons/pi';
+import { FaTrash } from 'react-icons/fa6';
+import { FaLeaf } from 'react-icons/fa';
+import { GiReceiveMoney } from 'react-icons/gi';
+import { MdCurrencyExchange } from 'react-icons/md';
 import {
   Container,
   SignUpContainer,
   Logo,
   EyeIcon,
   Drawing,
-} from "../styles/SignUpCSS";
-import { useEffect, useState } from "react";
-import SignUpMobile from "./SignUpMobile.jsx";
+} from '../styles/SignUpCSS.jsx';
+import { useEffect, useState } from 'react';
+import SignUpMobile from './SignUpMobile.jsx';
 
 const SignUp = () => {
   const getWindowWidth = () => {
@@ -28,8 +28,8 @@ const SignUp = () => {
       setWindowWidth(getWindowWidth());
     };
 
-    window.addEventListener("resize", handleWindowWidth);
-    return () => window.removeEventListener("resize", handleWindowWidth);
+    window.addEventListener('resize', handleWindowWidth);
+    return () => window.removeEventListener('resize', handleWindowWidth);
   }, [windowWidth]);
 
   return (
