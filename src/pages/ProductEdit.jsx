@@ -1,7 +1,10 @@
-import React from "react";
-
+import EditForm from '../components/waste/EditForm';
 const ProductEdit = () => {
-  return <div></div>;
+  return (
+    <div>
+      <EditForm />
+    </div>
+  );
 };
 
 export default ProductEdit;

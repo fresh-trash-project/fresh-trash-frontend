@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { postsState } from '../../recoil/RecoilWastes';
 import { MdOutlineChatBubbleOutline } from 'react-icons/md';
 import { MdOutlineStar } from 'react-icons/md';
 import { IoHeartOutline } from 'react-icons/io5';
 import { IoHeartSharp } from 'react-icons/io5';
 import { FiMoreVertical } from 'react-icons/fi';
-import { updatePost } from '../../api/WastesApi';
+import { fetchPosts, deletePost } from '../../api/WastesApi';
 import { UserInfo } from '../../api/UserAPI';
-import { Link } from 'react-router-dom';
-import Nav from '../Home/Nav';
+import { Link, useNavigate } from 'react-router-dom';
+
 const DetailCard = () => {
   const { id } = useParams();
   const [posts, setPosts] = useRecoilState(postsState);
@@ -29,10 +29,30 @@ const DetailCard = () => {
 
     fetchData();
   }, []);
+  useEffect(() => {
+    fetchPosts()
+      .then(data => setPosts(data))
+      .catch(error => console.error('Error:', error));
+  }, [setPosts]);
+  const navigate = useNavigate();
+  const handleDelete = async wasteId => {
+    try {
+      // API를 사용하여 제품 삭제
+      await deletePost(wasteId);
+      // 상태에서 해당 제품을 제거합니다.
+      setPosts(posts.filter(wastes => wastes.id !== wasteId));
+      console.log('제품이 성공적으로 삭제되었습니다.');
+      navigate('/ProductsList');
+    } catch (error) {
+      console.error('제품 삭제 중 오류가 발생했습니다:', error);
+    }
+  };
+  const location = useLocation();
+  // const editData = location.state.id;
+  // console.log('EditData', editData);
 
   return (
     <div>
-      <Nav />
       <div className="container">
         <div className="flex justify-between mt-16">
           <div className=" mt-4  text-sm breadcrumbs 2xl:ml-8">
@@ -51,10 +71,12 @@ const DetailCard = () => {
               className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <p>수정하기</p>
+                <Link to={`/ProductEdit/${wastes.id}`}>
+                  <p>수정하기</p>
+                </Link>
               </li>
               <li>
-                <p>삭제하기</p>
+                <p onClick={() => handleDelete(wastes.id)}>삭제하기</p>
               </li>
             </ul>
           </div>
@@ -74,7 +96,6 @@ const DetailCard = () => {
                   alt=""
                 />
               </div>
-
               <div className="mt-6 sm:mt-8 lg:mt-0">
                 <div className="flex justify-between">
                   <div>
@@ -141,9 +162,12 @@ const DetailCard = () => {
                 <p className="mb-6 text-gray-500 dark:text-gray-400">
                   {wastes.content}
                 </p>
-                <div className="flex">
-                  <p className="mr-3">관심수 {wastes.likeCount}</p>
-                  <p>조회수 {wastes.viewCount}</p>
+                <div className="flex justify-between">
+                  <div className="flex">
+                    <p className="mr-3">관심수 {wastes.likeCount}</p>
+                    <p>조회수 {wastes.viewCount}</p>
+                  </div>
+                  <div>작성일 : {wastes.created_at}</div>
                 </div>
                 <hr className="my-6 md:my-8  border-gray-200 dark:border-gray-800" />
                 <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
@@ -154,13 +178,15 @@ const DetailCard = () => {
                     <IoHeartOutline className="w-5 h-5 -ms-2 me-2" />
                     관심추가
                   </button>
-                  <button
-                    className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
-                    role="button"
-                  >
-                    <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
-                    채팅하기
-                  </button>
+                  <Link to="/Chat">
+                    <div
+                      className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
+                      role="button"
+                    >
+                      <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
+                      채팅하기
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>

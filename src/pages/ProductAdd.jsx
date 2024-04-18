@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-// import Nav from '../components/Nav';
 import AddForm from '../components/Product/AddForm';
 import { FaWonSign } from 'react-icons/fa6';
 import { IoIosArrowForward } from 'react-icons/io';
@@ -11,6 +10,7 @@ import { createPost } from '../api/WastesApi';
 import { IoIosCamera } from 'react-icons/io';
 import Nav from '../components/Home/Nav';
 import axios from 'axios';
+
 const ProductAdd = () => {
   return (
     <div>

@@ -1,13 +1,12 @@
 import React from 'react';
-import Nav from '../components/Home/Nav';
-import MenuBar from '../components/Home/MenuBar';
-import Footer from '../components/Home/Footer';
-import DetailCard from '../components/Product/DetailCard';
+import Nav from '../components/Nav';
+import MenuBar from '../components/MenuBar';
+import Footer from '../components/Footer';
+import DetailCard from '../components/waste/DetailCard';
 const ProductDetail = () => {
   return (
     <div>
-      {/* <Nav /> */}
-      {/* <MenuBar /> */}
+      <Nav />
       <DetailCard />
       <Footer />
     </div>
