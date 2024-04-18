@@ -1,10 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import Home from './pages/Home';
-
 import SignUpSignIn from './pages/SignUpSignIn';
-
-
 import MyPage from './pages/MyPage';
 import MyTradeList from './pages/MyTradeList';
 import MyAuctionList from './pages/MyAuctionList';
@@ -20,7 +17,6 @@ import ChatList from './pages/ChatList';
 import Pay from './pages/Pay';
 
 export const router = createBrowserRouter([
-
   {
     path: '/',
     element: <App />,
@@ -36,18 +32,13 @@ export const router = createBrowserRouter([
       }
     },
   },
-  // { path: "/SignUp", element: <SignUp /> },
-  // { path: "/SignIn", element: <SignIn /> },
   { path: '/SignUpSignIn', element: <SignUpSignIn /> },
-
   { path: '/MyPage', element: <MyPage /> },
   { path: '/MyTradeList', element: <MyTradeList /> },
   { path: '/MyAuctionList', element: <MyAuctionList /> },
   { path: '/MyLikes', element: <MyLikes /> },
   { path: '/ProductsList', element: <ProductsList /> },
-
   { path: '/:id', element: <ProductDetail /> },
-
   { path: '/ProductAdd', element: <ProductAdd /> },
   { path: '/ProductEdit', element: <ProductEdit /> },
   { path: '/AuctionList', element: <AuctionList /> },

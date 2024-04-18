@@ -1,7 +1,7 @@
 import React from 'react';
-import Nav from '../components/Nav';
-import MenuBar from '../components/MenuBar';
-import Footer from '../components/Footer';
+import Nav from '../components/Home/Nav';
+import MenuBar from '../components/Home/MenuBar';
+import Footer from '../components/Home/Footer';
 import DetailCard from '../components/Product/DetailCard';
 const ProductDetail = () => {
   return (

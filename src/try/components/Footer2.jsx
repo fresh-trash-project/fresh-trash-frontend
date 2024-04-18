@@ -3,10 +3,10 @@ import {
   FaInstagram,
   FaPhoneSquareAlt,
   FaYoutube,
-} from "react-icons/fa";
-import { FaSquareXTwitter, FaGooglePlus } from "react-icons/fa6";
-import { FooterContainer } from "../styles/FooterCSS";
-import { useState } from "react";
+} from 'react-icons/fa';
+import { FaSquareXTwitter, FaGooglePlus } from 'react-icons/fa6';
+import { FooterContainer } from '../styles/FooterCSS';
+import { useState } from 'react';
 
 const Footer = () => {
   const [contactClicked, setContactClicked] = useState(false);
@@ -22,19 +22,19 @@ const Footer = () => {
     <FooterContainer>
       <div className="sns-icon-container">
         <FaFacebook
-          className={`sns-icon ${contactClicked && "contact-clicked"}`}
+          className={`sns-icon ${contactClicked && 'contact-clicked'}`}
         />
         <FaInstagram
-          className={`sns-icon ${contactClicked && "contact-clicked"}`}
+          className={`sns-icon ${contactClicked && 'contact-clicked'}`}
         />
         <FaSquareXTwitter
-          className={`sns-icon ${contactClicked && "contact-clicked"}`}
+          className={`sns-icon ${contactClicked && 'contact-clicked'}`}
         />
         <FaGooglePlus
-          className={`sns-icon ${contactClicked && "contact-clicked"}`}
+          className={`sns-icon ${contactClicked && 'contact-clicked'}`}
         />
         <FaPhoneSquareAlt
-          className={`sns-icon ${contactClicked && "contact-clicked"}`}
+          className={`sns-icon ${contactClicked && 'contact-clicked'}`}
         />
         {/* <FaYoutube className="sns-icon" /> */}
       </div>

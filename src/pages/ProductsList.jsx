@@ -1,6 +1,6 @@
-import MenuBar from '../components/MenuBar';
+import MenuBar from '../components/Home/MenuBar';
 import ListContent from '../components/Product/ListContent';
-import Footer from '../components/Footer';
+import Footer from '../components/Home/Footer';
 
 const ProductsList = () => {
   return (

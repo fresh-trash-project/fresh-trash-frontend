@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { VscEye } from 'react-icons/vsc';
-import { Google, Naver, Kakao } from '../components/SNS';
+import { Google, Naver, Kakao } from '../components/common/service/SNS';
 import VerificationButton from '../components/common/button/VerificationButton';
 import DuplicationButton from '../components/common/button/DuplicationButton';
 import { useRecoilState } from 'recoil';
@@ -12,7 +12,7 @@ import {
   duplicationMessageState,
 } from '../recoil/RecoilUserName';
 import { userEmailState } from '../recoil/RecoilUserEmail';
-import ConfirmCode from '../components/ConfirmCode';
+import ConfirmCode from '../components/SignUpSignIn/ConfirmCode';
 import { GoogleLoginButton } from '../fetchCall/OAuth';
 
 const SignUpSignIn = () => {

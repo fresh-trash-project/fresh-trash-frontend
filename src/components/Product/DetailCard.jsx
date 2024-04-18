@@ -10,7 +10,7 @@ import { FiMoreVertical } from 'react-icons/fi';
 import { updatePost } from '../../api/WastesApi';
 import { UserInfo } from '../../api/UserAPI';
 import { Link } from 'react-router-dom';
-import Nav from '../Nav';
+import Nav from '../Home/Nav';
 const DetailCard = () => {
   const { id } = useParams();
   const [posts, setPosts] = useRecoilState(postsState);

@@ -191,7 +191,6 @@
       "id": 4
     },
     {
-
       "id": 5,
       "fileName": "",
       "nickname": "사용자1",
@@ -202,8 +201,8 @@
         "city": "달성군",
         "district": "냉천리",
         "detail": ""
-      },
-
+      }
+    }
   ],
   "ratings": [
     {
