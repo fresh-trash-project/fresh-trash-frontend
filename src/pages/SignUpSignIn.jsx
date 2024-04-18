@@ -12,11 +12,14 @@ import {
   duplicationMessageState,
 } from '../recoil/RecoilUserName';
 import { userEmailState } from '../recoil/RecoilUserEmail';
+import { signInState, signInPanelState } from '../recoil/RecoilSignIn';
+
 import ConfirmCode from '../components/SignUpSignIn/ConfirmCode';
 import { GoogleLoginButton } from '../fetchCall/OAuth';
 
 const SignUpSignIn = () => {
-  const [signIn, setSignIn] = useState(true);
+  const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
+  const [signIn, setSignIn] = useRecoilState(signInState);
   const [userName, setUserName] = useRecoilState(userNameState);
   const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
   const [duplicationMessage, setDuplicationMessage] = useRecoilState(
@@ -168,6 +171,8 @@ const SignUpSignIn = () => {
     }
   };
 
+  setSignIn(true);
+
   //-------------------------------------------------------------------------------------------
   return (
     <div className="outerContainer w-full h-screen flex justify-center items-center shadow-2xl">
@@ -189,8 +194,8 @@ const SignUpSignIn = () => {
       <div className="container rounded-xl shadow-2xl relative overflow-hidden w-[60rem] max-w-full min-h-[35rem]">
         {/* 회원가입---------------------------------------------------------------------------------------------------- */}
         <div
-          signIn={signIn}
-          className={`signUpContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signIn ? 'translate-x-0 opacity-0 z-0' : 'translate-x-full opacity-1 z-10'}`}
+          signInPanel={!signInPanel}
+          className={`signUpContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signInPanel ? 'translate-x-0 opacity-0 z-0' : 'translate-x-full opacity-1 z-10'}`}
         >
           <form className="flex flex-col items-center justify-center pr-12 pl-12 h-full text-center">
             <h1 className="font-bold m-0 text-[1.5rem] mb-5">CREATE ACCOUNT</h1>
@@ -297,8 +302,8 @@ const SignUpSignIn = () => {
 
         {/* 로그인---------------------------------------------------------------------------------------------------- */}
         <div
-          signIn={signIn}
-          className={`signInContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signIn ? 'translate-x-0 opacity-1 z-10' : 'translate-x-full opacity-0 z-0'}`}
+          signInPanel={signInPanel}
+          className={`signInContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signInPanel ? 'translate-x-0 opacity-1 z-10' : 'translate-x-full opacity-0 z-0'}`}
         >
           <form className="flex flex-col items-center justify-center pr-12 pl-12 h-full text-center">
             <h1 className="font-bold m-0 text-[1.5rem]  mb-5">SIGN IN</h1>
@@ -390,24 +395,24 @@ const SignUpSignIn = () => {
 
         {/* 스위치컨테이너---------------------------------------------------------------------------------------------------- */}
         <div
-          signIn={signIn}
-          className={`switchContainer absolute top-0 left-1/2 w-1/2 h-full overflow-hidden transition-all ${!signIn && '-translate-x-full'}`}
+          signInPanel={signInPanel}
+          className={`switchContainer absolute top-0 left-1/2 w-1/2 h-full overflow-hidden transition-all ${!signInPanel && '-translate-x-full'}`}
         >
           <div
-            signIn={signIn}
-            className={`greenContainer bg-green-brunswick  relative -left-full h-full w-[200%] text-white transition-all ${signIn ? 'translate-x-0' : 'translate-x-1/2'}`}
+            signIn={signInPanel}
+            className={`greenContainer bg-green-brunswick  relative -left-full h-full w-[200%] text-white transition-all ${signInPanel ? 'translate-x-0' : 'translate-x-1/2'}`}
           >
             <div className="Panel absolute top-0 text-center h-full w-1/2 flex items-center justify-center flex-col pl-10 pr-10 transition-all translate-x-0">
               <div
-                signIn={signIn}
-                className={`leftPanel absolute ${signIn ? 'translate-x-[30rem] opacity-1 z-10' : 'translate-x-0 opacity-0 z-0'}`}
+                signIn={signInPanel}
+                className={`leftPanel absolute ${signInPanel ? 'translate-x-[30rem] opacity-1 z-10' : 'translate-x-0 opacity-0 z-0'}`}
               >
                 <h1 className="text-2xl font-bold">WELCOME BACK</h1>
                 <p className="mt-5 mb-14">It's time to Fresh Trash</p>
                 <div className="switch flex">
                   <p className="mr-2 text-sm">Don't have an account?</p>
                   <button
-                    onClick={() => setSignIn(false)}
+                    onClick={() => setSignInPanel(false)}
                     className="btn btn-xs bg-transparent"
                   >
                     <p className="text-white">sign up</p>
@@ -416,15 +421,15 @@ const SignUpSignIn = () => {
               </div>
 
               <div
-                signIn={signIn}
-                className={`rightPanel absolute ${signIn ? 'translate-x-[30rem] opacity-0 z-0' : 'translate-x-0 opacity-1 z-10'}`}
+                signInPanel={!signInPanel}
+                className={`rightPanel absolute ${signInPanel ? 'translate-x-[30rem] opacity-0 z-0' : 'translate-x-0 opacity-1 z-10'}`}
               >
                 <h1 className="text-2xl font-bold">WELCOME</h1>
                 <p className="mt-5 mb-14">We invite you to Fresh Trash</p>
                 <div className="switch flex">
                   <p className="mr-2 text-sm">Already have an account?</p>
                   <button
-                    onClick={() => setSignIn(true)}
+                    onClick={() => setSignInPanel(true)}
                     className="btn btn-xs bg-transparent"
                   >
                     <p className="text-white">sign in</p>
