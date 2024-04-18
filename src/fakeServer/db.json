@@ -41,7 +41,8 @@
       "likeCount": 180,
       "viewCount": 50,
       "created_at": "2024. 4. 15.",
-      "id": 4
+      "id": 4,
+      "hearted": false
     },
     {
       "fileName": {},
@@ -148,8 +149,30 @@
       "created_at": "2024. 4. 15.",
       "id": 9,
       "hearted": false
+    },
+    {
+      "fileName": {},
+      "title": "ddddddddddddddddd",
+      "wasteCategory": "반려동물용품",
+      "wasteStatus": "중",
+      "sellStatus": "",
+      "wastePrice": "6000",
+      "content": "dsdfsdfs",
+      "address": {
+        "address": "경기 화성시 서신면 노노피길 33",
+        "zipcode": "18556",
+        "state": "경기",
+        "city": "화성시",
+        "district": "백미리",
+        "detail": ""
+      },
+      "likeCount": 120,
+      "viewCount": 45,
+      "created_at": "2024. 4. 16.",
+      "id": 10
     }
   ],
+
   "usernames": [
     {
       "id": 1,
@@ -168,9 +191,19 @@
       "id": 4
     },
     {
-      "nickname": "닉네임",
-      "id": 5
-    }
+
+      "id": 5,
+      "fileName": "",
+      "nickname": "사용자1",
+      "address": {
+        "address": "대구 달성군 가창면 가창동로 3",
+        "zipcode": "42938",
+        "state": "대구",
+        "city": "달성군",
+        "district": "냉천리",
+        "detail": ""
+      },
+
   ],
   "ratings": [
     {

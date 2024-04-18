@@ -6,6 +6,9 @@ export default {
     'node_modules/flowbite-react/lib/esm/**/*.js',
   ],
   theme: {
+    container: {
+      center: true,
+    },
     extend: {
       colors: {
         'purple-soft': '#8474a1',
