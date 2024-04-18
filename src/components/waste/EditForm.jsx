@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { postsState } from '../../recoil/RecoilWastes';
-import { createPost } from '../../api/WastesApi';
+import { updatePost } from '../../api/WastesApi';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { IoIosCamera } from 'react-icons/io';
-import axios from 'axios';
-const AddForm = () => {
+import Nav from '../Nav';
+const EditForm = () => {
+  // const productsList = useRecoilValue(postsState);
   const [posts, setPosts] = useRecoilState(postsState);
   const [wasteCategory, setWasteCategory] = useState('');
   const [title, setTitle] = useState('');
-  const [wasteStatus, setWasteStatus] = useState('');
+  const [wasteStatus, setWasteStatus] = useState('최상');
   const [content, setContent] = useState('');
   const [sellStatus, setSellStatus] = useState('');
   const [wastePrice, setWastePrice] = useState('');
@@ -22,28 +24,58 @@ const AddForm = () => {
   });
 
   const [fileName, setFileName] = useState(null);
-  const [likeCount, setLikeCount] = useState(120);
-  const [viewCount, setViewCount] = useState(45);
-  const navigate = useNavigate();
+  const [likeCount, setLikeCount] = useState();
+  const [viewCount, setViewCount] = useState();
+  const [created_at, setCreated_At] = useState();
+  const { id } = useParams();
 
-  //찾은 주소 input 반영
-  const handleComplete = data => {
-    setAddress({
-      address: data.address,
-      zipcode: data.zonecode,
-      state: data.sido,
-      city: data.sigungu,
-      district: data.bname,
-      detail: data.buildingName,
-    });
+  // const wastes = productsList.find(wastes => wastes.id === parseInt(id));
+  useEffect(
+    () => {
+      const wastes = posts.find(wastes => wastes.id === parseInt(id));
+      if (wastes) {
+        setTitle(wastes.title);
+        setWasteCategory(wastes.wasteCategory);
+        setContent(wastes.content);
+        setSellStatus(wastes.sellStatus);
+        setWastePrice(wastes.wastePrice);
+        setAddress(wastes.address);
+        setFileName(wastes.fileName);
+        setLikeCount(wastes.likeCount);
+        setViewCount(wastes.viewCount);
+        setCreated_At(wastes.created_at);
+      } else {
+        console.log('아이템이 없습니다.');
+      }
+    },
+    [id],
+    posts,
+  );
+
+  const navigate = useNavigate();
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const updatedData = {
+      fileName,
+      title,
+      wasteCategory,
+      wasteStatus,
+      sellStatus,
+      wastePrice,
+      content,
+      address,
+      likeCount,
+      viewCount,
+      created_at,
+    };
+    try {
+      await updatePost(id, updatedData);
+      navigate(`/ProductDetail/${id}`);
+    } catch (error) {
+      console.log('Error:', error);
+    }
   };
-  //주소검색 버튼 클릭시 주소찾기 모달 창 open
-  const handleOpenAddressModal = () => {
-    new window.daum.Postcode({
-      oncomplete: handleComplete,
-    }).open();
-  };
-  //이미지 형식 제한
+
   const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
   const handleImageChange = e => {
     const file = e.target.files[0];
@@ -57,101 +89,34 @@ const AddForm = () => {
       }
     }
   };
-
-  //데이터 제출
-
-  const handlePriceChange = e => {
-    let inputValue = e.target.value;
-    // 입력값에서 콤마를 제거합니다.
-    inputValue = inputValue.replace(/,/g, '');
-    // 입력값에서 숫자와 소수점을 제외한 모든 문자를 제거합니다.
-    const cleanedValue = inputValue.replace(/[^\d.]/g, '');
-    // 입력값이 비어있거나 소수점만 입력된 경우, 그대로 설정합니다.
-    if (cleanedValue === '' || cleanedValue === '.') {
-      setWastePrice(cleanedValue);
-    } else {
-      // 소수점이 여러 개인 경우, 첫 번째 소수점만 유지합니다.
-      const parts = cleanedValue.split('.');
-      const integerPart = parts[0];
-      const decimalPart = parts.length > 1 ? '.' + parts.slice(1).join('') : '';
-      // 숫자로 파싱한 후 다시 문자열로 변환하여 상태로 설정합니다.
-      setWastePrice(parseFloat(integerPart).toLocaleString() + decimalPart);
-    }
+  const handleComplete = data => {
+    setAddress({
+      address: data.address,
+      zipcode: data.zonecode,
+      state: data.sido,
+      city: data.sigungu,
+      district: data.bname,
+      detail: data.buildingName,
+    });
   };
-
-  //제목 글자수 제한
-  const handleTitleChange = e => {
-    const inputValue = e.target.value;
-    if (inputValue.length <= 255) {
-      setTitle(inputValue);
-    }
-  };
-  //내용 글자수 제한
-  const handleContentChange = e => {
-    const inputValue = e.target.value;
-
-    if (inputValue.length <= 65535) {
-      setContent(inputValue);
-    }
-  };
-  const handleSubmit = async e => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append('fileName', fileName);
-    formData.append('category', wasteCategory);
-    formData.append('title', title);
-    formData.append('waste_status', wasteStatus);
-    formData.append('sell_status', sellStatus);
-    formData.append('waste_price', wastePrice);
-    formData.append('content', content);
-    formData.append('address', address);
-    formData.append('likeCount', likeCount);
-    formData.append('viewCount', viewCount);
-
-    try {
-      const newPost = {
-        fileName,
-        title,
-        wasteCategory,
-        wasteStatus,
-        sellStatus,
-        wastePrice,
-        content,
-        address,
-        likeCount,
-        viewCount,
-        created_at: new Date().toLocaleDateString(),
-      };
-      const createdPost = await createPost(newPost);
-      setPosts([...posts, createdPost]);
-
-      setWasteCategory('');
-      setTitle('');
-      setWasteStatus('');
-      setContent('');
-      setSellStatus('');
-      setWastePrice('');
-      setAddress('');
-      setFileName(null);
-
-      navigate('/ProductsList');
-    } catch (error) {
-      console.error('Error uploading image:', error);
-    }
+  const handleOpenAddressModal = () => {
+    new window.daum.Postcode({
+      oncomplete: handleComplete,
+    }).open();
   };
   return (
     <div>
+      <Nav />
       <div className="pt-4 lg:pt-5 pb-4 lg:pb-8 px-4 xl:px-2 xl:container mx-auto">
         <div className="ml-8 text-sm breadcrumbs">
           <ul>
             <li>홈</li>
-            <li>폐기물등록</li>
+            <li>수정</li>
           </ul>
         </div>
         <div className=" flex justify-center mt-10  ">
           <form
-            onSubmit={handleSubmit}
+            // onSubmit={handleSubmit}
             className=" bg-slate-50 w-full p-5 rounded-md lg:w-full max-w-3xl"
           >
             <div className="flex flex-wrap -mx-3 mb-6">
@@ -171,11 +136,11 @@ const AddForm = () => {
                     accept="image/png, image/jpeg, image/jpg"
                     className="w-0 h-0 p-0 overflow-hidden border-0"
                     onChange={handleImageChange}
-                    required
                   />
                   {fileName && (
                     <img
-                      src={fileName && URL.createObjectURL(fileName)}
+                      // src={fileName && URL.createObjectURL(fileName)}
+                      src={fileName}
                       alt="게시물 이미지"
                       className="w-36 h-36"
                     />
@@ -183,33 +148,24 @@ const AddForm = () => {
                 </label>
               </div>
               <div className="w-full px-3 mb-6 ">
-                <label
-                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  htmlFor="title"
-                >
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   제목
                 </label>
                 <input
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-gray-500"
                   type="text"
-                  name="title"
                   value={title}
-                  onChange={handleTitleChange}
-                  placeholder="제목을 입력하세요"
+                  onChange={e => setTitle(e.target.value)}
                   required
                 />
               </div>
               <div className="w-full px-3 mb-6 ">
-                <label
-                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                  htmlFor="wasteCategory"
-                >
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   카테고리
                 </label>
                 <div className="relative">
                   <select
                     className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="wasteCategory"
                     value={wasteCategory}
                     onChange={e => setWasteCategory(e.target.value)}
                     required
@@ -334,7 +290,6 @@ const AddForm = () => {
                     name="wastePrice"
                     value={wastePrice}
                     onChange={e => setWastePrice(e.target.value)}
-                    // onChange={handlePriceChange}
                     placeholder="제안 가격을 입력해주세요."
                     min="0"
                     required
@@ -354,7 +309,6 @@ const AddForm = () => {
                     name="wastePrice"
                     value={wastePrice}
                     onChange={e => setWastePrice(e.target.value)}
-                    // onChange={handlePriceChange}
                     placeholder="제안 가격을 입력해주세요."
                     min="0"
                     required
@@ -374,7 +328,7 @@ const AddForm = () => {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   name="content"
                   value={content}
-                  onChange={handleContentChange}
+                  onChange={e => setContent(e.target.value)}
                   rows="4"
                   cols="50"
                   required
@@ -395,25 +349,27 @@ const AddForm = () => {
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     type="text"
                     defaultValue={address.address}
+                    onChange={e => setAddress(e.target.value)}
+                    onClick={handleOpenAddressModal}
                     placeholder="주소/위치를 입력해주세요."
                     required
-                    onClick={handleOpenAddressModal}
                   />
 
-                  <button
+                  <div
                     onClick={handleOpenAddressModal}
-                    className=" w-32 h-11 ml-4 bg-green-900 hover:bg-green-700 text-white font-bold py-1 px-4 rounded"
+                    className=" w-32  ml-4  bg-green-900 hover:bg-green-700 text-white font-bold py-2.5 px-4 rounded text-center "
                   >
-                    주소검색
-                  </button>
+                    <p>주소검색</p>
+                  </div>
                 </div>
               </div>
             </div>
             <button
-              type="submit"
-              className=" bg-green-900 hover:bg-green-700 text-white font-bold mt-3 py-3 px-4 rounded"
+              // type="submit"
+              onClick={handleSubmit}
+              className=" bg-green-900 hover:bg-green-700 text-white font-bold mt-3 py-3 px-4 rounded bg-green-900!important"
             >
-              작성
+              수정
             </button>
           </form>
         </div>
@@ -422,4 +378,4 @@ const AddForm = () => {
   );
 };
 
-export default AddForm;
+export default EditForm;

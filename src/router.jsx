@@ -4,7 +4,6 @@ import Home from './pages/Home';
 
 import SignUpSignIn from './pages/SignUpSignIn';
 
-
 import MyPage from './pages/MyPage';
 import MyTradeList from './pages/MyTradeList';
 import MyAuctionList from './pages/MyAuctionList';
@@ -20,7 +19,6 @@ import ChatList from './pages/ChatList';
 import Pay from './pages/Pay';
 
 export const router = createBrowserRouter([
-
   {
     path: '/',
     element: <App />,
@@ -45,11 +43,9 @@ export const router = createBrowserRouter([
   { path: '/MyAuctionList', element: <MyAuctionList /> },
   { path: '/MyLikes', element: <MyLikes /> },
   { path: '/ProductsList', element: <ProductsList /> },
-
-  { path: '/:id', element: <ProductDetail /> },
-
+  { path: '/ProductDetail/:id', element: <ProductDetail /> },
   { path: '/ProductAdd', element: <ProductAdd /> },
-  { path: '/ProductEdit', element: <ProductEdit /> },
+  { path: '/ProductEdit/:id', element: <ProductEdit /> },
   { path: '/AuctionList', element: <AuctionList /> },
   { path: '/AuctionDetail', element: <AuctionDetail /> },
   { path: '/Chat', element: <Chat /> },

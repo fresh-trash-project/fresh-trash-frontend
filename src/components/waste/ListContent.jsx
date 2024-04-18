@@ -1,11 +1,12 @@
 import { useRecoilState } from 'recoil';
 import { postsState } from '../../recoil/RecoilWastes';
+import { fetchPosts } from '../../api/WastesApi';
 import { FaPlus } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import { deletePost } from '../../api/WastesApi';
 import ProductCard from './ProductCard';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { GrFormNext } from 'react-icons/gr';
 import { GrFormPrevious } from 'react-icons/gr';
@@ -14,7 +15,11 @@ const MAX_PAGES_DISPLAY = 6;
 const ListContent = () => {
   const [posts, setPosts] = useRecoilState(postsState);
   console.log(posts);
-
+  useEffect(() => {
+    fetchPosts()
+      .then(data => setPosts(data))
+      .catch(error => console.error('Error:', error));
+  }, [setPosts]);
   const [selectedCategory, setSelectedCategory] = useState('전체'); // 선택된 카테고리
 
   const handleCategoryClick = category => {
@@ -218,7 +223,7 @@ const ListContent = () => {
               .map(wastes => (
                 <ProductCard
                   key={wastes.id}
-                  post={wastes}
+                  wastes={wastes}
                   onDelete={handleDelete}
                 />
               ))}
@@ -226,11 +231,11 @@ const ListContent = () => {
         </div>
       </div>
 
-      <div className="join flex justify-center">
+      <div className=" container flex justify-center mb-16">
         <button
           disabled={currentPage === 1}
           onClick={() => handlePageChange(currentPage - 1)}
-          className="join-item btn"
+          className="join-item btn mr-2"
         >
           <GrFormPrevious />
         </button>
@@ -246,7 +251,7 @@ const ListContent = () => {
         <button
           disabled={currentPage === totalPages}
           onClick={() => handlePageChange(currentPage + 1)}
-          className="join-item btn"
+          className="join-item btn ml-2"
         >
           <GrFormNext />
         </button>

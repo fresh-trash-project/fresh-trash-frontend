@@ -2,12 +2,11 @@ import React from 'react';
 import Nav from '../components/Nav';
 import MenuBar from '../components/MenuBar';
 import Footer from '../components/Footer';
-import DetailCard from '../components/Product/DetailCard';
+import DetailCard from '../components/waste/DetailCard';
 const ProductDetail = () => {
   return (
     <div>
-      {/* <Nav /> */}
-      {/* <MenuBar /> */}
+      <Nav />
       <DetailCard />
       <Footer />
     </div>
