@@ -52,6 +52,7 @@ const Nav = () => {
         <a className="btn btn-ghost text-xl">FRESH TRASH</a>
       </div>
       <div className="navbar-end">
+        {/* //! 나중에 !signIn으로 바꿀것 */}
         {signIn ? (
           <div>
             {/* 로그인 버튼  */}

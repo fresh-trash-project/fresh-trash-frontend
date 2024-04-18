@@ -15,7 +15,7 @@ import { userEmailState } from '../recoil/RecoilUserEmail';
 import { signInState, signInPanelState } from '../recoil/RecoilSignIn';
 
 import ConfirmCode from '../components/SignUpSignIn/ConfirmCode';
-import { GoogleLoginButton } from '../fetchCall/OAuth';
+import { GoogleLoginButton } from '../api/OAuth';
 
 const SignUpSignIn = () => {
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
