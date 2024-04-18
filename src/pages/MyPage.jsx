@@ -3,11 +3,17 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import logoImg from '../assets/logo3-1.png';
 import { IoFootsteps } from 'react-icons/io5';
+import { useRecoilState } from 'recoil';
+import {
+  userNameState,
+  duplicationState,
+  duplicationMessageState,
+} from '../recoil/RecoilUserName';
 
 const MyPage = () => {
   const [avatarSrc, setAvatarSrc] = useState(logoImg);
   const [isEditing, setIsEditing] = useState(false);
-  const [userName, setUserName] = useState('User Name');
+  const [userName, setUserName] = useRecoilState(userNameState);
   const [address, setAddress] = useState({
     address: '',
     zipcode: '',
@@ -17,8 +23,10 @@ const MyPage = () => {
     detail: '',
   });
   const [image, setImage] = useState(null);
-  const [isDuplicate, setIsDuplicate] = useState(false);
-  const [duplicationMessage, setDuplicationMessage] = useState('');
+  const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
+  const [duplicationMessage, setDuplicationMessage] = useRecoilState(
+    duplicationMessageState,
+  );
   const [ratings, setRatings] = useState([]);
   const [newRatings, setNewRatings] = useState([]);
 

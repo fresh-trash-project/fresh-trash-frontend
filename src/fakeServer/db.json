@@ -191,6 +191,7 @@
       "id": 4
     },
     {
+
       "id": 5,
       "fileName": "",
       "nickname": "사용자1",
@@ -202,8 +203,7 @@
         "district": "냉천리",
         "detail": ""
       },
-      "rating": 5.8
-    }
+
   ],
   "ratings": [
     {
@@ -220,6 +220,65 @@
     },
     {
       "rate": 5
+    }
+  ],
+  "signup": [
+    {
+      "id": 1,
+      "nickname": "freshtrash",
+      "password": "freshtrash1234@@",
+      "email": "freshtrash@naver.com"
+    },
+    {
+      "nickname": "ddd",
+      "password": "whathdd",
+      "email": "eiei@naver.com",
+      "id": 2
+    },
+    {
+      "password": "",
+      "email": "",
+      "id": 3
+    },
+    {
+      "password": "",
+      "email": "",
+      "id": 4
+    },
+    {
+      "nickname": "ddddd",
+      "password": "dddd",
+      "email": "fddddsfddd",
+      "id": 5
+    }
+  ],
+  "verification": [
+    {
+      "id": 1,
+      "email": "freshtrash@naver.com"
+    },
+    {
+      "email": "dddd",
+      "id": 2
+    }
+  ],
+  "confirmation": [
+    {
+      "id": 1,
+      "email": "freshtrash@naver.com",
+      "code": 12345678
+    }
+  ],
+  "signin": [
+    {
+      "id": 1,
+      "password": "freshtrash1234@@",
+      "email": "freshtrash@naver.com"
+    },
+    {
+      "password": "aga gr ga",
+      "email": "hrahh",
+      "id": 2
     }
   ]
 }
