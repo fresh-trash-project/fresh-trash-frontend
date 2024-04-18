@@ -7,7 +7,7 @@ export const userNameState = atom({
 
 export const duplicationState = atom({
   key: 'duplication',
-  default: 'false',
+  default: false,
 });
 
 export const duplicationMessageState = atom({

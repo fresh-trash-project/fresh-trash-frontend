@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
 import { signInState, signInPanelState } from '../../recoil/RecoilSignIn';
 import { useRecoilState } from 'recoil';
+import { useState } from 'react';
+import { alarmState } from '../../recoil/RecoilAlarm';
 
 const Nav = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
+  const [alarmOpen, setAlarmOpen] = useRecoilState(alarmState);
 
   return (
     <div className="navbar bg-[var(--green-brunswick)] text-white">
@@ -49,7 +52,7 @@ const Nav = () => {
         <a className="btn btn-ghost text-xl">FRESH TRASH</a>
       </div>
       <div className="navbar-end">
-        {!signIn ? (
+        {signIn ? (
           <div>
             {/* 로그인 버튼  */}
             <Link to="/SignUpSignIn">
@@ -81,7 +84,7 @@ const Nav = () => {
         ) : (
           <div>
             {/* 마이페이지 버튼  */}
-            <Link to="/SignUpSignIn">
+            <Link to="/MyPage">
               <button
                 onClick={() => setSignInPanel(true)}
                 className="btn btn-ghost btn-circle w-[3.5rem]"
@@ -94,9 +97,9 @@ const Nav = () => {
               </button>
             </Link>
             {/* 로그아웃 버튼  */}
-            <Link to="/SignUpSignIn">
+            <Link to="/">
               <button
-                onClick={() => setSignInPanel(false)}
+                onClick={() => setSignIn(false)}
                 className="btn btn-ghost btn-circle"
               >
                 <div className="indicator">
@@ -107,7 +110,12 @@ const Nav = () => {
               </button>
             </Link>
             {/* 알람버튼 */}
-            <button className="btn btn-ghost btn-circle">
+            <button
+              className="btn btn-ghost btn-circle "
+              onClick={() => {
+                setAlarmOpen(true);
+              }}
+            >
               <div className="indicator">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

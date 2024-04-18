@@ -135,8 +135,6 @@ const SignUpSignIn = () => {
       });
 
       if (response.status === 200) {
-        // Redirect to the home page
-        // history.push('/');
         console.log('성공적 회원가입 ');
         navigate('/');
       }
@@ -164,14 +162,13 @@ const SignUpSignIn = () => {
 
       if (response.status === 200) {
         console.log('성공적 로그인');
+        setSignIn(true);
         navigate('/');
       }
     } catch (error) {
       console.error('Error signing up:', error);
     }
   };
-
-  setSignIn(true);
 
   //-------------------------------------------------------------------------------------------
   return (

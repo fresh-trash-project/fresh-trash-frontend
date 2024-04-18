@@ -1,6 +1,7 @@
 import Header from '../components/Home/Header';
 import Hero from '../components/Home/Hero';
 import Footer from '../components/Home/Footer';
+import { useState } from 'react';
 
 const Home = () => {
   return (

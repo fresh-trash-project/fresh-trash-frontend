@@ -172,7 +172,6 @@
       "id": 10
     }
   ],
-
   "usernames": [
     {
       "id": 1,
@@ -259,6 +258,14 @@
     {
       "email": "dddd",
       "id": 2
+    },
+    {
+      "email": "될까요",
+      "id": 3
+    },
+    {
+      "email": "될까요",
+      "id": 4
     }
   ],
   "confirmation": [
@@ -278,6 +285,11 @@
       "password": "aga gr ga",
       "email": "hrahh",
       "id": 2
+    },
+    {
+      "password": "dddddddd",
+      "email": "ddddd",
+      "id": 3
     }
   ]
 }
