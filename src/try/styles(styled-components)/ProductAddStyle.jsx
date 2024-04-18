@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 export const Nav = styled.div`
   box-sizing: border-box;
   border-bottom: 1px solid var(--grey-box);
@@ -75,7 +75,7 @@ export const Container = styled.div`
     border-radius: 7px;
   }
 
-  input[type="file"] {
+  input[type='file'] {
     width: 0;
     height: 0;
     padding: 0;
@@ -103,8 +103,8 @@ export const Container = styled.div`
 
     color: white;
   } */
-  input[type="text"],
-  input[type="number"] {
+  input[type='text'],
+  input[type='number'] {
     width: 75%;
     height: 1.5rem;
   }

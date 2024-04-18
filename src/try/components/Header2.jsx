@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import "../index.css";
-import MenuBar from "./MenuBar";
+import styled from 'styled-components';
+import '../index.css';
+import MenuBar from './MenuBar';
 
 const Header = () => {
   return (

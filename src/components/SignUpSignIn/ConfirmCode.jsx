@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import VerificationButton from './common/button/VerificationButton';
+import VerificationButton from '../common/button/VerificationButton';
 import { useRecoilState } from 'recoil';
-import { userEmailState } from '../recoil/RecoilUserEmail';
+import { userEmailState } from '../../recoil/RecoilUserEmail';
 
 const ConfirmCode = ({ open, close }) => {
   const [code, setCode] = useState('');

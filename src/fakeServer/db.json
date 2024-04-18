@@ -21,11 +21,48 @@
       "created_at": "2024. 4. 18.",
       "id": 1,
       "hearted": false
+    },
+    {
+      "fileName": {},
+      "title": "ddddddddddddddddd",
+      "wasteCategory": "반려동물용품",
+      "wasteStatus": "중",
+      "sellStatus": "",
+      "wastePrice": "6000",
+      "content": "dsdfsdfs",
+      "address": {
+        "address": "경기 화성시 서신면 노노피길 33",
+        "zipcode": "18556",
+        "state": "경기",
+        "city": "화성시",
+        "district": "백미리",
+        "detail": ""
+      },
+      "likeCount": 120,
+      "viewCount": 45,
+      "created_at": "2024. 4. 16.",
+      "id": 10
     }
   ],
   "usernames": [
     {
       "id": 1,
+      "nickname": "freshtrash"
+    },
+    {
+      "id": 2,
+      "nickname": "example_username"
+    },
+    {
+      "nickname": "아이고",
+      "id": 3
+    },
+    {
+      "nickname": "User Name",
+      "id": 4
+    },
+    {
+      "id": 5,
       "fileName": "",
       "nickname": "사용자1",
       "address": {
@@ -93,6 +130,14 @@
     {
       "email": "dddd",
       "id": 2
+    },
+    {
+      "email": "될까요",
+      "id": 3
+    },
+    {
+      "email": "될까요",
+      "id": 4
     }
   ],
   "confirmation": [
@@ -112,6 +157,11 @@
       "password": "aga gr ga",
       "email": "hrahh",
       "id": 2
+    },
+    {
+      "password": "dddddddd",
+      "email": "ddddd",
+      "id": 3
     }
   ]
 }
