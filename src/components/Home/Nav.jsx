@@ -13,13 +13,18 @@ const Nav = () => {
     <div className="navbar bg-[var(--green-brunswick)] text-white">
       <div className="navbar-start">
         <div className="dropdown ">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle lg:w-[4rem] xl:h-[4rem]"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              className=" xl:text-xl"
             >
               <path
                 strokeLinecap="round"
@@ -49,21 +54,26 @@ const Nav = () => {
         </div>
       </div>
       <div className="navbar-center">
-        <a className="btn btn-ghost text-xl">FRESH TRASH</a>
+        <a className="btn btn-ghost text-xl md:text-3xl lg:text-4xl">
+          FRESH TRASH
+        </a>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end ">
         {/* //! 나중에 !signIn으로 바꿀것 */}
-        {signIn ? (
+        {!signIn ? (
           <div>
             {/* 로그인 버튼  */}
             <Link to="/SignUpSignIn">
               <button
                 onClick={() => setSignInPanel(true)}
-                className="btn btn-ghost btn-circle"
+                className="btn btn-ghost btn-circle w-[3.5rem] md:w-[4rem] md:h-[4rem] lg:w-[5rem] lg:h-[5rem]"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)] ">
-                    <p className=" text-[0.4rem]"> 로그인</p>
+                    <p className=" text-[0.4rem] md:text-[0.7rem] lg:text-[1rem]">
+                      {' '}
+                      로그인
+                    </p>
                   </div>
                 </div>
               </button>
@@ -72,11 +82,14 @@ const Nav = () => {
             <Link to="/SignUpSignIn">
               <button
                 onClick={() => setSignInPanel(false)}
-                className="btn btn-ghost btn-circle"
+                className="btn btn-ghost btn-circle w-[3.5rem] md:w-[5rem] md:h-[5rem] lg:w-[6rem] lg:h-[6rem]"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
-                    <p className="text-[0.4rem]"> 회원가입</p>
+                    <p className="text-[0.4rem] md:text-[0.7rem] lg:text-[1rem]">
+                      {' '}
+                      회원가입
+                    </p>
                   </div>
                 </div>
               </button>
@@ -88,11 +101,14 @@ const Nav = () => {
             <Link to="/MyPage">
               <button
                 onClick={() => setSignInPanel(true)}
-                className="btn btn-ghost btn-circle w-[3.5rem]"
+                className="btn btn-ghost btn-circle w-[3.5rem] md:w-[5rem] md:h-[5rem] lg:w-[6.5rem] lg:h-[6.5rem]"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
-                    <p className=" text-[0.4rem]"> 마이페이지</p>
+                    <p className=" text-[0.4rem] md:text-[0.7rem] lg:text-[1rem]">
+                      {' '}
+                      마이페이지
+                    </p>
                   </div>
                 </div>
               </button>
@@ -101,18 +117,21 @@ const Nav = () => {
             <Link to="/">
               <button
                 onClick={() => setSignIn(false)}
-                className="btn btn-ghost btn-circle"
+                className="btn btn-ghost btn-circle md:w-[4.5rem] md:h-[4.5rem] lg:w-[6rem] lg:h-[6rem]"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
-                    <p className="text-[0.4rem]"> 로그아웃</p>
+                    <p className="text-[0.4rem] md:text-[0.7rem] lg:text-[1rem]">
+                      {' '}
+                      로그아웃
+                    </p>
                   </div>
                 </div>
               </button>
             </Link>
             {/* 알람버튼 */}
             <button
-              className="btn btn-ghost btn-circle "
+              className="btn btn-ghost btn-circle md:w-[4rem] md:h-[4rem] lg:w-[5rem] lg:h-[5rem]"
               onClick={() => {
                 setAlarmOpen(true);
               }}
@@ -120,7 +139,7 @@ const Nav = () => {
               <div className="indicator">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
+                  className="h-5 w-5 lg:h-8 lg:w-8"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

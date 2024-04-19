@@ -1,5 +1,6 @@
 import Header from '../components/Home/Header';
 import Hero from '../components/Home/Hero';
+import HeroVer2 from '../components/Home/HeroVer2';
 import Footer from '../components/Home/Footer';
 import Card1 from '../components/common/card/Card1';
 
@@ -8,7 +9,8 @@ const Home = () => {
     <div>
       <Header />
       <Hero />
-      <div className="cards">
+      {/* <HeroVer2 /> */}
+      <div className="cards bg-[var(--green-brunswick)] py-10 ">
         <Card1
           title="애물단지 거래하기"
           phrase="SELL YOUR FRESH TRASH"
