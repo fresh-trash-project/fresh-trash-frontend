@@ -10,6 +10,11 @@ export default {
       center: true,
     },
     extend: {
+      aspectRatio: {
+        soWide: ' 21/6',
+        wide: '13/4',
+        medium: '4/2',
+      },
       colors: {
         'purple-soft': '#8474a1',
         'purple-lilac': '#ccabd8',

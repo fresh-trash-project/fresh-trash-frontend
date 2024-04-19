@@ -2,6 +2,7 @@ import Nav from './Nav';
 import { useRecoilState } from 'recoil';
 import { AlarmState } from '../../recoil/RecoilAlarm';
 import Alarm from './Alarm';
+import Hero from './Hero';
 
 const Header = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
