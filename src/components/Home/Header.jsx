@@ -1,10 +1,10 @@
 import Nav from './Nav';
 import { useRecoilState } from 'recoil';
-import { alarmState } from '../../recoil/RecoilAlarm';
+import { AlarmState } from '../../recoil/RecoilAlarm';
 import Alarm from './Alarm';
 
 const Header = () => {
-  const [alarmOpen, setAlarmOpen] = useRecoilState(alarmState);
+  const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   console.log(alarmOpen);
   return (
     <div>

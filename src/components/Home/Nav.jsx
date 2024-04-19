@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom';
 import { signInState, signInPanelState } from '../../recoil/RecoilSignIn';
 import { useRecoilState } from 'recoil';
 import { useState } from 'react';
-import { alarmState } from '../../recoil/RecoilAlarm';
+import { AlarmState } from '../../recoil/RecoilAlarm';
 
 const Nav = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
-  const [alarmOpen, setAlarmOpen] = useRecoilState(alarmState);
+  const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
 
   return (
     <div className="navbar bg-[var(--green-brunswick)] text-white">
@@ -62,7 +62,7 @@ const Nav = () => {
                 className="btn btn-ghost btn-circle"
               >
                 <div className="indicator">
-                  <div className="badge badge-neutral border-[var(--yellow-saffron)] bg-[var(--green-brunswick)] ">
+                  <div className="badge badge-neutral border-white bg-[var(--green-brunswick)] ">
                     <p className=" text-[0.4rem]"> 로그인</p>
                   </div>
                 </div>
@@ -75,7 +75,7 @@ const Nav = () => {
                 className="btn btn-ghost btn-circle"
               >
                 <div className="indicator">
-                  <div className="badge badge-neutral border-[var(--yellow-saffron)] bg-[var(--green-brunswick)]">
+                  <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
                     <p className="text-[0.4rem]"> 회원가입</p>
                   </div>
                 </div>
@@ -91,7 +91,7 @@ const Nav = () => {
                 className="btn btn-ghost btn-circle w-[3.5rem]"
               >
                 <div className="indicator">
-                  <div className="badge badge-neutral border-[var(--yellow-saffron)] bg-[var(--green-brunswick)]">
+                  <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
                     <p className=" text-[0.4rem]"> 마이페이지</p>
                   </div>
                 </div>
@@ -104,7 +104,7 @@ const Nav = () => {
                 className="btn btn-ghost btn-circle"
               >
                 <div className="indicator">
-                  <div className="badge badge-neutral border-[var(--yellow-saffron)] bg-[var(--green-brunswick)]">
+                  <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
                     <p className="text-[0.4rem]"> 로그아웃</p>
                   </div>
                 </div>

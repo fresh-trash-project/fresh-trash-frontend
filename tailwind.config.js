@@ -45,5 +45,9 @@ export default {
       },
     },
   },
-  plugins: [require('daisyui'), require('flowbite/plugin')],
+  plugins: [
+    require('daisyui'),
+    require('flowbite/plugin'),
+    require('tailwind-scrollbar'),
+  ],
 };

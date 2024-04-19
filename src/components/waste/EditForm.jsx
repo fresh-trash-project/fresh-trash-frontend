@@ -5,7 +5,7 @@ import { postsState } from '../../recoil/RecoilWastes';
 import { updatePost } from '../../api/WastesApi';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { IoIosCamera } from 'react-icons/io';
-import Nav from '../Nav';
+import Nav from '../Home/Nav';
 const EditForm = () => {
   // const productsList = useRecoilValue(postsState);
   const [posts, setPosts] = useRecoilState(postsState);
