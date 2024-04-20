@@ -40,15 +40,15 @@ const ProductCard = ({ wastes, onDelete }) => {
             <span>{wastes.address.city}</span>
           </div>
           <div className="flex items-center">
-            <button onClick={handleLikeToggle} className="mr-2">
+            {/* <button onClick={handleLikeToggle} className="mr-2">
               {' '}
               {wastes.hearted ? (
                 <GoHeartFill size="30" color="green" />
               ) : (
                 <GoHeart size="30" color="green" />
               )}
-            </button>
-            <div>{wastes.likeCount}</div>
+            </button> */}
+            <div>관심수 {wastes.likeCount}</div>
           </div>
         </div>
         <div className="flex justify-between">

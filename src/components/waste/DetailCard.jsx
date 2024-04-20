@@ -54,7 +54,7 @@ const DetailCard = () => {
   return (
     <div>
       <div className="container">
-        <div className="flex justify-between mt-16">
+        <div className="flex justify-between mt-2">
           <div className=" mt-4  text-sm breadcrumbs 2xl:ml-8">
             <ul>
               <li>카테고리</li>
