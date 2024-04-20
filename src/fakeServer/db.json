@@ -2,28 +2,6 @@
   "wastes": [
     {
       "fileName": {},
-      "title": "수정합니다. ",
-      "wasteCategory": "스포츠",
-      "wasteStatus": "최상",
-      "sellStatus": "",
-      "wastePrice": "2000",
-      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum reiciendis, maxime, dolor atque dolore consequuntur consectetur voluptate pariatur esse voluptatem beatae? Necessitatibus non nisi deserunt ad numquam unde suscipit molestiae.\n",
-      "address": {
-        "address": "인천 서구 가경주로 10",
-        "zipcode": "22783",
-        "state": "인천",
-        "city": "서구",
-        "district": "가정동",
-        "detail": ""
-      },
-      "likeCount": 120,
-      "viewCount": 45,
-      "created_at": "2024. 4. 18.",
-      "id": 1,
-      "hearted": false
-    },
-    {
-      "fileName": {},
       "title": "ddddddddddddddddd",
       "wasteCategory": "반려동물용품",
       "wasteStatus": "중",
