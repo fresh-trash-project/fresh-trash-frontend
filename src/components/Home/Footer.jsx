@@ -1,63 +1,55 @@
+import { Link } from 'react-router-dom';
+import { Facebook, Instagram, Google, Phone } from '../common/service/SNS';
+import { useState } from 'react';
+
 const Footer = () => {
-  return <div>Footer</div>;
+  const [contactClicked, setContactClicked] = useState(false);
+
+  const handleClick = () => {
+    setContactClicked(true);
+    setTimeout(() => {
+      setContactClicked(false);
+    }, 1000);
+  };
+
+  return (
+    <footer className="footer footer-center p-10 bg-base-200 text-base-content rounded">
+      <nav className="grid grid-flow-col gap-4">
+        <a className="link link-hover">About us</a>
+        <a className="link link-hover" onClick={handleClick}>
+          Contact
+        </a>
+        <a className="link link-hover">Jobs</a>
+        <a className="link link-hover">Press kit</a>
+      </nav>
+      <nav>
+        <div className="sns-icon-container grid grid-flow-col gap-4">
+          <Link
+            className={`p-2 ${contactClicked && 'bg-[var(--yellow-naples)]'}`}
+          >
+            <Facebook style="text-3xl" />
+          </Link>
+          <Link
+            className={`p-2 ${contactClicked && 'bg-[var(--yellow-naples)]'}`}
+          >
+            <Instagram style="text-3xl" />
+          </Link>
+          <Link
+            className={`p-2 ${contactClicked && 'bg-[var(--yellow-naples)]'}`}
+          >
+            <Google style="text-3xl" />
+          </Link>
+          <Link
+            className={`p-2 ${contactClicked && 'bg-[var(--yellow-naples)]'}`}
+          >
+            <Phone style="text-3xl" />
+          </Link>
+        </div>
+      </nav>
+      <aside>
+        <p>Copyright © 2024 - All right reserved by Fresh Trash Inc.</p>
+      </aside>
+    </footer>
+  );
 };
 export default Footer;
-
-// import {
-//   FaFacebook,
-//   FaInstagram,
-//   FaPhoneSquareAlt,
-//   FaYoutube,
-// } from 'react-icons/fa';
-// import { FaSquareXTwitter, FaGooglePlus } from 'react-icons/fa6';
-// import { FooterContainer } from '../styles/FooterCSS';
-// import { useState } from 'react';
-
-// const Footer = () => {
-//   const [contactClicked, setContactClicked] = useState(false);
-
-//   const handleClick = () => {
-//     setContactClicked(true);
-//     setTimeout(() => {
-//       setContactClicked(false);
-//     }, 1000);
-//   };
-
-//   return (
-//     <FooterContainer>
-//       <div className="sns-icon-container">
-//         <FaFacebook
-//           className={`sns-icon ${contactClicked && 'contact-clicked'}`}
-//         />
-//         <FaInstagram
-//           className={`sns-icon ${contactClicked && 'contact-clicked'}`}
-//         />
-//         <FaSquareXTwitter
-//           className={`sns-icon ${contactClicked && 'contact-clicked'}`}
-//         />
-//         <FaGooglePlus
-//           className={`sns-icon ${contactClicked && 'contact-clicked'}`}
-//         />
-//         <FaPhoneSquareAlt
-//           className={`sns-icon ${contactClicked && 'contact-clicked'}`}
-//         />
-//         {/* <FaYoutube className="sns-icon" /> */}
-//       </div>
-
-//       <div className="footer-text-container">
-//         <p>Home</p>
-//         <p>News</p>
-//         <p>About</p>
-//         <p className="contact" onClick={handleClick}>
-//           Contact Us
-//         </p>
-//         <p>Our Team</p>
-//       </div>
-
-//       <div className="copy-right">
-//         <p>&copy; 2024 Fresh Trash Inc. All Rights Reserved</p>
-//       </div>
-//     </FooterContainer>
-//   );
-// };
-// export default Footer;
