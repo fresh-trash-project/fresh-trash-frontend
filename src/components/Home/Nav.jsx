@@ -13,18 +13,12 @@ const Nav = () => {
     <div className="navbar bg-[var(--green-brunswick)] text-white">
       <div className="navbar-start">
         <div className="dropdown ">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle lg:w-[4rem] xl:h-[4rem]"
-          >
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              className=" xl:text-xl"
             >
               <path
                 strokeLinecap="round"
@@ -60,7 +54,7 @@ const Nav = () => {
       </div>
       <div className="navbar-end ">
         {/* //! 나중에 !signIn으로 바꿀것 */}
-        {!signIn ? (
+        {signIn ? (
           <div>
             {/* 로그인 버튼  */}
             <Link to="/SignUpSignIn">
