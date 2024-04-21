@@ -21,9 +21,9 @@ const Room = () => {
   return (
     <div>
       <InputField
-        message={message}
-        setMessage={setMessage}
-        sendMessage={sendMessage}
+      // message={message}
+      // setMessage={setMessage}
+      // sendMessage={sendMessage}
       />
     </div>
   );

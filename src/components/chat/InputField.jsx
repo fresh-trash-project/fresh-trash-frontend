@@ -54,18 +54,18 @@ const InputField = ({ message, setMessage, sendMessage }) => {
             <MessageContainer key={index} />
           ))} */}
         </div>
-        <form onSubmit={sendMessage} className=" bottom-0 left-0 w-full">
+        <form className=" bottom-0 left-0 w-full">
           <div className="bg-white p-4 flex items-center  ">
             <input
               placeholder="채팅을 입력하세요"
-              value={message}
-              onChange={event => setMessage(event.target.value)}
+              // value={message}
+              // onChange={event => setMessage(event.target.value)}
               className="flex-1 border rounded-full px-4 py-2 focus:outline-none"
               // multiline={false}
               // row={1}
             />
             <button
-              disabled={message === ''}
+              // disabled={message === ''}
               type="submit"
               className="bg-gray-300 text-white rounded-full p-2 ml-2 focus:outline-none"
             >
