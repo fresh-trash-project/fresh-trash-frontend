@@ -10,7 +10,7 @@ const Home = () => {
       <Header />
       <Hero />
       {/* <HeroVer2 /> */}
-      <div className="cards bg-[var(--green-brunswick)] py-10 ">
+      <div className="cards bg-white py-10 ">
         <Card1
           title="애물단지 거래하기"
           phrase="SELL YOUR FRESH TRASH"

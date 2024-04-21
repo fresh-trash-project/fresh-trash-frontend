@@ -2,6 +2,30 @@
   "wastes": [
     {
       "fileName": {},
+
+      "title": "수정합니다. ",
+      "wasteCategory": "스포츠",
+      "wasteStatus": "최상",
+      "sellStatus": "",
+      "wastePrice": "2000",
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum reiciendis, maxime, dolor atque dolore consequuntur consectetur voluptate pariatur esse voluptatem beatae? Necessitatibus non nisi deserunt ad numquam unde suscipit molestiae.\n",
+      "address": {
+        "address": "인천 서구 가경주로 10",
+        "zipcode": "22783",
+        "state": "인천",
+        "city": "서구",
+        "district": "가정동",
+        "detail": ""
+      },
+      "likeCount": 121,
+      "viewCount": 45,
+      "created_at": "2024. 4. 18.",
+      "id": 1,
+      "hearted": true
+    },
+    {
+      "fileName": {},
+
       "title": "ddddddddddddddddd",
       "wasteCategory": "반려동물용품",
       "wasteStatus": "중",
@@ -16,10 +40,33 @@
         "district": "백미리",
         "detail": ""
       },
-      "likeCount": 120,
+      "likeCount": 121,
       "viewCount": 45,
       "created_at": "2024. 4. 16.",
-      "id": 10
+      "id": 10,
+      "hearted": true
+    },
+    {
+      "fileName": {},
+      "title": "ddddddddddddddddd",
+      "wasteCategory": "반려동물용품",
+      "wasteStatus": "중",
+      "sellStatus": "",
+      "wastePrice": "6000",
+      "content": "dsdfsdfs",
+      "address": {
+        "address": "경기 화성시 서신면 노노피길 33",
+        "zipcode": "18556",
+        "state": "경기",
+        "city": "화성시",
+        "district": "백미리",
+        "detail": ""
+      },
+      "likeCount": 121,
+      "viewCount": 45,
+      "created_at": "2024. 4. 16.",
+      "id": 10,
+      "hearted": true
     }
   ],
   "usernames": [
@@ -140,6 +187,14 @@
       "password": "dddddddd",
       "email": "ddddd",
       "id": 3
+    }
+  ],
+  "alarm": [
+    {
+      "id": 1,
+      "targetId": 1,
+      "fromAccountId": 1,
+      "alarmType": "chat"
     }
   ]
 }
