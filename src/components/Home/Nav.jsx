@@ -30,7 +30,7 @@ const Nav = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm top-[63px] dropdown-content z-[1] p-2 shadow bg-[var(--green-brunswick)] rounded-box w-60 h-60 text-white"
+            className="menu menu-sm top-[63px] dropdown-content z-[1] p-2 bg-[var(--green-brunswick)] rounded-box w-60 h-60 text-white"
           >
             <li className="font-bold h-10 py-2">
               <Link to="/" className="lg:text-[1rem]">
@@ -100,10 +100,10 @@ const Nav = () => {
         ) : (
           <div className="flex ">
             {/* 마이페이지 버튼  */}
-            <Link to="/MyPage">
+            <Link to="/MyPage" className="outline-none">
               <button
                 onClick={() => setSignInPanel(true)}
-                className="btn btn-ghost btn-circle flex items-end w-14 md:w-20 lg:w-[6.5rem]"
+                className="btn btn-ghost btn-circle flex items-end  w-14 md:w-20 lg:w-[6.5rem] outline-none"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
@@ -116,10 +116,10 @@ const Nav = () => {
               </button>
             </Link>
             {/* 로그아웃 버튼  */}
-            <Link to="/">
+            <Link to="/" className="outline-none">
               <button
                 onClick={() => setSignIn(false)}
-                className="btn btn-ghost btn-circle flex items-end w-14 md:w-[4.5rem] lg:w-[6rem]"
+                className="btn btn-ghost btn-circle flex items-end w-14 md:w-[4.5rem] lg:w-[6rem] outline-none"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
@@ -133,7 +133,7 @@ const Nav = () => {
             </Link>
             {/* 알람버튼 */}
             <button
-              className="btn btn-ghost btn-circle flex items-end w-auto h-auto"
+              className="btn btn-ghost btn-circle flex items-end w-auto h-auto outline-none"
               onClick={() => {
                 setAlarmOpen(true);
               }}

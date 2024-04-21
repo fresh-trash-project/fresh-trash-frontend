@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Nav from '../components/Home/Nav';
+import Header from '../components/Home/Header';
 import MyTradeCards from '../components/MyList/MyTradeCards';
 
 const MyTradeList = () => {
@@ -25,8 +25,8 @@ const MyTradeList = () => {
 
   return (
     <div>
-      <Nav />
-      <div className="navbar flex-row justify-between bg-base-100 shadow-md">
+      <Header />
+      <div className="navbar flex-row justify-end bg-base-100 shadow-md">
         <ul
           className={`menu menu-horizontal bg-[var(--green-brunswick)] text-white rounded-box  `}
         >
@@ -43,42 +43,54 @@ const MyTradeList = () => {
             <p className=" text-xs md:text-sm">나의 구매내역</p>
           </li>
         </ul>
-        <div className="mt-4 ml-8 text-sm breadcrumbs">
-          <ul>
-            <li>홈</li>
-            <li>마이페이지</li>
-            <li>나의 거래내역</li>
-          </ul>
-        </div>
       </div>
 
       {/* 라벨------------------------------------------------------------------------ */}
       <div role="tablist" className="tabs tabs-boxed shadow-md">
-        <div className="ml-8">
+        <div className="px-4">
           {mySellListOpen && (
-            <div>
-              <div
-                role="tab"
-                onClick={handleOnSale}
-                className={`tab ${onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
-              >
-                판매중 (8)
+            <div className="flex justify-between">
+              <div>
+                <div
+                  role="tab"
+                  onClick={handleOnSale}
+                  className={`tab ${onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
+                >
+                  판매중 (8)
+                </div>
+                <div
+                  role="tab"
+                  onClick={() => setOnSale(false)}
+                  className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
+                >
+                  판매완료 (13)
+                </div>
               </div>
-              <div
-                role="tab"
-                onClick={() => setOnSale(false)}
-                className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
-              >
-                판매완료 (13)
+              <div className="text-sm breadcrumbs">
+                <ul>
+                  <li>홈</li>
+                  <li>마이페이지</li>
+                  <li>나의 거래내역</li>
+                </ul>
               </div>
             </div>
           )}
           {myBuyListOpen && (
-            <div
-              role="tab"
-              className="tab border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white"
-            >
-              거래완료 10
+            <div className="flex justify-between">
+              <div
+                role="tab"
+                className="tab border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white"
+              >
+                거래완료 10
+              </div>
+
+              <div className="text-sm breadcrumbs">
+                <ul>
+                  <li>홈</li>
+                  <li>마이페이지</li>
+                  <li>나의 거래내역</li>
+                </ul>
+              </div>
             </div>
           )}
         </div>

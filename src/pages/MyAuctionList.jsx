@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Nav from '../components/Home/Nav';
+import Header from '../components/Home/Header';
 import MyTradeCards from '../components/MyList/MyTradeCards';
 
 const MyAuctionList = () => {
@@ -25,9 +25,8 @@ const MyAuctionList = () => {
 
   return (
     <div>
-      <Nav />
-      <div className="navbar flex-row justify-between bg-base-100 shadow-md">
-        <h1 className="text-lg md:text-xl">나의 경매내역</h1>
+      <Header />
+      <div className="navbar flex-row justify-end bg-base-100 shadow-md">
         <ul
           className={`menu menu-horizontal bg-[var(--green-brunswick)] text-white rounded-box  `}
         >
@@ -48,31 +47,49 @@ const MyAuctionList = () => {
 
       {/* 라벨------------------------------------------------------------------------ */}
       <div role="tablist" className="tabs tabs-boxed mt-4">
-        <div className="ml-8">
+        <div className="px-4">
           {mySellListOpen && (
-            <div>
-              <div
-                role="tab"
-                onClick={handleOnSale}
-                className={`tab ${onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
-              >
-                경매중 (8)
+            <div className="flex justify-between">
+              <div>
+                <div
+                  role="tab"
+                  onClick={handleOnSale}
+                  className={`tab ${onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
+                >
+                  경매중 (8)
+                </div>
+                <div
+                  role="tab"
+                  onClick={() => setOnSale(false)}
+                  className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
+                >
+                  경매완료 (13)
+                </div>
               </div>
-              <div
-                role="tab"
-                onClick={() => setOnSale(false)}
-                className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
-              >
-                경매완료 (13)
+              <div className="text-sm breadcrumbs">
+                <ul>
+                  <li>홈</li>
+                  <li>마이페이지</li>
+                  <li>나의 경매내역</li>
+                </ul>
               </div>
             </div>
           )}
           {myBuyListOpen && (
-            <div
-              role="tab"
-              className="tab border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white"
-            >
-              낙찰 10
+            <div className="flex justify-between">
+              <div
+                role="tab"
+                className="tab border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white"
+              >
+                낙찰 10
+              </div>
+              <div className="text-sm breadcrumbs">
+                <ul>
+                  <li>홈</li>
+                  <li>마이페이지</li>
+                  <li>나의 경매내역</li>
+                </ul>
+              </div>
             </div>
           )}
         </div>

@@ -27,9 +27,12 @@ const Hero = () => {
   // JSX-------------------------------------------------------------------------
 
   return (
-    <div className="carousel bg-[var(--yellow-saffron)] h-80 w-full relative pb-10">
-      <div className="carousel-item mt-5 aspect-video md:aspect-medium lg:aspect-wide xl:aspect-soWide mx-auto">
-        <img src={images[imageIndex]} className="w-full h-full object-cover" />
+    <div className="carousel h-[30rem] w-full relative pb-10">
+      <div className="carousel-item w-full">
+        <img
+          src={images[imageIndex]}
+          className="w-full h-[30rem] object-cover"
+        />
       </div>
 
       <div className="absolute flex justify-between left-10 right-10 top-1/2">
@@ -49,15 +52,15 @@ const Hero = () => {
       <div className="dot-container cursor-pointer flex absolute left-[50%] -ml-[24px] bottom-2">
         {/* 50%만큼 움직이고 div길이 반만큼 다시 돌아와야 센터 : ml-[24px] */}
         <GoDotFill
-          className="dot fill-[var(--green-brunswick)] text-[1.5rem]  hover:opacity-80  "
+          className="dot fill-white text-[1.5rem]  hover:opacity-80  "
           onClick={() => setImageIndex(0)}
         />
         <GoDotFill
-          className="dot  fill-[var(--green-brunswick)] text-[1.5rem] hover:opacity-80 "
+          className="dot  fill-white text-[1.5rem] hover:opacity-80 "
           onClick={() => setImageIndex(1)}
         />
         <GoDotFill
-          className="dot  fill-[var(--green-brunswick)] text-[1.5rem] hover:opacity-80 "
+          className="dot  fill-white text-[1.5rem] hover:opacity-80 "
           onClick={() => setImageIndex(2)}
         />
       </div>

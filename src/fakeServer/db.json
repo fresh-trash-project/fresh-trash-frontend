@@ -191,10 +191,42 @@
   ],
   "alarm": [
     {
-      "id": 1,
-      "targetId": 1,
-      "fromAccountId": 1,
-      "alarmType": "chat"
+      "content": [
+        {
+          "id": 1,
+          "alarmType": "CHAT",
+          "alarmArgs": {
+            "fromMemberId": 2,
+            "targetId": 1
+          },
+          "message": "message"
+        }
+      ],
+      "pageable": {
+        "sort": {
+          "empty": true,
+          "sorted": false,
+          "unsorted": true
+        },
+        "offset": 0,
+        "pageNumber": 0,
+        "pageSize": 10,
+        "paged": true,
+        "unpaged": false
+      },
+      "last": true,
+      "totalPages": 1,
+      "totalElements": 1,
+      "first": true,
+      "size": 10,
+      "number": 0,
+      "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+      },
+      "numberOfElements": 1,
+      "empty": false
     }
   ]
 }
