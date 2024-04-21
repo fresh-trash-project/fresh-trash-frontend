@@ -46,7 +46,7 @@ const MyAuctionList = () => {
       </div>
 
       {/* 라벨------------------------------------------------------------------------ */}
-      <div role="tablist" className="tabs tabs-boxed mt-4">
+      <div role="tablist" className="tabs tabs-boxed">
         <div className="px-4">
           {mySellListOpen && (
             <div className="flex justify-between">
