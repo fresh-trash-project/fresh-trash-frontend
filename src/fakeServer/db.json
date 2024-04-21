@@ -186,5 +186,13 @@
       "email": "ddddd",
       "id": 3
     }
+  ],
+  "alarm": [
+    {
+      "id": 1,
+      "targetId": 1,
+      "fromAccountId": 1,
+      "alarmType": "chat"
+    }
   ]
 }

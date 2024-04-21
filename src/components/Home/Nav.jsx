@@ -10,7 +10,7 @@ const Nav = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
 
   return (
-    <div className="navbar bg-[var(--green-brunswick)] text-white">
+    <div className="navbar bg-[var(--green-brunswick)] text-white pr-7 ">
       <div className="navbar-start">
         <div className="dropdown ">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle ">
@@ -30,19 +30,27 @@ const Nav = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-[var(--green-brunswick)] rounded-box w-52 text-white"
+            className="menu menu-sm top-[63px] dropdown-content z-[1] p-2 shadow bg-[var(--green-brunswick)] rounded-box w-60 h-60 text-white"
           >
-            <li className="font-bold">
-              <Link to="/">HOME</Link>
+            <li className="font-bold h-10 py-2">
+              <Link to="/" className="lg:text-[1rem]">
+                HOME
+              </Link>
             </li>
-            <li>
-              <Link to="/ProductAdd">애물단지 등록</Link>
+            <li className="font-bold h-10 py-2">
+              <Link to="/ProductAdd" className="lg:text-[1rem]">
+                애물단지 등록
+              </Link>
             </li>
-            <li>
-              <Link to="/ProductsList">애물단지 거래</Link>
+            <li className="font-bold h-10 py-2">
+              <Link to="/ProductsList" className="lg:text-[1rem]">
+                애물단지 거래
+              </Link>
             </li>
-            <li>
-              <Link to="/AuctionList">애물단지 경매</Link>
+            <li className="font-bold h-10 py-2">
+              <Link to="/AuctionList" className="lg:text-[1rem]">
+                애물단지 경매
+              </Link>
             </li>
           </ul>
         </div>
@@ -60,7 +68,7 @@ const Nav = () => {
             <Link to="/SignUpSignIn">
               <button
                 onClick={() => setSignInPanel(true)}
-                className="btn btn-ghost btn-circle w-[3.5rem] md:w-[4rem] md:h-[4rem] lg:w-[5rem] lg:h-[5rem]"
+                className="btn btn-ghost btn-circle w-14"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)] ">
@@ -76,7 +84,7 @@ const Nav = () => {
             <Link to="/SignUpSignIn">
               <button
                 onClick={() => setSignInPanel(false)}
-                className="btn btn-ghost btn-circle w-[3.5rem] md:w-[5rem] md:h-[5rem] lg:w-[6rem] lg:h-[6rem]"
+                className="btn btn-ghost btn-circle w-14"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
@@ -90,12 +98,12 @@ const Nav = () => {
             </Link>
           </div>
         ) : (
-          <div>
+          <div className="flex ">
             {/* 마이페이지 버튼  */}
             <Link to="/MyPage">
               <button
                 onClick={() => setSignInPanel(true)}
-                className="btn btn-ghost btn-circle w-[3.5rem] md:w-[5rem] md:h-[5rem] lg:w-[6.5rem] lg:h-[6.5rem]"
+                className="btn btn-ghost btn-circle flex items-end w-14 md:w-20 lg:w-[6.5rem]"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
@@ -111,7 +119,7 @@ const Nav = () => {
             <Link to="/">
               <button
                 onClick={() => setSignIn(false)}
-                className="btn btn-ghost btn-circle md:w-[4.5rem] md:h-[4.5rem] lg:w-[6rem] lg:h-[6rem]"
+                className="btn btn-ghost btn-circle flex items-end w-14 md:w-[4.5rem] lg:w-[6rem]"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
@@ -125,7 +133,7 @@ const Nav = () => {
             </Link>
             {/* 알람버튼 */}
             <button
-              className="btn btn-ghost btn-circle md:w-[4rem] md:h-[4rem] lg:w-[5rem] lg:h-[5rem]"
+              className="btn btn-ghost btn-circle flex items-end w-auto h-auto"
               onClick={() => {
                 setAlarmOpen(true);
               }}
@@ -133,7 +141,7 @@ const Nav = () => {
               <div className="indicator">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 lg:h-8 lg:w-8"
+                  className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
