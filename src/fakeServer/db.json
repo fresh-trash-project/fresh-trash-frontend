@@ -41,6 +41,111 @@
       "viewCount": 45,
       "created_at": "2024. 4. 16.",
       "id": 10
+    },
+    {
+      "fileName": {},
+      "title": "팝니다",
+      "wasteCategory": "전자기기",
+      "wasteStatus": "최상",
+      "sellStatus": "",
+      "wastePrice": "2000",
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id nobis deserunt vero maxime veniam. Sunt, aliquam magnam. Quasi magni ab libero sint commodi rem praesentium autem ratione fugiat ad? Omnis!\n",
+      "address": {
+        "address": "인천 강화군 강화읍 갑룡길 3",
+        "zipcode": "23036",
+        "state": "인천",
+        "city": "강화군",
+        "district": "관청리",
+        "detail": ""
+      },
+      "likeCount": 120,
+      "viewCount": 45,
+      "created_at": "2024. 4. 21.",
+      "id": 11
+    },
+    {
+      "fileName": {},
+      "title": "팔아요",
+      "wasteCategory": "의류",
+      "wasteStatus": "최상",
+      "sellStatus": "",
+      "wastePrice": "5000",
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id nobis deserunt vero maxime veniam. Sunt, aliquam magnam. Quasi magni ab libero sint commodi rem praesentium autem ratione fugiat ad? Omnis!\n",
+      "address": {
+        "address": "서울 강남구 가로수길 5",
+        "zipcode": "06035",
+        "state": "서울",
+        "city": "강남구",
+        "district": "신사동",
+        "detail": ""
+      },
+      "likeCount": 120,
+      "viewCount": 45,
+      "created_at": "2024. 4. 21.",
+      "id": 12
+    },
+    {
+      "fileName": {},
+      "title": "사세요",
+      "wasteCategory": "스포츠",
+      "wasteStatus": "상",
+      "sellStatus": "",
+      "wastePrice": "7998",
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id nobis deserunt vero maxime veniam. Sunt, aliquam magnam. Quasi magni ab libero sint commodi rem praesentium autem ratione fugiat ad? Omnis!\n",
+      "address": {
+        "address": "부산 강서구 강동신덕1길 4",
+        "zipcode": "46706",
+        "state": "부산",
+        "city": "강서구",
+        "district": "강동동",
+        "detail": ""
+      },
+      "likeCount": 120,
+      "viewCount": 45,
+      "created_at": "2024. 4. 21.",
+      "id": 13
+    },
+    {
+      "fileName": {},
+      "title": "팝니다.",
+      "wasteCategory": "반려동물용품",
+      "wasteStatus": "하",
+      "sellStatus": "",
+      "wastePrice": "0",
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id nobis deserunt vero maxime veniam. Sunt, aliquam magnam. Quasi magni ab libero sint commodi rem praesentium autem ratione fugiat ad? Omnis!\n",
+      "address": {
+        "address": "경북 경주시 산내면 가라골길 1",
+        "zipcode": "38184",
+        "state": "경북",
+        "city": "경주시",
+        "district": "우라리",
+        "detail": ""
+      },
+      "likeCount": 120,
+      "viewCount": 45,
+      "created_at": "2024. 4. 21.",
+      "id": 14
+    },
+    {
+      "fileName": {},
+      "title": "팔아요",
+      "wasteCategory": "생활/주방",
+      "wasteStatus": "상",
+      "sellStatus": "",
+      "wastePrice": "10000",
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Id nobis deserunt vero maxime veniam. Sunt, aliquam magnam. Quasi magni ab libero sint commodi rem praesentium autem ratione fugiat ad? Omnis!\n",
+      "address": {
+        "address": "서울 양천구 안양천로 657",
+        "zipcode": "08103",
+        "state": "서울",
+        "city": "양천구",
+        "district": "신정동",
+        "detail": ""
+      },
+      "likeCount": 120,
+      "viewCount": 45,
+      "created_at": "2024. 4. 21.",
+      "id": 15
     }
   ],
   "usernames": [

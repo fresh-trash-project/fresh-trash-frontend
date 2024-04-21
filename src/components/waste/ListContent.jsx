@@ -5,11 +5,10 @@ import { FaPlus } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import { deletePost } from '../../api/WastesApi';
 import ProductCard from './ProductCard';
-import { RxHamburgerMenu } from 'react-icons/rx';
 import { useState, useEffect } from 'react';
-import { IoSearch } from 'react-icons/io5';
 import { GrFormNext } from 'react-icons/gr';
 import { GrFormPrevious } from 'react-icons/gr';
+import Pagination from '../common/Pagination';
 const ITEMS_PER_PAGE = 6;
 const MAX_PAGES_DISPLAY = 6;
 const ListContent = () => {
@@ -24,22 +23,6 @@ const ListContent = () => {
 
   const handleCategoryClick = category => {
     setSelectedCategory(category);
-  };
-
-  //카테고리 별 검색
-  const [showModal, setShowModal] = useState(false);
-
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  // 모달 닫기 함수
-  const closeModal = () => {
-    setShowModal(false);
   };
 
   const handleDelete = async postId => {
@@ -96,17 +79,6 @@ const ListContent = () => {
         currentPage * ITEMS_PER_PAGE,
       )
     : [];
-  const getPageNumbers = () => {
-    const startPage = Math.max(
-      1,
-      currentPage - Math.floor(MAX_PAGES_DISPLAY / 2),
-    );
-    const endPage = Math.min(totalPages, startPage + MAX_PAGES_DISPLAY - 1);
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, index) => index + startPage,
-    );
-  };
 
   //페이지를 변경하는 함수
   const handlePageChange = page => {
@@ -123,7 +95,7 @@ const ListContent = () => {
       <div className="navbar flex-row justify-between bg-base-100 shadow-md">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn m-1">
-            <RxHamburgerMenu size="25" />
+            카테고리
           </div>
           <ul
             tabIndex={0}
@@ -231,31 +203,11 @@ const ListContent = () => {
         </div>
       </div>
 
-      <div className=" container flex justify-center mb-16">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => handlePageChange(currentPage - 1)}
-          className="join-item btn mr-2"
-        >
-          <GrFormPrevious />
-        </button>
-        {getPageNumbers().map(pageNumber => (
-          <button
-            key={pageNumber}
-            onClick={() => handlePageChange(pageNumber)}
-            className="join-item btn"
-          >
-            {pageNumber}
-          </button>
-        ))}
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => handlePageChange(currentPage + 1)}
-          className="join-item btn ml-2"
-        >
-          <GrFormNext />
-        </button>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 };
