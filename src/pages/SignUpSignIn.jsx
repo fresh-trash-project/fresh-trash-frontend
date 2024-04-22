@@ -115,6 +115,7 @@ const SignUpSignIn = () => {
       userName,
       userPassword,
       userEmail,
+      navigate,
     );
   };
 
@@ -122,7 +123,13 @@ const SignUpSignIn = () => {
 
   const handleSignIn = async e => {
     e.preventDefault();
-    await signInAccount(setSignIn, setRegisterMessage, userPassword, userEmail);
+    await signInAccount(
+      setSignIn,
+      setRegisterMessage,
+      userPassword,
+      userEmail,
+      navigate,
+    );
   };
 
   //-------------------------------------------------------------------------------------------

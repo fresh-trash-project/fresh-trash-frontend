@@ -2,7 +2,6 @@ import axios from 'axios';
 import { verificationMessageState } from '../recoil/RecoilUserEmail';
 import { useRecoilState } from 'recoil';
 import { registerMessageState, signInState } from '../recoil/RecoilSignIn';
-import { useNavigate } from 'react-router-dom';
 
 // const API = 'http://localhost:3000';
 const API = 'http://localhost:8080/api/v1';
@@ -60,6 +59,7 @@ export const signUpAccount = async (
   userName,
   userPassword,
   userEmail,
+  navigate,
 ) => {
   try {
     const response = await axios.post(`${API}/auth/signup`, {
@@ -71,7 +71,7 @@ export const signUpAccount = async (
     if (response.status === 201) {
       console.log('성공적 회원가입 ');
       setSignIn(true);
-      const navigate = useNavigate();
+
       navigate('/');
     }
     return response.data;
@@ -94,6 +94,7 @@ export const signInAccount = async (
   setRegisterMessage,
   userPassword,
   userEmail,
+  navigate,
 ) => {
   try {
     const response = await axios.post(`${API}/auth/signin`, {
@@ -104,7 +105,6 @@ export const signInAccount = async (
     if (response.status === 200) {
       console.log('성공적 로그인 ');
       setSignIn(true);
-      const navigate = useNavigate();
       navigate('/');
     }
     return response.data;
