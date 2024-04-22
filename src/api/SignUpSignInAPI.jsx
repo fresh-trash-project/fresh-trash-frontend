@@ -6,10 +6,10 @@ import { registerMessageState, signInState } from '../recoil/RecoilSignIn';
 // const API = 'http://localhost:3000';
 const API = 'http://localhost:8080/api/v1';
 // 이메일 인증버튼 눌렀을때 인증코드 받기
-export const fetchCode = async () => {
-  const [verificationMessage, setVerificationMessage] = useRecoilState(
-    verificationMessageState,
-  );
+export const fetchCode = async (setVerificationMessage, userEmail) => {
+  // const [verificationMessage, setVerificationMessage] = useRecoilState(
+  //   verificationMessageState,
+  // );
   try {
     const response = await axios.post(`${API}/mail/send-code`, {
       email: userEmail,
@@ -26,11 +26,15 @@ export const fetchCode = async () => {
 };
 
 // 인증 코드 입력하고 확인버튼 눌렀을때
-export const verifyCode = async () => {
-  const [verificationMessage, setVerificationMessage] = useRecoilState(
-    verificationMessageState,
-  );
-  const [isVerified, setIsVerified] = useRecoilState(verificationState);
+export const verifyCode = async (
+  setVerificationMessage,
+  setIsVerified,
+  userEmail,
+) => {
+  // const [verificationMessage, setVerificationMessage] = useRecoilState(
+  //   verificationMessageState,
+  // );
+  // const [isVerified, setIsVerified] = useRecoilState(verificationState);
   try {
     const response = await axios.post(`${API}/mail/verify`, {
       email: userEmail,
@@ -39,7 +43,7 @@ export const verifyCode = async () => {
 
     if (response.status === 200) {
       setVerificationMessage('이메일이 인증되었습니다.');
-      isVerified(true);
+      setIsVerified(true);
     }
   } catch (error) {
     if (error.response && error.response.status === 400) {

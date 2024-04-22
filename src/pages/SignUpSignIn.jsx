@@ -70,13 +70,13 @@ const SignUpSignIn = () => {
     setVerificationButtonClick(true);
     setOpenVerification(true);
 
-    fetchCode();
+    await fetchCode(setVerificationMessage, userEmail);
   };
 
   const handleVerifyCode = async e => {
     e.preventDefault();
     setVerificationButtonClick(false);
-    verifyCode();
+    await verifyCode(setVerificationMessage, setIsVerified, userEmail);
   };
 
   // 비밀번호 버튼 ---------------------------------------
@@ -109,14 +109,14 @@ const SignUpSignIn = () => {
 
   const handleSignUp = async e => {
     e.preventDefault();
-    signUpAccount();
+    await signUpAccount();
   };
 
   // 로그인 버튼 --------------------------------------
 
   const handleSignIn = async e => {
     e.preventDefault();
-    signInAccount();
+    await signInAccount();
   };
 
   //-------------------------------------------------------------------------------------------
@@ -175,7 +175,11 @@ const SignUpSignIn = () => {
             {verificationButtonClick &&
               (userEmail ? (
                 <div className="mt-1 mb-2">
-                  <p className="text-blue-400 text-sm">{verificationMessage}</p>
+                  <p
+                    className={`${setVerificationMessage === '이메일로 받은 코드를 입력하세요' ? 'text-blue-400' : 'text-red-400'} text-sm`}
+                  >
+                    {verificationMessage}
+                  </p>
                   <label className="input input-bordered flex items-center gap-2 mt-2 mb-2">
                     <input
                       type="text"
@@ -191,12 +195,13 @@ const SignUpSignIn = () => {
                     >
                       확인
                     </VerificationButton>
-                    <p
-                      className={`${verificationMessage === '이메일이 인증되었습니다' ? 'text-blue-400' : 'text-red-400'} text-sm`}
-                    >
-                      {verificationMessage}
-                    </p>
                   </label>
+                  <p
+                    className={`${verificationMessage === '이메일이 인증되었습니다' ? 'text-blue-400' : 'text-red-400'} text-sm`}
+                  >
+                    {verificationMessage === '이메일이 인증되었습니다' &&
+                      verificationMessage}
+                  </p>
                 </div>
               ) : (
                 <p className="text-red-400">이메일을 입력해 주세요.</p>
