@@ -67,16 +67,16 @@ export const signUpAccount = async (
       email: userEmail,
     });
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       console.log('성공적 회원가입 ');
       setSignIn(true);
       navigate('/');
     }
     return response.data;
   } catch (error) {
-    if (error.response && error.response.status === 404) {
+    if (response.status === 404) {
       setRegisterMessage('페이지를 표시 할 수 없습니다.');
-    } else if (error.response && error.response.status === 400) {
+    } else if (response.status === 400) {
       setRegisterMessage('이미 존재하는 이메일 또는 닉네임입니다.');
     } else {
       setRegisterMessage('에러:', error);
