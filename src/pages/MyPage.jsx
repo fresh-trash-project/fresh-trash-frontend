@@ -14,6 +14,7 @@ import Card1 from '../components/common/card/Card1';
 import add from '../assets/add1.jpg';
 import auction from '../assets/auction2.jpg';
 import heart from '../assets/heart1.jpg';
+import { fetchUserNames } from '../api/UserNameAPI';
 
 const MyPage = () => {
   const [avatarSrc, setAvatarSrc] = useState(logoImg);
@@ -106,33 +107,7 @@ const MyPage = () => {
   };
 
   const handleDuplication = async userName => {
-    try {
-      const response = await axios.get('http://localhost:3000/usernames', {
-        params: {
-          nickname: userName,
-        },
-      });
-
-      if (response.status === 200 && response.data.length === 0) {
-        setDuplicationMessage('사용 가능한 닉네임입니다.');
-        setIsDuplicate(false);
-      } else {
-        setDuplicationMessage('중복된 닉네임입니다.');
-        setIsDuplicate(true);
-      }
-    } catch (error) {
-      console.error('Error checking duplicate username: ', error);
-    }
-  };
-
-  const handleSubmit = async userName => {
-    try {
-      const response = await axios.post('http://localhost:3000/usernames', {
-        nickname: userName,
-      });
-    } catch (error) {
-      console.error('Error submitting username: ', error);
-    }
+    fetchUserNames();
   };
 
   const handleSearchAddress = () => {
@@ -225,7 +200,6 @@ const MyPage = () => {
             )}
           </div>
 
-          {/*//! 여기서부터 반응형 수정 */}
           <div className="w-full flex flex-col">
             <div className="mx-auto mt-8 md:mx-14">
               <div className="flex items-center">
