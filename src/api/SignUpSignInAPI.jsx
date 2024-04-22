@@ -4,14 +4,14 @@ import { useRecoilState } from 'recoil';
 import { registerMessageState, signInState } from '../recoil/RecoilSignIn';
 
 // const API_URL = 'http://localhost:3000';
-const API_URL = 'http://localhost:8080';
+const API_URL = 'http://localhost:8080/api/v1';
 // 이메일 인증버튼 눌렀을때 인증코드 받기
 export const fetchCode = async () => {
   const [verificationMessage, setVerificationMessage] = useRecoilState(
     verificationMessageState,
   );
   try {
-    const response = await axios.post(`${API}/v1/mail/send-code`, {
+    const response = await axios.post(`${API}/mail/send-code`, {
       email: userEmail,
     });
 
@@ -31,7 +31,7 @@ export const verifyCode = async () => {
   );
   const [isVerified, setIsVerified] = useRecoilState(verificationState);
   try {
-    const response = await axios.post(`${API}/v1/mail/verify`, {
+    const response = await axios.post(`${API}/mail/verify`, {
       email: userEmail,
       code: code,
     });
@@ -53,7 +53,7 @@ export const signUpAccount = async () => {
   const [registerMessage, setRegisterMessage] =
     useRecoilState(registerMessageState);
   try {
-    const response = await axios.post(`${API}/v1/auth/signup`, {
+    const response = await axios.post(`${API}/auth/signup`, {
       nickname: userName,
       password: userPassword,
       email: userEmail,
@@ -81,7 +81,7 @@ export const signInAccount = async () => {
   const [registerMessage, setRegisterMessage] =
     useRecoilState(registerMessageState);
   try {
-    const response = await axios.post(`${API}/v1/auth/signin`, {
+    const response = await axios.post(`${API}/auth/signin`, {
       password: userPassword,
       email: userEmail,
     });
