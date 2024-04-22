@@ -3,8 +3,8 @@ import { verificationMessageState } from '../recoil/RecoilUserEmail';
 import { useRecoilState } from 'recoil';
 import { registerMessageState, signInState } from '../recoil/RecoilSignIn';
 
-// const API_URL = 'http://localhost:3000';
-const API_URL = 'http://localhost:8080/api/v1';
+// const API = 'http://localhost:3000';
+const API = 'http://localhost:8080/api/v1';
 // 이메일 인증버튼 눌렀을때 인증코드 받기
 export const fetchCode = async () => {
   const [verificationMessage, setVerificationMessage] = useRecoilState(
@@ -14,6 +14,7 @@ export const fetchCode = async () => {
     const response = await axios.post(`${API}/mail/send-code`, {
       email: userEmail,
     });
+    console.log(response);
 
     if (response.status === 200) {
       setVerificationMessage('이메일로 받은 코드를 입력하세요');
