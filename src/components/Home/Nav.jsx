@@ -62,7 +62,7 @@ const Nav = () => {
       </div>
       <div className="navbar-end ">
         {/* //! 나중에 !signIn으로 바꿀것 */}
-        {signIn ? (
+        {!signIn ? (
           <div>
             {/* 로그인 버튼  */}
             <Link to="/SignUpSignIn">
