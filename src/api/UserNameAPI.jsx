@@ -9,11 +9,11 @@ import {
 const API_URL = 'http://localhost:8080/api';
 
 //
-export const fetchUserNames = async () => {
-  const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
-  const [duplicationMessage, setDuplicationMessage] = useRecoilState(
-    duplicationMessageState,
-  );
+export const fetchUserNames = async (setIsDuplicate, setDuplicationMessage) => {
+  // const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
+  // const [duplicationMessage, setDuplicationMessage] = useRecoilState(
+  //   duplicationMessageState,
+  // );
 
   try {
     const response = await axios.get(`${API_URL}/check-nickname`, {

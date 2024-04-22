@@ -94,7 +94,7 @@ const SignUpSignIn = () => {
   const handleDuplication = async (e, userName) => {
     e.preventDefault();
     setDuplicationButtonClick(true);
-    fetchUserNames();
+    fetchUserNames(setIsDuplicate, setDuplicationMessage, userName);
   };
 
   const handleUserNameChange = e => {
@@ -109,14 +109,20 @@ const SignUpSignIn = () => {
 
   const handleSignUp = async e => {
     e.preventDefault();
-    await signUpAccount();
+    await signUpAccount(
+      setSignIn,
+      setRegisterMessage,
+      userName,
+      userPassword,
+      userEmail,
+    );
   };
 
   // 로그인 버튼 --------------------------------------
 
   const handleSignIn = async e => {
     e.preventDefault();
-    await signInAccount();
+    await signInAccount(setSignIn, setRegisterMessage, userPassword, userEmail);
   };
 
   //-------------------------------------------------------------------------------------------
