@@ -25,7 +25,6 @@ export const fetchCode = async (setVerificationMessage, userEmail) => {
 // 인증 코드 입력하고 확인버튼 눌렀을때
 export const verifyCode = async (
   setVerificationMessage,
-  verificationMessage,
   setIsVerified,
   userEmail,
   code,
