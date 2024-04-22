@@ -14,22 +14,20 @@ const ConfirmCode = ({ open, close }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/confirmation', {
-        email: userEmail,
-        code: code,
-      });
+      const response = await axios.post(
+        'http://localhost:8080/v1/mail/verify',
+        {
+          email: userEmail,
+          code: code,
+        },
+      );
 
       if (response.status === 200) {
         console.log('이메일이 인증되었습니다.');
       }
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-        // {
-        //   console.log('페이지를 표시 할 수 없습니다.');
-        // } else if (error.response && error.response.status === 400) {
-        //   console.log('잘못된 인증코드입니다.');
-        // } else
-        console.error('Error signing up:', error);
+      if (error.response && error.response.status === 400) {
+        console.log('잘못된 인증코드입니다.');
       }
     }
   };

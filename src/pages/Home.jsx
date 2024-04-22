@@ -4,7 +4,7 @@ import HeroVer2 from '../components/Home/HeroVer2';
 import Footer from '../components/Home/Footer';
 import Card1 from '../components/common/card/Card1';
 import add from '../assets/add2.jpg';
-import auction from '../assets/auction2.jpg';
+import auction from '../assets/auction3.jpg';
 import sell from '../assets/sell1.jpg';
 
 const Home = () => {

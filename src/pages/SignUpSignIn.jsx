@@ -33,6 +33,8 @@ const SignUpSignIn = () => {
 
   const navigate = useNavigate();
 
+  const API = 'http://localhost:8080';
+
   // 함수--------------------------------------------------------------------------------------
   const close = e => {
     e.preventDefault();
@@ -61,7 +63,7 @@ const SignUpSignIn = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/verification', {
+      const response = await axios.post(`${API}/verification`, {
         email: userEmail,
       });
 
@@ -90,7 +92,7 @@ const SignUpSignIn = () => {
     setClick(true);
 
     try {
-      const response = await axios.get('http://localhost:3000/usernames', {
+      const response = await axios.get(`${API}/v1/auth/check-nickname`, {
         params: {
           nickname: userName,
         },
@@ -122,13 +124,12 @@ const SignUpSignIn = () => {
   };
 
   // 회원가입 버튼 ---------------------------------------
-  // const history = useHistory();
 
   const handleSignUp = async e => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/signup', {
+      const response = await axios.post(`${API}/v1/auth/signup`, {
         nickname: userName,
         password: userPassword,
         email: userEmail,
@@ -155,7 +156,7 @@ const SignUpSignIn = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/signin', {
+      const response = await axios.post(`${API}/v1/auth/signin`, {
         password: userPassword,
         email: userEmail,
       });
