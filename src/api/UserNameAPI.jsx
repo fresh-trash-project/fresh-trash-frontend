@@ -32,7 +32,7 @@ export const fetchUserNames = async (
     }
     return response.data; // 서버로부터 받은 데이터 반환
   } catch (error) {
-    if (response.status === 400) {
+    if (error.response && error.response.status === 400) {
       setRegisterMessage('중복된 닉네임 입니다.');
       setIsDuplicate(true);
     }
