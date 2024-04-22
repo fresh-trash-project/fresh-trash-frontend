@@ -257,7 +257,8 @@ const SignUpSignIn = () => {
               <input
                 type="text"
                 className="grow border-0 outline-none "
-                placeholder={userName}
+                placeholder="User Name"
+                value={userName}
                 onChange={handleUserNameChange}
               />
               <DuplicationButton

@@ -6,17 +6,21 @@ import {
 } from '../recoil/RecoilUserName';
 
 // const API_URL = 'http://localhost:3000';
-const API_URL = 'http://localhost:8080/api';
+const API_URL = 'http://localhost:8080/api/v1';
 
 //
-export const fetchUserNames = async (setIsDuplicate, setDuplicationMessage) => {
+export const fetchUserNames = async (
+  setIsDuplicate,
+  setDuplicationMessage,
+  userName,
+) => {
   // const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
   // const [duplicationMessage, setDuplicationMessage] = useRecoilState(
   //   duplicationMessageState,
   // );
 
   try {
-    const response = await axios.get(`${API_URL}/check-nickname`, {
+    const response = await axios.get(`${API_URL}/auth/check-nickname`, {
       params: {
         nickname: userName,
       },
