@@ -15,6 +15,7 @@ import add from '../assets/add1.jpg';
 import auction from '../assets/auction2.jpg';
 import heart from '../assets/heart1.jpg';
 import { fetchUserNames } from '../api/UserNameAPI';
+import { registerMessageState } from '../recoil/RecoilSignIn';
 
 const MyPage = () => {
   const [avatarSrc, setAvatarSrc] = useState(logoImg);
@@ -34,8 +35,8 @@ const MyPage = () => {
     duplicationMessageState,
   );
   const [ratings, setRatings] = useState([]);
-  const [newRatings, setNewRatings] = useState([]);
-
+  const [registerMessage, setRegisterMessage] =
+    useRecoilState(registerMessageState);
   //새로고침 시 이미지 기억 ------------------------------------------
   useEffect(() => {
     // Load the image from local storage when the component mounts
@@ -72,11 +73,12 @@ const MyPage = () => {
 
   //함수들-----------------------------------------------------------
   const handleEditProfile = () => {
-    setIsEditing(!isEditing);
+    setIsEditing(true);
+  };
 
-    if (isEditing && !isDuplicate) {
-      handleSubmit(userName);
-    }
+  const handleChangeUserInfo = async () => {
+    setIsEditing(false);
+    await changeUserInfo(userName, address, image, setRegisterMessage);
   };
 
   const handleImageChange = e => {
@@ -107,7 +109,12 @@ const MyPage = () => {
   };
 
   const handleDuplication = async userName => {
-    fetchUserNames(setIsDuplicate, setDuplicationMessage, userName);
+    fetchUserNames(
+      setIsDuplicate,
+      setDuplicationMessage,
+      userName,
+      setRegisterMessage,
+    );
   };
 
   const handleSearchAddress = () => {
@@ -173,7 +180,7 @@ const MyPage = () => {
             </div>
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
-              onClick={handleEditProfile}
+              onClick={isEditing ? handleChangeUserInfo : handleEditProfile}
               disabled={isEditing && isDuplicate}
             >
               {isEditing ? '프로필 수정 완료' : '프로필 수정'}
@@ -198,6 +205,7 @@ const MyPage = () => {
                 )}
               </div>
             )}
+            {registerMessage === '에러' && registerMessage}
           </div>
 
           <div className="w-full flex flex-col">
@@ -273,7 +281,6 @@ const MyPage = () => {
           <div>
             <div className="ratingBar relative h-8 rounded-lg bg-gradient-to-br from-green-200 via-green-700 to-green-950 ">
               <IoFootsteps
-                // className={`rotate-90 text-3xl text-white-ivory`}
                 className={`absolute text-3xl rotate-90 text-white-ivory`}
                 style={{ left: `${footstep}%` }}
               />

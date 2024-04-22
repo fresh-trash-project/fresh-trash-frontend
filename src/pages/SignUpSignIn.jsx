@@ -94,7 +94,12 @@ const SignUpSignIn = () => {
   const handleDuplication = async (e, userName) => {
     e.preventDefault();
     setDuplicationButtonClick(true);
-    fetchUserNames(setIsDuplicate, setDuplicationMessage, userName);
+    fetchUserNames(
+      setIsDuplicate,
+      setDuplicationMessage,
+      userName,
+      setRegisterMessage,
+    );
   };
 
   const handleUserNameChange = e => {
