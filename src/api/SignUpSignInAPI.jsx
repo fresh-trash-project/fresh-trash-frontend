@@ -30,6 +30,7 @@ export const verifyCode = async (
   setVerificationMessage,
   setIsVerified,
   userEmail,
+  code,
 ) => {
   // const [verificationMessage, setVerificationMessage] = useRecoilState(
   //   verificationMessageState,

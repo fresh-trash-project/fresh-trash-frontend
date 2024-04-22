@@ -76,7 +76,7 @@ const SignUpSignIn = () => {
   const handleVerifyCode = async e => {
     e.preventDefault();
     setVerificationButtonClick(false);
-    await verifyCode(setVerificationMessage, setIsVerified, userEmail);
+    await verifyCode(setVerificationMessage, setIsVerified, userEmail, code);
   };
 
   // 비밀번호 버튼 ---------------------------------------
