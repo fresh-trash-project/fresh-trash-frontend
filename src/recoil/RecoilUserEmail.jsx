@@ -5,7 +5,7 @@ export const userEmailState = atom({
   default: '',
 });
 
-// export const verificationMessageState = atom({
-//   key: 'verificationMessage',
-//   default: '',
-// });
+export const verificationMessageState = atom({
+  key: 'verificationMessage',
+  default: '',
+});
