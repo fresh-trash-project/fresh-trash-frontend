@@ -3,10 +3,12 @@ import { AlarmState } from '../../recoil/RecoilAlarm';
 import { useRecoilState } from 'recoil';
 import { IoMdArrowForward, IoMdClose } from 'react-icons/io';
 import { useEffect, useState } from 'react';
+import { signInState } from '../../recoil/RecoilSignIn';
 
 const Alarm = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [isHovered, setIsHovered] = useState(false);
+  const [signIn, setSignIn] = useRecoilState(signInState);
 
   const originalText =
     '채팅이 왔습니다. 글자가 많으면 점점점 표시되고 호버하면 다 보이도록 만들고 있습니다. 이곳에 알람 메시지를 받아와야 합니다.  ';

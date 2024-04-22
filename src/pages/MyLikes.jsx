@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Nav from '../components/Home/Nav';
+import Header from '../components/Home/Header';
 import MyTradeCards from '../components/MyList/MyTradeCards';
 
 const MyLikes = () => {
@@ -25,11 +25,11 @@ const MyLikes = () => {
 
   return (
     <div>
-      <Nav />
-      <div className="navbar flex-row justify-between bg-white shadow-md">
+      <Header />
+      <div className="navbar flex-row justify-between bg-white shadow-md px-4">
         {/* //! 카테고리 컴포넌트화 ---------------------------- */}
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn bg-white">
+          <div tabIndex={0} role="button" className="btn bg-gray-200">
             카테고리
           </div>
           <ul
@@ -71,24 +71,26 @@ const MyLikes = () => {
             </li>
           </ul>
         </div>
-        <div className="mt-4 text-sm breadcrumbs pl-5">
-          <ul>
-            <li>홈</li>
-            <li>마이페이지</li>
-            <li>나의 관심목록</li>
-          </ul>
-        </div>
       </div>
 
       {/* 라벨------------------------------------------------------------------------ */}
       <div role="tablist" className="tabs tabs-boxed shadow-md ">
-        <div>
-          <div
-            role="tab"
-            onClick={handleOnSale}
-            className={`tab ${onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
-          >
-            찜 (8)
+        <div className="px-4">
+          <div className="flex justify-between">
+            <div
+              role="tab"
+              onClick={handleOnSale}
+              className={`tab ${onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
+            >
+              찜 (8)
+            </div>
+            <div className=" text-sm breadcrumbs">
+              <ul>
+                <li>홈</li>
+                <li>마이페이지</li>
+                <li>나의 관심목록</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

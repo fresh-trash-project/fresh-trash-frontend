@@ -10,6 +10,11 @@ import {
   duplicationMessageState,
 } from '../recoil/RecoilUserName';
 import Header from '../components/Home/Header';
+import Card1 from '../components/common/card/Card1';
+import add from '../assets/add1.jpg';
+import auction from '../assets/auction2.jpg';
+import heart from '../assets/heart1.jpg';
+import { fetchUserNames } from '../api/UserNameAPI';
 
 const MyPage = () => {
   const [avatarSrc, setAvatarSrc] = useState(logoImg);
@@ -102,33 +107,7 @@ const MyPage = () => {
   };
 
   const handleDuplication = async userName => {
-    try {
-      const response = await axios.get('http://localhost:3000/usernames', {
-        params: {
-          nickname: userName,
-        },
-      });
-
-      if (response.status === 200 && response.data.length === 0) {
-        setDuplicationMessage('사용 가능한 닉네임입니다.');
-        setIsDuplicate(false);
-      } else {
-        setDuplicationMessage('중복된 닉네임입니다.');
-        setIsDuplicate(true);
-      }
-    } catch (error) {
-      console.error('Error checking duplicate username: ', error);
-    }
-  };
-
-  const handleSubmit = async userName => {
-    try {
-      const response = await axios.post('http://localhost:3000/usernames', {
-        nickname: userName,
-      });
-    } catch (error) {
-      console.error('Error submitting username: ', error);
-    }
+    fetchUserNames();
   };
 
   const handleSearchAddress = () => {
@@ -149,25 +128,39 @@ const MyPage = () => {
   };
 
   //발자국-------------------------------------------------------------
-  // const footstep = averageRating() * 5;
-  const footstep = 30;
-  // const footstep = 25;
+  const [greenBarWidth, setGreenBarWidth] = useState(0);
 
-  console.log(footstep);
+  useEffect(() => {
+    // Function to update the green bar width
+    const updateGreenBarWidth = () => {
+      const parentElement = document.querySelector('.ratingBar').parentElement;
+      if (parentElement) {
+        setGreenBarWidth(parentElement.offsetWidth);
+      }
+    };
+    // Call the function once on mount
+    updateGreenBarWidth();
 
-  // className={`rotate-90 text-5xl text-white-ivory translate-x-[${footstep}rem]`}
+    // Listen for window resize to update the width dynamically
+    window.addEventListener('resize', updateGreenBarWidth);
+
+    // Clean up event listener on unmount
+    return () => window.removeEventListener('resize', updateGreenBarWidth);
+  }, []);
+
+  const footstep = (averageRating() / 5) * 100 - (30 / greenBarWidth) * 100;
 
   //JSX-------------------------------------------------------------
   return (
     <div>
       <Header />
 
-      <div className="">
-        <div className="">
+      <div className="px-5">
+        <div className="md:flex">
           {/* 프로필 이미지------------------------------------------------------------------------- */}
 
-          <div className="avatar flex flex-col  ">
-            <div className="w-72 rounded-full  ">
+          <div className="avatar flex flex-col pt-5">
+            <div className="w-72 rounded-full mx-auto md:mx-10 ">
               <img
                 src={avatarSrc}
                 alt=""
@@ -178,15 +171,22 @@ const MyPage = () => {
                 }
               />
             </div>
+            <button
+              className="btn btn-wide mx-auto mt-2 md:mx-14"
+              onClick={handleEditProfile}
+              disabled={isEditing && isDuplicate}
+            >
+              {isEditing ? '프로필 수정 완료' : '프로필 수정'}
+            </button>
             {isEditing && (
-              <div className="">
+              <div className="mx-auto mt-2 md:mx-14">
                 {!image ? (
                   <label htmlFor="avatarInput" className="btn btn-wide">
                     <p>이미지 업로드</p>
                     <input
                       type="file"
                       id="avatarInput"
-                      className="file-input file-input-bordered "
+                      className="file-input file-input-bordered hidden"
                       accept=".jpg, .png, .jpeg"
                       onChange={handleImageChange}
                     />
@@ -200,75 +200,67 @@ const MyPage = () => {
             )}
           </div>
 
-          {/* 사용자 정보, 프로필 수정------------------------------------------------------------------------- */}
-          <div className="user-input w-full mt-10 flex flex-col">
-            <div className="flex">
-              <input
-                type="text"
-                placeholder="닉네임"
-                className={`input input-bordered ${isEditing ? 'mb-2' : 'mb-5'} `}
-                value={userName}
-                onChange={handleUserNameChange}
-                disabled={!isEditing}
-              />
-              {isEditing && (
-                <button
-                  onClick={() => handleDuplication(userName)}
-                  className="btn btn-sm"
-                >
-                  중복확인
-                </button>
-              )}
-            </div>
-            {isEditing && (
-              <div
-                className={`mb-5 ${duplicationMessage === '중복된 닉네임입니다.' ? 'text-red-500' : 'text-blue-500'}`}
-              >
-                {duplicationMessage}
-              </div>
-            )}
-
-            <div className="addr flex flex-col">
-              <div className="addr1 flex mb-5">
+          <div className="w-full flex flex-col">
+            <div className="mx-auto mt-8 md:mx-14">
+              <div className="flex items-center">
                 <input
                   type="text"
-                  placeholder="주소검색"
-                  className="input input-bordered"
-                  value={` ${address.address}`}
-                  onChange={handleAddressChange}
+                  placeholder="닉네임"
+                  className={`input input-bordered ${isEditing ? 'mb-2' : 'mb-5'} `}
+                  value={userName}
+                  onChange={handleUserNameChange}
                   disabled={!isEditing}
-                  readOnly
                 />
                 {isEditing && (
                   <button
-                    onClick={handleSearchAddress}
+                    onClick={() => handleDuplication(userName)}
                     className="btn btn-sm ml-2"
                   >
-                    주소검색
+                    중복확인
                   </button>
                 )}
               </div>
-              <input
-                type="text"
-                placeholder="상세주소"
-                className="input input-bordered"
-                disabled={!isEditing}
-              />
-            </div>
+              {isEditing && (
+                <div
+                  className={`mb-5 w-fit ${duplicationMessage === '중복된 닉네임입니다.' ? 'text-red-500' : 'text-blue-500'}`}
+                >
+                  {duplicationMessage}
+                </div>
+              )}
 
-            <button
-              className="btn btn-wide absolute top-80"
-              onClick={handleEditProfile}
-              disabled={isEditing && isDuplicate}
-            >
-              {isEditing ? '완료' : '프로필 수정'}
-            </button>
+              <div className="addr flex flex-col mx-auto">
+                <div className="addr1 flex mb-2 items-center">
+                  <input
+                    type="text"
+                    placeholder="주소검색"
+                    className="input input-bordered w-80"
+                    value={` ${address.address}`}
+                    onChange={handleAddressChange}
+                    disabled={!isEditing}
+                    readOnly
+                  />
+                  {isEditing && (
+                    <button
+                      onClick={handleSearchAddress}
+                      className="btn btn-sm ml-2"
+                    >
+                      주소검색
+                    </button>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  placeholder="상세주소"
+                  className="input input-bordered w-80"
+                  disabled={!isEditing}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
         {/* 평점----------------------------------------------------------------------------------------- */}
-
-        <div className="rating flex flex-col">
+        <div className="rating flex flex-col mt-14">
           <div className="flex justify-between mb-2">
             <div className="my-rating rounded-lg p-2 bg-green-paleaqua ">
               {userName}의 평점
@@ -277,66 +269,38 @@ const MyPage = () => {
               {averageRating()} / 5
             </div>
           </div>
+
           <div>
-            <div className="ratingBar rounded-lg bg-gradient-to-br from-green-200 via-green-700 to-green-950 ">
+            <div className="ratingBar relative h-8 rounded-lg bg-gradient-to-br from-green-200 via-green-700 to-green-950 ">
               <IoFootsteps
-              // className={`rotate-90 text-5xl text-white-ivory`}
-              // className={`rotate-90 text-5xl text-white-ivory translate-x-[${footstep}rem]`}
+                // className={`rotate-90 text-3xl text-white-ivory`}
+                className={`absolute text-3xl rotate-90 text-white-ivory`}
+                style={{ left: `${footstep}%` }}
               />
             </div>
           </div>
         </div>
 
         {/* 나의 목록들----------------------------------------------------------------------------------------- */}
-
-        <div className="user-lists flex flex-col">
-          <div className="card lg:card-side bg-base-100 shadow-xl mt-40 max-w-5xl ">
-            <figure>
-              <img
-                src="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-                alt="나의 거래 내역"
-              />
-            </figure>
-            <div className="card-body ">
-              <h2 className="card-title">{userName}의 거래 내역</h2>
-              <p>{userName}'s Trade Lists</p>
-              <Link to="/MyTradeList" className="card-actions justify-end">
-                <button className="btn btn-primary">View Now</button>
-              </Link>
-            </div>
-          </div>
-
-          <div className="card lg:card-side bg-base-100 shadow-xl mt-40 ">
-            <figure>
-              <img
-                src="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-                alt="나의 경매 내역"
-              />
-            </figure>
-            <div className="card-body ">
-              <h2 className="card-title">{userName}의 경매 내역</h2>
-              <p>{userName}'s Auction Lists</p>
-              <Link to="/MyAuctionList" className="card-actions justify-end">
-                <button className="btn btn-primary">View Now</button>
-              </Link>
-            </div>
-          </div>
-
-          <div className="card lg:card-side bg-base-100 shadow-xl mt-40 max-w-5xl mb-10">
-            <figure>
-              <img
-                src="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-                alt="나의 관심 목록"
-              />
-            </figure>
-            <div className="card-body ">
-              <h2 className="card-title">{userName}의 관심 목록</h2>
-              <p>{userName}'s Likes</p>
-              <Link to="/MyLikes" className="card-actions justify-end">
-                <button className="btn btn-primary">View Now</button>
-              </Link>
-            </div>
-          </div>
+        <div className="cards bg-white py-10 mt-5">
+          <Card1
+            image={add}
+            title="나의 거래 내역"
+            phrase="My Trade List"
+            link="MyTradeList"
+          />
+          <Card1
+            image={auction}
+            title="나의 경매 내역"
+            phrase="My Auction List"
+            link="MyAuctionList"
+          />
+          <Card1
+            image={heart}
+            title="나의 관심 목록"
+            phrase="MY Likes"
+            link="MyLikes"
+          />
         </div>
       </div>
     </div>

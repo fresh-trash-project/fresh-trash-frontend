@@ -2,7 +2,6 @@
   "wastes": [
     {
       "fileName": {},
-
       "title": "수정합니다. ",
       "wasteCategory": "스포츠",
       "wasteStatus": "최상",
@@ -25,7 +24,6 @@
     },
     {
       "fileName": {},
-
       "title": "ddddddddddddddddd",
       "wasteCategory": "반려동물용품",
       "wasteStatus": "중",
@@ -98,6 +96,110 @@
         "district": "냉천리",
         "detail": ""
       }
+    },
+    {
+      "nickname": "닉네임",
+      "id": 6
+    },
+    {
+      "nickname": "닉네임",
+      "id": 7
+    },
+    {
+      "nickname": "닉네임",
+      "id": 8
+    },
+    {
+      "nickname": "닉네임",
+      "id": 9
+    },
+    {
+      "nickname": "닉네임",
+      "id": 10
+    },
+    {
+      "nickname": "닉네임",
+      "id": 11
+    },
+    {
+      "nickname": "닉네임",
+      "id": 12
+    },
+    {
+      "nickname": "닉네임",
+      "id": 13
+    },
+    {
+      "nickname": "닉네임",
+      "id": 14
+    },
+    {
+      "nickname": "닉네임",
+      "id": 15
+    },
+    {
+      "nickname": "닉네임",
+      "id": 16
+    },
+    {
+      "nickname": "닉네임",
+      "id": 17
+    },
+    {
+      "nickname": "닉네임",
+      "id": 18
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 19
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 20
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 21
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 22
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 23
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 24
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 25
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 26
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 27
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 28
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 29
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 30
+    },
+    {
+      "nickname": "닉네임ddd",
+      "id": 31
     }
   ],
   "ratings": [
@@ -105,16 +207,16 @@
       "rate": 5
     },
     {
-      "rate": 5
+      "rate": 1
+    },
+    {
+      "rate": 1
     },
     {
       "rate": 5
     },
     {
-      "rate": 5
-    },
-    {
-      "rate": 5
+      "rate": 3
     }
   ],
   "signup": [
@@ -163,6 +265,10 @@
     {
       "email": "될까요",
       "id": 4
+    },
+    {
+      "email": "졸림",
+      "id": 5
     }
   ],
   "confirmation": [
@@ -191,10 +297,42 @@
   ],
   "alarm": [
     {
-      "id": 1,
-      "targetId": 1,
-      "fromAccountId": 1,
-      "alarmType": "chat"
+      "content": [
+        {
+          "id": 1,
+          "alarmType": "CHAT",
+          "alarmArgs": {
+            "fromMemberId": 2,
+            "targetId": 1
+          },
+          "message": "message"
+        }
+      ],
+      "pageable": {
+        "sort": {
+          "empty": true,
+          "sorted": false,
+          "unsorted": true
+        },
+        "offset": 0,
+        "pageNumber": 0,
+        "pageSize": 10,
+        "paged": true,
+        "unpaged": false
+      },
+      "last": true,
+      "totalPages": 1,
+      "totalElements": 1,
+      "first": true,
+      "size": 10,
+      "number": 0,
+      "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+      },
+      "numberOfElements": 1,
+      "empty": false
     }
   ]
 }

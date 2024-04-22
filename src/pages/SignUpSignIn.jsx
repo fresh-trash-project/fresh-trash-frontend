@@ -11,25 +11,44 @@ import {
   duplicationState,
   duplicationMessageState,
 } from '../recoil/RecoilUserName';
-import { userEmailState } from '../recoil/RecoilUserEmail';
-import { signInState, signInPanelState } from '../recoil/RecoilSignIn';
-
-import ConfirmCode from '../components/SignUpSignIn/ConfirmCode';
+// import { userEmailState } from '../recoil/RecoilUserEmail';
+import {
+  signInState,
+  signInPanelState,
+  verificationState,
+  registerMessageState,
+} from '../recoil/RecoilSignIn';
 import { GoogleLoginButton } from '../api/OAuth';
+import {
+  fetchCode,
+  signInAccount,
+  signUpAccount,
+  verifyCode,
+} from '../api/SignUpSignInAPI';
+import { fetchUserNames } from '../api/UserNameAPI';
+import { verificationMessageState } from '../recoil/RecoilUserEmail';
 
 const SignUpSignIn = () => {
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [userName, setUserName] = useRecoilState(userNameState);
   const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
+  const [isVerified, setIsVerified] = useRecoilState(verificationState);
   const [duplicationMessage, setDuplicationMessage] = useRecoilState(
     duplicationMessageState,
   );
   const [userPassword, setUserPassword] = useState('');
-  const [userEmail, setUserEmail] = useRecoilState(userEmailState);
-  const [click, setClick] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const [verificationButtonClick, setVerificationButtonClick] = useState(false);
+  const [duplicationButtonClick, setDuplicationButtonClick] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [openVerification, setOpenVerification] = useState(false);
+  const [verificationMessage, setVerificationMessage] = useRecoilState(
+    verificationMessageState,
+  );
+  const [code, setCode] = useState('');
+  const [registerMessage, setRegisterMessage] =
+    useRecoilState(registerMessageState);
 
   const navigate = useNavigate();
 
@@ -41,36 +60,23 @@ const SignUpSignIn = () => {
   // 이메일 -----------------------------------------------
   const handleEmailChange = e => {
     e.preventDefault();
-    setClick(false); //인증버튼 한번 누르면 계속 true인상태가 되서 이메일 쓸때 다시 false로 바꿈
+    setVerificationButtonClick(false); //인증버튼 한번 누르면 계속 true인상태가 되서 이메일 쓸때 다시 false로 바꿈
     setUserEmail(e.target.value);
   };
 
-  const noEmailMessage = userEmail ? null : (
-    <p className="text-red-500">이메일을 입력해 주세요.</p>
-  );
-
   // 이메일 인증 --------------------------------------
-  const handleVerification = async e => {
+  const handleSendCode = async e => {
     e.preventDefault();
-    setClick(true);
+    setVerificationButtonClick(true);
     setOpenVerification(true);
 
-    if (!userEmail) {
-      console.log('Please enter your email.');
-      return;
-    }
+    fetchCode();
+  };
 
-    try {
-      const response = await axios.post('http://localhost:3000/verification', {
-        email: userEmail,
-      });
-
-      if (response.status === 200) {
-        setVerificationMessage('이메일로 받은 코드를 입력하세요');
-      }
-    } catch (error) {
-      console.error('Error sending verification request: ', error);
-    }
+  const handleVerifyCode = async e => {
+    e.preventDefault();
+    setVerificationButtonClick(false);
+    verifyCode();
   };
 
   // 비밀번호 버튼 ---------------------------------------
@@ -87,87 +93,30 @@ const SignUpSignIn = () => {
   // 닉네임 중복확인 버튼 ---------------------------------------
   const handleDuplication = async (e, userName) => {
     e.preventDefault();
-    setClick(true);
-
-    try {
-      const response = await axios.get('http://localhost:3000/usernames', {
-        params: {
-          nickname: userName,
-        },
-      });
-
-      console.log(response);
-
-      if (response.status === 200) {
-        if (response.data.some(user => user.nickname === userName)) {
-          setDuplicationMessage('중복된 닉네임입니다.');
-          setIsDuplicate(true);
-        } else if (response.data.every(user => user.nickname !== userName)) {
-          setDuplicationMessage('사용 가능한 닉네임입니다.');
-          setIsDuplicate(false);
-        }
-      }
-    } catch (error) {
-      console.error('Error checking duplicate username: ', error);
-    }
-    console.log(duplicationMessage);
+    setDuplicationButtonClick(true);
+    fetchUserNames();
   };
 
   const handleUserNameChange = e => {
     e.preventDefault();
-    setClick(false);
+    setDuplicationButtonClick(false);
     setUserName(e.target.value);
     setIsDuplicate(false);
     setDuplicationMessage('');
   };
 
   // 회원가입 버튼 ---------------------------------------
-  // const history = useHistory();
 
   const handleSignUp = async e => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post('http://localhost:3000/signup', {
-        nickname: userName,
-        password: userPassword,
-        email: userEmail,
-      });
-
-      if (response.status === 200) {
-        console.log('성공적 회원가입 ');
-        navigate('/');
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        console.log('페이지를 표시 할 수 없습니다.');
-      } else if (error.response && error.response.status === 400) {
-        console.log('이미 존재하는 이메일 또는 닉네임입니다.');
-      } else {
-        console.error('Error signing up:', error);
-      }
-    }
+    signUpAccount();
   };
 
   // 로그인 버튼 --------------------------------------
 
   const handleSignIn = async e => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post('http://localhost:3000/signin', {
-        password: userPassword,
-        email: userEmail,
-      });
-
-      if (response.status === 200) {
-        console.log('성공적 로그인');
-        setSignIn(true);
-        navigate('/');
-      }
-    } catch (error) {
-      console.error('Error signing up:', error);
-    }
+    signInAccount();
   };
 
   //-------------------------------------------------------------------------------------------
@@ -196,6 +145,8 @@ const SignUpSignIn = () => {
         >
           <form className="flex flex-col items-center justify-center pr-12 pl-12 h-full text-center">
             <h1 className="font-bold m-0 text-[1.5rem] mb-5">CREATE ACCOUNT</h1>
+
+            {/* 회원가입 이메일 */}
             <label className="input input-bordered flex items-center gap-2 mt-2 mb-2 w-[23rem]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -215,23 +166,43 @@ const SignUpSignIn = () => {
               <VerificationButton
                 style="btn btn-sm w-[4rem]"
                 pStyle="text-[0.8rem]"
-                onClick={handleVerification}
+                onClick={handleSendCode}
               >
                 인증
               </VerificationButton>
             </label>
-            {/* //! 이부분 수정필요한듯.// */}
-            {click &&
+
+            {verificationButtonClick &&
               (userEmail ? (
-                <ConfirmCode
-                  open={setOpenVerification}
-                  close={() => {
-                    setOpenVerification(false);
-                  }}
-                />
+                <div className="mt-1 mb-2">
+                  <p className="text-blue-400 text-sm">{verificationMessage}</p>
+                  <label className="input input-bordered flex items-center gap-2 mt-2 mb-2">
+                    <input
+                      type="text"
+                      className="grow border-0 outline-none "
+                      placeholder="인증 코드"
+                      value={code}
+                      onChange={e => setCode(e.target.value)}
+                    />
+                    <VerificationButton
+                      style="btn btn-sm w-[4rem]"
+                      pStyle="text-[0.8rem]"
+                      onClick={handleVerifyCode}
+                    >
+                      확인
+                    </VerificationButton>
+                    <p
+                      className={`${verificationMessage === '이메일이 인증되었습니다' ? 'text-blue-400' : 'text-red-400'} text-sm`}
+                    >
+                      {verificationMessage}
+                    </p>
+                  </label>
+                </div>
               ) : (
                 <p className="text-red-400">이메일을 입력해 주세요.</p>
               ))}
+
+            {/* 회원가입 비번               */}
             <label className="input input-bordered flex items-center gap-2 mt-2 mb-2 w-[23rem]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -260,6 +231,8 @@ const SignUpSignIn = () => {
                 </p>
               </button>
             </label>
+
+            {/* 회원가입 닉네임 */}
             <label className="input input-bordered flex items-center gap-2 mt-2 mb-2 w-[23rem]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -282,18 +255,19 @@ const SignUpSignIn = () => {
               />
             </label>
             <div
-              className={`w-full flex justify-end ${duplicationMessage === '중복된 닉네임입니다.' ? 'text-red-500' : 'text-blue-500'}`}
+              className={`w-full flex justify-end ${duplicationMessage === '중복된 닉네임입니다.' ? 'text-red-400' : 'text-blue-400'}`}
             >
               {duplicationMessage}
             </div>
-            {/* //! 버튼 */}
+
             <button
               className="btn w-[23rem] mt-14"
               onClick={handleSignUp}
-              disabled={!confirm || !click || isDuplicate}
+              disabled={!isVerified || !userPassword || isDuplicate}
             >
               회원 가입
             </button>
+            <p className="text-red-400">{registerMessage}</p>
           </form>
         </div>
 
@@ -353,13 +327,13 @@ const SignUpSignIn = () => {
               Forgot your password?
               <span
                 className="ml-1 cursor-pointer hover:text-green-brunswick hover:font-bold"
-                onClick={handleVerification}
+                onClick={handleSendCode}
               >
                 {' '}
                 CLICK{' '}
               </span>
             </div>
-            {click &&
+            {verificationButtonClick &&
               (userEmail ? (
                 <p className="text-blue-400 mb-4">이메일을 확인해 주세요.</p>
               ) : (
@@ -387,6 +361,7 @@ const SignUpSignIn = () => {
             >
               로그인
             </button>
+            <p className="text-red-400">{registerMessage}</p>
           </form>
         </div>
 
