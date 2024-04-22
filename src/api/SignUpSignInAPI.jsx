@@ -16,6 +16,7 @@ export const fetchCode = async (setVerificationMessage, userEmail) => {
     if (response.status === 200) {
       setVerificationMessage('이메일로 받은 코드를 입력하세요');
     }
+    return response.data;
   } catch (error) {
     console.error('Error sending verification request: ', error);
     setVerificationMessage('잘못된 이메일 입니다.');
@@ -39,8 +40,8 @@ export const verifyCode = async (
       setVerificationMessage('이메일이 인증되었습니다.');
       setIsVerified(true);
       console.log(response.status);
-      console.log(verificationMessage);
     }
+    return response.data;
   } catch (error) {
     if (error.response && error.response.status === 400) {
       setVerificationMessage('잘못된 인증코드입니다.');
@@ -71,6 +72,7 @@ export const signUpAccount = async (
       setSignIn(true);
       navigate('/');
     }
+    return response.data;
   } catch (error) {
     if (error.response && error.response.status === 404) {
       setRegisterMessage('페이지를 표시 할 수 없습니다.');
@@ -103,10 +105,11 @@ export const signInAccount = async (
       setSignIn(true);
       navigate('/');
     }
+    return response.data;
   } catch (error) {
-    if (error.response && error.response.status === 404) {
+    if (response.status === 404) {
       setRegisterMessage('페이지를 표시 할 수 없습니다.');
-    } else if (error.response && error.response.status === 400) {
+    } else if (response.status === 400) {
       setRegisterMessage('이미 존재하는 이메일 또는 닉네임입니다.');
     } else {
       setRegisterMessage('에러:', error);

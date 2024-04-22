@@ -26,16 +26,15 @@ export const fetchUserNames = async (
       },
     });
 
-    if (response.status === 200 && response.data.length === 0) {
+    if (response.status === 200) {
       setDuplicationMessage('사용 가능한 닉네임입니다.');
       setIsDuplicate(false);
-    } else {
-      setDuplicationMessage('중복된 닉네임입니다.');
-      setIsDuplicate(true);
     }
     return response.data; // 서버로부터 받은 데이터 반환
   } catch (error) {
-    setDuplicationMessage('사용자 닉네임을 가져오는 중 에러 발생:', error);
-    throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
+    if (response.status === 400) {
+      setRegisterMessage('중복된 닉네임 입니다.');
+      setIsDuplicate(true);
+    }
   }
 };
