@@ -1,7 +1,4 @@
 import axios from 'axios';
-import { verificationMessageState } from '../recoil/RecoilUserEmail';
-import { useRecoilState } from 'recoil';
-import { registerMessageState, signInState } from '../recoil/RecoilSignIn';
 
 // const API = 'http://localhost:3000';
 const API = 'http://localhost:8080/api/v1';
@@ -18,11 +15,9 @@ export const fetchCode = async (setVerificationMessage, userEmail) => {
     }
     return response.data;
   } catch (error) {
-    if (error.response && error.response.status === 400) {
-      setVerificationMessage('잘못된 이메일 입니다.');
-    } else {
-      throw error;
-    }
+    console.log(error);
+    setRegisterMessage('에러');
+    //! 에러 세부적으로 나누기
   }
 };
 
@@ -46,9 +41,9 @@ export const verifyCode = async (
     }
     return response.data;
   } catch (error) {
-    if (error.response && error.response.status === 400) {
-      setVerificationMessage('잘못된 인증코드입니다.');
-    }
+    console.log(error);
+    setRegisterMessage('에러');
+    //! 에러 세부적으로 나누기
   }
 };
 
@@ -71,20 +66,13 @@ export const signUpAccount = async (
     if (response.status === 201) {
       console.log('성공적 회원가입 ');
       setSignIn(true);
-
       navigate('/');
     }
     return response.data;
   } catch (error) {
     console.log(error);
-
-    if (error.response && error.response.status === 404) {
-      setRegisterMessage('페이지를 표시 할 수 없습니다.');
-    } else if (error.response.status === 400) {
-      setRegisterMessage('이미 존재하는 이메일 또는 닉네임입니다.');
-    } else {
-      setRegisterMessage('에러:', error);
-    }
+    setRegisterMessage('에러');
+    //! 에러 세부적으로 나누기
   }
 };
 
@@ -110,12 +98,7 @@ export const signInAccount = async (
     return response.data;
   } catch (error) {
     console.log(error);
-    if (error.response && error.response.status === 404) {
-      setRegisterMessage('페이지를 표시 할 수 없습니다.');
-    } else if (error.response.status === 400) {
-      setRegisterMessage('이미 존재하는 이메일 또는 닉네임입니다.');
-    } else {
-      setRegisterMessage('에러:', error);
-    }
+    setRegisterMessage('에러');
+    //! 에러 세부적으로 나누기
   }
 };

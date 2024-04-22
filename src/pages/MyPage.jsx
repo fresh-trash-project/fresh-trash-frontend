@@ -107,7 +107,7 @@ const MyPage = () => {
   };
 
   const handleDuplication = async userName => {
-    fetchUserNames();
+    fetchUserNames(setIsDuplicate, setDuplicationMessage, userName);
   };
 
   const handleSearchAddress = () => {
@@ -222,7 +222,7 @@ const MyPage = () => {
               </div>
               {isEditing && (
                 <div
-                  className={`mb-5 w-fit ${duplicationMessage === '중복된 닉네임입니다.' ? 'text-red-500' : 'text-blue-500'}`}
+                  className={`mb-5 w-fit ${isDuplicate ? 'text-red-500' : 'text-blue-500'}`}
                 >
                   {duplicationMessage}
                 </div>

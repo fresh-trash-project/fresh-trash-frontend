@@ -190,7 +190,7 @@ const SignUpSignIn = () => {
               (userEmail ? (
                 <div className="mt-1 mb-2">
                   <p
-                    className={`${setVerificationMessage === '이메일로 받은 코드를 입력하세요' ? 'text-blue-400' : 'text-red-400'} text-sm`}
+                    className={`${verificationMessage === '이메일로 받은 코드를 입력하세요' ? 'text-blue-400' : 'text-red-400'} text-sm`}
                   >
                     {verificationMessage}
                   </p>
