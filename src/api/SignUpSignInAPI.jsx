@@ -61,9 +61,6 @@ export const signUpAccount = async (
   userPassword,
   userEmail,
 ) => {
-  // const [signIn, setSignIn] = useRecoilState(signInState);
-  // const [registerMessage, setRegisterMessage] =
-  //   useRecoilState(registerMessageState);
   try {
     const response = await axios.post(`${API}/auth/signup`, {
       nickname: userName,
@@ -74,10 +71,13 @@ export const signUpAccount = async (
     if (response.status === 201) {
       console.log('성공적 회원가입 ');
       setSignIn(true);
-      Navigate('/');
+      const navigate = useNavigate();
+      navigate('/');
     }
     return response.data;
   } catch (error) {
+    console.log(error);
+
     if (error.response && error.response.status === 404) {
       setRegisterMessage('페이지를 표시 할 수 없습니다.');
     } else if (error.response.status === 400) {
@@ -95,9 +95,6 @@ export const signInAccount = async (
   userPassword,
   userEmail,
 ) => {
-  // const [signIn, setSignIn] = useRecoilState(signInState);
-  // const [registerMessage, setRegisterMessage] =
-  //   useRecoilState(registerMessageState);
   try {
     const response = await axios.post(`${API}/auth/signin`, {
       password: userPassword,
@@ -107,10 +104,12 @@ export const signInAccount = async (
     if (response.status === 200) {
       console.log('성공적 로그인 ');
       setSignIn(true);
-      useNavigate('/');
+      const navigate = useNavigate();
+      navigate('/');
     }
     return response.data;
   } catch (error) {
+    console.log(error);
     if (error.response && error.response.status === 404) {
       setRegisterMessage('페이지를 표시 할 수 없습니다.');
     } else if (error.response.status === 400) {
