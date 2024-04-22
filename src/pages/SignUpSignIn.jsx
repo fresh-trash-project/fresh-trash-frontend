@@ -166,6 +166,7 @@ const SignUpSignIn = () => {
               <input
                 type="email"
                 className="grow border-0 outline-none"
+                value={userEmail}
                 placeholder="Email"
                 onChange={handleEmailChange}
               />
