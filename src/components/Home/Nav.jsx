@@ -63,12 +63,12 @@ const Nav = () => {
       <div className="navbar-end ">
         {/* //! 나중에 !signIn으로 바꿀것 */}
         {!signIn ? (
-          <div>
+          <div className="flex">
             {/* 로그인 버튼  */}
             <Link to="/SignUpSignIn" className="outline-none">
               <button
                 onClick={() => setSignInPanel(true)}
-                className="btn btn-ghost btn-circle flex items-end w-14 md:w-[4.5rem] lg:w-[6rem] outline-none"
+                className="btn btn-ghost btn-circle flex items-end w-11 md:w-[3.5rem] lg:w-[5rem] outline-none"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)] ">
@@ -84,7 +84,7 @@ const Nav = () => {
             <Link to="/SignUpSignIn" className="outline-none">
               <button
                 onClick={() => setSignInPanel(false)}
-                className="btn btn-ghost btn-circle flex items-end w-14 md:w-[4.5rem] lg:w-[6rem] outline-none"
+                className="btn btn-ghost btn-circle flex items-end w-13 md:w-[4.5rem] lg:w-[5.5rem] outline-none"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">

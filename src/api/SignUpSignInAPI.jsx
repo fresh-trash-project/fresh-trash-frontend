@@ -29,6 +29,7 @@ export const verifyCode = async (
   setIsConfirmed,
   userEmail,
   code,
+  setVerificationButtonClick,
 ) => {
   try {
     const response = await axios.post(`${API}/mail/verify`, {
@@ -39,16 +40,16 @@ export const verifyCode = async (
     if (response.status === 200) {
       setConfirmMessage('이메일이 인증되었습니다.');
       setIsConfirmed(true);
+      setVerificationButtonClick(false);
       console.log(response.status);
     }
     return response.data;
   } catch (error) {
     setConfirmMessage('에러');
     console.log(error);
-    if (error.response.status === 404) {
+    if (error.response.status === 400) {
       setConfirmMessage('잘못된 인증코드입니다.');
     }
-    //! 에러 세부적으로 나누기
   }
 };
 
@@ -69,17 +70,17 @@ export const signUpAccount = async (
     });
 
     if (response.status === 201) {
-      const accessToken = response.accessToken;
-      localStorage.setItem('access-token', accessToken);
       console.log('성공적 회원가입 ');
       setSignIn(true);
-      navigate('/');
+      navigate('/SignUpSignIn');
     }
     return response.data;
   } catch (error) {
     console.log(error);
     setRegisterMessage('에러');
-    //! 에러 세부적으로 나누기
+    if (error.response.status === 400) {
+      setRegisterMessage(error.message);
+    }
   }
 };
 
@@ -98,8 +99,11 @@ export const signInAccount = async (
     });
 
     if (response.status === 200) {
-      const accessToken = response.accessToken;
+      console.log(response);
+      const accessToken = response.data.accessToken;
+      console.log(accessToken);
       localStorage.setItem('access-token', accessToken);
+      console.log(localStorage);
       console.log('성공적 로그인 ');
       setSignIn(true);
       navigate('/');
@@ -108,6 +112,29 @@ export const signInAccount = async (
   } catch (error) {
     console.log(error);
     setRegisterMessage('에러');
-    //! 에러 세부적으로 나누기
+    if (error.response.status === 404) {
+      setRegisterMessage('유저 정보가 존재하지 않습니다.');
+    }
+  }
+};
+
+//!비번을 잊었을때 아직 백 구현 안됨
+export const fetchPW = async (setVerificationMessage, userEmail) => {
+  try {
+    const response = await axios.post(`${API}/mail/find-pass`, {
+      email: userEmail,
+    });
+    console.log(response);
+
+    if (response.status === 200) {
+      setVerificationMessage('이메일로 받은 코드를 입력하세요');
+    }
+    return response.data;
+  } catch (error) {
+    setVerificationMessage('에러');
+    console.log(error);
+    if (error.response.status === 400) {
+      setVerificationMessage('잘못된 이메일입니다.');
+    }
   }
 };

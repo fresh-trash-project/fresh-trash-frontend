@@ -8,7 +8,7 @@ import {
 // const API_URL = 'http://localhost:3000';
 const API_URL = 'http://localhost:8080/api/v1';
 
-//
+//닉네임 중복 확인
 export const fetchUserNames = async (
   setIsDuplicate,
   setDuplicationMessage,
@@ -35,10 +35,10 @@ export const fetchUserNames = async (
       setDuplicationMessage('중복된 닉네임입니다.');
       setIsDuplicate(true);
     }
-    //! 에러 세부적으로 나누기
   }
 };
 
+// 프로필 수정
 export const changeUserInfo = async (
   userName,
   address,
@@ -74,7 +74,7 @@ export const changeUserInfo = async (
   }
 };
 
-//! 여기 
+//! 여기
 export const fetchRatings = async () => {
   try {
     const response = await axios.get(`${API_URL}/members`, {});

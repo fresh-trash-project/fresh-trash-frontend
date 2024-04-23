@@ -13,6 +13,7 @@ import {
 import { signInState, signInPanelState } from '../recoil/RecoilSignIn';
 import { GoogleLoginButton } from '../api/OAuth';
 import {
+  fetchPW,
   fetchCode,
   signInAccount,
   signUpAccount,
@@ -61,8 +62,19 @@ const SignUpSignIn = () => {
 
   const handleVerifyCode = async e => {
     e.preventDefault();
-    setVerificationButtonClick(false);
-    await verifyCode(setConfirmMessage, setIsConfirmed, userEmail, code);
+    await verifyCode(
+      setConfirmMessage,
+      setIsConfirmed,
+      userEmail,
+      code,
+      setVerificationButtonClick,
+    );
+  };
+
+  //비번을 잊었을때
+  const handleSendPW = async e => {
+    e.preventDefault();
+    await fetchPW(setVerificationMessage, userEmail);
   };
 
   // 비밀번호 버튼 ---------------------------------------
@@ -97,7 +109,6 @@ const SignUpSignIn = () => {
   };
 
   // 회원가입 버튼 ---------------------------------------
-
   const handleSignUp = async e => {
     e.preventDefault();
     await signUpAccount(
@@ -111,7 +122,6 @@ const SignUpSignIn = () => {
   };
 
   // 로그인 버튼 --------------------------------------
-
   const handleSignIn = async e => {
     e.preventDefault();
     await signInAccount(
@@ -145,7 +155,7 @@ const SignUpSignIn = () => {
         {/* 회원가입---------------------------------------------------------------------------------------------------- */}
         <div
           signInPanel={!signInPanel}
-          className={`signUpContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signInPanel ? 'translate-x-0 opacity-0 z-0' : 'translate-x-full opacity-1 z-10'}`}
+          className={`signUpContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signInPanel ? 'translate-x-0 opacity-0 z-0' : 'translate-x-full opacity-1 -z-10'}`}
         >
           <form className="flex flex-col items-center justify-center pr-12 pl-12 h-full text-center">
             <h1 className="font-bold m-0 text-[1.5rem] mb-5">CREATE ACCOUNT</h1>
@@ -284,7 +294,7 @@ const SignUpSignIn = () => {
         {/* 로그인---------------------------------------------------------------------------------------------------- */}
         <div
           signInPanel={signInPanel}
-          className={`signInContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signInPanel ? 'translate-x-0 opacity-1 z-10' : 'translate-x-full opacity-0 z-0'}`}
+          className={`signInContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signInPanel ? 'translate-x-0 opacity-1 -z-10' : 'translate-x-full opacity-0 z-0'}`}
         >
           <form className="flex flex-col items-center justify-center pr-12 pl-12 h-full text-center">
             <h1 className="font-bold m-0 text-[1.5rem]  mb-5">SIGN IN</h1>
@@ -337,19 +347,17 @@ const SignUpSignIn = () => {
               Forgot your password?
               <span
                 className="ml-1 cursor-pointer hover:text-green-brunswick hover:font-bold"
-                onClick={handleSendCode}
+                onClick={handleSendPW}
               >
                 {' '}
                 CLICK{' '}
               </span>
             </div>
             {verificationButtonClick &&
-              (userEmail ? (
-                <p className="text-blue-400 mb-4">이메일을 확인해 주세요.</p>
+              (verificationMessage === '이메일로 받은 코드를 입력하세요' ? (
+                <p className="text-blue-400 mb-4">{verificationMessage}</p>
               ) : (
-                <p className="text-red-400 mb-4">
-                  이메일을 입력하고 CLICK을 눌러주세요.
-                </p>
+                <p className="text-red-400 mb-4">{verificationMessage}</p>
               ))}
 
             <div className="snsIcons flex w-full">
