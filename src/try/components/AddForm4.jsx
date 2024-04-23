@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { postsState } from '../../recoil/RecoilWastes';
+import { useNavigate } from 'react-router-dom';
 import { createPost } from '../../api/WastesApi';
 import { IoIosCamera } from 'react-icons/io';
-import axios from 'axios';
 const AddForm = () => {
-  const [posts, setPosts] = useRecoilState(postsState);
-  const [wasteCategory, setWasteCategory] = useState('');
   const [title, setTitle] = useState('');
-  const [wasteStatus, setWasteStatus] = useState('최상');
   const [content, setContent] = useState('');
+  const [wasteCategory, setWasteCategory] = useState('');
+  const [wasteStatus, setWasteStatus] = useState('최상');
   const [sellStatus, setSellStatus] = useState('');
   const [wastePrice, setWastePrice] = useState('');
   const [address, setAddress] = useState({
@@ -20,12 +16,9 @@ const AddForm = () => {
     district: '',
     detail: '',
   });
-
-  const [fileName, setFileName] = useState(null);
-  const [likeCount, setLikeCount] = useState(120);
-  const [viewCount, setViewCount] = useState(45);
+  const [imgFile, setImgFile] = useState(null);
   const navigate = useNavigate();
-
+  //주소찾기----------------------------------------------------
   //찾은 주소 input 반영
   const handleComplete = data => {
     setAddress({
@@ -43,13 +36,14 @@ const AddForm = () => {
       oncomplete: handleComplete,
     }).open();
   };
-  //이미지 형식 제한
+
+  //이미지 형식 제한-------------------------------------------------------
   const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
   const handleImageChange = e => {
     const file = e.target.files[0];
     if (file) {
       if (validImageTypes.includes(file.type)) {
-        setFileName(file);
+        setImgFile(file);
       } else {
         alert('올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)');
         // 선택한 파일 초기화
@@ -58,35 +52,14 @@ const AddForm = () => {
     }
   };
 
-  //데이터 제출
-
-  const handlePriceChange = e => {
-    let inputValue = e.target.value;
-    // 입력값에서 콤마를 제거합니다.
-    inputValue = inputValue.replace(/,/g, '');
-    // 입력값에서 숫자와 소수점을 제외한 모든 문자를 제거합니다.
-    const cleanedValue = inputValue.replace(/[^\d.]/g, '');
-    // 입력값이 비어있거나 소수점만 입력된 경우, 그대로 설정합니다.
-    if (cleanedValue === '' || cleanedValue === '.') {
-      setWastePrice(cleanedValue);
-    } else {
-      // 소수점이 여러 개인 경우, 첫 번째 소수점만 유지합니다.
-      const parts = cleanedValue.split('.');
-      const integerPart = parts[0];
-      const decimalPart = parts.length > 1 ? '.' + parts.slice(1).join('') : '';
-      // 숫자로 파싱한 후 다시 문자열로 변환하여 상태로 설정합니다.
-      setWastePrice(parseFloat(integerPart).toLocaleString() + decimalPart);
-    }
-  };
-
-  //제목 글자수 제한
+  //제목 글자수 제한----------------------------------------------------------
   const handleTitleChange = e => {
     const inputValue = e.target.value;
     if (inputValue.length <= 255) {
       setTitle(inputValue);
     }
   };
-  //내용 글자수 제한
+  //내용 글자수 제한----------------------------------------------------------
   const handleContentChange = e => {
     const inputValue = e.target.value;
 
@@ -94,11 +67,13 @@ const AddForm = () => {
       setContent(inputValue);
     }
   };
+
+  //데이터 제출 --------------------------------------------------------------
   const handleSubmit = async e => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('fileName', fileName);
+    formData.append('imgFile', imgFile);
     formData.append('category', wasteCategory);
     formData.append('title', title);
     formData.append('waste_status', wasteStatus);
@@ -106,34 +81,28 @@ const AddForm = () => {
     formData.append('waste_price', wastePrice);
     formData.append('content', content);
     formData.append('address', address);
-    formData.append('likeCount', likeCount);
-    formData.append('viewCount', viewCount);
 
     try {
       const newPost = {
-        fileName,
+        imgFile,
         title,
+        content,
         wasteCategory,
         wasteStatus,
         sellStatus,
         wastePrice,
-        content,
         address,
-        likeCount,
-        viewCount,
-        created_at: new Date().toLocaleDateString(),
       };
-      const createdPost = await createPost(newPost);
-      setPosts([...posts, createdPost]);
+      await createPost(newPost);
 
-      setWasteCategory('');
-      setTitle('');
-      setWasteStatus('');
-      setContent('');
-      setSellStatus('');
-      setWastePrice('');
-      setAddress('');
-      setFileName(null);
+      // setWasteCategory('');
+      // setTitle('');
+      // setWasteStatus('');
+      // setContent('');
+      // setSellStatus('');
+      // setWastePrice('');
+      // setAddress('');
+      // setImgFile(null);
 
       navigate('/ProductsList');
     } catch (error) {
@@ -160,22 +129,22 @@ const AddForm = () => {
                   이미지
                 </p>
                 <label
-                  htmlFor="fileName"
+                  htmlFor="imgFile"
                   className="flex justify-center items-center w-36 h-36 bg-gray-200 rounded-md"
                 >
                   <IoIosCamera size="80" />
                   <input
                     type="file"
-                    id="fileName"
-                    name="fileName"
+                    id="imgFile"
+                    name="imgFile"
                     accept="image/png, image/jpeg, image/jpg"
                     className="w-0 h-0 p-0 overflow-hidden border-0"
                     onChange={handleImageChange}
                     required
                   />
-                  {fileName && (
+                  {imgFile && (
                     <img
-                      src={fileName && URL.createObjectURL(fileName)}
+                      src={imgFile && URL.createObjectURL(imgFile)}
                       alt="게시물 이미지"
                       className="w-36 h-36"
                     />

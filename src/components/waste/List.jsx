@@ -1,23 +1,42 @@
+import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { postsState } from '../../recoil/RecoilWastes';
 import { fetchPosts } from '../../api/WastesApi';
-import { FaPlus } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
-import { deletePost } from '../../api/WastesApi';
-import ProductCard from './ProductCard';
-import { useState, useEffect } from 'react';
+import { FaPlus } from 'react-icons/fa6';
+import { signInState } from '../../recoil/RecoilSignIn';
 import Pagination from '../common/pagination/Pagination';
+import ProductCard from './ProductCard';
+import { useNavigate } from 'react-router-dom';
 const ITEMS_PER_PAGE = 6;
-const ListContent = () => {
-  const [posts, setPosts] = useRecoilState(postsState);
-  console.log(posts);
-  useEffect(() => {
-    fetchPosts()
-      .then(data => setPosts(data))
-      .catch(error => console.error('Error:', error));
-  }, [setPosts]);
-  const [selectedCategory, setSelectedCategory] = useState('전체'); // 선택된 카테고리
+const List = () => {
+  const navigate = useNavigate();
+  const [signIn, setSignIn] = useRecoilState(signInState);
+  const handleRegistrationPageAccess = () => {
+    if (!signIn) {
+      alert('로그인한 회원만 등록 페이지에 접근할 수 있습니다.');
+    } else {
+      navigate('/ProductAdd');
+    }
+  };
 
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedPosts = await fetchPosts();
+        setPosts(fetchedPosts);
+      } catch (error) {
+        console.error(
+          '게시물 목록을 불러오는 도중 에러가 발생했습니다:',
+          error,
+        );
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  //삭제------------------------------
   const handleDelete = async postId => {
     try {
       // API를 사용하여 제품 삭제
@@ -30,32 +49,9 @@ const ListContent = () => {
     }
   };
 
-  const [sortedByViews, setSorted] = useState(false);
-  //정렬
-  const handleSortByViews = () => {
-    const sortedPosts = [...posts].sort((a, b) => {
-      // 조회수가 많은 순서대로 정렬
-      return b.viewCount - a.viewCount;
-    });
-    setPosts(sortedPosts);
-    setSorted(true);
-  };
-  const handleSortByLikes = () => {
-    const sortedPosts = [...posts].sort((a, b) => {
-      return b.likeCount - a.likeCount;
-    });
-    setPosts(sortedPosts);
-    setSorted(true);
-  };
-  const handleSortByCreatedAt = () => {
-    const sortedPosts = [...posts].sort((a, b) => {
-      return new Date(b.id) - new Date(a.id);
-    });
-    setPosts(sortedPosts);
-    setSorted(true);
-  };
-
+  //카테고리--------------------------------
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState('전체');
 
   const filteredPosts =
     selectedCategory === '전체'
@@ -82,6 +78,32 @@ const ListContent = () => {
   const handleCategoryChange = category => {
     setSelectedCategory(category);
     setCurrentPage(1); // 페이지를 첫 페이지로 초기화
+  };
+
+  //정렬-----------------------------------------------------------
+  const [sortedByViews, setSorted] = useState(false);
+  //정렬
+  const handleSortByViews = () => {
+    const sortedPosts = [...posts].sort((a, b) => {
+      // 조회수가 많은 순서대로 정렬
+      return b.viewCount - a.viewCount;
+    });
+    setPosts(sortedPosts);
+    setSorted(true);
+  };
+  const handleSortByLikes = () => {
+    const sortedPosts = [...posts].sort((a, b) => {
+      return b.likeCount - a.likeCount;
+    });
+    setPosts(sortedPosts);
+    setSorted(true);
+  };
+  const handleSortByCreatedAt = () => {
+    const sortedPosts = [...posts].sort((a, b) => {
+      return new Date(b.id) - new Date(a.id);
+    });
+    setPosts(sortedPosts);
+    setSorted(true);
   };
   return (
     <div>
@@ -151,11 +173,12 @@ const ListContent = () => {
           </div>
           <div className="flex">
             <div className="flex-none">
-              <Link to="/ProductAdd">
-                <button className="btn btn-square btn-ghost">
-                  <FaPlus size="25" />
-                </button>
-              </Link>
+              <button
+                className="btn btn-square btn-ghost"
+                onClick={handleRegistrationPageAccess}
+              >
+                <FaPlus size="25" />
+              </button>
             </div>
           </div>
         </div>
@@ -204,4 +227,5 @@ const ListContent = () => {
     </div>
   );
 };
-export default ListContent;
+
+export default List;
