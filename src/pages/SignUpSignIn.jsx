@@ -204,8 +204,7 @@ const SignUpSignIn = () => {
                   <p
                     className={`${confirmMessage === '이메일이 인증되었습니다' ? 'text-blue-400' : 'text-red-400'} text-sm`}
                   >
-                    {confirmMessage === '이메일로 받은 코드를 입력하세요' &&
-                      confirmMessage}
+                    {confirmMessage}
                   </p>
                 </div>
               ) : (
@@ -274,7 +273,7 @@ const SignUpSignIn = () => {
             <button
               className="btn w-[23rem] mt-14"
               onClick={handleSignUp}
-              disabled={!isVerified || !userPassword || isDuplicate}
+              disabled={!isConfirmed || !userPassword || isDuplicate}
             >
               회원 가입
             </button>

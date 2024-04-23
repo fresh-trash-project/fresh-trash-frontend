@@ -9,7 +9,6 @@ export const fetchCode = async (setVerificationMessage, userEmail) => {
       email: userEmail,
     });
     console.log(response);
-    //! 나중에는 콘솔지워야 하는데 내이메일로는 코드 안옴
 
     if (response.status === 200) {
       setVerificationMessage('이메일로 받은 코드를 입력하세요');
