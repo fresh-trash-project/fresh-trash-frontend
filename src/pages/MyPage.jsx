@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import logoImg from '../assets/logo3-1.png';
 import { IoFootsteps } from 'react-icons/io5';
 import { useRecoilState } from 'recoil';
@@ -14,7 +13,11 @@ import Card1 from '../components/common/card/Card1';
 import add from '../assets/add1.jpg';
 import auction from '../assets/auction2.jpg';
 import heart from '../assets/heart1.jpg';
-import { fetchUserNames } from '../api/UserNameAPI';
+import {
+  changeUserInfo,
+  fetchRatings,
+  fetchUserNames,
+} from '../api/UserInfoAPI';
 import { registerMessageState } from '../recoil/RecoilSignIn';
 
 const MyPage = () => {
@@ -37,6 +40,7 @@ const MyPage = () => {
   const [ratings, setRatings] = useState([]);
   const [registerMessage, setRegisterMessage] =
     useRecoilState(registerMessageState);
+  const [detailAddr, setDetailAddr] = useState('');
   //새로고침 시 이미지 기억 ------------------------------------------
   useEffect(() => {
     // Load the image from local storage when the component mounts
@@ -47,29 +51,34 @@ const MyPage = () => {
     }
   }, []);
 
-  //평점 평균 --------------------------------------------------------
+  // 사용자 평점 백에서 구할때
   useEffect(() => {
-    const fetchRatings = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/ratings');
-        const ratingsArray = response.data;
-        setRatings(ratingsArray);
-      } catch (error) {
-        console.error('Error fetching ratings: ', error);
-      }
-    };
     fetchRatings();
   }, []);
 
-  const averageRating = () => {
-    if (ratings.length > 0) {
-      const totalRating = ratings.reduce((sum, rating) => sum + rating.rate, 0);
-      const average = (totalRating / ratings.length).toFixed(1);
-      return average;
-    } else {
-      return 'N/A'; //받은 평점이 하나도 없을때
-    }
-  };
+  // //사용자 평점 프론트에서 구할때--------------------------------------------------------
+  // useEffect(() => {
+  //   const fetchRatings = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:3000/ratings');
+  //       const ratingsArray = response.data;
+  //       setRatings(ratingsArray);
+  //     } catch (error) {
+  //       console.error('Error fetching ratings: ', error);
+  //     }
+  //   };
+  //   fetchRatings();
+  // }, []);
+
+  // const averageRating = () => {
+  //   if (ratings.length > 0) {
+  //     const totalRating = ratings.reduce((sum, rating) => sum + rating.rate, 0);
+  //     const average = (totalRating / ratings.length).toFixed(1);
+  //     return average;
+  //   } else {
+  //     return 'N/A'; //받은 평점이 하나도 없을때
+  //   }
+  // };
 
   //함수들-----------------------------------------------------------
   const handleEditProfile = () => {
@@ -261,6 +270,8 @@ const MyPage = () => {
                   placeholder="상세주소"
                   className="input input-bordered w-80"
                   disabled={!isEditing}
+                  value={detailAddr}
+                  onChange={e => setDetailAddr(e.target.value)}
                 />
               </div>
             </div>

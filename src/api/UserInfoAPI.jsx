@@ -46,21 +46,23 @@ export const changeUserInfo = async (
   setRegisterMessage,
 ) => {
   try {
-    const response = await axios.put(`${API_URL}/members`, {
-      imgFile: image,
-      memberRequest: {
-        nickname: userName,
-        address: {
-          zipcode: address.zipcode,
-          state: address.state,
-          city: address.city,
-          district: address.district,
-          detail: address.detail,
-        },
+    const memberRequest = {
+      nickname: userName,
+      address: {
+        zipcode: address.zipcode,
+        state: address.state,
+        city: address.city,
+        district: address.district,
+        detail: address.detail,
       },
-    });
+    };
+    const json = JSON.stringify(memberRequest);
+    const blob = new Blob([json], { type: 'application/json' });
+    var formData = new FormData();
+    formData.append('imgFile', image);
+    formData.append('memberRequest', blob);
 
-    console.log(response);
+    const response = await axios.put(`${API_URL}/members`, formData);
 
     if (response.status === 200) {
       console.log('프로필 수정 성공');
@@ -69,5 +71,16 @@ export const changeUserInfo = async (
   } catch (error) {
     console.log(error);
     setRegisterMessage('에러');
+  }
+};
+
+//! 여기 
+export const fetchRatings = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/members`, {});
+    const ratings = response.data;
+    setRatings(ratingsArray);
+  } catch (error) {
+    console.error('Error fetching ratings: ', error);
   }
 };

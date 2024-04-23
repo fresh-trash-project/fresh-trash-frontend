@@ -9,13 +9,3 @@ export const signInPanelState = atom({
   key: 'signInPanel',
   default: true,
 });
-
-export const verificationState = atom({
-  key: 'verification',
-  default: false,
-});
-
-export const registerMessageState = atom({
-  key: 'registerMessage',
-  default: false,
-});

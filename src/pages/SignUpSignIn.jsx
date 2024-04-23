@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { VscEye } from 'react-icons/vsc';
 import { Google, Naver, Kakao } from '../components/common/service/SNS';
@@ -11,13 +10,7 @@ import {
   duplicationState,
   duplicationMessageState,
 } from '../recoil/RecoilUserName';
-// import { userEmailState } from '../recoil/RecoilUserEmail';
-import {
-  signInState,
-  signInPanelState,
-  verificationState,
-  registerMessageState,
-} from '../recoil/RecoilSignIn';
+import { signInState, signInPanelState } from '../recoil/RecoilSignIn';
 import { GoogleLoginButton } from '../api/OAuth';
 import {
   fetchCode,
@@ -25,38 +18,31 @@ import {
   signUpAccount,
   verifyCode,
 } from '../api/SignUpSignInAPI';
-import { fetchUserNames } from '../api/UserNameAPI';
-import { verificationMessageState } from '../recoil/RecoilUserEmail';
+import { fetchUserNames } from '../api/UserInfoAPI';
 
 const SignUpSignIn = () => {
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [userName, setUserName] = useRecoilState(userNameState);
+  const [duplicationButtonClick, setDuplicationButtonClick] = useState(false);
   const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
-  const [isVerified, setIsVerified] = useRecoilState(verificationState);
   const [duplicationMessage, setDuplicationMessage] = useRecoilState(
     duplicationMessageState,
   );
-  const [userPassword, setUserPassword] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [verificationButtonClick, setVerificationButtonClick] = useState(false);
-  const [duplicationButtonClick, setDuplicationButtonClick] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [openVerification, setOpenVerification] = useState(false);
-  const [verificationMessage, setVerificationMessage] = useRecoilState(
-    verificationMessageState,
-  );
   const [code, setCode] = useState('');
-  const [registerMessage, setRegisterMessage] =
-    useRecoilState(registerMessageState);
+  const [isVerified, setIsVerified] = useState(false);
+  const [verificationMessage, setVerificationMessage] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [registerMessage, setRegisterMessage] = useState('');
 
   const navigate = useNavigate();
 
   // 함수--------------------------------------------------------------------------------------
-  const close = e => {
-    e.preventDefault();
-    setOpenVerification(false);
-  };
+
   // 이메일 -----------------------------------------------
   const handleEmailChange = e => {
     e.preventDefault();
@@ -69,7 +55,6 @@ const SignUpSignIn = () => {
     e.preventDefault();
     setVerificationButtonClick(true);
     setOpenVerification(true);
-
     await fetchCode(setVerificationMessage, userEmail);
   };
 
