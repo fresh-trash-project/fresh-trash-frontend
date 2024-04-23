@@ -18,7 +18,6 @@ import {
   fetchRatings,
   fetchUserNames,
 } from '../api/UserInfoAPI';
-import { registerMessageState } from '../recoil/RecoilSignIn';
 
 const MyPage = () => {
   const [avatarSrc, setAvatarSrc] = useState(logoImg);
@@ -38,8 +37,7 @@ const MyPage = () => {
     duplicationMessageState,
   );
   const [ratings, setRatings] = useState([]);
-  const [registerMessage, setRegisterMessage] =
-    useRecoilState(registerMessageState);
+  const [registerMessage, setRegisterMessage] = useState('');
   const [detailAddr, setDetailAddr] = useState('');
   //새로고침 시 이미지 기억 ------------------------------------------
   useEffect(() => {
@@ -52,33 +50,33 @@ const MyPage = () => {
   }, []);
 
   // 사용자 평점 백에서 구할때
-  useEffect(() => {
-    fetchRatings();
-  }, []);
-
-  // //사용자 평점 프론트에서 구할때--------------------------------------------------------
   // useEffect(() => {
-  //   const fetchRatings = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:3000/ratings');
-  //       const ratingsArray = response.data;
-  //       setRatings(ratingsArray);
-  //     } catch (error) {
-  //       console.error('Error fetching ratings: ', error);
-  //     }
-  //   };
   //   fetchRatings();
   // }, []);
 
-  // const averageRating = () => {
-  //   if (ratings.length > 0) {
-  //     const totalRating = ratings.reduce((sum, rating) => sum + rating.rate, 0);
-  //     const average = (totalRating / ratings.length).toFixed(1);
-  //     return average;
-  //   } else {
-  //     return 'N/A'; //받은 평점이 하나도 없을때
-  //   }
-  // };
+  //사용자 평점 프론트에서 구할때--------------------------------------------------------
+  useEffect(() => {
+    const fetchRatings = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/ratings');
+        const ratingsArray = response.data;
+        setRatings(ratingsArray);
+      } catch (error) {
+        console.error('Error fetching ratings: ', error);
+      }
+    };
+    fetchRatings();
+  }, []);
+
+  const averageRating = () => {
+    if (ratings.length > 0) {
+      const totalRating = ratings.reduce((sum, rating) => sum + rating.rate, 0);
+      const average = (totalRating / ratings.length).toFixed(1);
+      return average;
+    } else {
+      return 'N/A'; //받은 평점이 하나도 없을때
+    }
+  };
 
   //함수들-----------------------------------------------------------
   const handleEditProfile = () => {

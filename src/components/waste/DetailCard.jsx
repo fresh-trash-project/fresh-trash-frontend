@@ -8,7 +8,7 @@ import { IoHeartOutline } from 'react-icons/io5';
 import { IoHeartSharp } from 'react-icons/io5';
 import { FiMoreVertical } from 'react-icons/fi';
 import { fetchPosts, deletePost } from '../../api/WastesApi';
-import { fetchUserNames } from '../../api/UserNameAPI';
+import { fetchUserNames } from '../../api/UserInfoAPI';
 import { Link, useNavigate } from 'react-router-dom';
 
 const DetailCard = () => {
