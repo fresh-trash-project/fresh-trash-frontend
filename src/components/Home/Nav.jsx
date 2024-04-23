@@ -65,10 +65,10 @@ const Nav = () => {
         {!signIn ? (
           <div>
             {/* 로그인 버튼  */}
-            <Link to="/SignUpSignIn">
+            <Link to="/SignUpSignIn" className="outline-none">
               <button
                 onClick={() => setSignInPanel(true)}
-                className="btn btn-ghost btn-circle w-14"
+                className="btn btn-ghost btn-circle flex items-end w-14 md:w-[4.5rem] lg:w-[6rem] outline-none"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)] ">
@@ -81,10 +81,10 @@ const Nav = () => {
               </button>
             </Link>
             {/* 회원가입 버튼  */}
-            <Link to="/SignUpSignIn">
+            <Link to="/SignUpSignIn" className="outline-none">
               <button
                 onClick={() => setSignInPanel(false)}
-                className="btn btn-ghost btn-circle w-14"
+                className="btn btn-ghost btn-circle flex items-end w-14 md:w-[4.5rem] lg:w-[6rem] outline-none"
               >
                 <div className="indicator">
                   <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">

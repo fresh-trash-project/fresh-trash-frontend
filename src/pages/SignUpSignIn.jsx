@@ -32,9 +32,10 @@ const SignUpSignIn = () => {
   const [userEmail, setUserEmail] = useState('');
   const [verificationButtonClick, setVerificationButtonClick] = useState(false);
   const [openVerification, setOpenVerification] = useState(false);
-  const [code, setCode] = useState('');
-  const [isVerified, setIsVerified] = useState(false);
   const [verificationMessage, setVerificationMessage] = useState('');
+  const [code, setCode] = useState('');
+  const [confirmMessage, setConfirmMessage] = useState('');
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const [userPassword, setUserPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [registerMessage, setRegisterMessage] = useState('');
@@ -61,7 +62,7 @@ const SignUpSignIn = () => {
   const handleVerifyCode = async e => {
     e.preventDefault();
     setVerificationButtonClick(false);
-    await verifyCode(setVerificationMessage, setIsVerified, userEmail, code);
+    await verifyCode(setConfirmMessage, setIsConfirmed, userEmail, code);
   };
 
   // 비밀번호 버튼 ---------------------------------------
@@ -201,10 +202,10 @@ const SignUpSignIn = () => {
                     </VerificationButton>
                   </label>
                   <p
-                    className={`${verificationMessage === '이메일이 인증되었습니다' ? 'text-blue-400' : 'text-red-400'} text-sm`}
+                    className={`${confirmMessage === '이메일이 인증되었습니다' ? 'text-blue-400' : 'text-red-400'} text-sm`}
                   >
-                    {verificationMessage === '이메일이 인증되었습니다' &&
-                      verificationMessage}
+                    {confirmMessage === '이메일로 받은 코드를 입력하세요' &&
+                      confirmMessage}
                   </p>
                 </div>
               ) : (

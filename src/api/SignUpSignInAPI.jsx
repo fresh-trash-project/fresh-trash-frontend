@@ -9,22 +9,25 @@ export const fetchCode = async (setVerificationMessage, userEmail) => {
       email: userEmail,
     });
     console.log(response);
+    //! 나중에는 콘솔지워야 하는데 내이메일로는 코드 안옴
 
     if (response.status === 200) {
       setVerificationMessage('이메일로 받은 코드를 입력하세요');
     }
     return response.data;
   } catch (error) {
+    setVerificationMessage('에러');
     console.log(error);
-    setRegisterMessage('에러');
-    //! 에러 세부적으로 나누기
+    if (error.response.status === 400) {
+      setVerificationMessage('잘못된 이메일입니다.');
+    }
   }
 };
 
 // 인증 코드 입력하고 확인버튼 눌렀을때
 export const verifyCode = async (
-  setVerificationMessage,
-  setIsVerified,
+  setConfirmMessage,
+  setIsConfirmed,
   userEmail,
   code,
 ) => {
@@ -35,14 +38,17 @@ export const verifyCode = async (
     });
 
     if (response.status === 200) {
-      setVerificationMessage('이메일이 인증되었습니다.');
-      setIsVerified(true);
+      setConfirmMessage('이메일이 인증되었습니다.');
+      setIsConfirmed(true);
       console.log(response.status);
     }
     return response.data;
   } catch (error) {
+    setConfirmMessage('에러');
     console.log(error);
-    setRegisterMessage('에러');
+    if (error.response.status === 404) {
+      setConfirmMessage('잘못된 인증코드입니다.');
+    }
     //! 에러 세부적으로 나누기
   }
 };

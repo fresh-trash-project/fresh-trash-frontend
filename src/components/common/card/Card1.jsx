@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 const Card1 = ({ title, phrase, link, image }) => {
   return (
     <div className="card max-w-2xl lg:card-side bg-base-100 shadow-xl lg:max-w-5xl mx-auto mb-10">
-      <figure className="  md:max-w-2xl">
-        <img src={image} />
+      <figure className="h-[30rem] lg:w-[40rem] md:max-w-2xl">
+        <img src={image} className="h-full w-full object-cover" />
       </figure>
       <div className="card-body ">
         <h2 className="card-title">{title}</h2>
