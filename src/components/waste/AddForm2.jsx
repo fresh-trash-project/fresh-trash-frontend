@@ -22,7 +22,7 @@ const AddForm = () => {
   //찾은 주소 input 반영
   const handleComplete = data => {
     setAddress({
-      address: data.address,
+      // address: data.address,
       zipcode: data.zonecode,
       state: data.sido,
       city: data.sigungu,
@@ -339,7 +339,7 @@ const AddForm = () => {
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     type="text"
                     name="state"
-                    defaultValue={address.address}
+                    defaultValue={address.zipcode}
                     placeholder="주소/위치를 입력해주세요."
                     required
                     onClick={handleOpenAddressModal}
