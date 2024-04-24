@@ -94,6 +94,7 @@ export const fetchPosts = async () => {
 //     console.log('게시물 생성을 실패하였습니다.', error);
 //   }
 // };
+// let token = localStorage.getItem('access-token');
 export const createPost = async (
   title,
   content,
@@ -114,7 +115,7 @@ export const createPost = async (
       sellStatus: sellStatus,
       wastePrice: wastePrice,
       address: {
-        zipcode: address.zonecode,
+        zipcode: address.zipcode,
         state: address.state,
         city: address.city,
         district: address.district,
@@ -128,7 +129,16 @@ export const createPost = async (
     formData.append('imgFile', imgFile);
     formData.append('wasteRequest', blob);
 
-    const response = await axios.post(`${API_URL}/api/v1/wastes`, formData);
+    const accessToken = localStorage.getItem('access-token');
+    // if (!accessToken || accessToken.split('.').length !== 3) {
+    //   throw new Error('올바른 형식의 액세스 토큰이 없습니다.');
+    // }
+    const response = await axios.post(`${API_URL}/api/v1/wastes`, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // 액세스 토큰을 헤더에 추가
+        // 'Content-Type': 'multipart/form-data', // 요청의 컨텐츠 타입 지정
+      },
+    });
     if (response.status === 201) {
       console.log('게시물 생성을 완료했습니다.', response.data);
       navigate('/ProductsList');
