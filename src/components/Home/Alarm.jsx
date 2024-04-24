@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { AlarmState } from '../../recoil/RecoilAlarm';
 import { useRecoilState } from 'recoil';
-import { IoMdArrowForward, IoMdClose } from 'react-icons/io';
+import { IoMdClose } from 'react-icons/io';
 import { useEffect, useState } from 'react';
 import { signInState } from '../../recoil/RecoilSignIn';
+import { fetchAlarm, SSE } from '../../api/AlarmAPI';
 
 const Alarm = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
@@ -12,6 +13,19 @@ const Alarm = () => {
 
   const originalText =
     '채팅이 왔습니다. 글자가 많으면 점점점 표시되고 호버하면 다 보이도록 만들고 있습니다. 이곳에 알람 메시지를 받아와야 합니다.  ';
+
+  useEffect(() => {
+    const getAlarms = async () => {
+      try {
+        await SSE();
+        const fetchedAlarms = await fetchAlarm();
+        console.log(fetchedAlarms);
+      } catch (error) {
+        console.error('Error fetching ratings: ', error);
+      }
+    };
+    getAlarms();
+  }, []);
 
   return (
     <div
@@ -61,7 +75,7 @@ const Alarm = () => {
             <p>거래가 완료되었습니다.</p>
           </Link>
         </li>
-        <li className="border-b border-white border-opacity-30">
+        {/* <li className="border-b border-white border-opacity-30">
           <Link>
             <p>낙찰되었습니다. 축하합니다.</p>
           </Link>
@@ -90,7 +104,7 @@ const Alarm = () => {
           <Link>
             <p>낙찰되었습니다. 축하합니다.</p>
           </Link>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

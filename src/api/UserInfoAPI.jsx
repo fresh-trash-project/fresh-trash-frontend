@@ -1,9 +1,4 @@
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
-import {
-  duplicationMessageState,
-  duplicationState,
-} from '../recoil/RecoilUserName';
 
 // const API_URL = 'http://localhost:3000';
 const API_URL = 'http://localhost:8080/api/v1';
@@ -13,6 +8,7 @@ export const fetchUserNames = async (
   setIsDuplicate,
   setDuplicationMessage,
   userName,
+  setUserName,
   setRegisterMessage,
 ) => {
   try {
@@ -24,8 +20,10 @@ export const fetchUserNames = async (
 
     console.log(response);
     if (response.status === 200) {
+      console.log(response);
       setDuplicationMessage('사용 가능한 닉네임입니다.');
       setIsDuplicate(false);
+      setUserName(userName);
     }
     return response.data; // 서버로부터 받은 데이터 반환
   } catch (error) {
@@ -62,7 +60,11 @@ export const changeUserInfo = async (
     formData.append('imgFile', image);
     formData.append('memberRequest', blob);
 
-    const response = await axios.put(`${API_URL}/members`, formData);
+    const accessToken = localStorage.getItem('access-token');
+
+    const response = await axios.put(`${API_URL}/members`, formData, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
 
     if (response.status === 200) {
       console.log('프로필 수정 성공');
@@ -74,12 +76,16 @@ export const changeUserInfo = async (
   }
 };
 
-//! 여기
-export const fetchRatings = async () => {
+//사용자 평점
+export const fetchRating = async () => {
+  const accessToken = localStorage.getItem('access-token');
   try {
-    const response = await axios.get(`${API_URL}/members`, {});
-    const ratings = response.data;
-    setRatings(ratingsArray);
+    const response = await axios.get(`${API_URL}/members`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    console.log(response);
+    const averageRating = response.data.rating;
+    return averageRating;
   } catch (error) {
     console.error('Error fetching ratings: ', error);
   }

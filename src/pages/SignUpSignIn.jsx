@@ -92,10 +92,11 @@ const SignUpSignIn = () => {
   const handleDuplication = async (e, userName) => {
     e.preventDefault();
     setDuplicationButtonClick(true);
-    fetchUserNames(
+    await fetchUserNames(
       setIsDuplicate,
       setDuplicationMessage,
       userName,
+      setUserName,
       setRegisterMessage,
     );
   };
@@ -108,6 +109,8 @@ const SignUpSignIn = () => {
     setDuplicationMessage('');
   };
 
+  console.log(userName);
+
   // 회원가입 버튼 ---------------------------------------
   const handleSignUp = async e => {
     e.preventDefault();
@@ -119,6 +122,7 @@ const SignUpSignIn = () => {
       userEmail,
       navigate,
     );
+    console.log(userName);
   };
 
   // 로그인 버튼 --------------------------------------
@@ -155,7 +159,7 @@ const SignUpSignIn = () => {
         {/* 회원가입---------------------------------------------------------------------------------------------------- */}
         <div
           signInPanel={!signInPanel}
-          className={`signUpContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signInPanel ? 'translate-x-0 opacity-0 z-0' : 'translate-x-full opacity-1 -z-10'}`}
+          className={`signUpContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signInPanel ? 'translate-x-0 opacity-0 z-0' : 'translate-x-full opacity-1 z-10'}`}
         >
           <form className="flex flex-col items-center justify-center pr-12 pl-12 h-full text-center">
             <h1 className="font-bold m-0 text-[1.5rem] mb-5">CREATE ACCOUNT</h1>
@@ -294,7 +298,7 @@ const SignUpSignIn = () => {
         {/* 로그인---------------------------------------------------------------------------------------------------- */}
         <div
           signInPanel={signInPanel}
-          className={`signInContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signInPanel ? 'translate-x-0 opacity-1 -z-10' : 'translate-x-full opacity-0 z-0'}`}
+          className={`signInContainer absolute top-0 left-0 h-full w-1/2 transition-all ${signInPanel ? 'translate-x-0 opacity-1 z-10' : 'translate-x-full opacity-0 z-0'}`}
         >
           <form className="flex flex-col items-center justify-center pr-12 pl-12 h-full text-center">
             <h1 className="font-bold m-0 text-[1.5rem]  mb-5">SIGN IN</h1>

@@ -15,7 +15,7 @@ import auction from '../assets/auction2.jpg';
 import heart from '../assets/heart1.jpg';
 import {
   changeUserInfo,
-  fetchRatings,
+  fetchRating,
   fetchUserNames,
 } from '../api/UserInfoAPI';
 
@@ -49,10 +49,7 @@ const MyPage = () => {
     }
   }, []);
 
-  // 사용자 평점 백에서 구할때
-  // useEffect(() => {
-  //   fetchRatings();
-  // }, []);
+  console.log(userName);
 
   //사용자 평점 프론트에서 구할때--------------------------------------------------------
   useEffect(() => {
@@ -162,7 +159,29 @@ const MyPage = () => {
     return () => window.removeEventListener('resize', updateGreenBarWidth);
   }, []);
 
-  const footstep = (averageRating() / 5) * 100 - (30 / greenBarWidth) * 100;
+  //프론트에서 구할때 const footstep = (averageRating() / 5) * 100 - (30 / greenBarWidth) * 100;
+
+  //백에서 구할때
+  const [fetchedAverageRating, setFetchedAverageRating] = useState(null);
+  useEffect(() => {
+    const fetchAndCalculateFootstep = async () => {
+      try {
+        const fetchedRating = await fetchRating();
+        if (fetchedRating !== null) {
+          setFetchedAverageRating(fetchedRating);
+        }
+      } catch (error) {
+        console.error('Error fetching average rating:', error);
+      }
+    };
+
+    fetchAndCalculateFootstep(); // Call the function to fetch and calculate footstep
+  }, [fetchRating]); //
+
+  let footstep = (fetchedAverageRating / 5) * 100 - (30 / greenBarWidth) * 100;
+  if (fetchedAverageRating === 0) {
+    footstep = (fetchedAverageRating / 5) * 100;
+  }
 
   //JSX-------------------------------------------------------------
   return (
@@ -193,7 +212,7 @@ const MyPage = () => {
               {isEditing ? '프로필 수정 완료' : '프로필 수정'}
             </button>
             {isEditing && (
-              <div className="mx-auto mt-2 md:mx-14">
+              <button className="mx-auto mt-2 md:mx-14">
                 {!image ? (
                   <label htmlFor="avatarInput" className="btn btn-wide">
                     <p>이미지 업로드</p>
@@ -210,9 +229,11 @@ const MyPage = () => {
                     이미지 삭제
                   </button>
                 )}
-              </div>
+              </button>
             )}
-            {registerMessage === '에러' && registerMessage}
+            {registerMessage === '에러' && (
+              <p className="text-red-400 text-center">{registerMessage}</p>
+            )}
           </div>
 
           <div className="w-full flex flex-col">
@@ -237,7 +258,7 @@ const MyPage = () => {
               </div>
               {isEditing && (
                 <div
-                  className={`mb-5 w-fit ${isDuplicate ? 'text-red-500' : 'text-blue-500'}`}
+                  className={`mb-5 w-fit ${isDuplicate ? 'text-red-400' : 'text-blue-400'}`}
                 >
                   {duplicationMessage}
                 </div>
@@ -283,7 +304,8 @@ const MyPage = () => {
               {userName}의 평점
             </div>
             <div className="rating-value rounded-lg p-2 bg-green-paleaqua ">
-              {averageRating()} / 5
+              {/*프론트에서 구할때 {averageRating()} / 5 */}
+              {fetchedAverageRating} / 5
             </div>
           </div>
 

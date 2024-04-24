@@ -71,6 +71,7 @@ export const signUpAccount = async (
 
     if (response.status === 201) {
       console.log('성공적 회원가입 ');
+      console.log(response);
       setSignIn(true);
       navigate('/SignUpSignIn');
     }
