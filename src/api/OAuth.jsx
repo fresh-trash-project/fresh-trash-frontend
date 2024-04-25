@@ -1,20 +1,31 @@
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import axios from 'axios';
 
-export const GoogleLoginButton = () => {
-  const clientId = 'clientID';
+const API_URL = 'http://localhost:8080/oauth2/authorization';
 
-  return (
-    <>
-      <GoogleOAuthProvider clientId={clientId}>
-        <GoogleLogin
-          onSuccess={res => {
-            console.log(res);
-          }}
-          onFailure={() => {
-            console.log('Login Failed');
-          }}
-        />
-      </GoogleOAuthProvider>
-    </>
-  );
+// OAUTH
+export const KakaoOAUTH = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/kakao`);
+    console.log(response);
+  } catch (error) {
+    console.error('Error fetching ratings: ', error);
+  }
+};
+
+export const NaverOAUTH = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/naver`);
+    console.log(response);
+  } catch (error) {
+    console.error('Error fetching ratings: ', error);
+  }
+};
+
+export const GoogleOAUTH = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/google`);
+    console.log(response);
+  } catch (error) {
+    console.error('Error fetching ratings: ', error);
+  }
 };

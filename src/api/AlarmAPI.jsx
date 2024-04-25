@@ -3,19 +3,6 @@ import axios from 'axios';
 // const API_URL = 'http://localhost:3000';
 const API_URL = 'http://localhost:8080/api/v1';
 
-// 알림 subscribe(SSE연결요청)
-export const SSE = async () => {
-  const accessToken = localStorage.getItem('access-token');
-  try {
-    const response = await axios.get(`${API_URL}/notis/subscribe`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    console.log(response);
-  } catch (error) {
-    console.error('Error fetching ratings: ', error);
-  }
-};
-
 //전체 알람 조회
 export const fetchAlarm = async () => {
   const accessToken = localStorage.getItem('access-token');
