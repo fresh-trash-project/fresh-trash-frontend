@@ -11,7 +11,7 @@ import ProductCard from './ProductCard';
 import { useNavigate } from 'react-router-dom';
 import { PaginationButton } from 'flowbite-react';
 const ITEMS_PER_PAGE = 6;
-const List = () => {
+const ListTest = () => {
   const navigate = useNavigate();
 
   //회원만 등록페이지 접근-------------------------------
@@ -27,6 +27,21 @@ const List = () => {
   //fetch 호출-----------------------------------
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const productList = await fetchProducts(page);
+
+  //       setPosts(productList);
+  //     } catch (error) {}
+  //   };
+
+  //   fetchData();
+  // }, [page]);
+
+  // const [posts, setPosts] = useState([]);
+  // const [page, setPage] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,7 +95,29 @@ const List = () => {
       console.error('Error sorting by createdAt:', error);
     }
   };
-  //검색----------------------------------
+  // useEffect(() => {
+  //   setPosts(sortedLike); // 정렬된 제품 목록으로 업데이트
+  //   console.log('관심순 정렬 성공', sortedLike);
+  // }, [sortedLike]);
+
+  // const handlePreviousPage = async () => {
+  //   try {
+  //     await fetchWastes.getPage(page - 1);
+  //     setPage(page - 1);
+  //   } catch (error) {
+  //     console.error('Error fetching previous page:', error);
+  //   }
+  // };
+
+  // // 다음 페이지로 이동하는 함수
+  // const handleNextPage = async () => {
+  //   try {
+  //     await fetchWastes.getPage(page + 1);
+  //     setPage(page + 1);
+  //   } catch (error) {
+  //     console.error('Error fetching next page:', error);
+  //   }
+  // };
 
   //삭제------------------------------
   const handleDelete = async postId => {
@@ -251,4 +288,4 @@ const List = () => {
   );
 };
 
-export default List;
+export default ListTest;

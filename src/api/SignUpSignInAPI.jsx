@@ -105,6 +105,7 @@ export const signInAccount = async (
     if (response.status === 200) {
       console.log(response);
       const accessToken = response.data.accessToken;
+      console.log(accessToken);
       localStorage.setItem('access-token', accessToken);
       console.log(localStorage);
       console.log('성공적 로그인 ');
