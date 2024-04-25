@@ -25,7 +25,6 @@ const MyPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userName, setUserName] = useRecoilState(userNameState);
   const [address, setAddress] = useState({
-    address: '',
     zipcode: '',
     state: '',
     city: '',
@@ -39,7 +38,7 @@ const MyPage = () => {
   );
   const [ratings, setRatings] = useState([]);
   const [registerMessage, setRegisterMessage] = useState('');
-  const [detailAddr, setDetailAddr] = useState('');
+  // const [detailAddr, setDetailAddr] = useState('');
 
   //마이페이지 들어왔을때 유저정보 불러오기
   useEffect(() => {
@@ -131,7 +130,6 @@ const MyPage = () => {
 
   const handleAddressChange = data => {
     const newAddress = {
-      address: data.address,
       zipcode: data.zonecode,
       state: data.sido,
       city: data.sigungu,
@@ -301,7 +299,7 @@ const MyPage = () => {
                     type="text"
                     placeholder="주소검색"
                     className="input input-bordered w-80"
-                    value={` ${address.address}`}
+                    value={`${address.zipcode} ${address.state} ${address.city} ${address.district}`}
                     onChange={handleAddressChange}
                     disabled={!isEditing}
                     readOnly
@@ -320,7 +318,7 @@ const MyPage = () => {
                   placeholder="상세주소"
                   className="input input-bordered w-80"
                   disabled={!isEditing}
-                  value={detailAddr}
+                  value={address.detail}
                   onChange={e =>
                     setAddress(prevAddress => ({
                       ...prevAddress,
