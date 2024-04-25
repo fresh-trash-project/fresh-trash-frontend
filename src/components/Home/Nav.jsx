@@ -10,6 +10,11 @@ const Nav = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
 
+  const handleLogout = () => {
+    localStorage.removeItem('access-token');
+    setSignIn(false);
+  };
+
   return (
     <div className="navbar bg-[var(--green-brunswick)] text-white pr-7 ">
       <div className="navbar-start">
@@ -119,7 +124,7 @@ const Nav = () => {
             {/* 로그아웃 버튼  */}
             <Link to="/" className="outline-none">
               <button
-                onClick={() => setSignIn(false)}
+                onClick={handleLogout}
                 className="btn btn-ghost btn-circle flex items-end w-14 md:w-[4.5rem] lg:w-[6rem] outline-none"
               >
                 <div className="indicator">

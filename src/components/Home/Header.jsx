@@ -12,6 +12,16 @@ const Header = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
   const accessToken = localStorage.getItem('access-token');
 
+  //엑세스토큰있으면 로그인상태로
+  // App initialization
+  useEffect(() => {
+    const accessToken = localStorage.getItem('access-token');
+    if (accessToken) {
+      // Token exists, so the user is signed in
+      setSignIn(true);
+    }
+  }, []);
+
   //SSE -------------------------------------------------------------------------------------------------------
   useEffect(() => {
     if (signIn) {
@@ -53,10 +63,10 @@ const Header = () => {
     );
     console.log(storedAlarmMessages);
 
-    if (storedAlarmMessages.length > 0) {
+    if (storedAlarmMessages === null) {
+      if (signIn) getAlarms();
+    } else if (storedAlarmMessages.length > 0) {
       setAlarmMsg(storedAlarmMessages);
-    } else {
-      getAlarms();
     }
   }, []);
 

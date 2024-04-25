@@ -96,7 +96,7 @@ const SignUpSignIn = () => {
       setIsDuplicate,
       setDuplicationMessage,
       userName,
-
+      setUserName,
       setRegisterMessage,
     );
   };

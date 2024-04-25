@@ -21,8 +21,6 @@ const MyTradeList = () => {
     setOnSale(true);
   };
 
-  console.log(onSale);
-
   return (
     <div>
       <Header />

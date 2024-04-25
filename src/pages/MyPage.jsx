@@ -52,6 +52,7 @@ const MyPage = () => {
 
     getUserInfo();
   }, []);
+  console.log(address);
 
   //새로고침 시 이미지, 주소 기억 ------------------------------------------
   useEffect(() => {
@@ -82,7 +83,7 @@ const MyPage = () => {
       image,
       setRegisterMessage,
     );
-    console.log(changeMyInfo);
+    console.log(userName);
   };
 
   const handleImageChange = e => {
@@ -117,6 +118,7 @@ const MyPage = () => {
       setIsDuplicate,
       setDuplicationMessage,
       userName,
+      setUserName,
       setRegisterMessage,
     );
   };
@@ -136,7 +138,10 @@ const MyPage = () => {
       district: data.bname,
       detail: data.buildingName,
     };
-    setAddress(newAddress);
+    setAddress(prevAddress => ({
+      ...prevAddress,
+      ...newAddress,
+    }));
 
     //!풋요청성공하면 필요없을듯 localStorage.setItem('userAddress', JSON.stringify(newAddress));
   };
@@ -316,7 +321,12 @@ const MyPage = () => {
                   className="input input-bordered w-80"
                   disabled={!isEditing}
                   value={detailAddr}
-                  onChange={e => setDetailAddr(e.target.value)}
+                  onChange={e =>
+                    setAddress(prevAddress => ({
+                      ...prevAddress,
+                      detail: e.target.value,
+                    }))
+                  }
                 />
               </div>
             </div>

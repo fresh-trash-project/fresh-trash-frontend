@@ -8,6 +8,7 @@ export const fetchUserNames = async (
   setIsDuplicate,
   setDuplicationMessage,
   userName,
+  setUserName,
   setRegisterMessage,
 ) => {
   try {
@@ -22,6 +23,7 @@ export const fetchUserNames = async (
       console.log(response);
       setDuplicationMessage('사용 가능한 닉네임입니다.');
       setIsDuplicate(false);
+      setUserName(userName);
     }
     return response.data; // 서버로부터 받은 데이터 반환
   } catch (error) {
