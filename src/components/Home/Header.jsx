@@ -5,6 +5,7 @@ import Alarm from './Alarm';
 import { signInState } from '../../recoil/RecoilSignIn';
 import { useEffect } from 'react';
 import { fetchAlarm } from '../../api/AlarmAPI';
+import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill';
 
 const Header = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
@@ -23,27 +24,34 @@ const Header = () => {
   }, []);
 
   //SSE -------------------------------------------------------------------------------------------------------
-  useEffect(() => {
-    if (signIn) {
-      try {
-        const fetchSSE = async () => {
-          const eventSource = new EventSource(
-            'http://localhost:8080/api/v1/notis/subscribe',
-            {
-              headers: { Authorization: `Bearer ${accessToken}` },
-            },
-          );
-          eventSource.addEventListener('alarm', event => {
-            const eventData = JSON.parse(event.data);
-            console.log('receivedData:', eventData);
-          });
-        };
-        fetchSSE();
-      } catch (error) {
-        throw error;
-      }
-    }
-  }, [signIn]);
+  // useEffect(() => {
+  //   let eventSource;
+  //   if (signIn) {
+  //     try {
+  //       // const EventSource = EventSourcePolyfill || NativeEventSource;
+
+  //       eventSource = new EventSourcePolyfill(
+  //         'http://localhost:8080/api/v1/notis/subscribe',
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${accessToken}`,
+  //           },
+  //         },
+  //       );
+
+  //       eventSource.addEventListener('alarm', e => {
+  //         const eventData = JSON.parse(e.data);
+  //         console.log('receivedData:', eventData);
+  //       });
+
+  //       eventSource.onmessage = async e => {
+  //         console.log(e.data);
+  //       };
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   }
+  // }, [signIn]);
 
   //알람받기 -----------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -61,7 +69,7 @@ const Header = () => {
     const storedAlarmMessages = JSON.parse(
       localStorage.getItem('alarmMessages'),
     );
-    console.log(storedAlarmMessages);
+    // console.log(storedAlarmMessages);
 
     if (storedAlarmMessages === null) {
       if (signIn) getAlarms();

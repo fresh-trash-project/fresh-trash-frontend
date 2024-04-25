@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import Header from '../components/Home/Header';
 import MyTradeCards from '../components/MyList/MyTradeCards';
+import { fetchMySellList } from '../api/UserTradeAPI';
+import { postsState } from '../recoil/RecoilWastes';
+import { useRecoilState } from 'recoil';
 
 const MyTradeList = () => {
   const [mySellListOpen, setMySellListOpen] = useState(true);
   const [myBuyListOpen, setMyBuyListOpen] = useState(false);
   const [onSale, setOnSale] = useState(true);
+  const [posts, setPosts] = useRecoilState(postsState);
 
-  const handleMySellListOpen = () => {
+  const handleMySellListOpen = async () => {
     setMySellListOpen(true);
     setMyBuyListOpen(false);
+    const mySellList = await fetchMySellList();
+    // console.log(mySellList);
+    setPosts(mySellList);
+    // console.log(posts);
   };
 
   const handleMyBuyListOpen = () => {
