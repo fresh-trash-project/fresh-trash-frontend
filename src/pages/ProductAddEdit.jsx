@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { deletePost } from '../api/WastesApi';
 import * as S from '../styles/ProductsListStyle';
 import ProductCard from '../components/ProductCard';
-import Nav from '../components/Nav';
+// import Nav from '../components/Nav';
+import Header from '../components/Home/Header';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
@@ -123,7 +124,7 @@ const ProductsList = () => {
   };
   return (
     <div>
-      <Nav />
+      <Header />
 
       <S.Nav>
         <div className="nav-middle">
