@@ -1,10 +1,24 @@
 import { useRecoilState } from 'recoil';
 import ProductCard from '../waste/ProductCard';
 import { postsState } from '../../recoil/RecoilWastes';
+import { fetchMyTrade } from '../../api/UserTradeAPI';
+import { useEffect } from 'react';
 
 const MyTradeCards = () => {
   const [posts, setPosts] = useRecoilState(postsState);
-  console.log(posts);
+  useEffect(() => {
+    const fetchMyData = async () => {
+      try {
+        const response = await fetchMyTrade();
+        const data = response.data;
+        setPosts(data);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+
+    fetchMyData();
+  }, [setPosts]);
 
   return (
     <div className=" pt-4 px-20 lg:pt-5 pb-4 lg:pb-8 lg:px-36 xl:px-40 xl:container mx-auto 2xl:px-60 ">

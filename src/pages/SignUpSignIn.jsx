@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { VscEye } from 'react-icons/vsc';
 import { Google, Naver, Kakao } from '../components/common/service/SNS';
@@ -11,7 +11,7 @@ import {
   duplicationMessageState,
 } from '../recoil/RecoilUserName';
 import { signInState, signInPanelState } from '../recoil/RecoilSignIn';
-import { GoogleLoginButton } from '../api/OAuth';
+import { KakaoOAUTH, NaverOAUTH, GoogleOAUTH } from '../api/OAuth';
 import {
   fetchPW,
   fetchCode,
@@ -118,9 +118,10 @@ const SignUpSignIn = () => {
       setSignIn,
       setRegisterMessage,
       userName,
+      setUserName,
       userPassword,
       userEmail,
-      navigate,
+      setSignInPanel,
     );
     console.log(userName);
   };
@@ -364,16 +365,16 @@ const SignUpSignIn = () => {
                 <p className="text-red-400 mb-4">{verificationMessage}</p>
               ))}
 
+            {/* //!소셜로그인 부분  */}
             <div className="snsIcons flex w-full">
               <div className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1">
-                <Google style="w-4 h-4" onClick={GoogleLoginButton} />
-                {/* //!소셜로그인 부분  */}
+                <Google style="w-4 h-4" onClick={() => GoogleOAUTH()} />
               </div>
               <div className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1">
-                <Naver style="w-4 h-4" />
+                <Naver style="w-4 h-4" onClick={() => NaverOAUTH()} />
               </div>
               <div className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1">
-                <Kakao style="w-4 h-4" />
+                <Kakao style="w-4 h-4" onClick={() => KakaoOAUTH()} />
               </div>
             </div>
             <button

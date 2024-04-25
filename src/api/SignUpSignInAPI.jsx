@@ -32,6 +32,7 @@ export const verifyCode = async (
   setVerificationButtonClick,
 ) => {
   try {
+    console.log(code);
     const response = await axios.post(`${API}/mail/verify`, {
       email: userEmail,
       code: code,
@@ -58,9 +59,10 @@ export const signUpAccount = async (
   setSignIn,
   setRegisterMessage,
   userName,
+  setUserName,
   userPassword,
   userEmail,
-  navigate,
+  setSignInPanel,
 ) => {
   try {
     const response = await axios.post(`${API}/auth/signup`, {
@@ -73,7 +75,8 @@ export const signUpAccount = async (
       console.log('성공적 회원가입 ');
       console.log(response);
       setSignIn(true);
-      navigate('/SignUpSignIn');
+      setUserName(userName);
+      setSignInPanel(true);
     }
     return response.data;
   } catch (error) {

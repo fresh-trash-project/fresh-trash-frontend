@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  env: { browser: tue, es2020: true },
+  env: { browser: true, es2020: true },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
@@ -39,8 +39,5 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
-  },
-  env: {
-    browser: true, // document, window 등의 브라우저 내장 객체들 조회시 ESLint 오류 없이 작업
   },
 };

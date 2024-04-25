@@ -2,12 +2,18 @@ import { Link } from 'react-router-dom';
 import { signInState, signInPanelState } from '../../recoil/RecoilSignIn';
 import { useRecoilState } from 'recoil';
 import { useState } from 'react';
-import { AlarmState } from '../../recoil/RecoilAlarm';
+import { AlarmMsgState, AlarmState } from '../../recoil/RecoilAlarm';
 
 const Nav = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
+  const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
+
+  const handleLogout = () => {
+    localStorage.removeItem('access-token');
+    setSignIn(false);
+  };
 
   return (
     <div className="navbar bg-[var(--green-brunswick)] text-white pr-7 ">
@@ -118,7 +124,7 @@ const Nav = () => {
             {/* 로그아웃 버튼  */}
             <Link to="/" className="outline-none">
               <button
-                onClick={() => setSignIn(false)}
+                onClick={handleLogout}
                 className="btn btn-ghost btn-circle flex items-end w-14 md:w-[4.5rem] lg:w-[6rem] outline-none"
               >
                 <div className="indicator">
@@ -153,7 +159,9 @@ const Nav = () => {
                     d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                   />
                 </svg>
-                <span className="badge badge-xs badge-primary indicator-item bg-[var(--yellow-naples)] border-[var(--yellow-naples)]"></span>
+                <span className="badge badge-xs badge-primary indicator-item bg-[var(--yellow-naples)] border-[var(--yellow-naples)] py-2 text-black">
+                  {alarmMsg.length}
+                </span>
               </div>
             </button>
           </div>

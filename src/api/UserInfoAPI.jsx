@@ -36,7 +36,7 @@ export const fetchUserNames = async (
   }
 };
 
-// 프로필 수정
+//! 프로필 수정 but put요청에서 400에러 자꾸 남
 export const changeUserInfo = async (
   userName,
   address,
@@ -69,7 +69,8 @@ export const changeUserInfo = async (
     if (response.status === 200) {
       console.log('프로필 수정 성공');
     }
-    return response.data; // 서버로부터 받은 데이터 반환
+    console.log(response);
+    return response; // 서버로부터 받은 데이터 반환
   } catch (error) {
     console.log(error);
     setRegisterMessage('에러');
@@ -86,6 +87,21 @@ export const fetchRating = async () => {
     console.log(response);
     const averageRating = response.data.rating;
     return averageRating;
+  } catch (error) {
+    console.error('Error fetching ratings: ', error);
+  }
+};
+
+//마이페이지 들어왔을때 유저정보 불러오기
+export const fetchUserInfo = async () => {
+  const accessToken = localStorage.getItem('access-token');
+
+  try {
+    const response = await axios.get(`${API_URL}/members`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    // console.log(response);
+    return response;
   } catch (error) {
     console.error('Error fetching ratings: ', error);
   }

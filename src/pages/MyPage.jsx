@@ -16,6 +16,7 @@ import heart from '../assets/heart1.jpg';
 import {
   changeUserInfo,
   fetchRating,
+  fetchUserInfo,
   fetchUserNames,
 } from '../api/UserInfoAPI';
 
@@ -39,7 +40,21 @@ const MyPage = () => {
   const [ratings, setRatings] = useState([]);
   const [registerMessage, setRegisterMessage] = useState('');
   const [detailAddr, setDetailAddr] = useState('');
-  //새로고침 시 이미지 기억 ------------------------------------------
+
+  //마이페이지 들어왔을때 유저정보 불러오기
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const myInfo = await fetchUserInfo();
+      setUserName(myInfo.data.nickname);
+      setAddress(myInfo.data.address);
+      setRatings(myInfo.data.rating);
+    };
+
+    getUserInfo();
+  }, []);
+  console.log(address);
+
+  //새로고침 시 이미지, 주소 기억 ------------------------------------------
   useEffect(() => {
     // Load the image from local storage when the component mounts
     const storedImage = localStorage.getItem('avatarImage');
@@ -47,42 +62,28 @@ const MyPage = () => {
       setAvatarSrc(storedImage);
       setImage(storedImage);
     }
+    //!풋요청 성공하면 필요없을듯
+    // const storedAddress = localStorage.getItem('userAddress');
+    // if (storedAddress) {
+    //   setAddress(JSON.parse(storedAddress));
+    // }
   }, []);
-
-  console.log(userName);
-
-  //사용자 평점 프론트에서 구할때--------------------------------------------------------
-  useEffect(() => {
-    const fetchRatings = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/ratings');
-        const ratingsArray = response.data;
-        setRatings(ratingsArray);
-      } catch (error) {
-        console.error('Error fetching ratings: ', error);
-      }
-    };
-    fetchRatings();
-  }, []);
-
-  const averageRating = () => {
-    if (ratings.length > 0) {
-      const totalRating = ratings.reduce((sum, rating) => sum + rating.rate, 0);
-      const average = (totalRating / ratings.length).toFixed(1);
-      return average;
-    } else {
-      return 'N/A'; //받은 평점이 하나도 없을때
-    }
-  };
 
   //함수들-----------------------------------------------------------
   const handleEditProfile = () => {
     setIsEditing(true);
   };
 
+  //유저정보 변경
   const handleChangeUserInfo = async () => {
     setIsEditing(false);
-    await changeUserInfo(userName, address, image, setRegisterMessage);
+    const changeMyInfo = await changeUserInfo(
+      userName,
+      address,
+      image,
+      setRegisterMessage,
+    );
+    console.log(userName);
   };
 
   const handleImageChange = e => {
@@ -117,6 +118,7 @@ const MyPage = () => {
       setIsDuplicate,
       setDuplicationMessage,
       userName,
+      setUserName,
       setRegisterMessage,
     );
   };
@@ -128,16 +130,45 @@ const MyPage = () => {
   };
 
   const handleAddressChange = data => {
-    setAddress({
+    const newAddress = {
       address: data.address,
       zipcode: data.zonecode,
       state: data.sido,
       city: data.sigungu,
       district: data.bname,
       detail: data.buildingName,
-    });
+    };
+    setAddress(prevAddress => ({
+      ...prevAddress,
+      ...newAddress,
+    }));
+
+    //!풋요청성공하면 필요없을듯 localStorage.setItem('userAddress', JSON.stringify(newAddress));
   };
 
+  //사용자 평점 프론트에서 구할때--------------------------------------------------------
+  useEffect(() => {
+    const fetchRatings = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/ratings');
+        const ratingsArray = response.data;
+        setRatings(ratingsArray);
+      } catch (error) {
+        console.error('Error fetching ratings: ', error);
+      }
+    };
+    fetchRatings();
+  }, []);
+
+  const averageRating = () => {
+    if (ratings.length > 0) {
+      const totalRating = ratings.reduce((sum, rating) => sum + rating.rate, 0);
+      const average = (totalRating / ratings.length).toFixed(1);
+      return average;
+    } else {
+      return 'N/A'; //받은 평점이 하나도 없을때
+    }
+  };
   //발자국-------------------------------------------------------------
   const [greenBarWidth, setGreenBarWidth] = useState(0);
 
@@ -161,7 +192,7 @@ const MyPage = () => {
 
   //프론트에서 구할때 const footstep = (averageRating() / 5) * 100 - (30 / greenBarWidth) * 100;
 
-  //백에서 구할때
+  //백에서 평점 구할때
   const [fetchedAverageRating, setFetchedAverageRating] = useState(null);
   useEffect(() => {
     const fetchAndCalculateFootstep = async () => {
@@ -290,7 +321,12 @@ const MyPage = () => {
                   className="input input-bordered w-80"
                   disabled={!isEditing}
                   value={detailAddr}
-                  onChange={e => setDetailAddr(e.target.value)}
+                  onChange={e =>
+                    setAddress(prevAddress => ({
+                      ...prevAddress,
+                      detail: e.target.value,
+                    }))
+                  }
                 />
               </div>
             </div>
