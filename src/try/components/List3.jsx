@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-// import { fetchProducts } from '../../api/WastesApi';
-import { fetchWastes } from '../../api/WastesApi';
+import { fetchProducts } from '../../api/WastesApi';
 import { Link } from 'react-router-dom';
-import { FaPlus } from 'react-icons/fa6';
+import { FaPage4, FaPlus } from 'react-icons/fa6';
 import { signInState } from '../../recoil/RecoilSignIn';
-// import Pagination from '../common/pagination/Pagination';
-// import Pagination2 from '../common/pagination/Pagination2';
+import Pagination from '../common/pagination/Pagination';
 import ProductCard from './ProductCard';
 import { useNavigate } from 'react-router-dom';
-import { PaginationButton } from 'flowbite-react';
 const ITEMS_PER_PAGE = 6;
-const List = () => {
+const List3 = () => {
   const navigate = useNavigate();
-
-  //회원만 등록페이지 접근-------------------------------
   const [signIn, setSignIn] = useRecoilState(signInState);
   const handleRegistrationPageAccess = () => {
     if (!signIn) {
@@ -24,63 +19,23 @@ const List = () => {
     }
   };
 
-  //fetch 호출-----------------------------------
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productList = await fetchWastes.getPage(page);
-
-        setPosts(productList);
-      } catch (error) {}
+        const fetchedPosts = await fetchProducts(page);
+        setPosts(fetchedPosts);
+      } catch (error) {
+        console.error(
+          '게시물 목록을 불러오는 도중 에러가 발생했습니다:',
+          error,
+        );
+      }
     };
 
     fetchData();
   }, [page]);
-
-  //페이지네이션-------------------------------------
-  const handlePreviousPage = () => {
-    setPage(page => Math.max(page - 1, 0)); // 이전 페이지로 이동
-  };
-
-  const handleNextPage = () => {
-    setPage(page => Math.min(page + 1, posts.totalPages - 1)); // 다음 페이지로 이동
-  };
-
-  //관심순--------------------------
-  // const [sortedLike, setSortedLike] = useState([]);
-  const handleSortByLikes = async () => {
-    try {
-      const sortedList = await fetchWastes.likeCount('likeCount,desc');
-      setPosts(sortedList);
-      console.log('관심순으로 정렬', sortedList);
-    } catch (error) {
-      console.error('Error sorting by likes:', error);
-    }
-  };
-  //조회순---------------------------
-  const handleSortByViews = async () => {
-    try {
-      const sortedList = await fetchWastes.likeCount('viewCount,desc');
-      setPosts(sortedList);
-      console.log('조회순으로 정렬', sortedList);
-    } catch (error) {
-      console.error('Error sorting by viewCount:', error);
-    }
-  };
-  //날짜순----------------------------
-  const handleSortByCreated = async () => {
-    try {
-      const sortedList = await fetchWastes.likeCount('createdAt,desc');
-      setPosts(sortedList);
-      console.log('날짜순으로 정렬', sortedList);
-    } catch (error) {
-      console.error('Error sorting by createdAt:', error);
-    }
-  };
-  //검색----------------------------------
 
   //삭제------------------------------
   const handleDelete = async postId => {
@@ -102,9 +57,23 @@ const List = () => {
   const filteredPosts =
     selectedCategory === '전체'
       ? posts
-      : posts.content.filter(
-          post => post.content.wasteCategory === selectedCategory,
-        );
+      : posts.content.filter(post => post.wasteCategory === selectedCategory);
+
+  const totalPages = filteredPosts
+    ? Math.ceil(filteredPosts.length / ITEMS_PER_PAGE)
+    : 0;
+
+  const currentProducts = filteredPosts
+    ? filteredPosts.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE,
+      )
+    : [];
+
+  //페이지를 변경하는 함수
+  const handlePageChange = page => {
+    setCurrentPage(page);
+  };
 
   // 카테고리를 변경하는 함수
   const handleCategoryChange = category => {
@@ -112,6 +81,31 @@ const List = () => {
     setCurrentPage(1); // 페이지를 첫 페이지로 초기화
   };
 
+  //정렬-----------------------------------------------------------
+  const [sortedByViews, setSorted] = useState(false);
+  //정렬
+  const handleSortByViews = () => {
+    const sortedPosts = [...posts].sort((a, b) => {
+      // 조회수가 많은 순서대로 정렬
+      return b.viewCount - a.viewCount;
+    });
+    setPosts(sortedPosts);
+    setSorted(true);
+  };
+  const handleSortByLikes = () => {
+    const sortedPosts = [...posts].sort((a, b) => {
+      return b.likeCount - a.likeCount;
+    });
+    setPosts(sortedPosts);
+    setSorted(true);
+  };
+  const handleSortByCreatedAt = () => {
+    const sortedPosts = [...posts].sort((a, b) => {
+      return new Date(b.id) - new Date(a.id);
+    });
+    setPosts(sortedPosts);
+    setSorted(true);
+  };
   return (
     <div>
       <div className="navbar flex-row justify-between bg-base-100 shadow-md">
@@ -200,55 +194,42 @@ const List = () => {
           <li>폐기물 거래/나눔</li>
         </ul>
       </div>
-
       <div className=" pt-4 px-20 lg:pt-5 pb-4 lg:pb-8 px-36 xl:px-40 xl:container mx-auto 2xl:px-60">
         <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 xl:px-2 mb-20 xl:container mx-auto  ">
           <div className="flex justify-end mb-4">
-            <button className="mr-5" onClick={handleSortByViews}>
+            <button onClick={handleSortByViews} className="mr-5">
               조회순
             </button>
-            <button className="mr-5" onClick={handleSortByLikes}>
+            <button onClick={handleSortByLikes} className="mr-5">
               관심순
             </button>
-            <button onClick={handleSortByCreated}>최신순</button>
+            <button onClick={handleSortByCreatedAt}>최신순</button>
           </div>
           <div className="grid gap-6 justify-items-center md:grid-cols-2  lg:grid-cols-3 item_ list ">
-            {posts.content &&
-              posts.content
-                .filter(
-                  wastes =>
-                    selectedCategory === '전체' ||
-                    wastes.wasteCategory === selectedCategory,
-                )
-                .map(wastes => (
-                  <ProductCard
-                    key={wastes.id}
-                    wastes={wastes}
-                    onDelete={handleDelete}
-                  />
-                ))}
+            {currentProducts
+              .filter(
+                wastes =>
+                  selectedCategory === '전체' ||
+                  wastes.wasteCategory === selectedCategory,
+              )
+              .map(wastes => (
+                <ProductCard
+                  key={wastes.id}
+                  wastes={wastes}
+                  onDelete={handleDelete}
+                />
+              ))}
           </div>
         </div>
       </div>
 
-      <div className=" container flex justify-center mb-16">
-        <PaginationButton
-          onClick={handlePreviousPage}
-          disabled={page === 0}
-          className="join-item btn mr-4"
-        >
-          이전
-        </PaginationButton>
-        <PaginationButton
-          onClick={handleNextPage}
-          disabled={page === posts.totalPages - 1}
-          className="join-item btn ml-4"
-        >
-          다음
-        </PaginationButton>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 };
 
-export default List;
+export default List3;

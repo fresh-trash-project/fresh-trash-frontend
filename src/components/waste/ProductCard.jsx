@@ -5,11 +5,12 @@ import { useRecoilState } from 'recoil';
 import { postsState } from '../../recoil/RecoilWastes';
 import { updatePost } from '../../api/WastesApi';
 import { Link } from 'react-router-dom';
+const API_URL = 'http://localhost:8080';
 const ProductCard = ({ wastes, onDelete }) => {
+  // const data=new Buffer(wastes.fileName,'binary').toString('base64');
   const handleDeleteClick = () => {
     onDelete(wastes.id);
   };
-
   // const [posts, setPosts] = useRecoilState(postsState);
 
   // const handleLikeToggle = async () => {
@@ -24,31 +25,38 @@ const ProductCard = ({ wastes, onDelete }) => {
   //   const updatedPosts = posts.map(p => (p.id === wastes.id ? updatedPost : p));
   //   setPosts(updatedPosts); // Recoil 상태 업데이트
   // };
+
+  // const getImgeUrl = fileName => {
+  //   return `${API_URL}/api/v1/wastes/imges/${fileName}`;
+  // };
   return (
     <div className="card w-80 bg-base-100 shadow md:w-72 xl:w-70 2xl:w-80 ">
       <figure className="">
+        {/* <img src={`data:image/png;base64,${wastes.fileName}`} alt="이미지" /> */}
         <img
           src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
           alt="Shoes"
         />
+        {/* <img src={getImgeUrl(wastes.fileName)} alt={wastes.title} /> */}
+        {/* <img src={wastes.fileName} alt="" /> */}
       </figure>
       <div className="card-body">
         <div className="card-title mb-3">{wastes.title}</div>
         <div className="flex justify-between mb-3">
           <div className="flex gap-2">
-            {/* <span>{wastes.address.state}</span>
-            <span>{wastes.address.city}</span> */}
+            <span>{wastes.address.state}</span>
+            <span>{wastes.address.city}</span>
           </div>
           <div className="flex items-center">
             <button className="mr-2">
               {/* <button onClick={handleLikeToggle} className="mr-2"> */}{' '}
-              {wastes.hearted ? (
+              {/* {wastes.hearted ? (
                 <GoHeartFill size="30" color="green" />
               ) : (
                 <GoHeart size="30" color="green" />
-              )}
+              )} */}
             </button>
-            <div>{wastes.likeCount}</div>
+            <div>관심수 {wastes.likeCount}</div>
           </div>
         </div>
         <div className="flex justify-between">

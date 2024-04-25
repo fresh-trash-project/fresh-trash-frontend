@@ -1,100 +1,102 @@
 import axios from 'axios';
 const API_URL = 'http://localhost:8080'; // 백엔드 서버 주소
+const axiosWithToken = axios.create({
+  baseURL: `${API_URL}/api/v1`,
+  headers: {
+    // 'Content-Type': 'application/json',
+    Authorization: localStorage.getItem('access-token'), // 로컬 스토리지에서 토큰을 가져와 헤더에 추가
+  },
+});
+// export const fetchProducts = async currentPage => {
+//   try {
+//     const response = await axiosWithToken.get(`/wastes?page=${currentPage}`);
+//     // const response = await axiosWithToken.get('/wastes?page');
 
-export const fetchPosts = async () => {
+//     if (response.status === 200) {
+//       console.log('게시물 목록을 가져오기 성공', response.data.totalPages);
+//       // navigate('/ProductsList');
+//     }
+//     return response.data.content;
+
+//     // 서버로부터 받은 데이터 반환
+//   } catch (error) {
+//     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
+//     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
+//   }
+// };
+
+// export const fetchProducts = async currentPage => {
+//   try {
+//     const response = await axiosWithToken.get(`/wastes?page=${currentPage}`);
+//     // const response = await axiosWithToken.get('/wastes?page');
+//     const responseData = response.data;
+//     if (response.status === 200) {
+//       console.log('게시물 목록을 가져오기 성공', response.data);
+//       return {
+//         content: responseData.content,
+//         totalPages: responseData.totalPages,
+//         totalElements: responseData.totalElements,
+//         pageable: responseData.pageable,
+//       };
+//     }
+
+//     // 서버로부터 받은 데이터 반환
+//   } catch (error) {
+//     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
+//     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
+//   }
+// };
+// export const fetchProducts = async (currentPage, query) => {
+//   try {
+//     const response = await axiosWithToken.get(
+//       `/wastes?page=${currentPage}${query}`,
+//     );
+//     // const response = await axiosWithToken.get('/wastes?page');
+//     const responseData = response.data;
+//     if (response.status === 200) {
+//       console.log('게시물 목록을 가져오기 성공', response.data);
+//       return {
+//         content: responseData.content,
+//         totalPages: responseData.totalPages,
+//         totalElements: responseData.totalElements,
+//         pageable: responseData.pageable,
+//       };
+//     }
+
+//     // 서버로부터 받은 데이터 반환
+//   } catch (error) {
+//     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
+//     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
+//   }
+// };
+const fetchQuery = async query => {
   try {
-    const response = await axios.get(`${API_URL}/api/v1/wastes`);
-    console.log('게시물 목록을 불러왔습니다:', response.data);
-    return response.data; // 서버로부터 받은 데이터 반환
+    const response = await axiosWithToken.get(`/wastes${query}`);
+    // const response = await axiosWithToken.get('/wastes?page');
+    const responseData = response.data;
+    if (response.status === 200) {
+      console.log('게시물 목록을 가져오기 성공', response.data);
+      return {
+        content: responseData.content,
+        totalPages: responseData.totalPages,
+        totalElements: responseData.totalElements,
+        pageable: responseData.pageable,
+      };
+    }
+
+    // 서버로부터 받은 데이터 반환
   } catch (error) {
     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
   }
 };
-
-// export const createPost = async postData => {
-//   try {
-//     const response = await axios.post(`${API_URL}/api/v1/wastes`, postData);
-//     if (response.status === 201) {
-//       console.log('게시물 생성완료', response.data);
-//       return response.data;
-//     } else {
-//       console.log('게시물을 생성하는 중 에러 발생:', response.statusText);
-//       throw new Error(
-//         `게시물 생성 요청에 실패했습니다. 상태 코드: ${response.status}`,
-//       );
-//     }
-//     //
-//   } catch (error) {
-//     console.error('게시물을 생성하는 중 에러 발생:', error);
-//     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
-//   }
-// };
-// export const createPost = async productData => {
-//   try {
-//     const { imgFile, ...otherData } = productData;
-//     const formData = new FormData();
-//     formData.append('imgFile', imgFile);
-
-//     const jsonBlob = new Blob([JSON.stringify(otherData)], {
-//       type: 'application/josn',
-//     });
-//     formData.append('jsonData', jsonBlob);
-
-//     const response = await axios.post('${API_URL}/wastes', formData);
-//     if (response.status === 201) {
-//       console.log('게시물 생성완료', response.data);
-//       return response.data;
-//     }
-//   } catch (error) {
-//     console.error('게시물을 생성하는 중 오류가 발생했습니다:', error);
-//     throw error;
-//   }
-// };
-// export const createPost = async (
-//   title,
-//   content,
-//   wasteCategory,
-//   wasteStatus,
-//   sellStatus,
-//   wastePrice,
-//   address,
-//   imgFile,
-//   navigate,
-// ) => {
-//   try {
-//     const wasteRequest = {
-//       title: title,
-//       content: content,
-//       wasteCategory: wasteCategory,
-//       wasteStatus: wasteStatus,
-//       sellStatus: sellStatus,
-//       wastePrice: wastePrice,
-//       address: {
-//         zipcode: address.zonecode,
-//         state: address.state,
-//         city: address.city,
-//         district: address.district,
-//         detail: address.detail,
-//       },
-//     };
-//     const json = JSON.stringify(wasteRequest);
-//     const blob = new Blob([json], { type: 'application/json' });
-
-//     const formData = new FormData();
-//     formData.append('imgFile', imgFile);
-//     formData.append('wasteRequest', blob);
-
-//     const response = await axios.post(`${API_URL}/wastes`, formData);
-//     if (response.status === 201) {
-//       console.log('게시물 생성을 완료했습니다.', response.data);
-//       navigate('/ProductsList');
-//     }
-//   } catch (error) {
-//     console.log('게시물 생성을 실패하였습니다.', error);
-//   }
-// };
-// let token = localStorage.getItem('access-token');
+export const fetchWastes = {
+  getPage: async currentPage => await fetchQuery(`?page=${currentPage}`),
+  likeCount: async sort => await fetchQuery(`?sort=${sort}`),
+  viewCount: async sort => await fetchQuery(`?sort=${sort}`),
+  titleSearch: async keyword => await fetchQuery(`?title=${keyword}`),
+  districtSearch: async keyword => await fetchQuery(`?district=${keyword}`),
+};
 export const createPost = async (
   title,
   content,
@@ -148,23 +150,10 @@ export const createPost = async (
   }
 };
 
-//develop에 있는 거
-// export const createPost = async postData => {
-//   try {
-//     const response = await axios.post(`${API_URL}/wastes`, postData);
-//     if (response.status === 201) {
-//       console.log('게시물 생성완료', response.data);
-//       return response.data;
-//     }
-//   } catch (error) {
-//     console.error('게시물을 생성하는 중 에러 발생:', error);
-//     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
-//   }
-// };
 //상세페이지 api
 export const detailWaste = async wasteId => {
   try {
-    const response = await axios.get(`${API_URL}/wastes/${wasteId}`);
+    const response = await axios.get(`${API_URL}/api/v1/wastes/${wasteId}`);
     console.log('상품 상세정보를 불러왔습니다:', response.data);
     return response.data; // 서버로부터 받은 데이터 반환
   } catch (error) {
@@ -174,7 +163,7 @@ export const detailWaste = async wasteId => {
 };
 export const deletePost = async wasteId => {
   try {
-    await axios.delete(`http://localhost:3000/wastes/${wasteId}`);
+    await axios.delete(`${API_URL}/api/v1/wastes/${wasteId}`);
   } catch (error) {
     console.error('게시물을 삭제하는 중 오류가 발생했습니다:', error);
     throw error; // 오류를 다시 throw하여 컴포넌트에서 처리할 수 있도록 함
