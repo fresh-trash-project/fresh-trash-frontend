@@ -14,11 +14,7 @@ const MyLikes = () => {
     const getMyLikes = async () => {
       const dataMyLikes = await fetchMyLikes(page);
       setMyLikes(dataMyLikes.content);
-      console.log(dataMyLikes.content);
-      console.log(myLikes);
       setTotalLikes(dataMyLikes.totalElements);
-      console.log(dataMyLikes.totalElements);
-      console.log(dataMyLikes.totalElements);
       setTotalPage(dataMyLikes.totalPages);
     };
     getMyLikes();
