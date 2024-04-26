@@ -5,7 +5,7 @@ import Alarm from './Alarm';
 import { signInState } from '../../recoil/RecoilSignIn';
 import { useEffect } from 'react';
 import { fetchAlarm } from '../../api/AlarmAPI';
-import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
 const Header = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
@@ -28,7 +28,6 @@ const Header = () => {
   //   let eventSource;
   //   if (signIn) {
   //     try {
-  //       // const EventSource = EventSourcePolyfill || NativeEventSource;
 
   //       eventSource = new EventSourcePolyfill(
   //         'http://localhost:8080/api/v1/notis/subscribe',
@@ -36,12 +35,19 @@ const Header = () => {
   //           headers: {
   //             Authorization: `Bearer ${accessToken}`,
   //           },
+  //           heartbeatTimeout: 30 * 60 * 1000,
+  //           withCredentials: true,
   //         },
   //       );
 
-  //       eventSource.addEventListener('alarm', e => {
-  //         const eventData = JSON.parse(e.data);
-  //         console.log('receivedData:', eventData);
+  //       //맨 처음 연결할 때 받는 알람
+  //       eventSource.addEventListener('connected', e => {
+  //         console.log('receivedData:', e.data);
+  //       });
+
+  //       // 폐기물 판매 완료 후 받는 알람
+  //       eventSource.addEventListener('waste-transaction-alarm', e => {
+  //         console.log('receivedData:', e.data);
   //       });
 
   //       eventSource.onmessage = async e => {

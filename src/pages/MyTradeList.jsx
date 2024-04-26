@@ -1,32 +1,57 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../components/Home/Header';
 import MyTradeCards from '../components/MyList/MyTradeCards';
-import { fetchMySellList } from '../api/UserTradeAPI';
-import { postsState } from '../recoil/RecoilWastes';
-import { useRecoilState } from 'recoil';
+import {
+  fetchMyBuyList,
+  fetchMySellClose,
+  fetchMySellOngoing,
+} from '../api/UserTradeAPI';
 
 const MyTradeList = () => {
   const [mySellListOpen, setMySellListOpen] = useState(true);
   const [myBuyListOpen, setMyBuyListOpen] = useState(false);
   const [onSale, setOnSale] = useState(true);
-  const [posts, setPosts] = useRecoilState(postsState);
+  const [myList, setMyList] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+
+  useEffect(() => {
+    const getMySellOngoing = async () => {
+      const dataSellOngoing = await fetchMySellOngoing();
+      console.log(dataSellOngoing);
+      setMyList(dataSellOngoing);
+      console.log(myList);
+    };
+    getMySellOngoing();
+  }, []);
 
   const handleMySellListOpen = async () => {
     setMySellListOpen(true);
     setMyBuyListOpen(false);
-    const mySellList = await fetchMySellList();
-    // console.log(mySellList);
-    setPosts(mySellList);
-    // console.log(posts);
+    const dataSellOngoing = await fetchMySellOngoing();
+    setMyList(dataSellOngoing);
   };
 
-  const handleMyBuyListOpen = () => {
+  const handleMyBuyListOpen = async () => {
     setMyBuyListOpen(true);
     setMySellListOpen(false);
+    const dataBuyList = await fetchMyBuyList();
+    setMyList(dataBuyList);
+    console.log(dataBuyList);
   };
 
-  const handleOnSale = () => {
+  const handleOnSale = async () => {
     setOnSale(true);
+    const ongoingList = await fetchMySellOngoing();
+    setMyList(ongoingList);
+    console.log(ongoingList);
+  };
+
+  const handleDoneSale = async () => {
+    setOnSale(false);
+    const closeList = await fetchMySellClose();
+    setMyList(closeList);
+    console.log(closeList);
   };
 
   return (
@@ -66,7 +91,7 @@ const MyTradeList = () => {
                 </div>
                 <div
                   role="tab"
-                  onClick={() => setOnSale(false)}
+                  onClick={handleDoneSale}
                   className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
                 >
                   판매완료 (13)
@@ -102,8 +127,7 @@ const MyTradeList = () => {
         </div>
       </div>
 
-      {/* //!라벨에 따라 내용 표시---------------------------------------------------------- */}
-      <MyTradeCards />
+      <MyTradeCards myList={myList} />
     </div>
   );
 };

@@ -36,7 +36,7 @@ export const fetchUserNames = async (
   }
 };
 
-//! 프로필 수정 but put요청에서 400에러 자꾸 남
+//프로필 변경
 export const changeUserInfo = async (
   userName,
   address,
@@ -100,7 +100,7 @@ export const fetchUserInfo = async () => {
     const response = await axios.get(`${API_URL}/members`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    // console.log(response);
+    console.log(response);
     return response;
   } catch (error) {
     console.error('Error fetching ratings: ', error);

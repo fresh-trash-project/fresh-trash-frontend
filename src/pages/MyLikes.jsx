@@ -1,27 +1,51 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../components/Home/Header';
 import MyTradeCards from '../components/MyList/MyTradeCards';
+import { fetchMyLikes } from '../api/UserTradeAPI';
+import { PaginationButton } from 'flowbite-react';
 
 const MyLikes = () => {
-  const [mySellListOpen, setMySellListOpen] = useState(true);
-  const [myBuyListOpen, setMyBuyListOpen] = useState(false);
-  const [onSale, setOnSale] = useState(true);
+  const [myLikes, setMyLikes] = useState([]);
+  const [totalLikes, setTotalLikes] = useState(0);
+  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
 
-  const handleMySellListOpen = () => {
-    setMySellListOpen(true);
-    setMyBuyListOpen(false);
+  useEffect(() => {
+    const getMyLikes = async () => {
+      const dataMyLikes = await fetchMyLikes(page);
+      setMyLikes(dataMyLikes.content);
+      console.log(dataMyLikes.content);
+      console.log(myLikes);
+      setTotalLikes(dataMyLikes.totalElements);
+      console.log(dataMyLikes.totalElements);
+      console.log(dataMyLikes.totalElements);
+      setTotalPage(dataMyLikes.totalPages);
+    };
+    getMyLikes();
+  }, [page]);
+
+  //페이지네이션-------------------------------------
+  const handlePreviousPage = () => {
+    setPage(prevPage => Math.max(prevPage - 1, 0)); // 이전 페이지로 이동
   };
 
-  const handleMyBuyListOpen = () => {
-    setMyBuyListOpen(true);
-    setMySellListOpen(false);
+  const handleNextPage = () => {
+    setPage(prevPage => Math.min(prevPage + 1, totalPage - 1)); // 다음 페이지로 이동
   };
 
-  const handleOnSale = () => {
-    setOnSale(true);
-  };
+  // 카테고리를 변경하는 함수
+  // const [selectedCategory, setSelectedCategory] = useState('전체');
 
-  console.log(onSale);
+  // const filteredLikes =
+  //   selectedCategory === '전체'
+  //     ? myLikes
+  //     : myLikes.content.filter(
+  //         data => data.content.wasteCategory === selectedCategory,
+  //       );
+  // const handleCategoryChange = category => {
+  //   setSelectedCategory(category);
+  //   setPage(1); // 페이지를 첫 페이지로 초기화
+  // };
 
   return (
     <div>
@@ -79,10 +103,9 @@ const MyLikes = () => {
           <div className="flex justify-between">
             <div
               role="tab"
-              onClick={handleOnSale}
-              className={`tab ${onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
+              className={`tab border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white`}
             >
-              찜 (8)
+              찜 ({totalLikes})
             </div>
             <div className=" text-sm breadcrumbs">
               <ul>
@@ -95,8 +118,24 @@ const MyLikes = () => {
         </div>
       </div>
 
-      {/* //!라벨에 따라 내용 표시---------------------------------------------------------- */}
-      <MyTradeCards />
+      <MyTradeCards myList={myLikes} />
+
+      <div className=" container flex justify-center mb-16">
+        <PaginationButton
+          onClick={handlePreviousPage}
+          disabled={page === 0}
+          className="join-item btn mr-4"
+        >
+          이전
+        </PaginationButton>
+        <PaginationButton
+          onClick={handleNextPage}
+          disabled={page === totalPage - 1}
+          className="join-item btn ml-4"
+        >
+          다음
+        </PaginationButton>
+      </div>
     </div>
   );
 };
