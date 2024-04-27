@@ -7,8 +7,10 @@ import { PaginationButton } from 'flowbite-react';
 const MyLikes = () => {
   const [myLikes, setMyLikes] = useState([]);
   const [totalLikes, setTotalLikes] = useState(0);
+  const [filteredLikes, setFilteredLikes] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState('전체');
 
   useEffect(() => {
     const getMyLikes = async () => {
@@ -16,6 +18,19 @@ const MyLikes = () => {
       setMyLikes(dataMyLikes.content);
       setTotalLikes(dataMyLikes.totalElements);
       setTotalPage(dataMyLikes.totalPages);
+
+      // const handleCategoryChange = category => {
+      //   setSelectedCategory(category);
+      //   setPage(0); // 페이지를 첫 페이지로 초기화
+      //   const filtered =
+      //     selectedCategory === '전체'
+      //       ? myLikes
+      //       : myLikes.filter(
+      //           data => data.content.wasteCategory === selectedCategory,
+      //         );
+      //   console.log(filtered);
+      //   setFilteredLikes(myLikes);
+      // };
     };
     getMyLikes();
   }, [page]);
@@ -29,25 +44,10 @@ const MyLikes = () => {
     setPage(prevPage => Math.min(prevPage + 1, totalPage - 1)); // 다음 페이지로 이동
   };
 
-  // 카테고리를 변경하는 함수
-  // const [selectedCategory, setSelectedCategory] = useState('전체');
-
-  // const filteredLikes =
-  //   selectedCategory === '전체'
-  //     ? myLikes
-  //     : myLikes.content.filter(
-  //         data => data.content.wasteCategory === selectedCategory,
-  //       );
-  // const handleCategoryChange = category => {
-  //   setSelectedCategory(category);
-  //   setPage(1); // 페이지를 첫 페이지로 초기화
-  // };
-
   return (
     <div>
       <Header />
       <div className="navbar flex-row justify-between bg-white shadow-md px-4">
-        {/* //! 카테고리 컴포넌트화 ---------------------------- */}
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn bg-gray-200">
             카테고리

@@ -4,16 +4,15 @@ import { useRecoilState } from 'recoil';
 import { IoMdClose } from 'react-icons/io';
 import { useEffect, useState } from 'react';
 import { signInState } from '../../recoil/RecoilSignIn';
-import { fetchAlarm } from '../../api/AlarmAPI';
+import { fetchAlarm, readAlarm } from '../../api/AlarmAPI';
 
 const Alarm = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
+  const [read, setRead] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [signIn, setSignIn] = useRecoilState(signInState);
   const accessToken = localStorage.getItem('access-token');
-  console.log(localStorage);
-  console.log(accessToken);
 
   // const originalText =
   // '채팅이 왔습니다. 글자가 많으면 점점점 표시되고 호버하면 다 보이도록 만들고 있습니다. 이곳에 알람 메시지를 받아와야 합니다.  ';
@@ -22,9 +21,9 @@ const Alarm = () => {
   const getLinkByAlarmType = item => {
     switch (item.alarmType) {
       case 'CHAT':
-        return './Chat';
+        return `/Chat/${item.id}`;
       case 'TRANSACTION':
-        return `./ProductDetail/:${item.id}`;
+        return `/ProductDetail/${item.id}`;
 
       default:
         return '/MyPage';
@@ -38,6 +37,12 @@ const Alarm = () => {
       localStorage.setItem('alarmMessages', JSON.stringify(updatedMessages));
       return updatedMessages;
     });
+  };
+
+  const readAlarmMessage = async item => {
+    await readAlarm(item.id);
+    setRead(true);
+    console.log(item.id);
   };
 
   // JSX -----------------------------------------------------------------------------------------------
@@ -64,6 +69,7 @@ const Alarm = () => {
         {alarmMsg.map(item => (
           <li
             key={item.id}
+            onClick={readAlarmMessage(item)}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             className={`border-b border-white border-opacity-30 flex flex-row items-center justify-between cursor-pointer  `}

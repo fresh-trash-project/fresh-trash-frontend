@@ -9,6 +9,9 @@ export default {
     container: {
       center: true,
     },
+    daisyui: {
+      theme: false,
+    },
     extend: {
       aspectRatio: {
         soWide: ' 21/6',

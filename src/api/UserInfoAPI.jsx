@@ -25,7 +25,7 @@ export const fetchUserNames = async (
       setIsDuplicate(false);
       setUserName(userName);
     }
-    return response.data; // 서버로부터 받은 데이터 반환
+    return response.data;
   } catch (error) {
     console.log(error);
     setRegisterMessage('에러');
@@ -70,10 +70,14 @@ export const changeUserInfo = async (
       console.log('프로필 수정 성공');
     }
     console.log(response);
-    return response; // 서버로부터 받은 데이터 반환
+    return response;
   } catch (error) {
     console.log(error);
     setRegisterMessage('에러');
+    if (error.response.status === 404) {
+      console.log('404에러: 토큰삭제 로그아웃');
+      localStorage.removeItem('access-token');
+    }
   }
 };
 
@@ -89,6 +93,10 @@ export const fetchRating = async () => {
     return averageRating;
   } catch (error) {
     console.error('Error fetching ratings: ', error);
+    if (error.response.status === 404) {
+      console.log('404에러: 토큰삭제 로그아웃');
+      localStorage.removeItem('access-token');
+    }
   }
 };
 
@@ -103,6 +111,10 @@ export const fetchUserInfo = async () => {
     console.log(response);
     return response;
   } catch (error) {
-    console.error('Error fetching ratings: ', error);
+    console.error('Error fetching: ', error);
+    if (error.response.status === 404) {
+      console.log('404에러: 토큰삭제 로그아웃');
+      localStorage.removeItem('access-token');
+    }
   }
 };

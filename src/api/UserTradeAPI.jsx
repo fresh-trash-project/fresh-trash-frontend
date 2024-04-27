@@ -18,6 +18,10 @@ export const fetchMySellOngoing = async page => {
     return response.data;
   } catch (error) {
     console.error('Error fetching: ', error);
+    if (error.response.status === 404) {
+      console.log('404에러: 토큰삭제 로그아웃');
+      localStorage.removeItem('access-token');
+    }
   }
 };
 
@@ -36,6 +40,10 @@ export const fetchMySellClose = async page => {
     return response.data;
   } catch (error) {
     console.error('Error fetching: ', error);
+    if (error.response.status === 404) {
+      console.log('404에러: 토큰삭제 로그아웃');
+      localStorage.removeItem('access-token');
+    }
   }
 };
 
@@ -54,16 +62,21 @@ export const fetchMyBuyList = async page => {
     return response.data;
   } catch (error) {
     console.error('Error fetching: ', error);
+    if (error.response.status === 404) {
+      console.log('404에러: 토큰삭제 로그아웃');
+      localStorage.removeItem('access-token');
+    }
   }
 };
 
 //나의 관심목록 > 판매완료 리스트
 export const fetchMyLikes = async page => {
   const accessToken = localStorage.getItem('access-token');
-  console.log(page);
+
   try {
     const response = await axios.get(`${API_URL}/wastes/likes`, {
       params: { page },
+      // params: { page, wasteCategory: selectedCategory },
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
@@ -72,5 +85,9 @@ export const fetchMyLikes = async page => {
     return response.data;
   } catch (error) {
     console.error('Error fetching: ', error);
+    if (error.response.status === 404) {
+      console.log('404에러: 토큰삭제 로그아웃');
+      localStorage.removeItem('access-token');
+    }
   }
 };
