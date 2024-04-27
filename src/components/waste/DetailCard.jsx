@@ -89,7 +89,7 @@ const DetailCard = () => {
       // localStorage.setItem('hearted', hearted);
     }
     setHearted(!hearted);
-    localStorage.setItem('hearted', JSON.stringify(!hearted));
+    // localStorage.setItem('hearted', JSON.stringify(!hearted));
   };
 
   //이미지 파일 경로-----------------------------

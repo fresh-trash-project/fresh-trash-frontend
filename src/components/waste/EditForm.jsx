@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { postsState } from '../../recoil/RecoilWastes';
-import { updatePost } from '../../api/WastesApi';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { detailWaste, updatePost } from '../../api/WastesApi';
+import { useNavigate } from 'react-router-dom';
 import { IoIosCamera } from 'react-icons/io';
-import Nav from '../Home/Nav';
+const API_URL = 'http://localhost:8080';
 const EditForm = () => {
-  // const productsList = useRecoilValue(postsState);
-  const [posts, setPosts] = useRecoilState(postsState);
   const [wasteCategory, setWasteCategory] = useState('');
   const [title, setTitle] = useState('');
-  const [wasteStatus, setWasteStatus] = useState('최상');
+  const [wasteStatus, setWasteStatus] = useState('');
   const [content, setContent] = useState('');
-  const [sellStatus, setSellStatus] = useState('');
+  const [sellStatus, setSellStatus] = useState('ONGOING');
   const [wastePrice, setWastePrice] = useState('');
   const [address, setAddress] = useState({
     zipcode: '',
@@ -23,65 +19,32 @@ const EditForm = () => {
     detail: '',
   });
 
-  const [fileName, setFileName] = useState(null);
-  const [likeCount, setLikeCount] = useState();
-  const [viewCount, setViewCount] = useState();
-  const [created_at, setCreated_At] = useState();
-  const { id } = useParams();
-
-  // const wastes = productsList.find(wastes => wastes.id === parseInt(id));
-  useEffect(
-    () => {
-      const wastes = posts.find(wastes => wastes.id === parseInt(id));
-      if (wastes) {
-        setTitle(wastes.title);
-        setWasteCategory(wastes.wasteCategory);
-        setContent(wastes.content);
-        setSellStatus(wastes.sellStatus);
-        setWastePrice(wastes.wastePrice);
-        setAddress(wastes.address);
-        setFileName(wastes.fileName);
-        setLikeCount(wastes.likeCount);
-        setViewCount(wastes.viewCount);
-        setCreated_At(wastes.created_at);
-      } else {
-        console.log('아이템이 없습니다.');
-      }
-    },
-    [id],
-    posts,
-  );
-
+  const [imgFile, setImgFile] = useState(null);
   const navigate = useNavigate();
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const updatedData = {
-      fileName,
-      title,
-      wasteCategory,
-      wasteStatus,
-      sellStatus,
-      wastePrice,
-      content,
-      address,
-      likeCount,
-      viewCount,
-      created_at,
+  const { wasteId } = useParams();
+
+  //원래 폐기물정보 불러옴------------------
+  useEffect(() => {
+    const fetchData = async () => {
+      const details = await detailWaste(wasteId);
+      setTitle(details.title);
+      setWasteCategory(details.wasteCategory);
+      setWasteStatus(details.wasteStatus);
+      setContent(details.content);
+      setSellStatus(details.sellStatus);
+      setWastePrice(details.wastePrice);
+      setAddress(details.address);
+      setImgFile(details.imgFile);
     };
-    try {
-      await updatePost(id, updatedData);
-      navigate(`/ProductDetail/${id}`);
-    } catch (error) {
-      console.log('Error:', error);
-    }
-  };
+    fetchData();
+  }, [wasteId]);
 
   const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
   const handleImageChange = e => {
     const file = e.target.files[0];
     if (file) {
       if (validImageTypes.includes(file.type)) {
-        setFileName(file);
+        setImgFile(file);
       } else {
         alert('올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)');
         // 선택한 파일 초기화
@@ -104,9 +67,53 @@ const EditForm = () => {
       oncomplete: handleComplete,
     }).open();
   };
+
+  //폐가물 수정--------------------------------
+  const handleSubmit = async e => {
+    e.preventDefault();
+    await updatePost(
+      wasteId,
+      title,
+      content,
+      wasteCategory,
+      wasteStatus,
+      sellStatus,
+      wastePrice,
+      address,
+      imgFile,
+      navigate,
+    );
+    // try {
+    //   const updatedData = {
+    //     imgFile,
+    //     title,
+    //     wasteCategory,
+    //     wasteStatus,
+    //     sellStatus,
+    //     wastePrice,
+    //     content,
+    //     address,
+    //   };
+
+    //   await updatePost(updatedData);
+
+    //   setTitle(result.title);
+    //   setWasteCategory(result.wasteCategory);
+    //   setContent(result.content);
+    //   setSellStatus(result.sellStatus);
+    //   setWastePrice(result.wastePrice);
+    //   setAddress(result.address);
+    //   setImgFile(result.fileName);
+    //   navigate(`/ProductDetail/${wasteId}`);
+    // } catch (error) {
+    //   console.log('Error:', error);
+    // }
+  };
+  const getImgeUrl = fileName => {
+    return `${API_URL}/imgs/${fileName}`;
+  };
   return (
     <div>
-      <Nav />
       <div className="pt-4 lg:pt-5 pb-4 lg:pb-8 px-4 xl:px-2 xl:container mx-auto">
         <div className="ml-8 text-sm breadcrumbs">
           <ul>
@@ -116,7 +123,7 @@ const EditForm = () => {
         </div>
         <div className=" flex justify-center mt-10  ">
           <form
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
             className=" bg-slate-50 w-full p-5 rounded-md lg:w-full max-w-3xl"
           >
             <div className="flex flex-wrap -mx-3 mb-6">
@@ -125,22 +132,24 @@ const EditForm = () => {
                   이미지
                 </p>
                 <label
-                  htmlFor="fileName"
+                  htmlFor="imgFile"
                   className="flex justify-center items-center w-36 h-36 bg-gray-200 rounded-md"
                 >
                   <IoIosCamera size="80" />
                   <input
                     type="file"
-                    id="fileName"
-                    name="fileName"
+                    id="imgFile"
+                    name="imgFile"
                     accept="image/png, image/jpeg, image/jpg"
                     className="w-0 h-0 p-0 overflow-hidden border-0"
                     onChange={handleImageChange}
                   />
-                  {fileName && (
+                  {/* <img src={getImgeUrl(imgFile && imgFile.fileName)} alt="" /> */}
+                  {imgFile && (
                     <img
-                      // src={fileName && URL.createObjectURL(fileName)}
-                      src={fileName}
+                      // src={getImgeUrl(imgFile.fileName)}
+                      src={URL.createObjectURL(imgFile)}
+                      // src={fileName}
                       alt="게시물 이미지"
                       className="w-36 h-36"
                     />
@@ -171,17 +180,17 @@ const EditForm = () => {
                     required
                   >
                     <option value="">카테고리를 선택하세요</option>
-                    <option value="전자기기">전자기기</option>
-                    <option value="의류">의류</option>
-                    <option value="생활/주방">생활/주방</option>
-                    <option value="뷰티">뷰티</option>
-                    <option value="건강">건강</option>
-                    <option value="스포츠">스포츠</option>
-                    <option value="도서">도서</option>
-                    <option value="장난감/게임">장난감/게임</option>
-                    <option value="가구/인텔어">가구/인테리어</option>
-                    <option value="반려동물용품">반려동물용품</option>
-                    <option value="식물">식물</option>
+                    <option value="ELECTRONICS">전자기기</option>
+                    <option value="CLOTHING">의류</option>
+                    <option value="HOME_KITCHEN">생활/주방</option>
+                    <option value="BEAUTY">뷰티</option>
+                    <option value="HEALTH">건강</option>
+                    <option value="SPORTS">스포츠</option>
+                    <option value="BOOKS">도서</option>
+                    <option value="TOYS_GAMES">장난감/게임</option>
+                    <option value="FURNITURE_DECOR">가구/인테리어</option>
+                    <option value="PET_SUPPLIES">반려동물용품</option>
+                    <option value="PLANT_SUPPLIES">식물</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg
@@ -208,8 +217,8 @@ const EditForm = () => {
                   <input
                     type="radio"
                     name="wasteStatus"
-                    value="최상"
-                    checked={wasteStatus === '최상'}
+                    value="BEST"
+                    checked={wasteStatus === 'BEST'}
                     onChange={e => setWasteStatus(e.target.value)}
                     required
                     className="radio checked:bg-green-900 mr-5 "
@@ -223,8 +232,8 @@ const EditForm = () => {
                   <input
                     type="radio"
                     name="wasteStatus"
-                    value="상"
-                    checked={wasteStatus === '상'}
+                    value="GOOD"
+                    checked={wasteStatus === 'GOOD'}
                     onChange={e => setWasteStatus(e.target.value)}
                     required
                     className="radio checked:bg-green-900 mr-5"
@@ -238,8 +247,8 @@ const EditForm = () => {
                   <input
                     type="radio"
                     name="wasteStatus"
-                    value="중"
-                    checked={wasteStatus === '중'}
+                    value="NORMAL"
+                    checked={wasteStatus === 'NORMAL'}
                     onChange={e => setWasteStatus(e.target.value)}
                     required
                     className="radio checked:bg-green-900 mr-5"
@@ -253,30 +262,15 @@ const EditForm = () => {
                   <input
                     type="radio"
                     name="wasteStatus"
-                    value="하"
-                    checked={wasteStatus === '하'}
+                    value="WORST"
+                    checked={wasteStatus === 'WORST'}
                     onChange={e => setWasteStatus(e.target.value)}
                     required
                     className="radio checked:bg-green-900 mr-5"
                   />
-                  <label
-                    className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="worst"
-                  >
-                    최하
-                  </label>
-                  <input
-                    type="radio"
-                    name="wasteStatus"
-                    value="최하"
-                    checked={wasteStatus === '최하'}
-                    onChange={e => setWasteStatus(e.target.value)}
-                    required
-                    className="radio checked:bg-green-900  mr-5"
-                  />
                 </div>
               </div>
-              {wastePrice.startsWith('0') ? (
+              {String(wastePrice).startsWith('0') ? (
                 <div className="w-full px-3">
                   <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -348,7 +342,7 @@ const EditForm = () => {
                   <input
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     type="text"
-                    defaultValue={address.address}
+                    value={` ${address.state} ${address.city} ${address.district} ${address.detail}`}
                     onChange={e => setAddress(e.target.value)}
                     onClick={handleOpenAddressModal}
                     placeholder="주소/위치를 입력해주세요."
@@ -365,8 +359,8 @@ const EditForm = () => {
               </div>
             </div>
             <button
-              // type="submit"
-              onClick={handleSubmit}
+              type="submit"
+              // onClick={handleSubmit}
               className=" bg-green-900 hover:bg-green-700 text-white font-bold mt-3 py-3 px-4 rounded bg-green-900!important"
             >
               수정

@@ -5,7 +5,7 @@ import Alarm from './Alarm';
 import { signInState } from '../../recoil/RecoilSignIn';
 import { useEffect } from 'react';
 import { fetchAlarm } from '../../api/AlarmAPI';
-import { EventSourcePolyfill } from 'event-source-polyfill';
+// import { EventSourcePolyfill } from 'event-source-polyfill';
 
 const Header = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
