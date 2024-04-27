@@ -176,18 +176,71 @@ export const deleteWaste = async wasteId => {
   }
 };
 //폐기물 수정 api
-export const updatePost = async (wasteId, updatedPost) => {
+// export const updatePost = async (wasteId, updatedPost) => {
+//   try {
+//     const response = await axiosWithToken.put(
+//       `/wastes/${wasteId}`,
+//       updatedPost,
+//     );
+//     if (response.status === 200) {
+//       console.log('수정 완료', response.data);
+//       return response.data;
+//     }
+//   } catch (error) {
+//     console.log('수정 실패', error);
+//   }
+// };
+
+export const updatePost = async (
+  wasteId,
+  title,
+  content,
+  wasteCategory,
+  wasteStatus,
+  sellStatus,
+  wastePrice,
+  address,
+  imgFile,
+  navigate,
+) => {
   try {
-    const response = await axiosWithToken.put(
-      `/wastes/${wasteId}`,
-      updatedPost,
+    const wasteRequest = {
+      title: title,
+      content: content,
+      wasteCategory: wasteCategory,
+      wasteStatus: wasteStatus,
+      sellStatus: sellStatus,
+      wastePrice: wastePrice,
+      address: {
+        zipcode: address.zipcode,
+        state: address.state,
+        city: address.city,
+        district: address.district,
+        detail: address.detail,
+      },
+    };
+    const json = JSON.stringify(wasteRequest);
+    const blob = new Blob([json], { type: 'application/json' });
+    var formData = new FormData();
+    console.log(imgFile);
+    formData.append('imgFile', imgFile);
+    formData.append('wasteRequest', blob);
+
+    const accessToken = localStorage.getItem('access-token');
+    const response = await axios.put(
+      `${API_URL}/api/v1/wastes/${wasteId}`,
+      formData,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      },
     );
     if (response.status === 200) {
-      console.log('수정 완료', response.data);
-      return response.data;
+      console.log('폐기물 수정 성공', response.data);
+      navigate(`/ProductDetail/${wasteId}`);
     }
+    return response;
   } catch (error) {
-    console.log('수정 실패', error);
+    console.log('폐기물 수정 실패', error);
   }
 };
 //관심 추가 api
