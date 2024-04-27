@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 // import { fetchProducts } from '../../api/WastesApi';
-import { fetchWastes } from '../../api/WastesApi';
+import { fetchWastes, fetchProducts } from '../../api/WastesApi';
 import { Link } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
 import { signInState } from '../../recoil/RecoilSignIn';
@@ -27,30 +27,50 @@ const List = () => {
   //fetch 호출-----------------------------------
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
+  const [searchType, setSearchType] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('전체');
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async category => {
       try {
-        const productList = await fetchWastes.getPage(page);
+        let productList;
+        if (searchType === 'title') {
+          productList = await fetchWastes.titleSearch(searchInput, page);
+        } else if (searchType === 'district') {
+          productList = await fetchWastes.districtSearch(searchInput, page);
+        } else {
+          productList = await fetchWastes.getPage(page);
+        }
 
         setPosts(productList);
-      } catch (error) {}
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
 
     fetchData();
-  }, [page]);
+  }, [page, searchType, searchInput]);
 
   //페이지네이션-------------------------------------
-  const handlePreviousPage = () => {
+
+  const handlePreviousPage = async () => {
     setPage(page => Math.max(page - 1, 0)); // 이전 페이지로 이동
   };
 
-  const handleNextPage = () => {
-    setPage(page => Math.min(page + 1, posts.totalPages - 1)); // 다음 페이지로 이동
+  // const handleNextPage = async () => {
+  //   setPage(page => Math.min(page + 1, posts.totalPages - 1)); // 다음 페이지로 이동
+  // };
+  const handleNextPage = async () => {
+    // 현재 페이지가 마지막 페이지보다 작은 경우에만 페이지를 증가시킵니다.
+    if (page < posts.totalPages - 1) {
+      // 현재 페이지를 업데이트합니다.
+      setPage(page => page + 1);
+    }
   };
 
   //관심순--------------------------
-  // const [sortedLike, setSortedLike] = useState([]);
   const handleSortByLikes = async () => {
     try {
       const sortedList = await fetchWastes.likeCount('likeCount,desc');
@@ -63,7 +83,7 @@ const List = () => {
   //조회순---------------------------
   const handleSortByViews = async () => {
     try {
-      const sortedList = await fetchWastes.likeCount('viewCount,desc');
+      const sortedList = await fetchWastes.viewCount('viewCount,desc');
       setPosts(sortedList);
       console.log('조회순으로 정렬', sortedList);
     } catch (error) {
@@ -80,7 +100,6 @@ const List = () => {
       console.error('Error sorting by createdAt:', error);
     }
   };
-  //검색----------------------------------
 
   //삭제------------------------------
   const handleDelete = async postId => {
@@ -96,22 +115,43 @@ const List = () => {
   };
 
   //카테고리--------------------------------
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState('전체');
 
-  const filteredPosts =
-    selectedCategory === '전체'
-      ? posts
-      : posts.content.filter(
-          post => post.content.wasteCategory === selectedCategory,
-        );
-
-  // 카테고리를 변경하는 함수
-  const handleCategoryChange = category => {
-    setSelectedCategory(category);
-    setCurrentPage(1); // 페이지를 첫 페이지로 초기화
+  const handleCategoryChange = async category => {
+    try {
+      let productList;
+      if (category === '전체') {
+        productList = await fetchWastes.getPage(0);
+      } else {
+        productList = await fetchWastes.category(category);
+      }
+      setSelectedCategory(category);
+      if (searchResults.length > 0) {
+        setSearchResults(productList);
+      } else {
+        setPosts(productList);
+      }
+    } catch (error) {
+      console.error('An error occurred while retrieving Category:', error);
+    }
   };
+  //검색-------------------------------------------------
 
+  const handleSearch = async () => {
+    try {
+      let result;
+      if (searchType === 'title') {
+        result = await fetchWastes.titleSearch(searchInput);
+        // setPosts(result);
+        setSearchResults(result);
+      } else if (searchType === 'district') {
+        result = await fetchWastes.districtSearch(searchInput);
+        // setPosts(result);
+        setSearchResults(result);
+      }
+    } catch (error) {
+      console.error('검색 중 에러 발생:', error);
+    }
+  };
   return (
     <div>
       <div className="navbar flex-row justify-between bg-base-100 shadow-md">
@@ -163,8 +203,12 @@ const List = () => {
         </div>
         <div className="flex">
           <div className="join">
-            <select className="select select-bordered join-item">
-              <option value="address">지역</option>
+            <select
+              className="select select-bordered join-item"
+              onChange={e => setSearchType(e.target.value)}
+            >
+              <option>선택</option>
+              <option value="district">지역</option>
               <option value="title">제목</option>
             </select>
             <div>
@@ -172,11 +216,17 @@ const List = () => {
                 <input
                   className="input input-bordered join-item"
                   placeholder="Search"
+                  type="text"
+                  value={searchInput}
+                  onChange={e => setSearchInput(e.target.value)}
                 />
               </div>
             </div>
             <div className="indicator">
-              <button className="btn join-item bg-green-900 text-white ">
+              <button
+                className="btn join-item bg-green-900 text-white "
+                onClick={handleSearch}
+              >
                 Search
               </button>
             </div>
@@ -213,7 +263,7 @@ const List = () => {
             <button onClick={handleSortByCreated}>최신순</button>
           </div>
           <div className="grid gap-6 justify-items-center md:grid-cols-2  lg:grid-cols-3 item_ list ">
-            {posts.content &&
+            {/* {posts.content &&
               posts.content
                 .filter(
                   wastes =>
@@ -226,7 +276,62 @@ const List = () => {
                     wastes={wastes}
                     onDelete={handleDelete}
                   />
-                ))}
+                ))} */}
+            {searchResults.length > 0
+              ? searchResults &&
+                searchResults.filter
+                  .filter(
+                    wastes =>
+                      selectedCategory === '전체' ||
+                      wastes.wasteCategory === selectedCategory,
+                  )
+                  .map(wastes => (
+                    <ProductCard
+                      key={wastes.id}
+                      wastes={wastes}
+                      onDelete={handleDelete}
+                    />
+                  ))
+              : posts.content &&
+                posts.content
+                  .filter(
+                    wastes =>
+                      selectedCategory === '전체' ||
+                      wastes.wasteCategory === selectedCategory,
+                  )
+                  .map(wastes => (
+                    <ProductCard
+                      key={wastes.id}
+                      wastes={wastes}
+                      onDelete={handleDelete}
+                    />
+                  ))}
+            {/* {searchResults && searchResults.length > 0
+              ? searchResults.map(wastes => (
+                  <ProductCard
+                    key={wastes.id}
+                    wastes={wastes}
+                    onDelete={handleDelete}
+                  />
+                ))
+              : // posts.content가 존재하고 비어있지 않은 경우에만 map 함수를 실행
+                posts.content &&
+                posts.content
+                  .filter(
+                    wastes =>
+                      selectedCategory === '전체' ||
+                      wastes.wasteCategory === selectedCategory,
+                  )
+                  .map(wastes => (
+                    <ProductCard
+                      key={wastes.id}
+                      wastes={wastes}
+                      onDelete={handleDelete}
+                    />
+                  ))} */}
+            {/* // : ( // // 검색 결과나 게시물이 없는 경우에는 메시지를 표시 //{' '}
+            <div>검색 결과가 없습니다.</div>
+            // ) */}
           </div>
         </div>
       </div>

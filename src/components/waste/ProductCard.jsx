@@ -26,19 +26,19 @@ const ProductCard = ({ wastes, onDelete }) => {
   //   setPosts(updatedPosts); // Recoil 상태 업데이트
   // };
 
-  // const getImgeUrl = fileName => {
-  //   return `${API_URL}/api/v1/wastes/imges/${fileName}`;
-  // };
+  const getImgeUrl = fileName => {
+    return `${API_URL}/imgs/${fileName}`;
+  };
   return (
     <div className="card w-80 bg-base-100 shadow md:w-72 xl:w-70 2xl:w-80 ">
       <figure className="">
         {/* <img src={`data:image/png;base64,${wastes.fileName}`} alt="이미지" /> */}
-        <img
+        {/* <img
           src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
           alt="Shoes"
-        />
-        {/* <img src={getImgeUrl(wastes.fileName)} alt={wastes.title} /> */}
-        {/* <img src={wastes.fileName} alt="" /> */}
+        /> */}
+        <img src={getImgeUrl(wastes.fileName)} alt={wastes.title} />
+        {/* <img src={getImgeUrl(wastes.fileName)} alt="" /> */}
       </figure>
       <div className="card-body">
         <div className="card-title mb-3">{wastes.title}</div>
