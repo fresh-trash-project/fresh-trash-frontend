@@ -5,6 +5,7 @@ import Alarm from './Alarm';
 import { signInState } from '../../recoil/RecoilSignIn';
 import { useEffect } from 'react';
 import { fetchAlarm } from '../../api/AlarmAPI';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
 const Header = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
@@ -24,21 +25,34 @@ const Header = () => {
 
   //SSE -------------------------------------------------------------------------------------------------------
   // useEffect(() => {
+  //   let eventSource;
   //   if (signIn) {
   //     try {
-  //       const fetchSSE = async () => {
-  //         const eventSource = new EventSource(
-  //           'http://localhost:8080/api/v1/notis/subscribe',
-  //           {
-  //             headers: { Authorization: `Bearer ${accessToken}` },
+
+  //       eventSource = new EventSourcePolyfill(
+  //         'http://localhost:8080/api/v1/notis/subscribe',
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${accessToken}`,
   //           },
-  //         );
-  //         eventSource.addEventListener('alarm', event => {
-  //           const eventData = JSON.parse(event.data);
-  //           console.log('receivedData:', eventData);
-  //         });
+  //           heartbeatTimeout: 30 * 60 * 1000,
+  //           withCredentials: true,
+  //         },
+  //       );
+
+  //       //맨 처음 연결할 때 받는 알람
+  //       eventSource.addEventListener('connected', e => {
+  //         console.log('receivedData:', e.data);
+  //       });
+
+  //       // 폐기물 판매 완료 후 받는 알람
+  //       eventSource.addEventListener('waste-transaction-alarm', e => {
+  //         console.log('receivedData:', e.data);
+  //       });
+
+  //       eventSource.onmessage = async e => {
+  //         console.log(e.data);
   //       };
-  //       fetchSSE();
   //     } catch (error) {
   //       throw error;
   //     }
@@ -61,7 +75,7 @@ const Header = () => {
     const storedAlarmMessages = JSON.parse(
       localStorage.getItem('alarmMessages'),
     );
-    console.log(storedAlarmMessages);
+    // console.log(storedAlarmMessages);
 
     if (storedAlarmMessages === null) {
       if (signIn) getAlarms();

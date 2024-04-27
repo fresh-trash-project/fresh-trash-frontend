@@ -25,13 +25,13 @@ const MyPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userName, setUserName] = useRecoilState(userNameState);
   const [address, setAddress] = useState({
-    address: '',
     zipcode: '',
     state: '',
     city: '',
     district: '',
     detail: '',
   });
+
   const [image, setImage] = useState(null);
   const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
   const [duplicationMessage, setDuplicationMessage] = useRecoilState(
@@ -39,7 +39,6 @@ const MyPage = () => {
   );
   const [ratings, setRatings] = useState([]);
   const [registerMessage, setRegisterMessage] = useState('');
-  const [detailAddr, setDetailAddr] = useState('');
 
   //마이페이지 들어왔을때 유저정보 불러오기
   useEffect(() => {
@@ -48,26 +47,31 @@ const MyPage = () => {
       setUserName(myInfo.data.nickname);
       setAddress(myInfo.data.address);
       setRatings(myInfo.data.rating);
+      // setImage(myInfo.data.fileName);
+      setAvatarSrc(myInfo.data.fileName);
+      console.log(myInfo);
+      console.log(myInfo.data.fileName);
+      console.log(avatarSrc);
     };
 
     getUserInfo();
   }, []);
-  console.log(address);
 
-  //새로고침 시 이미지, 주소 기억 ------------------------------------------
-  useEffect(() => {
-    // Load the image from local storage when the component mounts
-    const storedImage = localStorage.getItem('avatarImage');
-    if (storedImage) {
-      setAvatarSrc(storedImage);
-      setImage(storedImage);
-    }
-    //!풋요청 성공하면 필요없을듯
-    // const storedAddress = localStorage.getItem('userAddress');
-    // if (storedAddress) {
-    //   setAddress(JSON.parse(storedAddress));
-    // }
-  }, []);
+  //새로고침 시 이미지기억 ------------------------------------------
+  // useEffect(() => {
+  //   // Load the image from local storage when the component mounts
+  //   const storedImage = localStorage.getItem('avatarImage');
+  //   if (storedImage) {
+  //     setAvatarSrc(storedImage);
+  //     setImage(storedImage);
+  //   }
+  // }, []);
+
+  //새로고침 시 주소기억 ------------------------------------------
+  // const storedAddress = localStorage.getItem('userAddress');
+  // if (storedAddress) {
+  //   setAddress(JSON.parse(storedAddress));
+  // }
 
   //함수들-----------------------------------------------------------
   const handleEditProfile = () => {
@@ -75,7 +79,8 @@ const MyPage = () => {
   };
 
   //유저정보 변경
-  const handleChangeUserInfo = async () => {
+  const handleChangeUserInfo = async e => {
+    e.preventDefault();
     setIsEditing(false);
     const changeMyInfo = await changeUserInfo(
       userName,
@@ -83,7 +88,10 @@ const MyPage = () => {
       image,
       setRegisterMessage,
     );
-    console.log(userName);
+    console.log(changeMyInfo);
+    setUserName(changeMyInfo.data.nickname);
+    setAddress(changeMyInfo.data.address);
+    setImage(changeMyInfo.data.fileName);
   };
 
   const handleImageChange = e => {
@@ -92,10 +100,12 @@ const MyPage = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         const imageData = reader.result;
+        console.log(imageData);
         setAvatarSrc(imageData);
-        setImage(imageData);
-        // Store the image data in local storage
-        localStorage.setItem('avatarImage', imageData);
+        setImage(file);
+        console.log(avatarSrc);
+        // // Store the image data in local storage
+        // localStorage.setItem('avatarImage', imageData);
       };
       reader.readAsDataURL(file);
     }
@@ -131,44 +141,44 @@ const MyPage = () => {
 
   const handleAddressChange = data => {
     const newAddress = {
-      address: data.address,
       zipcode: data.zonecode,
       state: data.sido,
       city: data.sigungu,
       district: data.bname,
       detail: data.buildingName,
     };
-    setAddress(prevAddress => ({
-      ...prevAddress,
-      ...newAddress,
-    }));
+    setAddress(newAddress);
+    // setAddress(prevAddress => ({
+    //   ...prevAddress,
+    //   ...newAddress,
+    // }));
 
-    //!풋요청성공하면 필요없을듯 localStorage.setItem('userAddress', JSON.stringify(newAddress));
+    // localStorage.setItem('userAddress', JSON.stringify(newAddress));
   };
 
   //사용자 평점 프론트에서 구할때--------------------------------------------------------
-  useEffect(() => {
-    const fetchRatings = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/ratings');
-        const ratingsArray = response.data;
-        setRatings(ratingsArray);
-      } catch (error) {
-        console.error('Error fetching ratings: ', error);
-      }
-    };
-    fetchRatings();
-  }, []);
+  // useEffect(() => {
+  //   const fetchRatings = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:3000/ratings');
+  //       const ratingsArray = response.data;
+  //       setRatings(ratingsArray);
+  //     } catch (error) {
+  //       console.error('Error fetching ratings: ', error);
+  //     }
+  //   };
+  //   fetchRatings();
+  // }, []);
 
-  const averageRating = () => {
-    if (ratings.length > 0) {
-      const totalRating = ratings.reduce((sum, rating) => sum + rating.rate, 0);
-      const average = (totalRating / ratings.length).toFixed(1);
-      return average;
-    } else {
-      return 'N/A'; //받은 평점이 하나도 없을때
-    }
-  };
+  // const averageRating = () => {
+  //   if (ratings.length > 0) {
+  //     const totalRating = ratings.reduce((sum, rating) => sum + rating.rate, 0);
+  //     const average = (totalRating / ratings.length).toFixed(1);
+  //     return average;
+  //   } else {
+  //     return 'N/A'; //받은 평점이 하나도 없을때
+  //   }
+  // };
   //발자국-------------------------------------------------------------
   const [greenBarWidth, setGreenBarWidth] = useState(0);
 
@@ -194,12 +204,14 @@ const MyPage = () => {
 
   //백에서 평점 구할때
   const [fetchedAverageRating, setFetchedAverageRating] = useState(null);
+
   useEffect(() => {
     const fetchAndCalculateFootstep = async () => {
       try {
         const fetchedRating = await fetchRating();
         if (fetchedRating !== null) {
           setFetchedAverageRating(fetchedRating);
+          console.log(fetchedAverageRating);
         }
       } catch (error) {
         console.error('Error fetching average rating:', error);
@@ -234,6 +246,7 @@ const MyPage = () => {
                     : 'w-full h-full object-cover'
                 }
               />
+              {console.log(avatarSrc)}
             </div>
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
@@ -301,7 +314,7 @@ const MyPage = () => {
                     type="text"
                     placeholder="주소검색"
                     className="input input-bordered w-80"
-                    value={` ${address.address}`}
+                    value={`${address.zipcode} ${address.state} ${address.city} ${address.district}`}
                     onChange={handleAddressChange}
                     disabled={!isEditing}
                     readOnly
@@ -320,7 +333,7 @@ const MyPage = () => {
                   placeholder="상세주소"
                   className="input input-bordered w-80"
                   disabled={!isEditing}
-                  value={detailAddr}
+                  value={address.detail}
                   onChange={e =>
                     setAddress(prevAddress => ({
                       ...prevAddress,

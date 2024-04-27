@@ -1,24 +1,64 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../components/Home/Header';
 import MyTradeCards from '../components/MyList/MyTradeCards';
+import {
+  fetchMyBuyList,
+  fetchMySellClose,
+  fetchMySellOngoing,
+} from '../api/UserTradeAPI';
+import { PaginationButton } from 'flowbite-react';
 
 const MyTradeList = () => {
   const [mySellListOpen, setMySellListOpen] = useState(true);
   const [myBuyListOpen, setMyBuyListOpen] = useState(false);
   const [onSale, setOnSale] = useState(true);
+  const [myList, setMyList] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [totalList, setTotalList] = useState(0);
 
-  const handleMySellListOpen = () => {
+  useEffect(() => {
+    handleOnSale();
+  }, [page]);
+
+  const handleMySellListOpen = async () => {
     setMySellListOpen(true);
     setMyBuyListOpen(false);
+    handleOnSale();
   };
 
-  const handleMyBuyListOpen = () => {
+  const handleMyBuyListOpen = async () => {
     setMyBuyListOpen(true);
     setMySellListOpen(false);
+    const dataBuyList = await fetchMyBuyList(page);
+    setMyList(dataBuyList.content);
+    setTotalPage(dataBuyList.totalPages);
+    setTotalList(dataBuyList.totalElements);
   };
 
-  const handleOnSale = () => {
+  const handleOnSale = async () => {
     setOnSale(true);
+    const ongoingList = await fetchMySellOngoing(page);
+    setMyList(ongoingList.content);
+    setTotalPage(ongoingList.totalPages);
+    setTotalList(ongoingList.totalElements);
+  };
+
+  const handleDoneSale = async () => {
+    setOnSale(false);
+    const closeList = await fetchMySellClose(page);
+    setMyList(closeList.content);
+    setTotalPage(closeList.totalPages);
+    setTotalList(closeList.totalElements);
+  };
+
+  //페이지네이션-------------------------------------
+  const handlePreviousPage = () => {
+    setPage(prevPage => Math.max(prevPage - 1, 0)); // 이전 페이지로 이동
+  };
+
+  const handleNextPage = () => {
+    setPage(prevPage => Math.min(prevPage + 1, totalPage - 1)); // 다음 페이지로 이동
   };
 
   return (
@@ -54,14 +94,14 @@ const MyTradeList = () => {
                   onClick={handleOnSale}
                   className={`tab ${onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
                 >
-                  판매중 (8)
+                  판매중 ({totalList})
                 </div>
                 <div
                   role="tab"
-                  onClick={() => setOnSale(false)}
+                  onClick={handleDoneSale}
                   className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
                 >
-                  판매완료 (13)
+                  판매완료 ({totalList})
                 </div>
               </div>
               <div className="text-sm breadcrumbs">
@@ -79,7 +119,7 @@ const MyTradeList = () => {
                 role="tab"
                 className="tab border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white"
               >
-                거래완료 10
+                거래완료 ({totalList})
               </div>
 
               <div className="text-sm breadcrumbs">
@@ -94,8 +134,24 @@ const MyTradeList = () => {
         </div>
       </div>
 
-      {/* //!라벨에 따라 내용 표시---------------------------------------------------------- */}
-      <MyTradeCards />
+      <MyTradeCards myList={myList} />
+
+      <div className=" container flex justify-center mb-16">
+        <PaginationButton
+          onClick={handlePreviousPage}
+          disabled={page === 0}
+          className="join-item btn mr-4"
+        >
+          이전
+        </PaginationButton>
+        <PaginationButton
+          onClick={handleNextPage}
+          disabled={page === totalPage - 1}
+          className="join-item btn ml-4"
+        >
+          다음
+        </PaginationButton>
+      </div>
     </div>
   );
 };

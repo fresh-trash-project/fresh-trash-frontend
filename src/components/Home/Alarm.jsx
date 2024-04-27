@@ -91,8 +91,6 @@ const Alarm = () => {
           </li>
         ))}
 
-        {/* //! 클릭하면 알람 삭제되는거 구현  */}
-
         {/* <li className="border-b border-white border-opacity-30">
           <Link>
             <p>낙찰되었습니다. 축하합니다.</p>
