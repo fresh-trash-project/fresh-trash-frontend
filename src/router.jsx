@@ -23,12 +23,6 @@ export const router = createBrowserRouter([
     errorElement: ({ error }) => {
       if (error.status === 404) {
         return <div>404 Not Found 페이지를 표시할 수 없습니다. </div>;
-      } else if (error.status === 400) {
-        return (
-          <div>400 Bad Request 이미 존재하는 이메일 또는 닉네임 입니다.</div>
-        );
-      } else {
-        return <div>Unexpected Error</div>;
       }
     },
   },

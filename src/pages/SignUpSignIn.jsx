@@ -19,7 +19,7 @@ import {
   signUpAccount,
   verifyCode,
 } from '../api/SignUpSignInAPI';
-import { fetchUserNames } from '../api/UserInfoAPI';
+import { fetchUserInfo, fetchUserNames } from '../api/UserInfoAPI';
 
 const SignUpSignIn = () => {
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
@@ -40,6 +40,7 @@ const SignUpSignIn = () => {
   const [userPassword, setUserPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [registerMessage, setRegisterMessage] = useState('');
+  const [passwordMessage, setPasswordMessage] = useState('');
 
   const navigate = useNavigate();
 
@@ -86,6 +87,19 @@ const SignUpSignIn = () => {
   const handlePasswordChange = e => {
     e.preventDefault();
     setUserPassword(e.target.value);
+    validatePassword(e.target.value);
+  };
+
+  const validatePassword = password => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[a-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setPasswordMessage(
+        '영어소문자, 숫자, 특수문자가 포함된 8자리 이상의 비밀번호로 넣어주세요.',
+      );
+    } else {
+      setPasswordMessage('');
+    }
   };
 
   // 닉네임 중복확인 버튼 ---------------------------------------
@@ -108,8 +122,6 @@ const SignUpSignIn = () => {
     setIsDuplicate(false);
     setDuplicationMessage('');
   };
-
-  console.log(userName);
 
   // 회원가입 버튼 ---------------------------------------
   const handleSignUp = async e => {
@@ -136,7 +148,14 @@ const SignUpSignIn = () => {
       userEmail,
       navigate,
     );
+
+    const myInfo = await fetchUserInfo();
+    console.log(myInfo);
+    setUserName(myInfo.data.nickname);
+    console.log(myInfo.data.nickname);
   };
+
+  console.log(userName);
 
   //-------------------------------------------------------------------------------------------
   return (
@@ -245,6 +264,7 @@ const SignUpSignIn = () => {
                 className="grow border-0"
                 placeholder="Password"
                 onChange={handlePasswordChange}
+                value={userPassword}
               />
               <button
                 onClick={handlePasswordVisibility}
@@ -255,6 +275,9 @@ const SignUpSignIn = () => {
                 </p>
               </button>
             </label>
+            {passwordMessage && (
+              <p className="text-red-400 text-[0.7rem]">{passwordMessage}</p>
+            )}
 
             {/* 회원가입 닉네임 */}
             <label className="input input-bordered flex items-center gap-2 mt-2 mb-2 w-[23rem]">
@@ -391,7 +414,7 @@ const SignUpSignIn = () => {
         {/* 스위치컨테이너---------------------------------------------------------------------------------------------------- */}
         <div
           signInPanel={signInPanel}
-          className={`switchContainer absolute top-0 left-1/2 w-1/2 h-full overflow-hidden transition-all ${!signInPanel && '-translate-x-full'}`}
+          className={`switchContainer z-10 absolute top-0 left-1/2 w-1/2 h-full overflow-hidden transition-all ${!signInPanel && '-translate-x-full'}`}
         >
           <div
             signIn={signInPanel}

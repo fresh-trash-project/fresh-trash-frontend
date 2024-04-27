@@ -39,7 +39,7 @@ export const verifyCode = async (
     });
 
     if (response.status === 200) {
-      setConfirmMessage('이메일이 인증되었습니다.');
+      // setConfirmMessage('이메일이 인증되었습니다.');
       setIsConfirmed(true);
       setVerificationButtonClick(false);
       console.log(response.status);

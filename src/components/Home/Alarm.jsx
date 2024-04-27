@@ -21,9 +21,9 @@ const Alarm = () => {
   const getLinkByAlarmType = item => {
     switch (item.alarmType) {
       case 'CHAT':
-        return `/Chat/${item.id}`;
+        return `/Chat/${item.alarmArgs.targetId}`;
       case 'TRANSACTION':
-        return `/ProductDetail/${item.id}`;
+        return `/ProductDetail/${item.alarmArgs.targetId}`;
 
       default:
         return '/MyPage';
@@ -39,10 +39,11 @@ const Alarm = () => {
     });
   };
 
+  //알람메시지 읽음처리
   const readAlarmMessage = async item => {
-    await readAlarm(item.id);
+    await readAlarm(item.alarmArgs.targetId);
     setRead(true);
-    console.log(item.id);
+    console.log(item.alarmArgs.targetId);
   };
 
   // JSX -----------------------------------------------------------------------------------------------
@@ -66,36 +67,39 @@ const Alarm = () => {
       </div>
 
       <ul className="h-60 overflow-y-scroll scrollbar scrollbar-thumb-yellow-naples scrollbar-track-white-ivory text-white md:text-sm">
-        {alarmMsg.map(item => (
-          <li
-            key={item.id}
-            onClick={readAlarmMessage(item)}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            className={`border-b border-white border-opacity-30 flex flex-row items-center justify-between cursor-pointer  `}
-          >
-            <div className={`w-72`}>
-              {isHovered ? (
-                <Link to={getLinkByAlarmType(item)}>
-                  {/*프론트에서 메시지 가져올때 {originalText} */}
-                  {item.message}
-                </Link>
-              ) : (
-                <Link to={getLinkByAlarmType(item)} className="truncate">
-                  {/*프론트에서 메시지 가져올때 {originalText} */}
-                  {item.message}
-                </Link>
-              )}
-            </div>
+        {alarmMsg.map(
+          item =>
+            item && (
+              <li
+                key={item.id}
+                onClick={() => readAlarmMessage(item)}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                className={`flex-nowrap border-b border-white border-opacity-30 flex flex-row items-center justify-between cursor-pointer  `}
+              >
+                <div className={`w-72`}>
+                  {isHovered ? (
+                    <Link to={getLinkByAlarmType(item)}>
+                      {/*프론트에서 메시지 가져올때 {originalText} */}
+                      {item.message}
+                    </Link>
+                  ) : (
+                    <Link to={getLinkByAlarmType(item)} className="truncate">
+                      {/*프론트에서 메시지 가져올때 {originalText} */}
+                      {item.message}
+                    </Link>
+                  )}
+                </div>
 
-            <div>
-              <IoMdClose
-                className="text-white transition text-xl hover:text-[var(--red-cinnabar)]"
-                onClick={() => removeAlarmMessage(item.id)}
-              />
-            </div>
-          </li>
-        ))}
+                <div>
+                  <IoMdClose
+                    className="text-white transition text-xl hover:text-[var(--red-cinnabar)]"
+                    onClick={() => removeAlarmMessage(item.id)}
+                  />
+                </div>
+              </li>
+            ),
+        )}
 
         {/* <li className="border-b border-white border-opacity-30">
           <Link>

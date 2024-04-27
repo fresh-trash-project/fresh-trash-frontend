@@ -21,7 +21,8 @@ import {
 } from '../api/UserInfoAPI';
 
 const MyPage = () => {
-  const [avatarSrc, setAvatarSrc] = useState(logoImg);
+  // const [avatarSrc, setAvatarSrc] = useState(logoImg);
+  const [image, setImage] = useState(logoImg);
   const [isEditing, setIsEditing] = useState(false);
   const [userName, setUserName] = useRecoilState(userNameState);
   const [address, setAddress] = useState({
@@ -32,13 +33,13 @@ const MyPage = () => {
     detail: '',
   });
 
-  const [image, setImage] = useState(null);
   const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
   const [duplicationMessage, setDuplicationMessage] = useRecoilState(
     duplicationMessageState,
   );
   const [ratings, setRatings] = useState([]);
   const [registerMessage, setRegisterMessage] = useState('');
+  const API_URL = 'http://localhost:8080';
 
   //마이페이지 들어왔을때 유저정보 불러오기
   useEffect(() => {
@@ -47,13 +48,22 @@ const MyPage = () => {
       setUserName(myInfo.data.nickname);
       setAddress(myInfo.data.address);
       setRatings(myInfo.data.rating);
-      // setImage(myInfo.data.fileName);
-      setAvatarSrc(myInfo.data.fileName);
+      setImage(myInfo.data.fileName);
+      // setAvatarSrc(myInfo.data.fileName);
       console.log(myInfo);
       console.log(myInfo.data.fileName);
-      console.log(avatarSrc);
-    };
+      console.log(image);
 
+      if (myInfo.data.address === null) {
+        setAddress({
+          zipcode: '',
+          state: '',
+          city: '',
+          district: '',
+          detail: '',
+        });
+      }
+    };
     getUserInfo();
   }, []);
 
@@ -101,11 +111,8 @@ const MyPage = () => {
       reader.onloadend = () => {
         const imageData = reader.result;
         console.log(imageData);
-        setAvatarSrc(imageData);
-        setImage(file);
-        console.log(avatarSrc);
-        // // Store the image data in local storage
-        // localStorage.setItem('avatarImage', imageData);
+        setImage(imageData);
+        console.log(image);
       };
       reader.readAsDataURL(file);
     }
@@ -113,8 +120,6 @@ const MyPage = () => {
 
   const handleDeleteImage = () => {
     setImage(null);
-    setAvatarSrc(null);
-    localStorage.removeItem('avatarImage');
   };
 
   const handleUserNameChange = e => {
@@ -148,6 +153,15 @@ const MyPage = () => {
       detail: data.buildingName,
     };
     setAddress(newAddress);
+    if (newAddress === null) {
+      setAddress({
+        zipcode: '',
+        state: '',
+        city: '',
+        district: '',
+        detail: '',
+      });
+    }
     // setAddress(prevAddress => ({
     //   ...prevAddress,
     //   ...newAddress,
@@ -238,15 +252,11 @@ const MyPage = () => {
           <div className="avatar flex flex-col pt-5">
             <div className="w-72 rounded-full mx-auto md:mx-10 ">
               <img
-                src={avatarSrc}
+                src={`${API_URL}/imgs/${image}`}
                 alt=""
-                className={
-                  avatarSrc === logoImg
-                    ? 'w-full h-full object-contain'
-                    : 'w-full h-full object-cover'
-                }
+                className={'w-full h-full object-cover'}
               />
-              {console.log(avatarSrc)}
+              {console.log(image)}
             </div>
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
@@ -257,7 +267,7 @@ const MyPage = () => {
             </button>
             {isEditing && (
               <button className="mx-auto mt-2 md:mx-14">
-                {!image ? (
+                {!image || image === logoImg ? (
                   <label htmlFor="avatarInput" className="btn btn-wide">
                     <p>이미지 업로드</p>
                     <input

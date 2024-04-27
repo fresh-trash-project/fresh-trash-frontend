@@ -12,6 +12,7 @@ const Nav = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('access-token');
+    console.log(localStorage);
     setSignIn(false);
   };
 
@@ -160,7 +161,7 @@ const Nav = () => {
                   />
                 </svg>
                 <span className="badge badge-xs badge-primary indicator-item bg-[var(--yellow-naples)] border-[var(--yellow-naples)] py-2 text-black">
-                  {alarmMsg.length}
+                  {alarmMsg?.length || 0}
                 </span>
               </div>
             </button>

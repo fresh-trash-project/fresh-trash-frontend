@@ -14,7 +14,6 @@ const Header = () => {
   const accessToken = localStorage.getItem('access-token');
 
   //엑세스토큰있으면 로그인상태로
-  // App initialization
   useEffect(() => {
     const accessToken = localStorage.getItem('access-token');
     if (accessToken) {
@@ -62,26 +61,17 @@ const Header = () => {
   //알람받기 -----------------------------------------------------------------------------------------------
   useEffect(() => {
     const getAlarms = async () => {
-      try {
-        const fetchedAlarms = await fetchAlarm();
-        console.log(fetchedAlarms);
-        setAlarmMsg(fetchedAlarms);
-      } catch (error) {
-        console.error('Error fetching ratings: ', error);
+      if (signIn) {
+        try {
+          const fetchedAlarms = await fetchAlarm();
+          console.log(fetchedAlarms);
+          setAlarmMsg(fetchedAlarms);
+        } catch (error) {
+          console.error('Error fetching: ', error);
+        }
       }
     };
-
-    //로컬스토리지에 저장한 알람 있으면 그거 받아오기 Retrieve stored alarm messages from local storage when the component mounts
-    const storedAlarmMessages = JSON.parse(
-      localStorage.getItem('alarmMessages'),
-    );
-    // console.log(storedAlarmMessages);
-
-    if (storedAlarmMessages === null) {
-      if (signIn) getAlarms();
-    } else if (storedAlarmMessages.length > 0) {
-      setAlarmMsg(storedAlarmMessages);
-    }
+    getAlarms();
   }, []);
 
   return (
