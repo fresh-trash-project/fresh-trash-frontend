@@ -23,27 +23,27 @@ const Header = () => {
   }, []);
 
   //SSE -------------------------------------------------------------------------------------------------------
-  useEffect(() => {
-    if (signIn) {
-      try {
-        const fetchSSE = async () => {
-          const eventSource = new EventSource(
-            'http://localhost:8080/api/v1/notis/subscribe',
-            {
-              headers: { Authorization: `Bearer ${accessToken}` },
-            },
-          );
-          eventSource.addEventListener('alarm', event => {
-            const eventData = JSON.parse(event.data);
-            console.log('receivedData:', eventData);
-          });
-        };
-        fetchSSE();
-      } catch (error) {
-        throw error;
-      }
-    }
-  }, [signIn]);
+  // useEffect(() => {
+  //   if (signIn) {
+  //     try {
+  //       const fetchSSE = async () => {
+  //         const eventSource = new EventSource(
+  //           'http://localhost:8080/api/v1/notis/subscribe',
+  //           {
+  //             headers: { Authorization: `Bearer ${accessToken}` },
+  //           },
+  //         );
+  //         eventSource.addEventListener('alarm', event => {
+  //           const eventData = JSON.parse(event.data);
+  //           console.log('receivedData:', eventData);
+  //         });
+  //       };
+  //       fetchSSE();
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   }
+  // }, [signIn]);
 
   //알람받기 -----------------------------------------------------------------------------------------------
   useEffect(() => {

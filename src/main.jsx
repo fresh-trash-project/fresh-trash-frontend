@@ -9,8 +9,6 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <RecoilRoot>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    <RouterProvider router={router} />
   </RecoilRoot>,
 );
