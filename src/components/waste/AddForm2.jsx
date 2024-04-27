@@ -22,7 +22,7 @@ const AddForm = () => {
   //찾은 주소 input 반영
   const handleComplete = data => {
     setAddress({
-      // address: data.address,
+      address: data.address,
       zipcode: data.zonecode,
       state: data.sido,
       city: data.sigungu,
@@ -339,58 +339,11 @@ const AddForm = () => {
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     type="text"
                     name="state"
-                    defaultValue={address.zipcode}
+                    defaultValue={address.address}
                     placeholder="주소/위치를 입력해주세요."
                     required
                     onClick={handleOpenAddressModal}
                   />
-                  {/* <input
-                    type="text"
-                    name="zipcode"
-                    value={address.zipcode}
-                    // onChange={handleAddressChange}
-                    placeholder="우편번호"
-                    readOnly
-                  />
-                  <input
-                    type="text"
-                    name="state"
-                    value={address.state}
-                    // onChange={handleAddressChange}
-                    placeholder="도/시"
-                    readOnly
-                  />
-                  <input
-                    type="text"
-                    name="city"
-                    value={address.city}
-                    // onChange={handleAddressChange}
-                    placeholder="시/군/구"
-                    readOnly
-                  />
-                  <input
-                    type="text"
-                    name="district"
-                    value={address.district}
-                    // onChange={handleAddressChange}
-                    placeholder="읍/면/동"
-                    readOnly
-                  />
-                  <input
-                    type="text"
-                    name="detail"
-                    value={address.detail}
-                    // onChange={handleAddressChange}
-                    placeholder="상세주소"
-                    readOnly
-                  /> */}
-
-                  {/* <button
-                    onClick={handleOpenAddressModal}
-                    className=" w-32 h-11 ml-4 bg-green-900 hover:bg-green-700 text-white font-bold py-1 px-4 rounded"
-                  >
-                    주소검색
-                  </button> */}
                 </div>
               </div>
             </div>
