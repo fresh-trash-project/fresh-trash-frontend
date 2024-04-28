@@ -88,11 +88,15 @@ const MyPage = () => {
 
   const handleImageChange = e => {
     const file = e.target.files[0];
+    console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         const imageData = reader.result;
-        setImage(imageData);
+        const updateImage = imageData;
+        setImage(updateImage);
+        console.log(imageData);
+        console.log(image);
       };
       reader.readAsDataURL(file);
     }

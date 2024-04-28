@@ -407,14 +407,23 @@ const SignUpSignIn = () => {
 
             {/* //!소셜로그인 부분  */}
             <div className="snsIcons flex w-full">
-              <div className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1">
-                <Google style="w-4 h-4" onClick={() => GoogleOAUTH()} />
+              <div
+                onClick={() => GoogleOAUTH()}
+                className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1"
+              >
+                <Google style="w-4 h-4" />
               </div>
-              <div className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1">
-                <Naver style="w-4 h-4" onClick={() => NaverOAUTH()} />
+              <div
+                onClick={() => NaverOAUTH()}
+                className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1"
+              >
+                <Naver style="w-4 h-4" />
               </div>
-              <div className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1">
-                <Kakao style="w-4 h-4" onClick={() => KakaoOAUTH()} />
+              <div
+                onClick={() => KakaoOAUTH()}
+                className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1"
+              >
+                <Kakao style="w-4 h-4" />
               </div>
             </div>
             <button

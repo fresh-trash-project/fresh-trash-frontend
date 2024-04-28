@@ -11,11 +11,13 @@ export const fetchUserNames = async (
   setUserName,
   setRegisterMessage,
 ) => {
+  const accessToken = localStorage.getItem('access-token');
   try {
     const response = await axios.get(`${API_URL}/auth/check-nickname`, {
       params: {
         nickname: userName,
       },
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
 
     console.log(response);

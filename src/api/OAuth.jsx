@@ -8,7 +8,7 @@ export const KakaoOAUTH = async () => {
     const response = await axios.get(`${API_URL}/kakao`);
     console.log(response);
   } catch (error) {
-    console.error('Error fetching ratings: ', error);
+    console.error('Error fetching: ', error);
   }
 };
 
@@ -17,7 +17,7 @@ export const NaverOAUTH = async () => {
     const response = await axios.get(`${API_URL}/naver`);
     console.log(response);
   } catch (error) {
-    console.error('Error fetching ratings: ', error);
+    console.error('Error fetching: ', error);
   }
 };
 
@@ -26,6 +26,6 @@ export const GoogleOAUTH = async () => {
     const response = await axios.get(`${API_URL}/google`);
     console.log(response);
   } catch (error) {
-    console.error('Error fetching ratings: ', error);
+    console.error('Error fetching: ', error);
   }
 };
