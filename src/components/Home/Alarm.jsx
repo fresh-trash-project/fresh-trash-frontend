@@ -9,7 +9,6 @@ import { fetchAlarm, readAlarm } from '../../api/AlarmAPI';
 const Alarm = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
-  const [read, setRead] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [signIn, setSignIn] = useRecoilState(signInState);
   const accessToken = localStorage.getItem('access-token');
@@ -42,7 +41,8 @@ const Alarm = () => {
   //알람메시지 읽음처리 -> 메시지 개수 바뀌면 다시 로드되게
   const readAlarmMessage = async item => {
     await readAlarm(item.id);
-    setRead(true);
+    const fetchedAlarms = await fetchAlarm();
+    setAlarmMsg(fetchedAlarms);
   };
 
   // JSX -----------------------------------------------------------------------------------------------

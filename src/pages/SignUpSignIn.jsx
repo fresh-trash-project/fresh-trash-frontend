@@ -11,7 +11,7 @@ import {
   duplicationMessageState,
 } from '../recoil/RecoilUserName';
 import { signInState, signInPanelState } from '../recoil/RecoilSignIn';
-import { KakaoOAUTH, NaverOAUTH, GoogleOAUTH } from '../api/OAuth';
+
 import {
   fetchPW,
   fetchCode,
@@ -158,7 +158,7 @@ const SignUpSignIn = () => {
 
   console.log(userName);
 
-  //-------------------------------------------------------------------------------------------
+  // JSX------------------------------------------------------------------------------------------
 
   return (
     <div className="outerContainer w-full h-screen flex justify-center items-center shadow-2xl">
@@ -409,7 +409,7 @@ const SignUpSignIn = () => {
             {/* //!소셜로그인 부분  */}
             <div className="snsIcons flex w-full">
               <Link
-                to={`${API_URL}/kakao`}
+                to={`${API_URL}/google`}
                 className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1"
               >
                 <Google style="w-4 h-4" />
@@ -421,7 +421,7 @@ const SignUpSignIn = () => {
                 <Naver style="w-4 h-4" />
               </Link>
               <Link
-                to={`${API_URL}/google`}
+                to={`${API_URL}/kakao`}
                 className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1"
               >
                 <Kakao style="w-4 h-4" />

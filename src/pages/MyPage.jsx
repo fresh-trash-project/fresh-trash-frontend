@@ -39,11 +39,13 @@ const MyPage = () => {
   const [ratings, setRatings] = useState([]);
   const [registerMessage, setRegisterMessage] = useState('');
   const API_URL = 'http://localhost:8080';
+  const S3URL = 'https://fresh-trash-s3.s3.ap-northeast-2.amazonaws.com';
 
   //마이페이지 들어왔을때 유저정보 불러오기
   useEffect(() => {
     const getUserInfo = async () => {
       const myInfo = await fetchUserInfo();
+
       setUserName(myInfo.data.nickname);
       setAddress(myInfo.data.address);
       setRatings(myInfo.data.rating);
@@ -88,17 +90,18 @@ const MyPage = () => {
   };
   console.log('이미지.jpg:' + image);
 
-  const handleImageChange = e => {
+  //이미지 변경
+  const handleImageChange = async e => {
     const file = e.target.files[0];
     console.log(file);
     setImage(file);
-    // if (file) {
-    //   const reader = new FileReader();
-    //   reader.onloadend = () => {
-    //     setImage(reader.result);
-    //   };
-    //   reader.readAsDataURL(file);
-    // }
+  };
+
+  //이미지 파일 경로-----------------------------
+  const getImgUrl = fileName => {
+    console.log(fileName);
+    return `${S3URL}/${fileName}`;
+    // return `${API_URL}/imgs/${fileName}`
   };
 
   //이미지삭제
@@ -225,11 +228,6 @@ const MyPage = () => {
     footstep = (fetchedAverageRating / 5) * 100;
   }
 
-  //이미지 파일 경로-----------------------------
-  const getImgUrl = fileName => {
-    console.log(fileName);
-    return `${API_URL}/imgs/${fileName}`;
-  };
   //JSX-------------------------------------------------------------
   return (
     <div>
@@ -246,7 +244,7 @@ const MyPage = () => {
                 alt=""
                 className={'w-full h-full object-cover'}
               />
-              {/* {console.log(getImgUrl(image))} */}
+              {console.log(getImgUrl(image))}
             </div>
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
