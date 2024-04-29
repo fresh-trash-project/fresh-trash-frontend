@@ -59,6 +59,7 @@ export const changeUserInfo = async (
     const json = JSON.stringify(memberRequest);
     const blob = new Blob([json], { type: 'application/json' });
     var formData = new FormData();
+    console.log(image);
     formData.append('imgFile', image);
     formData.append('memberRequest', blob);
 

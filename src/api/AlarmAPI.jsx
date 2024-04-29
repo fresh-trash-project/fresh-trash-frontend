@@ -24,6 +24,7 @@ export const fetchAlarm = async () => {
 //받은 알림 클릭시 PUT 요청 -> 알림읽음처리
 export const readAlarm = async notisId => {
   const accessToken = localStorage.getItem('access-token');
+  console.log(localStorage);
   console.log(accessToken);
   try {
     const response = await axios.put(`${API_URL}/notis/${notisId}`, null, {

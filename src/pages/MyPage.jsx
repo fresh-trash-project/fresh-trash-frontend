@@ -88,15 +88,12 @@ const MyPage = () => {
 
   const handleImageChange = e => {
     const file = e.target.files[0];
-    console.log(file);
     if (file) {
+      setImage(file);
+      console.log(image);
       const reader = new FileReader();
       reader.onloadend = () => {
         const imageData = reader.result;
-        const updateImage = imageData;
-        setImage(updateImage);
-        console.log(imageData);
-        console.log(image);
       };
       reader.readAsDataURL(file);
     }
@@ -226,6 +223,11 @@ const MyPage = () => {
     footstep = (fetchedAverageRating / 5) * 100;
   }
 
+  //이미지 파일 경로-----------------------------
+  const getImgUrl = fileName => {
+    // const imageUrl = URL.createObjectURL(fileName);
+    return `${API_URL}/imgs/${fileName}`;
+  };
   //JSX-------------------------------------------------------------
   return (
     <div>
@@ -238,11 +240,11 @@ const MyPage = () => {
           <div className="avatar flex flex-col pt-5">
             <div className="w-72 rounded-full mx-auto md:mx-10 ">
               <img
-                src={`${API_URL}/imgs/${image}`}
+                src={getImgUrl(image)}
                 alt=""
                 className={'w-full h-full object-cover'}
               />
-              {console.log(image)}
+              {console.log(getImgUrl(image))}
             </div>
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"

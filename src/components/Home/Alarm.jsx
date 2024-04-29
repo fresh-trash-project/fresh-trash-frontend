@@ -39,11 +39,10 @@ const Alarm = () => {
     });
   };
 
-  //알람메시지 읽음처리
+  //알람메시지 읽음처리 -> 메시지 개수 바뀌면 다시 로드되게
   const readAlarmMessage = async item => {
-    await readAlarm(item.alarmArgs.targetId);
+    await readAlarm(item.id);
     setRead(true);
-    console.log(item.alarmArgs.targetId);
   };
 
   // JSX -----------------------------------------------------------------------------------------------
