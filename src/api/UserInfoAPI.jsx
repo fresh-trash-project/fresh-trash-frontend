@@ -72,7 +72,7 @@ export const changeUserInfo = async (
     if (response.status === 200) {
       console.log('프로필 수정 성공');
     }
-
+    console.log(response);
     return response;
   } catch (error) {
     console.log(error);

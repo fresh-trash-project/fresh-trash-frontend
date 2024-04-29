@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { VscEye } from 'react-icons/vsc';
 import { Google, Naver, Kakao } from '../components/common/service/SNS';
 import VerificationButton from '../components/common/button/VerificationButton';
@@ -43,6 +43,7 @@ const SignUpSignIn = () => {
   const [passwordMessage, setPasswordMessage] = useState('');
 
   const navigate = useNavigate();
+  const API_URL = 'http://localhost:8080/oauth2/authorization';
 
   // 함수--------------------------------------------------------------------------------------
 
@@ -407,24 +408,24 @@ const SignUpSignIn = () => {
 
             {/* //!소셜로그인 부분  */}
             <div className="snsIcons flex w-full">
-              <div
-                onClick={() => GoogleOAUTH()}
+              <Link
+                to={`${API_URL}/kakao`}
                 className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1"
               >
                 <Google style="w-4 h-4" />
-              </div>
-              <div
-                onClick={() => NaverOAUTH()}
+              </Link>
+              <Link
+                to={`${API_URL}/naver`}
                 className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1"
               >
                 <Naver style="w-4 h-4" />
-              </div>
-              <div
-                onClick={() => KakaoOAUTH()}
+              </Link>
+              <Link
+                to={`${API_URL}/google`}
                 className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1"
               >
                 <Kakao style="w-4 h-4" />
-              </div>
+              </Link>
             </div>
             <button
               onClick={handleSignIn}

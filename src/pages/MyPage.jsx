@@ -84,19 +84,21 @@ const MyPage = () => {
     setUserName(changeMyInfo.data.nickname);
     setAddress(changeMyInfo.data.address);
     setImage(changeMyInfo.data.fileName);
+    console.log(changeMyInfo.data.fileName);
   };
+  console.log('이미지.jpg:' + image);
 
   const handleImageChange = e => {
     const file = e.target.files[0];
-    if (file) {
-      setImage(file);
-      console.log(image);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const imageData = reader.result;
-      };
-      reader.readAsDataURL(file);
-    }
+    console.log(file);
+    setImage(file);
+    // if (file) {
+    //   const reader = new FileReader();
+    //   reader.onloadend = () => {
+    //     setImage(reader.result);
+    //   };
+    //   reader.readAsDataURL(file);
+    // }
   };
 
   //이미지삭제
@@ -225,7 +227,7 @@ const MyPage = () => {
 
   //이미지 파일 경로-----------------------------
   const getImgUrl = fileName => {
-    // const imageUrl = URL.createObjectURL(fileName);
+    console.log(fileName);
     return `${API_URL}/imgs/${fileName}`;
   };
   //JSX-------------------------------------------------------------
@@ -244,7 +246,7 @@ const MyPage = () => {
                 alt=""
                 className={'w-full h-full object-cover'}
               />
-              {console.log(getImgUrl(image))}
+              {/* {console.log(getImgUrl(image))} */}
             </div>
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
