@@ -4,9 +4,11 @@ import axios from 'axios';
 const API = 'http://localhost:8080/api/v1';
 // 이메일 인증버튼 눌렀을때 인증코드 받기
 export const fetchCode = async (setVerificationMessage, userEmail) => {
+  const accessToken = localStorage.getItem('access-token');
   try {
     const response = await axios.post(`${API}/mail/send-code`, {
       email: userEmail,
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
     console.log(response);
 
@@ -31,11 +33,13 @@ export const verifyCode = async (
   code,
   setVerificationButtonClick,
 ) => {
+  const accessToken = localStorage.getItem('access-token');
   try {
     console.log(code);
     const response = await axios.post(`${API}/mail/verify`, {
       email: userEmail,
       code: code,
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
 
     if (response.status === 200) {
@@ -64,11 +68,13 @@ export const signUpAccount = async (
   userEmail,
   setSignInPanel,
 ) => {
+  const accessToken = localStorage.getItem('access-token');
   try {
     const response = await axios.post(`${API}/auth/signup`, {
       nickname: userName,
       password: userPassword,
       email: userEmail,
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
 
     if (response.status === 201) {
@@ -96,10 +102,12 @@ export const signInAccount = async (
   userEmail,
   navigate,
 ) => {
+  const accessToken = localStorage.getItem('access-token');
   try {
     const response = await axios.post(`${API}/auth/signin`, {
       password: userPassword,
       email: userEmail,
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
 
     if (response.status === 200) {
@@ -124,9 +132,11 @@ export const signInAccount = async (
 
 //!비번을 잊었을때 아직 백 구현 안됨
 export const fetchPW = async (setVerificationMessage, userEmail) => {
+  const accessToken = localStorage.getItem('access-token');
   try {
     const response = await axios.post(`${API}/mail/find-pass`, {
       email: userEmail,
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
     console.log(response);
 

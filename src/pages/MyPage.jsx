@@ -21,7 +21,6 @@ import {
 } from '../api/UserInfoAPI';
 
 const MyPage = () => {
-  // const [avatarSrc, setAvatarSrc] = useState(logoImg);
   const [image, setImage] = useState(logoImg);
   const [isEditing, setIsEditing] = useState(false);
   const [userName, setUserName] = useRecoilState(userNameState);
@@ -49,7 +48,6 @@ const MyPage = () => {
       setAddress(myInfo.data.address);
       setRatings(myInfo.data.rating);
       setImage(myInfo.data.fileName);
-      // setAvatarSrc(myInfo.data.fileName);
       console.log(myInfo);
       console.log(myInfo.data.fileName);
       console.log(image);
@@ -66,22 +64,6 @@ const MyPage = () => {
     };
     getUserInfo();
   }, []);
-
-  //새로고침 시 이미지기억 ------------------------------------------
-  // useEffect(() => {
-  //   // Load the image from local storage when the component mounts
-  //   const storedImage = localStorage.getItem('avatarImage');
-  //   if (storedImage) {
-  //     setAvatarSrc(storedImage);
-  //     setImage(storedImage);
-  //   }
-  // }, []);
-
-  //새로고침 시 주소기억 ------------------------------------------
-  // const storedAddress = localStorage.getItem('userAddress');
-  // if (storedAddress) {
-  //   setAddress(JSON.parse(storedAddress));
-  // }
 
   //함수들-----------------------------------------------------------
   const handleEditProfile = () => {
@@ -107,19 +89,26 @@ const MyPage = () => {
   const handleImageChange = e => {
     const file = e.target.files[0];
     if (file) {
+      setImage(file);
+      console.log(image);
       const reader = new FileReader();
       reader.onloadend = () => {
         const imageData = reader.result;
-        console.log(imageData);
-        setImage(imageData);
-        console.log(image);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleDeleteImage = () => {
-    setImage(null);
+  //이미지삭제
+  const handleDeleteImage = async () => {
+    try {
+      // Call the backend API to update user information with null image
+      await changeUserInfo(userName, address, null, setRegisterMessage);
+      // If update is successful, set image state to null locally
+      setImage(null);
+    } catch (error) {
+      console.error('Error deleting image:', error);
+    }
   };
 
   const handleUserNameChange = e => {
@@ -162,12 +151,6 @@ const MyPage = () => {
         detail: '',
       });
     }
-    // setAddress(prevAddress => ({
-    //   ...prevAddress,
-    //   ...newAddress,
-    // }));
-
-    // localStorage.setItem('userAddress', JSON.stringify(newAddress));
   };
 
   //사용자 평점 프론트에서 구할때--------------------------------------------------------
@@ -240,6 +223,11 @@ const MyPage = () => {
     footstep = (fetchedAverageRating / 5) * 100;
   }
 
+  //이미지 파일 경로-----------------------------
+  const getImgUrl = fileName => {
+    // const imageUrl = URL.createObjectURL(fileName);
+    return `${API_URL}/imgs/${fileName}`;
+  };
   //JSX-------------------------------------------------------------
   return (
     <div>
@@ -252,11 +240,11 @@ const MyPage = () => {
           <div className="avatar flex flex-col pt-5">
             <div className="w-72 rounded-full mx-auto md:mx-10 ">
               <img
-                src={`${API_URL}/imgs/${image}`}
+                src={getImgUrl(image)}
                 alt=""
                 className={'w-full h-full object-cover'}
               />
-              {console.log(image)}
+              {console.log(getImgUrl(image))}
             </div>
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
