@@ -10,9 +10,11 @@ import { FiMoreVertical } from 'react-icons/fi';
 // import { fetchProducts, deletePost } from '../../api/WastesApi';
 import { Link, useNavigate } from 'react-router-dom';
 import { deleteWaste, detailWaste, likeWaste } from '../../api/WastesApi';
+import { chatPost } from '../../api/chat/api';
 const API_URL = 'http://localhost:8080';
 const DetailCard = () => {
   const { wasteId } = useParams(); // URL 파라미터에서 wasteId 가져오기
+  const { chatId } = useParams();
   const [postDetails, setPostDetails] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   useEffect(() => {
@@ -95,6 +97,19 @@ const DetailCard = () => {
   //이미지 파일 경로-----------------------------
   const getImgeUrl = fileName => {
     return `${API_URL}/imgs/${fileName}`;
+  };
+
+  //채팅------------------------------------
+  // const [chatId,setChatId]=useState('')
+  // const handleChat = async () => {
+  //   await chatPost(postDetails.id);
+  //   navigate(`/Chat/${postDetails && postDetails.id}`);
+  // };
+  const [chat, setChat] = useState('');
+  const handleChat = async () => {
+    const chat = await chatPost(postDetails && postDetails.id);
+    setChat(chat);
+    navigate(`/Chat/${postDetails && postDetails.id}/${chat && chat.id}`);
   };
   return (
     <div>
@@ -191,16 +206,22 @@ const DetailCard = () => {
                                     </p>
                                   </div>
                                 </div>
-                                <div className="flex text-lg">
-                                  <p className="mr-2">
-                                    {postDetails &&
-                                      postDetails.memberResponse.address.state}
-                                  </p>
-                                  <p>
-                                    {postDetails &&
-                                      postDetails.memberResponse.address.city}
-                                  </p>
-                                </div>
+                                {postDetails &&
+                                  postDetails.memberResponse &&
+                                  postDetails.memberResponse.address && (
+                                    <div className="flex text-lg">
+                                      <p className="mr-2">
+                                        {postDetails &&
+                                          postDetails.memberResponse.address
+                                            .state}
+                                      </p>
+                                      <p>
+                                        {postDetails &&
+                                          postDetails.memberResponse.address
+                                            .city}
+                                      </p>
+                                    </div>
+                                  )}
                               </div>
                             </div>
 
@@ -261,15 +282,42 @@ const DetailCard = () => {
                     <p>관심추가</p>
                     {/* <IoHeartOutline className="w-5 h-5 -ms-2 me-2" /> */}
                   </button>
-                  <Link to="/Chat">
-                    <div
+                  {currentUser &&
+                  postDetails &&
+                  currentUser.id !== postDetails.memberResponse.id ? (
+                    <button
                       className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
-                      role="button"
+                      // role="button"
+                      onClick={handleChat}
                     >
                       <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
                       채팅하기
-                    </div>
-                  </Link>
+                    </button>
+                  ) : (
+                    // <Link
+                    //   to={`/Chat/${postDetails && postDetails.id}/${chat && chat.id}`}
+                    // >
+                    <button
+                      className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
+                      // role="button"
+                    >
+                      <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
+                      채팅목록
+                    </button>
+                    // </Link>
+                  )}
+                  {/* {currentUser &&
+                    postDetails &&
+                    currentUser.id !== postDetails.memberResponse.id && (
+                      <button
+                        className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
+                        // role="button"
+                        onClick={handleChat}
+                      >
+                        <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
+                        채팅하기
+                      </button>
+                    )} */}
                 </div>
               </div>
             </div>

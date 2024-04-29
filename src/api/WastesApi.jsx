@@ -4,7 +4,7 @@ const axiosWithToken = axios.create({
   baseURL: `${API_URL}/api/v1`,
   headers: {
     // 'Content-Type': 'application/json',
-    Authorization: localStorage.getItem('access-token'), // 로컬 스토리지에서 토큰을 가져와 헤더에 추가
+    Authorization: localStorage.getItem('access-token'),
   },
 });
 // export const fetchProducts = async currentPage => {
@@ -67,6 +67,55 @@ export const fetchProducts = async (currentPage, query) => {
     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
   }
 };
+// export const fetchProducts = async (currentPage, query) => {
+//   const accessToken = localStorage.getItem('access-token');
+//   try {
+//     const response = await axios.get('/wastes', {
+//       headers: { Authorization: `Bearer ${accessToken}` },
+//     });
+//     // const response = await axiosWithToken.get('/wastes?page');
+//     const responseData = response.data;
+//     if (response.status === 200) {
+//       console.log('게시물 목록을 가져오기 성공', response.data);
+//       return {
+//         content: responseData.content,
+//         totalPages: responseData.totalPages,
+//         totalElements: responseData.totalElements,
+//         pageable: responseData.pageable,
+//       };
+//     }
+
+//     // 서버로부터 받은 데이터 반환
+//   } catch (error) {
+//     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
+//     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
+//   }
+// };
+// const fetchQuery = async query => {
+//   const accessToken = localStorage.getItem('access-token');
+
+//   try {
+//     const response = await axios.get(`/wastes${query}`, {
+//       headers: { Authorization: `Bearer ${accessToken}` },
+//     });
+//     // const response = await axiosWithToken.get('/wastes?page');
+//     const responseData = response.data;
+//     if (response.status === 200) {
+//       console.log('게시물 목록을 가져오기 성공', response.data);
+//       return {
+//         content: responseData.content,
+//         totalPages: responseData.totalPages,
+//         totalElements: responseData.totalElements,
+//         pageable: responseData.pageable,
+//       };
+//     }
+
+//     // 서버로부터 받은 데이터 반환
+//   } catch (error) {
+//     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
+//     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
+//   }
+// };
 const fetchQuery = async query => {
   try {
     const response = await axiosWithToken.get(`/wastes${query}`);

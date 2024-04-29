@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
   { path: '/ProductEdit/:wasteId', element: <ProductEdit /> },
   { path: '/AuctionList', element: <AuctionList /> },
   { path: '/AuctionDetail', element: <AuctionDetail /> },
-  { path: '/Chat', element: <Chat /> },
+  { path: '/Chat/:chatId/:wasteId', element: <Chat /> },
   { path: '/ChatList', element: <ChatList /> },
   { path: '/Pay', element: <Pay /> },
 ]);
