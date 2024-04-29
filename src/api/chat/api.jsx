@@ -33,10 +33,10 @@ export const ListFetch = async wasteId => {
   }
 };
 
-//채팅 삭제 api
+//채팅 나가기 api
 export const deleteChat = async (wasteId, chatId) => {
   try {
-    const response = await axiosWithToken.delete(
+    const response = await axiosWithToken.put(
       `/wastes/${wasteId}/chats/${chatId}`,
     );
     if (response.status === 204) {

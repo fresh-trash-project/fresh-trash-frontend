@@ -31,9 +31,7 @@
     "react-type-animation": "^3.2.0",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
-    "sockjs": "^0.3.24",
-    "styled-components": "^6.1.8",
-    "websocket": "^1.0.34"
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

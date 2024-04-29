@@ -38,7 +38,10 @@ const ChatMenu = ({ messageList }) => {
         <li
           className="p-5"
           onClick={() =>
-            handleDelete(messageList.chatRoom.wasteId, messageList.chatRoom.id)
+            handleDelete(
+              messageList.chatRoom && messageList.chatRoom.wasteId,
+              messageList.chatRoom && messageList.chatRoom.id,
+            )
           }
         >
           <svg

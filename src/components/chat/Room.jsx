@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+// import InputField2 from './InputField2';
 import InputField from './InputField';
 // import socket from '../../api/chat/server';
 import MessageContainer from './MessageContainer';
@@ -20,11 +21,13 @@ const Room = () => {
   // };
   return (
     <div>
-      <InputField
+      {/* <InputField2 /> */}
+      <InputField />
+      {/* <InputField
       // message={message}
       // setMessage={setMessage}
       // sendMessage={sendMessage}
-      />
+      /> */}
     </div>
   );
 };

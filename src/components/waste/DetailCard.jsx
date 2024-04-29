@@ -95,8 +95,11 @@ const DetailCard = () => {
   };
 
   //이미지 파일 경로-----------------------------
+  // const getImgeUrl = fileName => {
+  //   return `${API_URL}/imgs/${fileName}`;
+  // };
   const getImgeUrl = fileName => {
-    return `${API_URL}/imgs/${fileName}`;
+    return `https://fresh-trash-s3.s3.ap-northeast-2.amazonaws.com/${fileName}`;
   };
 
   //채팅------------------------------------

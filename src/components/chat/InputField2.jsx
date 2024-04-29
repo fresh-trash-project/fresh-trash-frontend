@@ -19,13 +19,13 @@ import { Client } from '@stomp/stompjs';
 // import { stompClientSetup } from '../../api/stompServer';
 const InputField = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { wasteId, chatId } = useParams();
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
   //채팅 내용 api호출
   const [messageContent, setMessageContent] = useState([]);
-
+  const { wasteId, chatId } = useParams();
   useEffect(() => {
     const fetchData = async (wasteId, chatId) => {
       try {
@@ -78,45 +78,42 @@ const InputField = () => {
       return null; // 또는 적절한 기본값 반환
     }
   };
-  //웹소켓 연결----------------------------------------------------------------------------
+  //웹소켓 연결
   const [stompClient, setStompClient] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
-  // const access = localStorage.getItem('access-token');
+  const access = localStorage.getItem('access-token');
   useEffect(() => {
-    const initializeChat = async () => {
+    const initializeChat = async chatId => {
       try {
         const stomp = new Client({
           brokerURL: 'ws://localhost:8080/chat-ws',
-          // connectHeaders: {
-          //   Authorization: `Bearer ${access}`,
-          // },
+          connectHeaders: {
+            Authorization: `Bearer ${access}`,
+          },
           debug: str => {
             console.log(str);
           },
         });
         setStompClient(stomp);
-        // console.log(stomp);
-        // console.log(stompClient);
+
         stomp.activate();
 
         stomp.onConnect = () => {
+          console.log('WebSocket 연결이 열렸습니다.');
           const subscriptionDestination = `/chat/${chatId}/message`;
 
-          stomp.subscribe(subscriptionDestination, msg => {
-            // console.log(JSON.parse(msg.body).message);
-            // console.log(JSON.parse(msg.body).createdAt);
+          stomp.subscribe(subscriptionDestination, frame => {
             try {
-              const parsedMessage = JSON.parse(msg.body);
+              const parsedMessage = JSON.parse(frame.body);
+
+              console.log(parsedMessage);
               setMessages(prevMessages => [...prevMessages, parsedMessage]);
-              console.log('WebSocket 연결이 열렸습니다.');
-              console.log('수신한 메세지', parsedMessage);
             } catch (error) {
               console.error('오류가 발생했습니다:', error);
             }
           });
         };
-        console.log(stompClient);
       } catch (error) {
         console.error('웹소켓 연결을 실패했습니다.', error);
       }
@@ -124,31 +121,24 @@ const InputField = () => {
 
     // 채팅 초기설정
     initializeChat();
-    console.log(stompClient);
 
-    // return () => {
-    //   if (stompClient && stompClient.connected) {
-    //     stompClient.deactivate();
-    //   }
-    // };
-    // 컴포넌트 언마운트 시 연결 종료
     return () => {
-      if (stompClient !== null) {
+      if (stompClient && stompClient.connected) {
         stompClient.deactivate();
       }
     };
   }, [chatId]);
 
-  //채팅 메세지 전송-------------------------------
-  const sendMessage = (chatId, memberId) => {
-    if (!inputMessage.trim()) return;
-    console.log('전송한 메세지', inputMessage);
+  //채팅 메세지 전송
+  const sendMessage = (chatId, memberId, e) => {
+    e.preventDefault();
     const destination = `/app/${chatId}/message/${memberId}`;
+
     stompClient.publish({
       destination,
       body: JSON.stringify({
-        message: inputMessage,
-        // sender: currentUser,
+        content: inputMessage,
+        sender: currentUser,
       }),
     });
 
@@ -251,34 +241,30 @@ const InputField = () => {
             </div>
           </div>
         </div>
-        {/* 채팅 화면 */}
         <div className="bg-gray-100 h-full overflow-y: auto">
           <MessageContainer
+            key={messageContent.id}
+            messageList={messageContent}
             messages={messages}
-            member={messageContent}
-            partner={messageContent}
           />
         </div>
-        {/* ------채팅입력----- */}
-        <div className="bg-white p-4 flex items-center  ">
-          <input
-            value={inputMessage}
-            onChange={e => setInputMessage(e.target.value)}
-            placeholder="채팅을 입력하세요"
-            className="flex-1 border rounded-full px-4 py-2 focus:outline-none"
-          />
-          <button
-            onClick={() =>
-              sendMessage(
-                messageContent.chatRoom && messageContent.chatRoom.id,
-                currentUser && currentUser.id,
-              )
-            }
-            className="bg-gray-300 text-white rounded-full p-2 ml-2 focus:outline-none"
-          >
-            전송
-          </button>
-        </div>
+        <form className=" bottom-0 left-0 w-full">
+          <div className="bg-white p-4 flex items-center  ">
+            <input
+              value={inputMessage}
+              onChange={e => setInputMessage(e.target.value)}
+              placeholder="채팅을 입력하세요"
+              className="flex-1 border rounded-full px-4 py-2 focus:outline-none"
+            />
+            <button
+              type="submit"
+              onClick={() => sendMessage(currentUser.id)}
+              className="bg-gray-300 text-white rounded-full p-2 ml-2 focus:outline-none"
+            >
+              전송
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
