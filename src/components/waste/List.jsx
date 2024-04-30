@@ -11,9 +11,9 @@ import ProductCard from './ProductCard';
 import { useNavigate } from 'react-router-dom';
 import { PaginationButton } from 'flowbite-react';
 const ITEMS_PER_PAGE = 6;
-const List = () => {
+const List2 = () => {
   const navigate = useNavigate();
-
+  //List 복사
   //회원만 등록페이지 접근-------------------------------
   const [signIn, setSignIn] = useRecoilState(signInState);
   const handleRegistrationPageAccess = () => {
@@ -356,4 +356,4 @@ const List = () => {
   );
 };
 
-export default List;
+export default List2;

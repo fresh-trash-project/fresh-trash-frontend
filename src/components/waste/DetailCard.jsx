@@ -112,7 +112,7 @@ const DetailCard = () => {
   const handleChat = async () => {
     const chat = await chatPost(postDetails && postDetails.id);
     setChat(chat);
-    navigate(`/Chat/${postDetails && postDetails.id}/${chat && chat.id}`);
+    navigate(`/Chat/${chat && chat.id}/${postDetails && postDetails.id}`);
   };
   return (
     <div>
@@ -300,27 +300,28 @@ const DetailCard = () => {
                     // <Link
                     //   to={`/Chat/${postDetails && postDetails.id}/${chat && chat.id}`}
                     // >
-                    <button
-                      className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
-                      // role="button"
-                    >
-                      <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
-                      채팅목록
-                    </button>
-                    // </Link>
-                  )}
-                  {/* {currentUser &&
-                    postDetails &&
-                    currentUser.id !== postDetails.memberResponse.id && (
+
+                    <Link to="/ChatList">
                       <button
                         className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
                         // role="button"
-                        onClick={handleChat}
                       >
                         <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
-                        채팅하기
+                        채팅목록
                       </button>
-                    )} */}
+                    </Link>
+
+                    // </Link>
+                  )}
+
+                  {/* <button
+                    className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
+                    // role="button"
+                    onClick={handleChat}
+                  >
+                    <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
+                    채팅하기
+                  </button> */}
                 </div>
               </div>
             </div>

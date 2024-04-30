@@ -145,7 +145,8 @@ export const fetchWastes = {
     await fetchQuery(`?title=${keyword}&page=${currentPage}`),
   districtSearch: async (keyword, currentPage) =>
     await fetchQuery(`?district=${keyword}&page=${currentPage}`),
-  category: async search => await fetchQuery(`?category=${search}`),
+  category: async (search, currentPage) =>
+    await fetchQuery(`?category=${search}&page=${currentPage}`),
 };
 export const createPost = async (
   title,

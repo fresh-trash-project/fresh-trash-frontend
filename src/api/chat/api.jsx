@@ -77,11 +77,11 @@ export const completePost = async (wasteId, chatRoomId) => {
   }
 };
 //
-//예약중 api
-export const bookingPost = async chatRoomId => {
+//예약중,판매중 api
+const statusPost = async (chatRoomId, query) => {
   try {
     const response = await axiosWithToken.post(
-      `/transactions/chats/${chatRoomId}/booking`,
+      `/transactions/chats/${chatRoomId}/status${query}`,
     );
     if (response.status === 200) {
       console.log('판매상태가 예약중으로 변경되었습니다.', response.data);
@@ -90,6 +90,11 @@ export const bookingPost = async chatRoomId => {
     console.log('판매상태가 예약중으로 변경 실패하였습니다.', error);
   }
 };
+export const statusChange = {
+  sellStatus: async (chatRoomId, status) =>
+    await statusPost(chatRoomId, `?sellStatus=${status}`),
+};
+
 //신고하기 api
 export const reportPost = async chatRoomId => {
   try {
