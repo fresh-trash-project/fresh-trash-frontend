@@ -237,7 +237,7 @@ const InputField = () => {
                             )
                           }
                         >
-                          <p> 예약신청</p>
+                          <p> 예약중</p>
                         </li>
                       ) : (
                         <li

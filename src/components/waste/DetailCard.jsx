@@ -248,6 +248,9 @@ const DetailCard = () => {
                   <div className="bg-white text-[var(--yellow-saffron)] font-semibold ml-4 py-2 px-4 border border-[var(--yellow-saffron)] rounded">
                     <p>{postDetails && postDetails.wasteStatus}</p>
                   </div>
+                  <div className="bg-white text-[var(--green-brunswick)] font-semibold ml-4 py-2 px-4 border border-[var(--green-brunswick)] rounded">
+                    {postDetails && postDetails.sellStatus}
+                  </div>
                 </div>
                 <div className="mt-4 sm:items-center sm:gap-4 sm:flex justify-between">
                   <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">

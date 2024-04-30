@@ -41,7 +41,12 @@ const ProductCard = ({ wastes, onDelete }) => {
         {/* <img src={getImgeUrl(wastes.fileName)} alt="" /> */}
       </figure>
       <div className="card-body">
+        <div className="bg-white w-20 text-[var(--yellow-saffron)] font-semibold text-xs py-1 px-2 border border-[var(--yellow-saffron)] rounded">
+          {wastes.sellStatus}
+        </div>
+
         <div className="card-title mb-3">{wastes.title}</div>
+
         <div className="flex justify-between mb-3">
           <div className="flex gap-2">
             <span>{wastes.address.state}</span>
