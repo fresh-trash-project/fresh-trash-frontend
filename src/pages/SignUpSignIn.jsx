@@ -406,7 +406,6 @@ const SignUpSignIn = () => {
                 <p className="text-red-400 mb-4">{verificationMessage}</p>
               ))}
 
-            {/* //!소셜로그인 부분  */}
             <div className="snsIcons flex w-full">
               <Link
                 to={`${API_URL}/google`}

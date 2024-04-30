@@ -13,6 +13,7 @@ import Card1 from '../components/common/card/Card1';
 import add from '../assets/add1.jpg';
 import auction from '../assets/auction2.jpg';
 import heart from '../assets/heart1.jpg';
+import chat from '../assets/chat1.jpg';
 import {
   changeUserInfo,
   fetchRating,
@@ -122,6 +123,7 @@ const MyPage = () => {
     setDuplicationMessage('');
   };
 
+  //닉네임 중복확인 
   const handleDuplication = async userName => {
     fetchUserNames(
       setIsDuplicate,
@@ -385,6 +387,12 @@ const MyPage = () => {
             title="나의 관심 목록"
             phrase="MY Likes"
             link="MyLikes"
+          />
+          <Card1
+            image={chat}
+            title="나의 채팅 목록"
+            phrase="My Chat List"
+            link="ChatList"
           />
         </div>
       </div>

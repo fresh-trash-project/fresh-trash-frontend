@@ -49,6 +49,7 @@ const Nav = () => {
                 애물단지 등록
               </Link>
             </li>
+           
             <li className="font-bold h-10 py-2">
               <Link to="/ProductsList" className="lg:text-[1rem]">
                 애물단지 거래

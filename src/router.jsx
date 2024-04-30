@@ -38,6 +38,6 @@ export const router = createBrowserRouter([
   { path: '/AuctionList', element: <AuctionList /> },
   { path: '/AuctionDetail', element: <AuctionDetail /> },
   { path: '/Chat/:chatId/:wasteId', element: <Chat /> },
-  { path: '/ChatList', element: <ChatList /> },
+  { path: 'MyPage/ChatList', element: <ChatList /> },
   { path: '/Pay', element: <Pay /> },
 ]);

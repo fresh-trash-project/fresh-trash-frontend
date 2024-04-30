@@ -17,23 +17,31 @@ const MyLikes = () => {
       const dataMyLikes = await fetchMyLikes(page);
       setMyLikes(dataMyLikes.content);
       setTotalLikes(dataMyLikes.totalElements);
-      setTotalPage(dataMyLikes.totalPages);
-
-      // const handleCategoryChange = category => {
-      //   setSelectedCategory(category);
-      //   setPage(0); // 페이지를 첫 페이지로 초기화
-      //   const filtered =
-      //     selectedCategory === '전체'
-      //       ? myLikes
-      //       : myLikes.filter(
-      //           data => data.content.wasteCategory === selectedCategory,
-      //         );
-      //   console.log(filtered);
-      //   setFilteredLikes(myLikes);
-      // };
+      setTotalPage(dataMyLikes.totalPages);      
     };
     getMyLikes();
   }, [page]);
+
+  // useEffect(() => {
+  //   filterLikes(selectedCategory, myLikes); // Filter likes whenever the selected category changes
+  // }, [selectedCategory]);
+
+  // const filterLikes = (selectedCategory, myLikes) => {
+  //   const filtered =
+  //     selectedCategory === '전체'
+  //       ? myLikes
+  //       : myLikes.filter(data => data.content.wasteCategory === selectedCategory);
+  //   setFilteredLikes(filtered);
+  // };
+
+  // const handleCategoryChange = (category) => {
+  //   setSelectedCategory(category);
+  //   setPage(0); // Reset page to the first page
+  // };
+
+ 
+
+
 
   //페이지네이션-------------------------------------
   const handlePreviousPage = () => {
@@ -59,34 +67,37 @@ const MyLikes = () => {
             <li onClick={() => handleCategoryChange('전체')}>
               <p>전체</p>
             </li>
-            <li onClick={() => handleCategoryChange('전자기기')}>
+            <li onClick={() => handleCategoryChange('ELECTRONICS')}>
               <p>전자기기</p>
             </li>
-            <li onClick={() => handleCategoryChange('의류')}>
+            <li onClick={() => handleCategoryChange('CLOTHING')}>
               <p>의류</p>
             </li>
-            <li onClick={() => handleCategoryChange('생활/주방')}>
+            <li onClick={() => handleCategoryChange('HOME_KITCHEN')}>
               <p>생활/주방</p>
             </li>
-            <li onClick={() => handleCategoryChange('뷰티')}>
+            <li onClick={() => handleCategoryChange('BEAUTY')}>
               <p>뷰티</p>
             </li>
-            <li onClick={() => handleCategoryChange('스포츠')}>
+            <li onClick={() => handleCategoryChange('HEALTH')}>
+              <p>건강</p>
+            </li>
+            <li onClick={() => handleCategoryChange('SPORTS')}>
               <p>스포츠</p>
             </li>
-            <li onClick={() => handleCategoryChange('도서')}>
+            <li onClick={() => handleCategoryChange('BOOKS')}>
               <p>도서</p>
             </li>
-            <li onClick={() => handleCategoryChange('장난감/게임')}>
+            <li onClick={() => handleCategoryChange('TOYS_GAMES')}>
               <p>장난감/게임</p>
             </li>
-            <li onClick={() => handleCategoryChange('가구/인테리어')}>
+            <li onClick={() => handleCategoryChange('FURNITURE_DECOR')}>
               <p>가구/인테리어</p>
             </li>
-            <li onClick={() => handleCategoryChange('반려동물용품')}>
+            <li onClick={() => handleCategoryChange('PET_SUPPLIES')}>
               <p>반려동물용품</p>
             </li>
-            <li onClick={() => handleCategoryChange('식물')}>
+            <li onClick={() => handleCategoryChange('PLANT_SUPPLIES')}>
               <p>식물</p>
             </li>
           </ul>
@@ -114,7 +125,7 @@ const MyLikes = () => {
         </div>
       </div>
 
-      <MyTradeCards myList={myLikes} />
+      <MyTradeCards myList={filteredLikes} />
 
       <div className=" container flex justify-center mb-16">
         <PaginationButton
