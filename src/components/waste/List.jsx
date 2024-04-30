@@ -247,7 +247,7 @@ const List2 = () => {
       <div className="mt-4 ml-8 text-sm breadcrumbs">
         <ul>
           <li>홈</li>
-          <li>폐기물 거래/나눔</li>
+          <li>애물단지 거래/나눔</li>
         </ul>
       </div>
 
