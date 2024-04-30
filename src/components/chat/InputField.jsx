@@ -197,70 +197,73 @@ const InputField = () => {
             >
               <AiFillAlert color="red" size={22} />
             </button>
-            {currentUser.id === messageContent.chatRoom.sellerId && (
-              <div className=" mr-2 dropdown dropdown-end text-black">
-                <button className="btn m-1">
-                  <FiMoreVertical size={22} />
-                </button>
-                {messageContent &&
-                messageContent.chatRoom &&
-                messageContent.chatRoom.sellStatus !== 'CLOSE' ? (
-                  <ul
-                    tabIndex={0}
-                    className="z-50 dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-                  >
-                    {messageContent.chatRoom &&
-                      messageContent.chatRoom.sellStatus !== 'CLOSE' && (
+            {currentUser &&
+              messageContent &&
+              messageContent.chatRoom &&
+              currentUser.id === messageContent.chatRoom.sellerId && (
+                <div className=" mr-2 dropdown dropdown-end text-black">
+                  <button className="btn m-1">
+                    <FiMoreVertical size={22} />
+                  </button>
+                  {messageContent &&
+                  messageContent.chatRoom &&
+                  messageContent.chatRoom.sellStatus !== 'CLOSE' ? (
+                    <ul
+                      tabIndex={0}
+                      className="z-50 dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                    >
+                      {messageContent.chatRoom &&
+                        messageContent.chatRoom.sellStatus !== 'CLOSE' && (
+                          <li
+                            onClick={() =>
+                              handleCompleted(
+                                messageContent.chatRoom &&
+                                  messageContent.chatRoom.wasteId,
+                                messageContent.chatRoom &&
+                                  messageContent.chatRoom.id,
+                              )
+                            }
+                          >
+                            <p>판매완료</p>
+                          </li>
+                        )}
+                      {messageContent.chatRoom &&
+                      messageContent.chatRoom.sellStatus !== 'BOOKING' ? (
                         <li
                           onClick={() =>
-                            handleCompleted(
-                              messageContent.chatRoom &&
-                                messageContent.chatRoom.wasteId,
+                            handleBooking(
                               messageContent.chatRoom &&
                                 messageContent.chatRoom.id,
                             )
                           }
                         >
-                          <p>판매완료</p>
+                          <p> 예약신청</p>
+                        </li>
+                      ) : (
+                        <li
+                          onClick={() =>
+                            handleOngoing(
+                              messageContent.chatRoom &&
+                                messageContent.chatRoom.id,
+                            )
+                          }
+                        >
+                          <p> 판매중으로 변경</p>
                         </li>
                       )}
-                    {messageContent.chatRoom &&
-                    messageContent.chatRoom.sellStatus !== 'BOOKING' ? (
-                      <li
-                        onClick={() =>
-                          handleBooking(
-                            messageContent.chatRoom &&
-                              messageContent.chatRoom.id,
-                          )
-                        }
-                      >
-                        <p> 예약신청</p>
+                    </ul>
+                  ) : (
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                    >
+                      <li>
+                        <p>판매완료된 상품입니다.</p>
                       </li>
-                    ) : (
-                      <li
-                        onClick={() =>
-                          handleOngoing(
-                            messageContent.chatRoom &&
-                              messageContent.chatRoom.id,
-                          )
-                        }
-                      >
-                        <p> 판매중으로 변경</p>
-                      </li>
-                    )}
-                  </ul>
-                ) : (
-                  <ul
-                    tabIndex={0}
-                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-                  >
-                    <li>
-                      <p>판매완료된 상품입니다.</p>
-                    </li>
-                  </ul>
-                )}
-              </div>
-            )}
+                    </ul>
+                  )}
+                </div>
+              )}
           </div>
         </div>
         {/* 채팅 화면 */}
