@@ -50,7 +50,7 @@ const Alarm = () => {
     <div
       className={`menu absolute top-[70px] ${
         alarmOpen ? 'right-0' : '-right-full'
-      } bg-[var(--green-brunswick)] h-96 rounded-box z-20 text-[0.6rem] mr-2 md:w-96 md:mr-5`}
+      } bg-[var(--green-brunswick)] h-96 rounded-box z-50 text-[0.6rem] mr-2 md:w-96 md:mr-5`}
     >
       <div className="menu-title flex items-center justify-between bg-[var(--yellow-naples)] rounded-box mb-2">
         <p>알람 ({alarmMsg.length})</p>

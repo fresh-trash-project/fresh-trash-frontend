@@ -76,7 +76,7 @@ const Header = () => {
   return (
     <div>
       <Nav />
-      {signIn && alarmOpen && <Alarm className="z-50"/>}
+      {signIn && alarmOpen && <Alarm/>}
     </div>
   );
 };
