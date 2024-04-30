@@ -90,7 +90,7 @@ const AddForm = () => {
         <div className="ml-8 text-sm breadcrumbs">
           <ul>
             <li>홈</li>
-            <li>폐기물등록</li>
+            <li>애물단지등록</li>
           </ul>
         </div>
         <div className=" flex justify-center mt-10  ">
@@ -184,7 +184,7 @@ const AddForm = () => {
               </div>
               <div className="w-full  px-3 mb-6 ">
                 <div className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  폐기물 상태
+                  애물단지 상태
                 </div>
                 <div className="flex">
                   <label
