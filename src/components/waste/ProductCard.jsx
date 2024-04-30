@@ -45,7 +45,7 @@ const ProductCard = ({ wastes, onDelete }) => {
         <div className="flex justify-between mb-3">
           <div className="flex gap-2">
             <span>{wastes.address.state}</span>
-            <span>{wastes.address.city}</span>
+            <span>{wastes.address.district}</span>
           </div>
           <div className="flex items-center">
             <button className="mr-2">
