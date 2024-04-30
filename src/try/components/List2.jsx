@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { fetchProducts } from '../../api/WastesApi';
+// import { fetchProducts } from '../../api/WastesApi';
+import { fetchWastes, fetchProducts } from '../../api/WastesApi';
 import { Link } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
 import { signInState } from '../../recoil/RecoilSignIn';
-import Pagination from '../common/pagination/Pagination';
-import Pagination2 from '../common/pagination/Pagination2';
+// import Pagination from '../common/pagination/Pagination';
+// import Pagination2 from '../common/pagination/Pagination2';
 import ProductCard from './ProductCard';
 import { useNavigate } from 'react-router-dom';
+import { PaginationButton } from 'flowbite-react';
 const ITEMS_PER_PAGE = 6;
 const List2 = () => {
   const navigate = useNavigate();
-
+  //List 복사
   //회원만 등록페이지 접근-------------------------------
   const [signIn, setSignIn] = useRecoilState(signInState);
   const handleRegistrationPageAccess = () => {
@@ -24,22 +26,81 @@ const List2 = () => {
 
   //fetch 호출-----------------------------------
   const [posts, setPosts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  // const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(0);
+  const [searchType, setSearchType] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('전체');
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async category => {
       try {
-        const productList = await fetchProducts(1);
+        let productList;
+        if (searchType === 'title') {
+          productList = await fetchWastes.titleSearch(searchInput, page);
+        } else if (searchType === 'district') {
+          productList = await fetchWastes.districtSearch(searchInput, page);
+        } else {
+          productList = await fetchWastes.getPage(page);
+        }
+
         setPosts(productList);
-        // setTotalPages(productList.totalPages);
-      } catch (error) {}
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
 
     fetchData();
-  }, []);
-  const goToPage = page => {
-    setCurrentPage(page);
+  }, [page, searchType, searchInput]);
+
+  //페이지네이션-------------------------------------
+
+  const handlePreviousPage = async () => {
+    setPage(page => Math.max(page - 1, 0)); // 이전 페이지로 이동
   };
+
+  // const handleNextPage = async () => {
+  //   setPage(page => Math.min(page + 1, posts.totalPages - 1)); // 다음 페이지로 이동
+  // };
+  const handleNextPage = async () => {
+    // 현재 페이지가 마지막 페이지보다 작은 경우에만 페이지를 증가시킵니다.
+    if (page < posts.totalPages - 1) {
+      // 현재 페이지를 업데이트합니다.
+      setPage(page => page + 1);
+    }
+  };
+
+  //관심순--------------------------
+  const handleSortByLikes = async () => {
+    try {
+      const sortedList = await fetchWastes.likeCount('likeCount,desc');
+      setPosts(sortedList);
+      console.log('관심순으로 정렬', sortedList);
+    } catch (error) {
+      console.error('Error sorting by likes:', error);
+    }
+  };
+  //조회순---------------------------
+  const handleSortByViews = async () => {
+    try {
+      const sortedList = await fetchWastes.viewCount('viewCount,desc');
+      setPosts(sortedList);
+      console.log('조회순으로 정렬', sortedList);
+    } catch (error) {
+      console.error('Error sorting by viewCount:', error);
+    }
+  };
+  //날짜순----------------------------
+  const handleSortByCreated = async () => {
+    try {
+      const sortedList = await fetchWastes.likeCount('createdAt,desc');
+      setPosts(sortedList);
+      console.log('날짜순으로 정렬', sortedList);
+    } catch (error) {
+      console.error('Error sorting by createdAt:', error);
+    }
+  };
+
   //삭제------------------------------
   const handleDelete = async postId => {
     try {
@@ -55,52 +116,42 @@ const List2 = () => {
 
   //카테고리--------------------------------
 
-  const [selectedCategory, setSelectedCategory] = useState('전체');
-
-  const filteredPosts =
-    selectedCategory === '전체'
-      ? posts
-      : posts.filter(post => post.wasteCategory === selectedCategory);
-
-  const currentProducts = filteredPosts
-    ? filteredPosts.slice(
-        (currentPage - 1) * ITEMS_PER_PAGE,
-        currentPage * ITEMS_PER_PAGE,
-      )
-    : [];
-
-  // 카테고리를 변경하는 함수
-  const handleCategoryChange = category => {
-    setSelectedCategory(category);
-    setCurrentPage(1); // 페이지를 첫 페이지로 초기화
+  const handleCategoryChange = async category => {
+    try {
+      let productList;
+      if (category === '전체') {
+        productList = await fetchWastes.getPage(0);
+      } else {
+        productList = await fetchWastes.category(category);
+      }
+      setSelectedCategory(category);
+      if (searchResults.length > 0) {
+        setSearchResults(productList);
+      } else {
+        setPosts(productList);
+      }
+    } catch (error) {
+      console.error('An error occurred while retrieving Category:', error);
+    }
   };
+  //검색-------------------------------------------------
 
-  //정렬-----------------------------------------------------------
-  const [sortedByViews, setSorted] = useState(false);
-  //정렬
-  const handleSortByViews = () => {
-    const sortedPosts = [...posts].sort((a, b) => {
-      // 조회수가 많은 순서대로 정렬
-      return b.viewCount - a.viewCount;
-    });
-    setPosts(sortedPosts);
-    setSorted(true);
+  const handleSearch = async () => {
+    try {
+      let result;
+      if (searchType === 'title') {
+        result = await fetchWastes.titleSearch(searchInput);
+        // setPosts(result);
+        setSearchResults(result);
+      } else if (searchType === 'district') {
+        result = await fetchWastes.districtSearch(searchInput);
+        // setPosts(result);
+        setSearchResults(result);
+      }
+    } catch (error) {
+      console.error('검색 중 에러 발생:', error);
+    }
   };
-  const handleSortByLikes = () => {
-    const sortedPosts = [...posts].sort((a, b) => {
-      return b.likeCount - a.likeCount;
-    });
-    setPosts(sortedPosts);
-    setSorted(true);
-  };
-  const handleSortByCreatedAt = () => {
-    const sortedPosts = [...posts].sort((a, b) => {
-      return new Date(b.id) - new Date(a.id);
-    });
-    setPosts(sortedPosts);
-    setSorted(true);
-  };
-
   return (
     <div>
       <div className="navbar flex-row justify-between bg-base-100 shadow-md">
@@ -152,8 +203,12 @@ const List2 = () => {
         </div>
         <div className="flex">
           <div className="join">
-            <select className="select select-bordered join-item">
-              <option value="address">지역</option>
+            <select
+              className="select select-bordered join-item"
+              onChange={e => setSearchType(e.target.value)}
+            >
+              <option>선택</option>
+              <option value="district">지역</option>
               <option value="title">제목</option>
             </select>
             <div>
@@ -161,11 +216,17 @@ const List2 = () => {
                 <input
                   className="input input-bordered join-item"
                   placeholder="Search"
+                  type="text"
+                  value={searchInput}
+                  onChange={e => setSearchInput(e.target.value)}
                 />
               </div>
             </div>
             <div className="indicator">
-              <button className="btn join-item bg-green-900 text-white ">
+              <button
+                className="btn join-item bg-green-900 text-white "
+                onClick={handleSearch}
+              >
                 Search
               </button>
             </div>
@@ -189,46 +250,108 @@ const List2 = () => {
           <li>폐기물 거래/나눔</li>
         </ul>
       </div>
+
       <div className=" pt-4 px-20 lg:pt-5 pb-4 lg:pb-8 px-36 xl:px-40 xl:container mx-auto 2xl:px-60">
         <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 xl:px-2 mb-20 xl:container mx-auto  ">
           <div className="flex justify-end mb-4">
-            <button onClick={handleSortByViews} className="mr-5">
+            <button className="mr-5" onClick={handleSortByViews}>
               조회순
             </button>
-            <button onClick={handleSortByLikes} className="mr-5">
+            <button className="mr-5" onClick={handleSortByLikes}>
               관심순
             </button>
-            <button onClick={handleSortByCreatedAt}>최신순</button>
+            <button onClick={handleSortByCreated}>최신순</button>
           </div>
           <div className="grid gap-6 justify-items-center md:grid-cols-2  lg:grid-cols-3 item_ list ">
-            {currentProducts
-              .filter(
-                wastes =>
-                  selectedCategory === '전체' ||
-                  wastes.wasteCategory === selectedCategory,
-              )
-              .map(wastes => (
-                <ProductCard
-                  key={wastes.id}
-                  wastes={wastes}
-                  onDelete={handleDelete}
-                />
-              ))}
+            {/* {posts.content &&
+              posts.content
+                .filter(
+                  wastes =>
+                    selectedCategory === '전체' ||
+                    wastes.wasteCategory === selectedCategory,
+                )
+                .map(wastes => (
+                  <ProductCard
+                    key={wastes.id}
+                    wastes={wastes}
+                    onDelete={handleDelete}
+                  />
+                ))} */}
+            {searchResults.length > 0
+              ? searchResults &&
+                searchResults.filter
+                  .filter(
+                    wastes =>
+                      selectedCategory === '전체' ||
+                      wastes.wasteCategory === selectedCategory,
+                  )
+                  .map(wastes => (
+                    <ProductCard
+                      key={wastes.id}
+                      wastes={wastes}
+                      onDelete={handleDelete}
+                    />
+                  ))
+              : posts.content &&
+                posts.content
+                  .filter(
+                    wastes =>
+                      selectedCategory === '전체' ||
+                      wastes.wasteCategory === selectedCategory,
+                  )
+                  .map(wastes => (
+                    <ProductCard
+                      key={wastes.id}
+                      wastes={wastes}
+                      onDelete={handleDelete}
+                    />
+                  ))}
+            {/* {searchResults && searchResults.length > 0
+              ? searchResults.map(wastes => (
+                  <ProductCard
+                    key={wastes.id}
+                    wastes={wastes}
+                    onDelete={handleDelete}
+                  />
+                ))
+              : // posts.content가 존재하고 비어있지 않은 경우에만 map 함수를 실행
+                posts.content &&
+                posts.content
+                  .filter(
+                    wastes =>
+                      selectedCategory === '전체' ||
+                      wastes.wasteCategory === selectedCategory,
+                  )
+                  .map(wastes => (
+                    <ProductCard
+                      key={wastes.id}
+                      wastes={wastes}
+                      onDelete={handleDelete}
+                    />
+                  ))} */}
+            {/* // : ( // // 검색 결과나 게시물이 없는 경우에는 메시지를 표시 //{' '}
+            <div>검색 결과가 없습니다.</div>
+            // ) */}
           </div>
         </div>
       </div>
 
-      {/* <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handlePageChange={goToPage}
-      /> */}
-      {/* <Pagination2
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={goToPage}
-      /> */}
-      {/* <button onClick={goToPage}>옆으러</button> */}
+      <div className=" container flex justify-center mb-16">
+        <PaginationButton
+          onClick={handlePreviousPage}
+          disabled={page === 0}
+          className="join-item btn mr-4"
+        >
+          이전
+        </PaginationButton>
+        <PaginationButton
+          onClick={handleNextPage}
+          disabled={page === posts.totalPages - 1}
+          className="join-item btn ml-4"
+        >
+          다음
+        </PaginationButton>
+      </div>
     </div>
   );
 };

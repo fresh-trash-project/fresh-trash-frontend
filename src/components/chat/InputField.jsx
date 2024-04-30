@@ -8,10 +8,10 @@ import { MdOutlineNavigateNext } from 'react-icons/md';
 import { FiMoreVertical } from 'react-icons/fi';
 import MessageContainer from './MessageContainer';
 import {
-  bookingPost,
   completePost,
   contentFetch,
   reportPost,
+  statusChange,
 } from '../../api/chat/api';
 import { useParams } from 'react-router-dom';
 // import { Stomp } from '@stomp/stompjs';
@@ -19,68 +19,69 @@ import { Client } from '@stomp/stompjs';
 // import { stompClientSetup } from '../../api/stompServer';
 const InputField = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { wasteId, chatId } = useParams();
+  const { chatId, wasteId } = useParams();
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
   //채팅 내용 api호출
   const [messageContent, setMessageContent] = useState([]);
-
+  const [messages, setMessages] = useState([]);
   useEffect(() => {
     const fetchData = async (wasteId, chatId) => {
       try {
         const messageList = await contentFetch(wasteId, chatId);
+        // setMessages(messageList);
         setMessageContent(messageList);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-    fetchData(chatId, wasteId);
+    fetchData(wasteId, chatId);
   }, [wasteId, chatId]);
   //판매완료
   const handleCompleted = async (wasteId, chatRoomId) => {
     await completePost(wasteId, chatRoomId);
   };
-  //예약신청
-  const handleBooking = async chatRoomId => {
-    await bookingPost(chatRoomId);
+  //예약중 변경
+  const handleBooking = async () => {
+    await statusChange.sellStatus(chatId, 'BOOKING');
+  };
+  //판매중 변경
+  const handleOngoing = async () => {
+    await statusChange.sellStatus(chatId, 'ONGOING');
   };
   //신고하기
   const handleReport = async chatRoomId => {
     await reportPost(chatRoomId);
   };
   const [currentUser, setCurrentUser] = useState(null);
-  //유저 정보 가져오기
+  //유저 정보 가져오기------------------------------------------------------
   useEffect(() => {
     // 현재 로그인한 사용자 정보 가져오기
     const user = getCurrentUser();
     setCurrentUser(user);
   }, []);
-
+  // 로컬 스토리지에서 사용자 정보 가져오기-----------------------
   const getCurrentUser = () => {
-    // 로컬 스토리지에서 사용자 정보 가져오기
     const userData = localStorage.getItem('access-token');
 
     try {
-      // 데이터가 유효한 JSON 형식인지 확인하고 파싱
       const [header, payload, signature] = userData.split('.');
 
-      // Payload를 Base64 디코딩하여 JSON 문자열을 얻습니다.
       const decodedPayload = atob(payload);
 
       const user = JSON.parse(decodedPayload);
       console.log(user);
-      // setCurrentUser(user);
+
       return user;
     } catch (error) {
-      // 파싱 오류가 발생한 경우 에러 처리 또는 기본값 반환
       console.error('사용자 정보를 파싱하는 도중 오류가 발생했습니다:', error);
-      return null; // 또는 적절한 기본값 반환
+      return null;
     }
   };
   //웹소켓 연결----------------------------------------------------------------------------
   const [stompClient, setStompClient] = useState(null);
-  const [messages, setMessages] = useState([]);
+
   const [inputMessage, setInputMessage] = useState('');
   // const access = localStorage.getItem('access-token');
   useEffect(() => {
@@ -159,11 +160,11 @@ const InputField = () => {
     <div className="flex justify-center relative">
       <ChatMenu
         isOpen={isSidebarOpen}
-        key={messageContent.id}
-        messageList={messageContent}
+        key={messageContent && messageContent.id}
+        messageList={messageContent && messageContent}
       />
       {isSidebarOpen && <ChatList isOpen={isSidebarOpen} />}
-      <div className=" z-50 h-screen flex flex-col w-7/12  ">
+      <div className=" z-30 h-screen flex flex-col w-7/12  ">
         <div className="bg-[var(--yellow-naples)] p-2  text-white flex justify-between  items-center ">
           <button
             className={`btn  text-black font-bold py-2 px-4    ${isSidebarOpen ? '' : ''}`}
@@ -176,29 +177,36 @@ const InputField = () => {
             )}
           </button>
           <p className="text-xl">
-            '{messageContent.chatRoom && messageContent.chatRoom.wasteTitle}'
-            애물단지 채팅방
+            '
+            {messageContent &&
+              messageContent.chatRoom &&
+              messageContent.chatRoom.wasteTitle}
+            ' 애물단지 채팅방
           </p>
-          <div className="flex mr-2 dropdown dropdown-end text-black">
+
+          <div className="flex">
             <button
               className="btn m-1"
               onClick={() =>
                 handleReport(
-                  messageContent.chatRoom && messageContent.chatRoom.id,
+                  messageContent &&
+                    messageContent.chatRoom &&
+                    messageContent.chatRoom.id,
                 )
               }
             >
               <AiFillAlert color="red" size={22} />
             </button>
-            <div>
+            <div className=" mr-2 dropdown dropdown-end text-black">
               <button className="btn m-1">
                 <FiMoreVertical size={22} />
               </button>
-              {messageContent.chatRoom &&
+              {messageContent &&
+              messageContent.chatRoom &&
               messageContent.chatRoom.sellStatus !== 'CLOSE' ? (
                 <ul
                   tabIndex={0}
-                  className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                  className="z-50 dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                 >
                   {messageContent.chatRoom &&
                     messageContent.chatRoom.sellStatus !== 'CLOSE' && (
@@ -229,7 +237,7 @@ const InputField = () => {
                   ) : (
                     <li
                       onClick={() =>
-                        handleBooking(
+                        handleOngoing(
                           messageContent.chatRoom && messageContent.chatRoom.id,
                         )
                       }
@@ -252,11 +260,16 @@ const InputField = () => {
           </div>
         </div>
         {/* 채팅 화면 */}
-        <div className="bg-gray-100 h-full overflow-y: auto">
+        <div
+          className="bg-gray-100 h-full overflow-y-auto "
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           <MessageContainer
+            key={messages}
             messages={messages}
-            member={messageContent}
-            partner={messageContent}
+            messageContent={messageContent}
+            user={currentUser}
+            // partner={messageContent}
           />
         </div>
         {/* ------채팅입력----- */}
@@ -270,7 +283,9 @@ const InputField = () => {
           <button
             onClick={() =>
               sendMessage(
-                messageContent.chatRoom && messageContent.chatRoom.id,
+                messageContent &&
+                  messageContent.chatRoom &&
+                  messageContent.chatRoom.id,
                 currentUser && currentUser.id,
               )
             }
