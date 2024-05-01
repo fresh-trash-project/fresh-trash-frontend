@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 // const API_URL = 'http://localhost:3000';
-const API_URL = 'http://localhost:8080/api/v1';
+// const API = 'http://localhost:8080/api/v1';
+const API_URL =
+  'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
 
 //닉네임 중복 확인
 export const fetchUserNames = async (
@@ -12,7 +14,7 @@ export const fetchUserNames = async (
   setRegisterMessage,
 ) => {
   const accessToken = localStorage.getItem('access-token');
-  
+
   try {
     const response = await axios.get(`${API_URL}/auth/check-nickname`, {
       params: {

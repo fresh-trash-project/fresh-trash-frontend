@@ -1,5 +1,6 @@
 import axios from 'axios';
-const API_URL = 'http://localhost:8080'; // 백엔드 서버 주소
+const API_URL =
+  'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080'; // 백엔드 서버 주소
 const axiosWithToken = axios.create({
   baseURL: `${API_URL}/api/v1`,
   headers: {
@@ -7,45 +8,7 @@ const axiosWithToken = axios.create({
     Authorization: localStorage.getItem('access-token'),
   },
 });
-// export const fetchProducts = async currentPage => {
-//   try {
-//     const response = await axiosWithToken.get(`/wastes?page=${currentPage}`);
-//     // const response = await axiosWithToken.get('/wastes?page');
 
-//     if (response.status === 200) {
-//       console.log('게시물 목록을 가져오기 성공', response.data.totalPages);
-//       // navigate('/ProductsList');
-//     }
-//     return response.data.content;
-
-//     // 서버로부터 받은 데이터 반환
-//   } catch (error) {
-//     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
-//     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
-//   }
-// };
-
-// export const fetchProducts = async currentPage => {
-//   try {
-//     const response = await axiosWithToken.get(`/wastes?page=${currentPage}`);
-//     // const response = await axiosWithToken.get('/wastes?page');
-//     const responseData = response.data;
-//     if (response.status === 200) {
-//       console.log('게시물 목록을 가져오기 성공', response.data);
-//       return {
-//         content: responseData.content,
-//         totalPages: responseData.totalPages,
-//         totalElements: responseData.totalElements,
-//         pageable: responseData.pageable,
-//       };
-//     }
-
-//     // 서버로부터 받은 데이터 반환
-//   } catch (error) {
-//     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
-//     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
-//   }
-// };
 export const fetchProducts = async (currentPage, query) => {
   try {
     const response = await axiosWithToken.get('/wastes');
@@ -67,55 +30,7 @@ export const fetchProducts = async (currentPage, query) => {
     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
   }
 };
-// export const fetchProducts = async (currentPage, query) => {
-//   const accessToken = localStorage.getItem('access-token');
-//   try {
-//     const response = await axios.get('/wastes', {
-//       headers: { Authorization: `Bearer ${accessToken}` },
-//     });
-//     // const response = await axiosWithToken.get('/wastes?page');
-//     const responseData = response.data;
-//     if (response.status === 200) {
-//       console.log('게시물 목록을 가져오기 성공', response.data);
-//       return {
-//         content: responseData.content,
-//         totalPages: responseData.totalPages,
-//         totalElements: responseData.totalElements,
-//         pageable: responseData.pageable,
-//       };
-//     }
 
-//     // 서버로부터 받은 데이터 반환
-//   } catch (error) {
-//     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
-//     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
-//   }
-// };
-// const fetchQuery = async query => {
-//   const accessToken = localStorage.getItem('access-token');
-
-//   try {
-//     const response = await axios.get(`/wastes${query}`, {
-//       headers: { Authorization: `Bearer ${accessToken}` },
-//     });
-//     // const response = await axiosWithToken.get('/wastes?page');
-//     const responseData = response.data;
-//     if (response.status === 200) {
-//       console.log('게시물 목록을 가져오기 성공', response.data);
-//       return {
-//         content: responseData.content,
-//         totalPages: responseData.totalPages,
-//         totalElements: responseData.totalElements,
-//         pageable: responseData.pageable,
-//       };
-//     }
-
-//     // 서버로부터 받은 데이터 반환
-//   } catch (error) {
-//     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
-//     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
-//   }
-// };
 const fetchQuery = async query => {
   try {
     const response = await axiosWithToken.get(`/wastes${query}`);
@@ -148,6 +63,7 @@ export const fetchWastes = {
   category: async (search, currentPage) =>
     await fetchQuery(`?category=${search}&page=${currentPage}`),
 };
+
 export const createPost = async (
   title,
   content,
@@ -298,10 +214,18 @@ export const likeWaste = async (wasteId, query) => {
   try {
     const response = await axiosWithToken.post(
       `/wastes/${wasteId}/likes?likeStatus=${query}`,
-      query,
     );
+
     if (response.status === 200) {
-      console.log('관심목록 추가 성공');
+      if (query === 'UNLIKE') {
+        console.log('관심목록 해제 성공');
+        console.log(response);
+      } else if (query === 'LIKE') {
+        console.log('관심목록 추가 성공');
+        console.log(response);
+      }
+
+      return response.data;
     }
   } catch (error) {
     console.error('관심목록 추가 실패:', error);

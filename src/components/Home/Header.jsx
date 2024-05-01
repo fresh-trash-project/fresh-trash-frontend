@@ -28,7 +28,9 @@ const Header = () => {
     if (signIn) {
       try {
         eventSource = new EventSourcePolyfill(
-          'http://localhost:8080/api/v1/notis/subscribe',
+          'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1/notis/subscribe',
+
+          // 'http://localhost:8080/api/v1/notis/subscribe',
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -76,7 +78,7 @@ const Header = () => {
   return (
     <div>
       <Nav />
-      {signIn && alarmOpen && <Alarm/>}
+      {signIn && alarmOpen && <Alarm />}
     </div>
   );
 };

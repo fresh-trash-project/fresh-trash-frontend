@@ -11,7 +11,7 @@ import { FiMoreVertical } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import { deleteWaste, detailWaste, likeWaste } from '../../api/WastesApi';
 import { chatPost } from '../../api/chat/api';
-const API_URL = 'http://localhost:8080';
+// const API_URL = 'http://localhost:8080';
 const DetailCard = () => {
   const { wasteId } = useParams(); // URL 파라미터에서 wasteId 가져오기
   const { chatId } = useParams();
@@ -23,10 +23,11 @@ const DetailCard = () => {
       try {
         const details = await detailWaste(wasteId);
         setPostDetails(details);
-        const storedHearted = localStorage.getItem('hearted');
-        if (storedHearted) {
-          setHearted(JSON.parse(storedHearted));
-        }
+        console.log(hearted);
+        // const storedHearted = localStorage.getItem('hearted');
+        // if (storedHearted) {
+        //   setHearted(JSON.parse(storedHearted));
+        // }
       } catch (error) {
         console.error(
           '상품 상세 정보를 불러오는 도중 에러가 발생했습니다:',
@@ -43,16 +44,21 @@ const DetailCard = () => {
   //관심 추가--------------------------------------
   const handleLikeToggle = async () => {
     // 관심 상태를 토글하고 로컬 스토리지에 업데이트
-    setHearted(!hearted);
-    localStorage.setItem('hearted', JSON.stringify(!hearted));
+
+    // localStorage.setItem('hearted', JSON.stringify(!hearted));
     try {
       if (hearted) {
         postDetails.likeCount -= 1;
-        await likeWaste(postDetails.id, 'UNLIKE');
+        const response = await likeWaste(postDetails.id, 'UNLIKE');
+        setHearted(response.data);
+        // setHearted(response);
       } else {
         postDetails.likeCount += 1;
-        await likeWaste(postDetails.id, 'LIKE');
+        const response = await likeWaste(postDetails.id, 'LIKE');
+        // console.log(response);
+        setHearted(response.data);
       }
+      // console.log(response);
       setHearted(!hearted);
       // localStorage.setItem('hearted', JSON.stringify(!hearted));
     } catch (error) {
@@ -283,7 +289,7 @@ const DetailCard = () => {
                     }
                   >
                     {/* onClick={() => handleDelete(postDetails && postDetails.id)} */}
-                    {hearted === true ? (
+                    {hearted ? (
                       <IoHeartSharp className="w-5 h-5 -ms-2 me-2" />
                     ) : (
                       <IoHeartOutline className="w-5 h-5 -ms-2 me-2" />

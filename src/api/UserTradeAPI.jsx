@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 // const API_URL = 'http://localhost:3000';
-const API_URL = 'http://localhost:8080/api/v1';
+// const API = 'http://localhost:8080/api/v1';
+const API_URL =
+  'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
 
 //나의 판매내역 > 판매중 리스트
 export const fetchMySellOngoing = async page => {
