@@ -41,6 +41,7 @@ const MyPage = () => {
   const [registerMessage, setRegisterMessage] = useState('');
   const API_URL = 'http://localhost:8080';
   const S3URL = 'https://fresh-trash-s3.s3.ap-northeast-2.amazonaws.com';
+  const [imgFile, setImgFile] = useState(null);
 
   //마이페이지 들어왔을때 유저정보 불러오기
   useEffect(() => {
@@ -96,6 +97,7 @@ const MyPage = () => {
     const file = e.target.files[0];
     console.log(file);
     setImage(file);
+    setImgFile(file);
   };
 
   //이미지 파일 경로-----------------------------
@@ -123,7 +125,7 @@ const MyPage = () => {
     setDuplicationMessage('');
   };
 
-  //닉네임 중복확인 
+  //닉네임 중복확인
   const handleDuplication = async userName => {
     fetchUserNames(
       setIsDuplicate,
@@ -184,13 +186,11 @@ const MyPage = () => {
   //   }
   // };
 
-  //프론트 발자국 이동거리  
+  //프론트 발자국 이동거리
   // const footstep = (averageRating() / 5) * 100 - (30 / greenBarWidth) * 100;
   // if (averageRating() === 0) {
   //   footstep = (averageRating / 5) * 100;
   // }
-
-
 
   //초록바의 길이를 100%로 -------------------------------------------------------------
   const [greenBarWidth, setGreenBarWidth] = useState(0);
@@ -213,7 +213,6 @@ const MyPage = () => {
     return () => window.removeEventListener('resize', updateGreenBarWidth);
   }, []);
 
-
   //백에서 평점 구할때
   const [fetchedAverageRating, setFetchedAverageRating] = useState(null);
 
@@ -223,7 +222,6 @@ const MyPage = () => {
         const fetchedRating = await fetchRating();
         if (fetchedRating !== null) {
           setFetchedAverageRating(fetchedRating);
-          
         }
       } catch (error) {
         console.error('Error fetching average rating:', error);
@@ -231,9 +229,9 @@ const MyPage = () => {
     };
 
     fetchAndCalculateFootstep(); // Call the function to fetch and calculate footstep
-  }, [fetchRating]); 
+  }, [fetchRating]);
 
-  // 백 발자국 이동거리  
+  // 백 발자국 이동거리
   let footstep = (fetchedAverageRating / 5) * 100 - (30 / greenBarWidth) * 100;
   if (fetchedAverageRating === 0) {
     footstep = (fetchedAverageRating / 5) * 100;
@@ -248,14 +246,33 @@ const MyPage = () => {
         <div className="md:flex">
           {/* 프로필 이미지------------------------------------------------------------------------- */}
           <div className="avatar flex flex-col pt-5">
-            <div className="w-72 rounded-full mx-auto md:mx-10 ">
+            {/* <div className="w-72 rounded-full mx-auto md:mx-10 ">
               <img
                 src={getImgUrl(image)}
                 alt=""
                 className={'w-full h-full object-cover'}
               />
               {console.log(getImgUrl(image))}
-            </div>
+            </div> */}
+            {isEditing ? (
+              <div className="w-72 rounded-full mx-auto md:mx-10 ">
+                <img
+                  src={imgFile && URL.createObjectURL(imgFile)}
+                  alt=""
+                  className={'w-full h-full object-cover'}
+                />
+                {/* {console.log(getImgUrl(image))} */}
+              </div>
+            ) : (
+              <div className="w-72 rounded-full mx-auto md:mx-10 ">
+                <img
+                  src={getImgUrl(image)}
+                  alt=""
+                  className={'w-full h-full object-cover'}
+                />
+                {console.log(getImgUrl(image))}
+              </div>
+            )}
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
               onClick={isEditing ? handleChangeUserInfo : handleEditProfile}
