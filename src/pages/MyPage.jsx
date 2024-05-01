@@ -183,7 +183,16 @@ const MyPage = () => {
   //     return 'N/A'; //받은 평점이 하나도 없을때
   //   }
   // };
-  //발자국-------------------------------------------------------------
+
+  //프론트 발자국 이동거리  
+  // const footstep = (averageRating() / 5) * 100 - (30 / greenBarWidth) * 100;
+  // if (averageRating() === 0) {
+  //   footstep = (averageRating / 5) * 100;
+  // }
+
+
+
+  //초록바의 길이를 100%로 -------------------------------------------------------------
   const [greenBarWidth, setGreenBarWidth] = useState(0);
 
   useEffect(() => {
@@ -204,7 +213,6 @@ const MyPage = () => {
     return () => window.removeEventListener('resize', updateGreenBarWidth);
   }, []);
 
-  //프론트에서 구할때 const footstep = (averageRating() / 5) * 100 - (30 / greenBarWidth) * 100;
 
   //백에서 평점 구할때
   const [fetchedAverageRating, setFetchedAverageRating] = useState(null);
@@ -215,7 +223,7 @@ const MyPage = () => {
         const fetchedRating = await fetchRating();
         if (fetchedRating !== null) {
           setFetchedAverageRating(fetchedRating);
-          console.log(fetchedAverageRating);
+          
         }
       } catch (error) {
         console.error('Error fetching average rating:', error);
@@ -223,8 +231,9 @@ const MyPage = () => {
     };
 
     fetchAndCalculateFootstep(); // Call the function to fetch and calculate footstep
-  }, [fetchRating]); //
+  }, [fetchRating]); 
 
+  // 백 발자국 이동거리  
   let footstep = (fetchedAverageRating / 5) * 100 - (30 / greenBarWidth) * 100;
   if (fetchedAverageRating === 0) {
     footstep = (fetchedAverageRating / 5) * 100;
@@ -238,7 +247,6 @@ const MyPage = () => {
       <div className="px-5">
         <div className="md:flex">
           {/* 프로필 이미지------------------------------------------------------------------------- */}
-
           <div className="avatar flex flex-col pt-5">
             <div className="w-72 rounded-full mx-auto md:mx-10 ">
               <img

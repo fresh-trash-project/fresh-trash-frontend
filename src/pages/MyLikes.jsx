@@ -125,7 +125,7 @@ const MyLikes = () => {
         </div>
       </div>
 
-      <MyTradeCards myList={filteredLikes} />
+      <MyTradeCards myList={myLikes} />
 
       <div className=" container flex justify-center mb-16">
         <PaginationButton
