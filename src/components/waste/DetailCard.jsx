@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { deleteWaste, detailWaste, likeWaste } from '../../api/WastesApi';
 import { chatPost } from '../../api/chat/api';
 import { LikesState } from '../../recoil/RecoilLikes';
+import { TbCurrencyWon } from 'react-icons/tb';
 // const API_URL = 'http://localhost:8080';
 const DetailCard = () => {
   const { wasteId } = useParams(); // URL 파라미터에서 wasteId 가져오기
@@ -57,52 +58,6 @@ const DetailCard = () => {
       );
     }
   };
-  // const handleLikeToggle = async () => {
-  //   // 관심 상태를 토글하고 로컬 스토리지에 업데이트
-  //   try {
-  //     if (like) {
-  //       postDetails.likeCount -= 1;
-  //       const response = await likeWaste(postDetails.id, 'UNLIKE');
-  //       console.log('하트상태', response.data);
-
-  //       setLike(response.data);
-  //       // setHearted(response);
-  //     } else {
-  //       postDetails.likeCount += 1;
-  //       const response = await likeWaste(postDetails.id, 'LIKE');
-  //       console.log('하트상태', response.data);
-  //       setLike(response.data);
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       '관심 상태를 업데이트하는 도중 오류가 발생했습니다:',
-  //       error,
-  //     );
-  //   }
-  // };
-  // const handleLikeToggle = async () => {
-  //   // 관심 상태를 토글하고 로컬 스토리지에 업데이트
-  //   try {
-  //     if (hearted) {
-  //       postDetails.likeCount -= 1;
-  //       const response = await likeWaste(postDetails.id, 'UNLIKE');
-  //       console.log('하트상태', hearted);
-
-  //       setHearted(response.data);
-  //       // setHearted(response);
-  //     } else {
-  //       postDetails.likeCount += 1;
-  //       const response = await likeWaste(postDetails.id, 'LIKE');
-  //       console.log('하트상태', hearted);
-  //       setHearted(response.data);
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       '관심 상태를 업데이트하는 도중 오류가 발생했습니다:',
-  //       error,
-  //     );
-  //   }
-  // };
 
   //수정하기 삭제하기 버튼 게시글 등록한 사람만 보이게------------------------
   useEffect(() => {
@@ -297,9 +252,10 @@ const DetailCard = () => {
                   </div>
                 </div>
                 <div className="mt-4 sm:items-center sm:gap-4 sm:flex justify-between">
-                  <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
-                    \ {postDetails && postDetails.wastePrice}
-                  </p>
+                  <div className=" flex items-center text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
+                    <TbCurrencyWon />
+                    {postDetails && postDetails.wastePrice}
+                  </div>
                 </div>
 
                 <p className="mb-6 text-gray-500 dark:text-gray-400">
