@@ -123,7 +123,7 @@ const MyPage = () => {
     setDuplicationMessage('');
   };
 
-  //닉네임 중복확인 
+  //닉네임 중복확인
   const handleDuplication = async userName => {
     fetchUserNames(
       setIsDuplicate,
@@ -184,13 +184,13 @@ const MyPage = () => {
   //   }
   // };
 
-  //프론트 발자국 이동거리  
+  //프론트 발자국 이동거리
   // const footstep = (averageRating() / 5) * 100 - (30 / greenBarWidth) * 100;
   // if (averageRating() === 0) {
   //   footstep = (averageRating / 5) * 100;
   // }
 
-
+  // URL.createObjectURL
 
   //초록바의 길이를 100%로 -------------------------------------------------------------
   const [greenBarWidth, setGreenBarWidth] = useState(0);
@@ -213,7 +213,6 @@ const MyPage = () => {
     return () => window.removeEventListener('resize', updateGreenBarWidth);
   }, []);
 
-
   //백에서 평점 구할때
   const [fetchedAverageRating, setFetchedAverageRating] = useState(null);
 
@@ -223,7 +222,6 @@ const MyPage = () => {
         const fetchedRating = await fetchRating();
         if (fetchedRating !== null) {
           setFetchedAverageRating(fetchedRating);
-          
         }
       } catch (error) {
         console.error('Error fetching average rating:', error);
@@ -231,9 +229,9 @@ const MyPage = () => {
     };
 
     fetchAndCalculateFootstep(); // Call the function to fetch and calculate footstep
-  }, [fetchRating]); 
+  }, [fetchRating]);
 
-  // 백 발자국 이동거리  
+  // 백 발자국 이동거리
   let footstep = (fetchedAverageRating / 5) * 100 - (30 / greenBarWidth) * 100;
   if (fetchedAverageRating === 0) {
     footstep = (fetchedAverageRating / 5) * 100;
