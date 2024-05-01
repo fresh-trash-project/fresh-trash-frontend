@@ -17,11 +17,16 @@ const DetailCard = () => {
   const { chatId } = useParams();
   const [postDetails, setPostDetails] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [hearted, setHearted] = useState(false);
   useEffect(() => {
     const fetchDetail = async () => {
       try {
         const details = await detailWaste(wasteId);
         setPostDetails(details);
+        const storedHearted = localStorage.getItem('hearted');
+        if (storedHearted) {
+          setHearted(JSON.parse(storedHearted));
+        }
       } catch (error) {
         console.error(
           '상품 상세 정보를 불러오는 도중 에러가 발생했습니다:',
@@ -35,6 +40,29 @@ const DetailCard = () => {
     // setCurrentUser(user);
   }, [wasteId]);
 
+  //관심 추가--------------------------------------
+  const handleLikeToggle = async () => {
+    // 관심 상태를 토글하고 로컬 스토리지에 업데이트
+    setHearted(!hearted);
+    localStorage.setItem('hearted', JSON.stringify(!hearted));
+    try {
+      if (hearted) {
+        postDetails.likeCount -= 1;
+        await likeWaste(postDetails.id, 'UNLIKE');
+      } else {
+        postDetails.likeCount += 1;
+        await likeWaste(postDetails.id, 'LIKE');
+      }
+      setHearted(!hearted);
+      // localStorage.setItem('hearted', JSON.stringify(!hearted));
+    } catch (error) {
+      console.error(
+        '관심 상태를 업데이트하는 도중 오류가 발생했습니다:',
+        error,
+      );
+    }
+  };
+
   //수정하기 삭제하기 버튼 게시글 등록한 사람만 보이게------------------------
   useEffect(() => {
     // 현재 로그인한 사용자 정보 가져오기
@@ -47,18 +75,15 @@ const DetailCard = () => {
     const userData = localStorage.getItem('access-token');
 
     try {
-      // 데이터가 유효한 JSON 형식인지 확인하고 파싱
       const [header, payload, signature] = userData.split('.');
 
-      // Payload를 Base64 디코딩하여 JSON 문자열을 얻습니다.
       const decodedPayload = atob(payload);
 
       const user = JSON.parse(decodedPayload);
       console.log(user);
-      // setCurrentUser(user);
+
       return user;
     } catch (error) {
-      // 파싱 오류가 발생한 경우 에러 처리 또는 기본값 반환
       console.error('사용자 정보를 파싱하는 도중 오류가 발생했습니다:', error);
       return null; // 또는 적절한 기본값 반환
     }
@@ -76,24 +101,6 @@ const DetailCard = () => {
     }
   };
 
-  //관심 추가--------------------------------------
-
-  // const [hearted, setHearted] = useRecoilState(HeartedState);
-  const [hearted, setHearted] = useState(false);
-  const handleLikeToggle = async () => {
-    if (hearted) {
-      postDetails.likeCount -= 1;
-      await likeWaste(postDetails.id, 'UNLIKE');
-      // localStorage.setItem('hearted', hearted);
-    } else {
-      postDetails.likeCount += 1;
-      await likeWaste(postDetails.id, 'LIKE'); // 빈 하트에서 채워진 하트로 변경되면 likeCount 증가
-      // localStorage.setItem('hearted', hearted);
-    }
-    setHearted(!hearted);
-    // localStorage.setItem('hearted', JSON.stringify(!hearted));
-  };
-
   //이미지 파일 경로-----------------------------
   // const getImgeUrl = fileName => {
   //   return `${API_URL}/imgs/${fileName}`;
@@ -103,11 +110,7 @@ const DetailCard = () => {
   };
 
   //채팅------------------------------------
-  // const [chatId,setChatId]=useState('')
-  // const handleChat = async () => {
-  //   await chatPost(postDetails.id);
-  //   navigate(`/Chat/${postDetails && postDetails.id}`);
-  // };
+
   const [chat, setChat] = useState('');
   const handleChat = async () => {
     const chat = await chatPost(postDetails && postDetails.id);
@@ -280,7 +283,7 @@ const DetailCard = () => {
                     }
                   >
                     {/* onClick={() => handleDelete(postDetails && postDetails.id)} */}
-                    {hearted ? (
+                    {hearted === true ? (
                       <IoHeartSharp className="w-5 h-5 -ms-2 me-2" />
                     ) : (
                       <IoHeartOutline className="w-5 h-5 -ms-2 me-2" />
