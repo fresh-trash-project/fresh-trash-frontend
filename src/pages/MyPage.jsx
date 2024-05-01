@@ -41,6 +41,7 @@ const MyPage = () => {
   const [registerMessage, setRegisterMessage] = useState('');
   const API_URL = 'http://localhost:8080';
   const S3URL = 'https://fresh-trash-s3.s3.ap-northeast-2.amazonaws.com';
+  const [imgFile, setImgFile] = useState(null);
 
   //마이페이지 들어왔을때 유저정보 불러오기
   useEffect(() => {
@@ -96,6 +97,7 @@ const MyPage = () => {
     const file = e.target.files[0];
     console.log(file);
     setImage(file);
+    setImgFile(file);
   };
 
   //이미지 파일 경로-----------------------------
@@ -190,7 +192,6 @@ const MyPage = () => {
   //   footstep = (averageRating / 5) * 100;
   // }
 
-  // URL.createObjectURL
 
   //초록바의 길이를 100%로 -------------------------------------------------------------
   const [greenBarWidth, setGreenBarWidth] = useState(0);
@@ -246,14 +247,33 @@ const MyPage = () => {
         <div className="md:flex">
           {/* 프로필 이미지------------------------------------------------------------------------- */}
           <div className="avatar flex flex-col pt-5">
-            <div className="w-72 rounded-full mx-auto md:mx-10 ">
+            {/* <div className="w-72 rounded-full mx-auto md:mx-10 ">
               <img
                 src={getImgUrl(image)}
                 alt=""
                 className={'w-full h-full object-cover'}
               />
               {console.log(getImgUrl(image))}
-            </div>
+            </div> */}
+            {isEditing ? (
+              <div className="w-72 rounded-full mx-auto md:mx-10 ">
+                <img
+                  src={imgFile && URL.createObjectURL(imgFile)}
+                  alt=""
+                  className={'w-full h-full object-cover'}
+                />
+                {/* {console.log(getImgUrl(image))} */}
+              </div>
+            ) : (
+              <div className="w-72 rounded-full mx-auto md:mx-10 ">
+                <img
+                  src={getImgUrl(image)}
+                  alt=""
+                  className={'w-full h-full object-cover'}
+                />
+                {console.log(getImgUrl(image))}
+              </div>
+            )}
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
               onClick={isEditing ? handleChangeUserInfo : handleEditProfile}

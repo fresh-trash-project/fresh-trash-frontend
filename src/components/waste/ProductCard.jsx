@@ -31,13 +31,17 @@ const ProductCard = ({ wastes, onDelete }) => {
   };
   return (
     <div className="card w-80 bg-base-100 shadow md:w-72 xl:w-70 2xl:w-80 ">
-      <figure className="">
+      <figure className="w-full h-40 md:h-36 xl:h-48 2xl:h-56 overflow-hidden">
         {/* <img src={`data:image/png;base64,${wastes.fileName}`} alt="이미지" /> */}
         {/* <img
           src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
           alt="Shoes"
         /> */}
-        <img src={getImgeUrl(wastes.fileName)} alt={wastes.title} />
+        <img
+          src={getImgeUrl(wastes.fileName)}
+          className="object-cover w-full h-full"
+          alt={wastes.title}
+        />
         {/* <img src={getImgeUrl(wastes.fileName)} alt="" /> */}
       </figure>
       <div className="card-body">
@@ -68,12 +72,21 @@ const ProductCard = ({ wastes, onDelete }) => {
           <span className="text-2xl font-bold text-gray-900 ">
             {wastes.wastePrice}원
           </span>
-          <Link
+          {/* <Link
             to={`/ProductDetail/${wastes.id}`}
             className="text-white bg-green-900 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  "
           >
             상세보기
-          </Link>
+          </Link> */}
+          <a
+            href={`/ProductDetail/${wastes.id}`}
+            onClick={() => {
+              window.location.href = `/ProductDetail/${wastes.id}`;
+            }}
+            className="text-white bg-green-900 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  "
+          >
+            상세보기
+          </a>
         </div>
       </div>
     </div>

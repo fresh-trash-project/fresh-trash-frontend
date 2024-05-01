@@ -11,23 +11,20 @@ import { FiMoreVertical } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import { deleteWaste, detailWaste, likeWaste } from '../../api/WastesApi';
 import { chatPost } from '../../api/chat/api';
+import { LikesState } from '../../recoil/RecoilLikes';
+import { TbCurrencyWon } from 'react-icons/tb';
 // const API_URL = 'http://localhost:8080';
 const DetailCard = () => {
   const { wasteId } = useParams(); // URL 파라미터에서 wasteId 가져오기
   const { chatId } = useParams();
   const [postDetails, setPostDetails] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [hearted, setHearted] = useState(false);
+
   useEffect(() => {
     const fetchDetail = async () => {
       try {
         const details = await detailWaste(wasteId);
         setPostDetails(details);
-        console.log(hearted);
-        // const storedHearted = localStorage.getItem('hearted');
-        // if (storedHearted) {
-        //   setHearted(JSON.parse(storedHearted));
-        // }
       } catch (error) {
         console.error(
           '상품 상세 정보를 불러오는 도중 에러가 발생했습니다:',
@@ -36,31 +33,30 @@ const DetailCard = () => {
       }
     };
     fetchDetail();
-
-    // const user = getCurrentUser();
-    // setCurrentUser(user);
   }, [wasteId]);
 
   //관심 추가--------------------------------------
+  const [likeState, setLikeState] = useRecoilState(LikesState);
+  // const [hearted, setHearted] = useState(false);
+  const [like, setLike] = useState(false);
   const handleLikeToggle = async () => {
-    // 관심 상태를 토글하고 로컬 스토리지에 업데이트
-
-    // localStorage.setItem('hearted', JSON.stringify(!hearted));
     try {
-      if (hearted) {
-        postDetails.likeCount -= 1;
-        const response = await likeWaste(postDetails.id, 'UNLIKE');
-        setHearted(response.data);
-        // setHearted(response);
-      } else {
-        postDetails.likeCount += 1;
-        const response = await likeWaste(postDetails.id, 'LIKE');
-        // console.log(response);
-        setHearted(response.data);
-      }
-      // console.log(response);
-      setHearted(!hearted);
-      // localStorage.setItem('hearted', JSON.stringify(!hearted));
+      // 관심 상태를 토글하고 상태 업데이트
+      const newLikeState = !likeState[wasteId];
+      setLikeState({ ...likeState, [wasteId]: newLikeState });
+
+      // API 호출하여 관심 상태 업데이트
+      const response = await likeWaste(
+        wasteId,
+        newLikeState ? 'LIKE' : 'UNLIKE',
+      );
+      console.log('하트상태', response.data);
+      setPostDetails(prevDetails => ({
+        ...prevDetails,
+        likeCount: newLikeState
+          ? prevDetails.likeCount + 1
+          : prevDetails.likeCount - 1,
+      }));
     } catch (error) {
       console.error(
         '관심 상태를 업데이트하는 도중 오류가 발생했습니다:',
@@ -262,9 +258,10 @@ const DetailCard = () => {
                   </div>
                 </div>
                 <div className="mt-4 sm:items-center sm:gap-4 sm:flex justify-between">
-                  <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
-                    \ {postDetails && postDetails.wastePrice}
-                  </p>
+                  <div className=" flex items-center text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
+                    <TbCurrencyWon />
+                    {postDetails && postDetails.wastePrice}
+                  </div>
                 </div>
 
                 <p className="mb-6 text-gray-500 dark:text-gray-400">
@@ -287,9 +284,10 @@ const DetailCard = () => {
                     onClick={() =>
                       handleLikeToggle(postDetails && postDetails.id)
                     }
+                    // onClick={() => setHearted(prevHearted => !prevHearted)}
                   >
                     {/* onClick={() => handleDelete(postDetails && postDetails.id)} */}
-                    {hearted ? (
+                    {likeState[wasteId] ? (
                       <IoHeartSharp className="w-5 h-5 -ms-2 me-2" />
                     ) : (
                       <IoHeartOutline className="w-5 h-5 -ms-2 me-2" />
