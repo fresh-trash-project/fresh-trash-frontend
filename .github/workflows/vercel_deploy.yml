@@ -1,4 +1,4 @@
-name: git push into another repo to deploy to vercel
+name: push into my repo
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
           source-directory: 'output'
           destination-github-username: 'sgoldenbird'
           destination-repository-name: 'open-team-Projects'
-          user-email: 'sgoldenbird@gmail.com'
+          user-email: sgoldenbird@gmail.com
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
       - name: Test get variable exported by push-to-another-repository
