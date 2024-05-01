@@ -15,7 +15,9 @@ const MyTradeList = () => {
   const [myList, setMyList] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
-  const [totalList, setTotalList] = useState(0);
+  const [totalBuy, setTotalBuy] = useState(0);
+  const [totalOngoing, setTotalOngoing] = useState(0);
+  const [totalClose, setTotalClose] = useState(0);
 
   useEffect(() => {
     handleOnSale();
@@ -33,7 +35,7 @@ const MyTradeList = () => {
     const dataBuyList = await fetchMyBuyList(page);
     setMyList(dataBuyList.content);
     setTotalPage(dataBuyList.totalPages);
-    setTotalList(dataBuyList.totalElements);
+    setTotalBuy(dataBuyList.totalElements);
   };
 
   const handleOnSale = async () => {
@@ -41,7 +43,7 @@ const MyTradeList = () => {
     const ongoingList = await fetchMySellOngoing(page);
     setMyList(ongoingList.content);
     setTotalPage(ongoingList.totalPages);
-    setTotalList(ongoingList.totalElements);
+    setTotalOngoing(ongoingList.totalElements);
   };
 
   const handleDoneSale = async () => {
@@ -49,7 +51,7 @@ const MyTradeList = () => {
     const closeList = await fetchMySellClose(page);
     setMyList(closeList.content);
     setTotalPage(closeList.totalPages);
-    setTotalList(closeList.totalElements);
+    setTotalClose(closeList.totalElements);
   };
 
   //페이지네이션-------------------------------------
@@ -94,14 +96,14 @@ const MyTradeList = () => {
                   onClick={handleOnSale}
                   className={`tab ${onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
                 >
-                  판매중 ({totalList})
+                  판매중 ({totalOngoing})
                 </div>
                 <div
                   role="tab"
                   onClick={handleDoneSale}
                   className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
                 >
-                  판매완료 ({totalList})
+                  판매완료 ({totalClose})
                 </div>
               </div>
               <div className="text-sm breadcrumbs">
@@ -119,7 +121,7 @@ const MyTradeList = () => {
                 role="tab"
                 className="tab border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white"
               >
-                거래완료 ({totalList})
+                거래완료 ({totalBuy})
               </div>
 
               <div className="text-sm breadcrumbs">
