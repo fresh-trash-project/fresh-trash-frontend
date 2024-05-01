@@ -25,7 +25,7 @@ jobs:
           destination-github-username: 'sgoldenbird'
           destination-repository-name: 'open-team-Projects'
           user-email: sgoldenbird@gmail.com
-          commit-message: ${{ github.event.commits[0].message }}
+          commit-message: 'vercel deploy'
           target-branch: main
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
