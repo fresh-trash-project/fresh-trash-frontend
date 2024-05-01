@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-// import { fetchProducts } from '../../api/WastesApi';
-import { fetchWastes, fetchProducts } from '../../api/WastesApi';
-import { Link } from 'react-router-dom';
+import { fetchWastes } from '../../api/WastesApi';
 import { FaPlus } from 'react-icons/fa6';
 import { signInState } from '../../recoil/RecoilSignIn';
-// import Pagination from '../common/pagination/Pagination';
-// import Pagination2 from '../common/pagination/Pagination2';
 import ProductCard from './ProductCard';
 import { useNavigate } from 'react-router-dom';
 import { PaginationButton } from 'flowbite-react';
-const ITEMS_PER_PAGE = 6;
+
 const List2 = () => {
   const navigate = useNavigate();
   //List 복사

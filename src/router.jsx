@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import Home from './pages/Home';
 import SignUpSignIn from './pages/SignUpSignIn';
-import MyPage from './pages/MyPage';
+import MyPage2 from './pages/MaPage2';
 import MyTradeList from './pages/MyTradeList';
 import MyAuctionList from './pages/MyAuctionList';
 import MyLikes from './pages/MyLikes';
@@ -27,7 +27,7 @@ export const router = createBrowserRouter([
     },
   },
   { path: '/SignUpSignIn', element: <SignUpSignIn /> },
-  { path: '/MyPage', element: <MyPage /> },
+  { path: '/MyPage', element: <MyPage2 /> },
   { path: 'MyPage/MyTradeList', element: <MyTradeList /> },
   { path: 'MyPage/MyAuctionList', element: <MyAuctionList /> },
   { path: 'MyPage/MyLikes', element: <MyLikes /> },
