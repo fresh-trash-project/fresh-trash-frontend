@@ -49,11 +49,17 @@ const Nav = () => {
                 애물단지 등록
               </Link>
             </li>
-           
+
             <li className="font-bold h-10 py-2">
-              <Link to="/ProductsList" className="lg:text-[1rem]">
+              <a
+                href="/ProductsList"
+                onClick={() => {
+                  window.location.href = '/ProductsList';
+                }}
+                className="lg:text-[1rem]"
+              >
                 애물단지 거래
-              </Link>
+              </a>
             </li>
             <li className="font-bold h-10 py-2">
               <Link to="/AuctionList" className="lg:text-[1rem]">
@@ -64,9 +70,9 @@ const Nav = () => {
         </div>
       </div>
       <div className="navbar-center">
-        <a className="btn btn-ghost text-xl md:text-3xl lg:text-4xl">
+        <Link to="/" className="btn btn-ghost text-xl md:text-3xl lg:text-4xl">
           FRESH TRASH
-        </a>
+        </Link>
       </div>
       <div className="navbar-end ">
         {/* //! 나중에 !signIn으로 바꿀것 */}

@@ -2,7 +2,8 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import Home from './pages/Home';
 import SignUpSignIn from './pages/SignUpSignIn';
-import MyPage from './pages/MyPage';
+
+import MyPage from './pages/MyPage.jsx';
 import MyTradeList from './pages/MyTradeList';
 import MyAuctionList from './pages/MyAuctionList';
 import MyLikes from './pages/MyLikes';
