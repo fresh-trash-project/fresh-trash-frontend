@@ -51,6 +51,12 @@ const DetailCard = () => {
         newLikeState ? 'LIKE' : 'UNLIKE',
       );
       console.log('하트상태', response.data);
+      setPostDetails(prevDetails => ({
+        ...prevDetails,
+        likeCount: newLikeState
+          ? prevDetails.likeCount + 1
+          : prevDetails.likeCount - 1,
+      }));
     } catch (error) {
       console.error(
         '관심 상태를 업데이트하는 도중 오류가 발생했습니다:',
