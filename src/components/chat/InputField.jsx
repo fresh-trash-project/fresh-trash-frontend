@@ -89,7 +89,7 @@ const InputField = () => {
       try {
         const stomp = new Client({
           brokerURL:
-            'ws://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/chat-ws',
+            'ws://ec2-43-203-18-244.ap-northeast-2.compute.amazonaws.com:8080/chat-ws',
           // connectHeaders: {
           //   Authorization: `Bearer ${access}`,
           // },
