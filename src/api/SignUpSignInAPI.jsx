@@ -2,9 +2,9 @@ import axios from 'axios';
 
 // const API = 'http://localhost:3000';
 // const API = 'http://localhost:8080/api/v1';
-const API =
-  'http://ec2-43-203-18-244.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
-
+// const API =
+//   'http://ec2-43-203-18-244.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
+const API = ' https://fresh-trash.kro.kr';
 // 이메일 인증버튼 눌렀을때 인증코드 받기
 export const fetchCode = async (setVerificationMessage, userEmail) => {
   const accessToken = localStorage.getItem('access-token');
