@@ -1,10 +1,10 @@
 import Nav from './Nav';
 import { useRecoilState } from 'recoil';
-import { AlarmState, AlarmMsgState } from '../../recoil/RecoilAlarm';
+import { AlarmState, AlarmMsgState } from '../../../recoil/RecoilAlarm';
 import Alarm from './Alarm';
-import { signInState } from '../../recoil/RecoilSignIn';
+import { signInState } from '../../../recoil/RecoilSignIn';
 import { useEffect } from 'react';
-import { fetchAlarm } from '../../api/AlarmAPI';
+import { fetchAlarm } from '../../../api/AlarmAPI';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 
 const Header = () => {

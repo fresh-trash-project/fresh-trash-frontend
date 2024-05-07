@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { signInState, signInPanelState } from '../../recoil/RecoilSignIn';
+import { signInState, signInPanelState } from '../../../recoil/RecoilSignIn';
 import { useRecoilState } from 'recoil';
 import { useState } from 'react';
-import { AlarmMsgState, AlarmState } from '../../recoil/RecoilAlarm';
+import { AlarmMsgState, AlarmState } from '../../../recoil/RecoilAlarm';
 
 const Nav = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);

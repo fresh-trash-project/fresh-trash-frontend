@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Google, Phone } from '../common/service/SNS';
+import { Facebook, Instagram, Google, Phone } from '../service/SNS';
 import { useState } from 'react';
 
 const Footer = () => {

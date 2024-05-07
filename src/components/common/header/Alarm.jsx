@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { AlarmState, AlarmMsgState } from '../../recoil/RecoilAlarm';
+import { AlarmState, AlarmMsgState } from '../../../recoil/RecoilAlarm';
 import { useRecoilState } from 'recoil';
 import { IoMdClose } from 'react-icons/io';
 import { useEffect, useState } from 'react';
-import { signInState } from '../../recoil/RecoilSignIn';
-import { fetchAlarm, readAlarm } from '../../api/AlarmAPI';
+import { signInState } from '../../../recoil/RecoilSignIn';
+import { fetchAlarm, readAlarm } from '../../../api/AlarmAPI';
 
 const Alarm = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);

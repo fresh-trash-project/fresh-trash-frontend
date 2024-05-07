@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/Home/Header';
-import MyTradeCards from '../components/MyList/MyTradeCards';
+import Header from '../components/home/Header';
+import MyTradeCards from '../components/myList/MyTradeCards';
 import {
   fetchMyBuyList,
   fetchMySellClose,
