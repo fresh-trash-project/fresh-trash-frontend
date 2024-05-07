@@ -8,7 +8,7 @@ import {
   duplicationState,
   duplicationMessageState,
 } from '../recoil/RecoilUserName';
-import Header from '../components/Home/Header';
+import Header from '../components/common/header/Header';
 import Card1 from '../components/common/card/Card1';
 import add from '../assets/add1.jpg';
 import auction from '../assets/auction2.jpg';

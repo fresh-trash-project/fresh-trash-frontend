@@ -1,5 +1,5 @@
 import Room from '../components/chat/Room';
-import Header from '../components/Home/Header';
+import Header from '../components/common/header/Header';
 const Chat = () => {
   return (
     <div>

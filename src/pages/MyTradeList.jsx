@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/home/Header';
+import Header from '../components/common/header/Header';
 import MyTradeCards from '../components/myList/MyTradeCards';
 import {
   fetchMyBuyList,
