@@ -1,7 +1,6 @@
 import React from 'react';
 
 const MessageContainer = ({ messages, messageContent, user }) => {
-  // const isArray = Array.isArray(messageContent);
   return (
     <div>
       {Array.isArray(messageContent && messageContent.messages) &&

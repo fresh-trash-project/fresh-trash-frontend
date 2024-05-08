@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiFillAlert } from 'react-icons/ai';
-import { ListFetch } from '../../api/chat/api';
+import { ListFetch } from '../../api/ChattingAPI';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 const ChatList = ({ isOpen }) => {
   //채팅 목록 불러오기

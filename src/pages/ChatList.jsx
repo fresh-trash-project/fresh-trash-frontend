@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AiFillAlert } from 'react-icons/ai';
-import { ListFetch } from '../api/chat/api';
+import { ListFetch } from '../api/ChattingAPI';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/common/header/Header';
 import { FaArrowRight } from 'react-icons/fa';
@@ -47,7 +47,6 @@ const ChatList = () => {
                   <FaArrowRight />
                 </div>
               </div>
-              <p></p>
             </li>
           ))}
         </ul>

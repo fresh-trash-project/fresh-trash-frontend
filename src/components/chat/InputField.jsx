@@ -12,11 +12,10 @@ import {
   contentFetch,
   reportPost,
   statusChange,
-} from '../../api/chat/api';
+} from '../../api/ChattingAPI';
 import { useParams } from 'react-router-dom';
-// import { Stomp } from '@stomp/stompjs';
 import { Client } from '@stomp/stompjs';
-// import { stompClientSetup } from '../../api/stompServer';
+
 const InputField = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { chatId, wasteId } = useParams();
@@ -30,7 +29,6 @@ const InputField = () => {
     const fetchData = async (wasteId, chatId) => {
       try {
         const messageList = await contentFetch(wasteId, chatId);
-        // setMessages(messageList);
         setMessageContent(messageList);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -89,24 +87,17 @@ const InputField = () => {
       try {
         const stomp = new Client({
           brokerURL: 'ws://localhost:8080/chat-ws',
-          // connectHeaders: {
-          //   Authorization: `Bearer ${access}`,
-          // },
           debug: str => {
             console.log(str);
           },
         });
         setStompClient(stomp);
-        // console.log(stomp);
-        // console.log(stompClient);
         stomp.activate();
 
         stomp.onConnect = () => {
           const subscriptionDestination = `/topic/chats.${chatId}`;
 
           stomp.subscribe(subscriptionDestination, msg => {
-            // console.log(JSON.parse(msg.body).message);
-            // console.log(JSON.parse(msg.body).createdAt);
             try {
               const parsedMessage = JSON.parse(msg.body);
               setMessages(prevMessages => [...prevMessages, parsedMessage]);
@@ -127,11 +118,6 @@ const InputField = () => {
     initializeChat();
     console.log(stompClient);
 
-    // return () => {
-    //   if (stompClient && stompClient.connected) {
-    //     stompClient.deactivate();
-    //   }
-    // };
     // 컴포넌트 언마운트 시 연결 종료
     return () => {
       if (stompClient !== null) {
@@ -149,7 +135,6 @@ const InputField = () => {
       destination,
       body: JSON.stringify({
         message: inputMessage,
-        // sender: currentUser,
       }),
     });
 
@@ -276,7 +261,6 @@ const InputField = () => {
             messages={messages}
             messageContent={messageContent}
             user={currentUser}
-            // partner={messageContent}
           />
         </div>
         {/* ------채팅입력----- */}

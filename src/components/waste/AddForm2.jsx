@@ -247,21 +247,6 @@ const AddForm = () => {
                     required
                     className="radio checked:bg-green-900 mr-5"
                   />
-                  {/* <label
-                    className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2"
-                    htmlFor="worst"
-                  >
-                    최하
-                  </label>
-                  <input
-                    type="radio"
-                    name="wasteStatus"
-                    value="최하"
-                    checked={wasteStatus === '최하'}
-                    onChange={e => setWasteStatus(e.target.value)}
-                    required
-                    className="radio checked:bg-green-900  mr-5"
-                  /> */}
                 </div>
               </div>
               {wastePrice.startsWith('0') ? (
@@ -278,7 +263,6 @@ const AddForm = () => {
                     name="wastePrice"
                     value={wastePrice}
                     onChange={e => setWastePrice(e.target.value)}
-                    // onChange={handlePriceChange}
                     placeholder="제안 가격을 입력해주세요."
                     min="0"
                     required
@@ -298,7 +282,6 @@ const AddForm = () => {
                     name="wastePrice"
                     value={wastePrice}
                     onChange={e => setWastePrice(e.target.value)}
-                    // onChange={handlePriceChange}
                     placeholder="제안 가격을 입력해주세요."
                     min="0"
                     required
