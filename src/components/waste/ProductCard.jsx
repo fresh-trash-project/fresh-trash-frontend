@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { postsState } from '../../recoil/RecoilWastes';
 import { updatePost } from '../../api/WastesApi';
 import { Link } from 'react-router-dom';
-const API_URL = 'http://localhost:8080';
+const API_URL = import.meta.env.REACT_APP_API_URL;
 const ProductCard = ({ wastes, onDelete }) => {
   // const data=new Buffer(wastes.fileName,'binary').toString('base64');
   const handleDeleteClick = () => {
@@ -27,7 +27,7 @@ const ProductCard = ({ wastes, onDelete }) => {
   // };
 
   const getImgeUrl = fileName => {
-    return `https://fresh-trash-s3.s3.ap-northeast-2.amazonaws.com/${fileName}`;
+    return `${API_URL}/imgs/${fileName}`;
   };
   return (
     <div className="card w-80 bg-base-100 shadow md:w-72 xl:w-70 2xl:w-80 ">

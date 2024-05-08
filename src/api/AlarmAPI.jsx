@@ -2,14 +2,14 @@ import axios from 'axios';
 
 // const API_URL = 'http://localhost:3000';
 // const API_URL = 'http://localhost:8080/api/v1';
-const API_URL =
-  'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
-
+// const API_URL =
+//   'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
+const API_URL = import.meta.env.VITE_API_URL;
 //전체 알람 조회
 export const fetchAlarm = async () => {
   const accessToken = localStorage.getItem('access-token');
   try {
-    const response = await axios.get(`${API_URL}/notis`, {
+    const response = await axios.get(`${API_URL}/api/v1/notis`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
@@ -29,7 +29,7 @@ export const readAlarm = async notisId => {
   console.log(localStorage);
   console.log(accessToken);
   try {
-    const response = await axios.put(`${API_URL}/notis/${notisId}`, null, {
+    const response = await axios.put(`${API_URL}/api/v1/notis/${notisId}`, null, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     console.log(response);

@@ -12,7 +12,7 @@ const Header = () => {
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
   const [signIn, setSignIn] = useRecoilState(signInState);
   const accessToken = localStorage.getItem('access-token');
-
+  const API_URL = import.meta.env.VITE_API_URL;
   //엑세스토큰있으면 로그인상태로
   useEffect(() => {
     const accessToken = localStorage.getItem('access-token');
@@ -28,9 +28,9 @@ const Header = () => {
     if (signIn) {
       try {
         eventSource = new EventSourcePolyfill(
-          'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1/notis/subscribe',
+          // 'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1/notis/subscribe',
 
-          // 'http://localhost:8080/api/v1/notis/subscribe',
+          `${API_URL}/api/v1/notis/subscribe`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

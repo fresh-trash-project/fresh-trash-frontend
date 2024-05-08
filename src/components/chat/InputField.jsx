@@ -88,8 +88,7 @@ const InputField = () => {
     const initializeChat = async () => {
       try {
         const stomp = new Client({
-          brokerURL:
-            'ws://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/chat-ws',
+          brokerURL: 'ws://localhost:8080/chat-ws',
           // connectHeaders: {
           //   Authorization: `Bearer ${access}`,
           // },

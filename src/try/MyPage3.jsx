@@ -296,10 +296,10 @@ const MyPage = () => {
         </div>
         <div>
           <div className="ratingBar rounded-lg w-[50rem] h-14 bg-gradient-to-br from-green-200 via-green-700 to-green-950 ">
-            <IoFootsteps
+            {/* <IoFootsteps
               // className={`rotate-90 text-5xl text-white-ivory`}
               className={`rotate-90 text-5xl text-white-ivory translate-x-[${footstep}rem]`}
-            />
+            /> */}
           </div>
         </div>
       </div>
