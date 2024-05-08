@@ -29,9 +29,13 @@ export const readAlarm = async notisId => {
   console.log(localStorage);
   console.log(accessToken);
   try {
-    const response = await axios.put(`${API_URL}/api/v1/notis/${notisId}`, null, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    const response = await axios.put(
+      `${API_URL}/api/v1/notis/${notisId}`,
+      null,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      },
+    );
     console.log(response);
   } catch (error) {
     console.error('Error fetching: ', error);

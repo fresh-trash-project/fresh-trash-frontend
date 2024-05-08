@@ -193,6 +193,7 @@ const MyPage = () => {
   //   footstep = (averageRating / 5) * 100;
   // }
 
+
   //초록바의 길이를 100%로 -------------------------------------------------------------
   const [greenBarWidth, setGreenBarWidth] = useState(0);
 
