@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "npm-run-all --parallel dev:client dev:server",
+    "start": "npm-run-all --parallel build dev:server",
     "dev:client": "vite",
     "dev:server": "json-server --watch ./src/fakeServer/db.json",
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "vite --mode development",
+    "build": "vite build --mode production",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "server": "npx json-server --watch ./src/fakeServer/db.json"
@@ -31,6 +31,7 @@
     "react-type-animation": "^3.2.0",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
+    "server": "^1.0.39",
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
@@ -39,6 +40,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.10.1",
+    "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

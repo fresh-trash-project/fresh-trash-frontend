@@ -3,15 +3,15 @@ import axios from 'axios';
 // const API_URL = 'http://localhost:3000';
 // const API = 'http://localhost:8080/api/v1';
 // const API_URL =
-//   'http://ec2-43-203-18-244.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
-const API_URL = ' https://fresh-trash.kro.kr';
+//   'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
+const API_URL = import.meta.env.VITE_API_URL;
 //나의 판매내역 > 판매중 리스트
 export const fetchMySellOngoing = async page => {
   const accessToken = localStorage.getItem('access-token');
   // console.log(accessToken);
   try {
     const response = await axios.get(
-      `${API_URL}/transactions?memberType=SELLER_ONGOING`,
+      `${API_URL}/api/v1/transactions?memberType=SELLER_ONGOING`,
       { params: { page }, headers: { Authorization: `Bearer ${accessToken}` } },
     );
 
@@ -33,7 +33,7 @@ export const fetchMySellClose = async page => {
   // console.log(accessToken);
   try {
     const response = await axios.get(
-      `${API_URL}/transactions?memberType=SELLER_CLOSE`,
+      `${API_URL}/api/v1/transactions?memberType=SELLER_CLOSE`,
       { params: { page }, headers: { Authorization: `Bearer ${accessToken}` } },
     );
 
@@ -55,7 +55,7 @@ export const fetchMyBuyList = async page => {
 
   try {
     const response = await axios.get(
-      `${API_URL}/transactions?memberType=BUYER`,
+      `${API_URL}/api/v1/transactions?memberType=BUYER`,
       { params: { page }, headers: { Authorization: `Bearer ${accessToken}` } },
     );
 
@@ -76,7 +76,7 @@ export const fetchMyLikes = async page => {
   const accessToken = localStorage.getItem('access-token');
 
   try {
-    const response = await axios.get(`${API_URL}/wastes/likes`, {
+    const response = await axios.get(`${API_URL}/api/v1/wastes/likes`, {
       params: { page },
       // params: { page, wasteCategory: selectedCategory },
       headers: { Authorization: `Bearer ${accessToken}` },

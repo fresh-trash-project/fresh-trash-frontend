@@ -1,15 +1,15 @@
 import axios from 'axios';
 
 // const API = 'http://localhost:3000';
-// const API = 'http://localhost:8080/api/v1';
+// const API = 'http://localhost:8080';
 // const API =
-//   'http://ec2-43-203-18-244.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
-const API = ' https://fresh-trash.kro.kr';
+//   'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
+const API = import.meta.env.VITE_API_URL;
 // 이메일 인증버튼 눌렀을때 인증코드 받기
 export const fetchCode = async (setVerificationMessage, userEmail) => {
   const accessToken = localStorage.getItem('access-token');
   try {
-    const response = await axios.post(`${API}/mail/send-code`, {
+    const response = await axios.post(`${API}/api/v1/mail/send-code`, {
       email: userEmail,
       headers: { Authorization: `Bearer ${accessToken}` },
     });
@@ -39,7 +39,7 @@ export const verifyCode = async (
   const accessToken = localStorage.getItem('access-token');
   try {
     console.log(code);
-    const response = await axios.post(`${API}/mail/verify`, {
+    const response = await axios.post(`${API}/api/v1/mail/verify`, {
       email: userEmail,
       code: code,
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -73,7 +73,7 @@ export const signUpAccount = async (
 ) => {
   const accessToken = localStorage.getItem('access-token');
   try {
-    const response = await axios.post(`${API}/auth/signup`, {
+    const response = await axios.post(`${API}/api/v1/auth/signup`, {
       nickname: userName,
       password: userPassword,
       email: userEmail,
@@ -107,7 +107,7 @@ export const signInAccount = async (
 ) => {
   const accessToken = localStorage.getItem('access-token');
   try {
-    const response = await axios.post(`${API}/auth/signin`, {
+    const response = await axios.post(`${API}/api/v1/auth/signin`, {
       password: userPassword,
       email: userEmail,
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -137,7 +137,7 @@ export const signInAccount = async (
 export const fetchPW = async (setVerificationMessage, userEmail) => {
   const accessToken = localStorage.getItem('access-token');
   try {
-    const response = await axios.post(`${API}/mail/find-pass`, {
+    const response = await axios.post(`${API}/api/v1/mail/find-pass`, {
       email: userEmail,
       headers: { Authorization: `Bearer ${accessToken}` },
     });

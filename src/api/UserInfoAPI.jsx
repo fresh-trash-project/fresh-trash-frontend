@@ -3,8 +3,8 @@ import axios from 'axios';
 // const API_URL = 'http://localhost:3000';
 // const API = 'http://localhost:8080/api/v1';
 // const API_URL =
-//   'http://ec2-43-203-18-244.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
-const API_URL = ' https://fresh-trash.kro.kr';
+//   'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
+const API_URL = import.meta.env.VITE_API_URL;
 //닉네임 중복 확인
 export const fetchUserNames = async (
   setIsDuplicate,
@@ -16,7 +16,7 @@ export const fetchUserNames = async (
   const accessToken = localStorage.getItem('access-token');
 
   try {
-    const response = await axios.get(`${API_URL}/auth/check-nickname`, {
+    const response = await axios.get(`${API_URL}/api/v1/auth/check-nickname`, {
       params: {
         nickname: userName,
       },
@@ -68,7 +68,7 @@ export const changeUserInfo = async (
 
     const accessToken = localStorage.getItem('access-token');
 
-    const response = await axios.put(`${API_URL}/members`, formData, {
+    const response = await axios.put(`${API_URL}/api/v1/members`, formData, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
@@ -91,7 +91,7 @@ export const changeUserInfo = async (
 export const fetchRating = async () => {
   const accessToken = localStorage.getItem('access-token');
   try {
-    const response = await axios.get(`${API_URL}/members`, {
+    const response = await axios.get(`${API_URL}/api/v1/members`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     console.log(response);
@@ -111,7 +111,7 @@ export const fetchUserInfo = async () => {
   const accessToken = localStorage.getItem('access-token');
 
   try {
-    const response = await axios.get(`${API_URL}/members`, {
+    const response = await axios.get(`${API_URL}/api/v1/members`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     console.log(response);

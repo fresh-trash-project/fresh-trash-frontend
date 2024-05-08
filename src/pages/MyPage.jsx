@@ -39,9 +39,9 @@ const MyPage = () => {
   );
   const [ratings, setRatings] = useState([]);
   const [registerMessage, setRegisterMessage] = useState('');
-  const API_URL = ' https://fresh-trash.kro.kr';
-  // const S3URL = 'https://fresh-trash-s3.s3.ap-northeast-2.amazonaws.com';
-  const S3URL = 'https://fresh-trash.kro.kr';
+  // const API_URL = 'http://localhost:8080';
+  const S3URL = 'https://fresh-trash-s3.s3.ap-northeast-2.amazonaws.com';
+  const API_URL = import.meta.env.VITE_API_URL;
   const [imgFile, setImgFile] = useState(null);
 
   //마이페이지 들어왔을때 유저정보 불러오기
@@ -104,8 +104,8 @@ const MyPage = () => {
   //이미지 파일 경로-----------------------------
   const getImgUrl = fileName => {
     console.log(fileName);
-    return `${S3URL}/${fileName}`;
-    // return `${API_URL}/imgs/${fileName}`
+    // return `${S3URL}/${fileName}`;
+    return `${API_URL}/imgs/${fileName}`;
   };
 
   //이미지삭제

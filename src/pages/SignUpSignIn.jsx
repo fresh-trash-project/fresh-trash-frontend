@@ -45,8 +45,7 @@ const SignUpSignIn = () => {
   const navigate = useNavigate();
   // const API_URL =
   //   'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization';
-  const API_URL = ' https://fresh-trash.kro.kr';
-
+  const API_URL = import.meta.env.VITE_API_URL;
   // 함수--------------------------------------------------------------------------------------
 
   // 이메일 -----------------------------------------------

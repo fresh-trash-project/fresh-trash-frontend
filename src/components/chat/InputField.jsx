@@ -88,7 +88,7 @@ const InputField = () => {
     const initializeChat = async () => {
       try {
         const stomp = new Client({
-          brokerURL: 'ws://fresh-trash.kro.kr/chat-ws',
+          brokerURL: 'ws://localhost:8080/chat-ws',
           // connectHeaders: {
           //   Authorization: `Bearer ${access}`,
           // },
