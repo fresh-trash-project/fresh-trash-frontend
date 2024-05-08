@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/common/header/Header';
-import MyTradeCards from '../components/myList/MyTradeCards';
+import MyTradeCards from '../components/common/card/MyTradeCards';
 import { fetchMyLikes } from '../api/UserTradeAPI';
 import { PaginationButton } from 'flowbite-react';
 
