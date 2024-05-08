@@ -1,7 +1,6 @@
 import React from 'react';
-import Header from '../components/Home/Header';
-import MenuBar from '../try/components/MenuBar';
-import Footer from '../components/Home/Footer';
+import Header from '../components/common/header/Header';
+import Footer from '../components/common/footer/Footer';
 import DetailCard from '../components/waste/DetailCard';
 const ProductDetail = () => {
   return (

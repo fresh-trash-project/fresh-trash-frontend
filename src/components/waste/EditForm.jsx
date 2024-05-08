@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { detailWaste, updatePost } from '../../api/WastesApi';
 import { useNavigate } from 'react-router-dom';
 import { IoIosCamera } from 'react-icons/io';
-const API_URL = 'http://localhost:8080';
+const API_URL = ' https://fresh-trash.kro.kr';
 const EditForm = () => {
   const [wasteCategory, setWasteCategory] = useState('');
   const [title, setTitle] = useState('');

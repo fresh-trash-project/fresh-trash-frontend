@@ -31,7 +31,6 @@
     "react-type-animation": "^3.2.0",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
-    "rollup": "^4.17.2",
     "server": "^1.0.39",
     "styled-components": "^6.1.8"
   },
@@ -55,8 +54,5 @@
     "tailwind-scrollbar": "^3.1.0",
     "tailwindcss": "^3.4.3",
     "vite": "^5.2.0"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.17.2"
   }
 }

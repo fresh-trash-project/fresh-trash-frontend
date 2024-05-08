@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AiFillAlert } from 'react-icons/ai';
 import { ListFetch } from '../api/chat/api';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from '../components/Home/Header';
+import Header from '../components/common/header/Header';
 import { FaArrowRight } from 'react-icons/fa';
 const ChatList = () => {
   //채팅 목록 불러오기

@@ -108,7 +108,7 @@ const DetailCard = () => {
   //   return `${API_URL}/imgs/${fileName}`;
   // };
   const getImgeUrl = fileName => {
-    return `https://fresh-trash-s3.s3.ap-northeast-2.amazonaws.com/${fileName}`;
+    return ` https://fresh-trash.kro.kr/${fileName}`;
   };
 
   //채팅------------------------------------

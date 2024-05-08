@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/Home/Header';
-import MyTradeCards from '../components/MyList/MyTradeCards';
+import Header from '../components/common/header/Header';
+import MyTradeCards from '../components/common/card/MyTradeCards';
 import { fetchMyLikes } from '../api/UserTradeAPI';
 import { PaginationButton } from 'flowbite-react';
 
@@ -17,7 +17,7 @@ const MyLikes = () => {
       const dataMyLikes = await fetchMyLikes(page);
       setMyLikes(dataMyLikes.content);
       setTotalLikes(dataMyLikes.totalElements);
-      setTotalPage(dataMyLikes.totalPages);      
+      setTotalPage(dataMyLikes.totalPages);
     };
     getMyLikes();
   }, [page]);
@@ -38,10 +38,6 @@ const MyLikes = () => {
   //   setSelectedCategory(category);
   //   setPage(0); // Reset page to the first page
   // };
-
- 
-
-
 
   //페이지네이션-------------------------------------
   const handlePreviousPage = () => {

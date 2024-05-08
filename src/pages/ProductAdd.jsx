@@ -1,6 +1,6 @@
 import React from 'react';
 import AddForm2 from '../components/waste/AddForm2';
-import Header from '../components/Home/Header';
+import Header from '../components/common/header/Header';
 import axios from 'axios';
 
 const ProductAdd = () => {
