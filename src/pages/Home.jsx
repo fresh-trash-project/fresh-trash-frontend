@@ -1,5 +1,5 @@
 import Header from '../components/common/header/Header';
-import Hero from '../components/Home/Hero';
+import Hero from '../components/home/Hero';
 import Footer from '../components/common/footer/Footer';
 import Card1 from '../components/common/card/Card1';
 import add from '../assets/add2.jpg';
