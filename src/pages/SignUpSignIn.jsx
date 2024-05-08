@@ -105,7 +105,7 @@ const SignUpSignIn = () => {
     }
   };
 
-  // 닉네임 중복확인 버튼 ---------------------------------------
+  // 닉네임 중복확인 ---------------------------------------
   const handleDuplication = async (e, userName) => {
     e.preventDefault();
     setDuplicationButtonClick(true);
