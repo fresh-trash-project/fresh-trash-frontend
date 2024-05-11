@@ -1,11 +1,9 @@
 import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL;
-// const API_URL =
-//   'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080'; // 백엔드 서버 주소
+
 const axiosWithToken = axios.create({
   baseURL: `${API_URL}/api/v1`,
   headers: {
-    // 'Content-Type': 'application/json',
     Authorization: localStorage.getItem('access-token'), // 로컬 스토리지에서 토큰을 가져와 헤더에 추가
   },
 });

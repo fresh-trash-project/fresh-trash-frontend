@@ -7,13 +7,12 @@ import { MdOutlineStar } from 'react-icons/md';
 import { IoHeartOutline } from 'react-icons/io5';
 import { IoHeartSharp } from 'react-icons/io5';
 import { FiMoreVertical } from 'react-icons/fi';
-// import { fetchProducts, deletePost } from '../../api/WastesApi';
 import { Link, useNavigate } from 'react-router-dom';
 import { deleteWaste, detailWaste, likeWaste } from '../../api/WastesApi';
 import { chatPost } from '../../api/chat/api';
 import { LikesState } from '../../recoil/RecoilLikes';
 import { TbCurrencyWon } from 'react-icons/tb';
-// const API_URL = 'http://localhost:8080';
+const API_URL = import.meta.env.VITE_API_URL;
 const DetailCard = () => {
   const { wasteId } = useParams(); // URL 파라미터에서 wasteId 가져오기
   const { chatId } = useParams();
@@ -104,11 +103,8 @@ const DetailCard = () => {
   };
 
   //이미지 파일 경로-----------------------------
-  // const getImgeUrl = fileName => {
-  //   return `${API_URL}/imgs/${fileName}`;
-  // };
   const getImgeUrl = fileName => {
-    return ` https://fresh-trash.kro.kr/${fileName}`;
+    return `${API_URL}/imgs/${fileName}`;
   };
 
   //채팅------------------------------------
@@ -129,7 +125,7 @@ const DetailCard = () => {
               <li>{postDetails && postDetails.wasteCategory}</li>
             </ul>
           </div>
-          {/*나중에 이 버튼은 등록한 유저만 보이도록 처리 */}
+
           <div className="mr-8 dropdown dropdown-end">
             {currentUser &&
               postDetails &&

@@ -39,8 +39,6 @@ const MyPage = () => {
   );
   const [ratings, setRatings] = useState([]);
   const [registerMessage, setRegisterMessage] = useState('');
-  // const API_URL = 'http://localhost:8080';
-  const S3URL = 'https://fresh-trash-s3.s3.ap-northeast-2.amazonaws.com';
   const API_URL = import.meta.env.VITE_API_URL;
   const [imgFile, setImgFile] = useState(null);
 
@@ -104,7 +102,6 @@ const MyPage = () => {
   //이미지 파일 경로-----------------------------
   const getImgUrl = fileName => {
     console.log(fileName);
-    // return `${S3URL}/${fileName}`;
     return `${API_URL}/imgs/${fileName}`;
   };
 

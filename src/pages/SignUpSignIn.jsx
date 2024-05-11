@@ -43,8 +43,6 @@ const SignUpSignIn = () => {
   const [passwordMessage, setPasswordMessage] = useState('');
 
   const navigate = useNavigate();
-  // const API_URL =
-  //   'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization';
   const API_URL = import.meta.env.VITE_API_URL;
   // 함수--------------------------------------------------------------------------------------
 
@@ -409,19 +407,19 @@ const SignUpSignIn = () => {
 
             <div className="snsIcons flex w-full">
               <Link
-                to={`${API_URL}/google`}
+                to={`${API_URL}/oauth2/authorization/google`}
                 className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1"
               >
                 <Google style="w-4 h-4" />
               </Link>
               <Link
-                to={`${API_URL}/naver`}
+                to={`${API_URL}/oauth2/authorization/naver`}
                 className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1"
               >
                 <Naver style="w-4 h-4" />
               </Link>
               <Link
-                to={`${API_URL}/kakao`}
+                to={`${API_URL}/oauth2/authorization/kakao`}
                 className="cursor-pointer shadow-md border border-green-brunswick p-2 rounded-full mr-1"
               >
                 <Kakao style="w-4 h-4" />
