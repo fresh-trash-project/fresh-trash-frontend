@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteChat } from '../../api/ChattingAPI';
 
-const ChatMenu = ({ messageList }) => {
+const ChatMenu = ({ isOpen, messageList }) => {
   const navigate = useNavigate();
   const handleDelete = async (wasteId, chatId) => {
     try {
@@ -13,7 +13,9 @@ const ChatMenu = ({ messageList }) => {
     }
   };
   return (
-    <div className="w-16  space-y-10 py-1 border border-spacing-2  -translate-x-0 ">
+    <div
+      className={`w-16  space-y-10 py-1 border border-spacing-2   ${isOpen ? '-translate-x-0' : 'translate-x-40'}`}
+    >
       <ul>
         <li className="p-5">
           <svg

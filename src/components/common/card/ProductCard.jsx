@@ -1,16 +1,7 @@
-import React, { useState } from 'react';
-import { GoHeart } from 'react-icons/go';
-import { GoHeartFill } from 'react-icons/go';
-import { useRecoilState } from 'recoil';
-import { postsState } from '../../recoil/RecoilWastes';
-import { updatePost } from '../../api/WastesApi';
-import { Link } from 'react-router-dom';
-const API_URL = import.meta.env.REACT_APP_API_URL;
-const ProductCard = ({ wastes, onDelete }) => {
-  const handleDeleteClick = () => {
-    onDelete(wastes.id);
-  };
+import React from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL;
+const ProductCard = ({ wastes }) => {
   const getImgeUrl = fileName => {
     return `${API_URL}/imgs/${fileName}`;
   };

@@ -1,4 +1,4 @@
-import ProductCard from '../../waste/ProductCard';
+import ProductCard from './ProductCard';
 
 const MyTradeCards = ({ myList }) => {
   console.log(myList);
