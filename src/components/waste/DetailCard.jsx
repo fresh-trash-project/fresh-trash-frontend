@@ -124,7 +124,7 @@ const DetailCard = () => {
               <li>{postDetails && postDetails.wasteCategory}</li>
             </ul>
           </div>
-          {/*나중에 이 버튼은 등록한 유저만 보이도록 처리 */}
+
           <div className="mr-8 dropdown dropdown-end">
             {currentUser &&
               postDetails &&

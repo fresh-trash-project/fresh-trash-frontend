@@ -1,9 +1,5 @@
 import axios from 'axios';
 
-// const API_URL = 'http://localhost:3000';
-// const API = 'http://localhost:8080/api/v1';
-// const API_URL =
-//   'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
 const API_URL = import.meta.env.VITE_API_URL;
 //닉네임 중복 확인
 export const fetchUserNames = async (

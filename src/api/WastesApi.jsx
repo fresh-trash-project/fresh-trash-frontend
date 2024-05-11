@@ -1,6 +1,5 @@
 import axios from 'axios';
-// const API_URL =
-//   'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080'; // 백엔드 서버 주소
+
 const API_URL = import.meta.env.VITE_API_URL;
 const axiosWithToken = axios.create({
   baseURL: `${API_URL}/api/v1`,

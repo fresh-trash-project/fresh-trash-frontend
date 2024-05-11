@@ -9,7 +9,6 @@ import { PaginationButton } from 'flowbite-react';
 
 const List2 = () => {
   const navigate = useNavigate();
-  //List 복사
   //회원만 등록페이지 접근-------------------------------
   const [signIn, setSignIn] = useRecoilState(signInState);
   const handleRegistrationPageAccess = () => {

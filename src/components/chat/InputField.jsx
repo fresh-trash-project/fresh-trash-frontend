@@ -32,6 +32,7 @@ const InputField = () => {
     const fetchData = async (wasteId, chatId) => {
       try {
         const messageList = await contentFetch(wasteId, chatId);
+   
         setMessageContent(messageList);
         const list = await ListFetch(wasteId, chatId);
         setUserList(list);
@@ -86,7 +87,6 @@ const InputField = () => {
   const [stompClient, setStompClient] = useState(null);
 
   const [inputMessage, setInputMessage] = useState('');
-  // const access = localStorage.getItem('access-token');
   useEffect(() => {
     const initializeChat = async () => {
       try {
@@ -97,6 +97,7 @@ const InputField = () => {
           },
         });
         setStompClient(stomp);
+
         stomp.activate();
 
         stomp.onConnect = () => {
@@ -123,6 +124,7 @@ const InputField = () => {
     initializeChat();
     console.log(stompClient);
 
+  
     // 컴포넌트 언마운트 시 연결 종료
     return () => {
       if (stompClient !== null) {
@@ -140,6 +142,7 @@ const InputField = () => {
       destination,
       body: JSON.stringify({
         message: inputMessage,
+
       }),
     });
 
