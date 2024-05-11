@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { fetchWastes } from '../../api/WastesApi';
 import { FaPlus } from 'react-icons/fa6';
 import { signInState } from '../../recoil/RecoilSignIn';
-import ProductCard from './ProductCard';
+import ProductCard from '../common/card/ProductCard';
 import { useNavigate } from 'react-router-dom';
 import { PaginationButton } from 'flowbite-react';
 
@@ -274,7 +274,7 @@ const List2 = () => {
                 ))} */}
             {searchResults.length > 0
               ? searchResults &&
-                searchResults.filter
+                searchResults
                   .filter(
                     wastes =>
                       selectedCategory === '전체' ||

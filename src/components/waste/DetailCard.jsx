@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
-import { HeartedState } from '../../recoil/RecoilHeart';
 import { MdOutlineChatBubbleOutline } from 'react-icons/md';
 import { MdOutlineStar } from 'react-icons/md';
 import { IoHeartOutline } from 'react-icons/io5';
@@ -9,7 +8,7 @@ import { IoHeartSharp } from 'react-icons/io5';
 import { FiMoreVertical } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import { deleteWaste, detailWaste, likeWaste } from '../../api/WastesApi';
-import { chatPost } from '../../api/chat/api';
+import { chatPost } from '../../api/ChattingAPI';
 import { LikesState } from '../../recoil/RecoilLikes';
 import { TbCurrencyWon } from 'react-icons/tb';
 const API_URL = import.meta.env.VITE_API_URL;
@@ -280,16 +279,13 @@ const DetailCard = () => {
                     onClick={() =>
                       handleLikeToggle(postDetails && postDetails.id)
                     }
-                    // onClick={() => setHearted(prevHearted => !prevHearted)}
                   >
-                    {/* onClick={() => handleDelete(postDetails && postDetails.id)} */}
                     {likeState[wasteId] ? (
                       <IoHeartSharp className="w-5 h-5 -ms-2 me-2" />
                     ) : (
                       <IoHeartOutline className="w-5 h-5 -ms-2 me-2" />
                     )}
                     <p>관심추가</p>
-                    {/* <IoHeartOutline className="w-5 h-5 -ms-2 me-2" /> */}
                   </button>
                   {currentUser &&
                   postDetails &&
@@ -303,31 +299,13 @@ const DetailCard = () => {
                       채팅하기
                     </button>
                   ) : (
-                    // <Link
-                    //   to={`/Chat/${postDetails && postDetails.id}/${chat && chat.id}`}
-                    // >
-
                     <Link to="/MyPage/ChatList">
-                      <button
-                        className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
-                        // role="button"
-                      >
+                      <button className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
                         <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
                         채팅목록
                       </button>
                     </Link>
-
-                    // </Link>
                   )}
-
-                  {/* <button
-                    className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 "
-                    // role="button"
-                    onClick={handleChat}
-                  >
-                    <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
-                    채팅하기
-                  </button> */}
                 </div>
               </div>
             </div>

@@ -12,13 +12,16 @@ import {
   contentFetch,
   reportPost,
   statusChange,
-} from '../../api/chat/api';
+} from '../../api/ChattingAPI';
 import { useParams } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
-
+import { ListFetch } from '../../api/ChattingAPI';
 const InputField = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const [userList, setUserList] = useState([]);
   const { chatId, wasteId } = useParams();
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -31,6 +34,8 @@ const InputField = () => {
         const messageList = await contentFetch(wasteId, chatId);
    
         setMessageContent(messageList);
+        const list = await ListFetch(wasteId, chatId);
+        setUserList(list);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -87,9 +92,6 @@ const InputField = () => {
       try {
         const stomp = new Client({
           brokerURL: 'ws://localhost:8080/chat-ws',
-          // connectHeaders: {
-          //   Authorization: `Bearer ${access}`,
-          // },
           debug: str => {
             console.log(str);
           },
@@ -102,7 +104,6 @@ const InputField = () => {
           const subscriptionDestination = `/topic/chats.${chatId}`;
 
           stomp.subscribe(subscriptionDestination, msg => {
-   
             try {
               const parsedMessage = JSON.parse(msg.body);
               setMessages(prevMessages => [...prevMessages, parsedMessage]);
@@ -155,7 +156,19 @@ const InputField = () => {
         key={messageContent && messageContent.id}
         messageList={messageContent && messageContent}
       />
-      {isSidebarOpen && <ChatList isOpen={isSidebarOpen} />}
+      <div
+        className={`bg-gray-100 text-black w-40  top-0 left-0 transition-transform duration-300 ease-in-out transform overflow-y-auto   ${isSidebarOpen ? '-translate-x-0' : 'translate-x-40'}`}
+      >
+        {isSidebarOpen &&
+          userList.map(userList => (
+            <ChatList
+              key={userList.id}
+              isOpen={isSidebarOpen}
+              currentUser={currentUser}
+              userList={userList}
+            />
+          ))}
+      </div>
       <div className=" z-30 h-screen flex flex-col w-7/12  ">
         <div className="bg-[var(--yellow-naples)] p-2  text-white flex justify-between  items-center ">
           <button
@@ -268,7 +281,6 @@ const InputField = () => {
             messages={messages}
             messageContent={messageContent}
             user={currentUser}
-            // partner={messageContent}
           />
         </div>
         {/* ------채팅입력----- */}
