@@ -4,7 +4,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 //나의 판매내역 > 판매중 리스트
 export const fetchMySellOngoing = async page => {
   const accessToken = localStorage.getItem('access-token');
-  // console.log(accessToken);
   try {
     const response = await axios.get(
       `${API_URL}/api/v1/transactions?memberType=SELLER_ONGOING`,
