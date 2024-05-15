@@ -6,7 +6,7 @@ import { signInState } from '../../recoil/RecoilSignIn';
 import ProductCard from '../common/card/ProductCard';
 import { useNavigate } from 'react-router-dom';
 import { PaginationButton } from 'flowbite-react';
-
+import { FaSearch } from 'react-icons/fa';
 const List2 = () => {
   const navigate = useNavigate();
   //회원만 등록페이지 접근-------------------------------
@@ -26,7 +26,7 @@ const List2 = () => {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('전체');
-
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
   useEffect(() => {
     const fetchData = async category => {
       try {
@@ -136,11 +136,9 @@ const List2 = () => {
       let result;
       if (searchType === 'title') {
         result = await fetchWastes.titleSearch(searchInput);
-        // setPosts(result);
         setSearchResults(result);
       } else if (searchType === 'district') {
         result = await fetchWastes.districtSearch(searchInput);
-        // setPosts(result);
         setSearchResults(result);
       }
     } catch (error) {
@@ -150,56 +148,95 @@ const List2 = () => {
   return (
     <div>
       <div className="navbar flex-row justify-between bg-base-100 shadow-md">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn m-1">
-            카테고리
+        <div className="flex">
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn m-1">
+              카테고리
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li onClick={() => handleCategoryChange('전체')}>
+                <p>전체</p>
+              </li>
+              <li onClick={() => handleCategoryChange('ELECTRONICS')}>
+                <p>전자기기</p>
+              </li>
+              <li onClick={() => handleCategoryChange('CLOTHING')}>
+                <p>의류</p>
+              </li>
+              <li onClick={() => handleCategoryChange('HOME_KITCHEN')}>
+                <p>생활/주방</p>
+              </li>
+              <li onClick={() => handleCategoryChange('BEAUTY')}>
+                <p>뷰티</p>
+              </li>
+              <li onClick={() => handleCategoryChange('HEALTH')}>
+                <p>건강</p>
+              </li>
+              <li onClick={() => handleCategoryChange('SPORTS')}>
+                <p>스포츠</p>
+              </li>
+              <li onClick={() => handleCategoryChange('BOOKS')}>
+                <p>도서</p>
+              </li>
+              <li onClick={() => handleCategoryChange('TOYS_GAMES')}>
+                <p>장난감/게임</p>
+              </li>
+              <li onClick={() => handleCategoryChange('FURNITURE_DECOR')}>
+                <p>가구/인테리어</p>
+              </li>
+              <li onClick={() => handleCategoryChange('PET_SUPPLIES')}>
+                <p>반려동물용품</p>
+              </li>
+              <li onClick={() => handleCategoryChange('PLANT_SUPPLIES')}>
+                <p>식물</p>
+              </li>
+            </ul>
           </div>
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            <li onClick={() => handleCategoryChange('전체')}>
-              <p>전체</p>
-            </li>
-            <li onClick={() => handleCategoryChange('ELECTRONICS')}>
-              <p>전자기기</p>
-            </li>
-            <li onClick={() => handleCategoryChange('CLOTHING')}>
-              <p>의류</p>
-            </li>
-            <li onClick={() => handleCategoryChange('HOME_KITCHEN')}>
-              <p>생활/주방</p>
-            </li>
-            <li onClick={() => handleCategoryChange('BEAUTY')}>
-              <p>뷰티</p>
-            </li>
-            <li onClick={() => handleCategoryChange('HEALTH')}>
-              <p>건강</p>
-            </li>
-            <li onClick={() => handleCategoryChange('SPORTS')}>
-              <p>스포츠</p>
-            </li>
-            <li onClick={() => handleCategoryChange('BOOKS')}>
-              <p>도서</p>
-            </li>
-            <li onClick={() => handleCategoryChange('TOYS_GAMES')}>
-              <p>장난감/게임</p>
-            </li>
-            <li onClick={() => handleCategoryChange('FURNITURE_DECOR')}>
-              <p>가구/인테리어</p>
-            </li>
-            <li onClick={() => handleCategoryChange('PET_SUPPLIES')}>
-              <p>반려동물용품</p>
-            </li>
-            <li onClick={() => handleCategoryChange('PLANT_SUPPLIES')}>
-              <p>식물</p>
-            </li>
-          </ul>
         </div>
         <div className="flex">
-          <div className="join">
+          <div
+            className="btn ml-3 bg-[var(--yellow-saffron)] hover:bg-[--yellow-saffron] sm:hidden relative"
+            onClick={() => setIsSearchVisible(!isSearchVisible)}
+          >
+            <FaSearch />
+          </div>
+          {isSearchVisible && (
+            <div className="flex absolute top-32 right-0 bg-white shadow p-2 sm:hidden">
+              <select
+                className="select select-bordered rounded-r-none "
+                onChange={e => setSearchType(e.target.value)}
+              >
+                <option>선택</option>
+                <option value="district">지역</option>
+                <option value="title">제목</option>
+              </select>
+              <div>
+                <div>
+                  <input
+                    className="input input-bordered rounded-l-none "
+                    placeholder="Search"
+                    type="text"
+                    value={searchInput}
+                    onChange={e => setSearchInput(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="indicator">
+                <button
+                  className="btn join-item bg-green-900 text-white sm:flex hidden"
+                  onClick={handleSearch}
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          )}
+          <div className="join sm:flex hidden">
             <select
-              className="select select-bordered join-item"
+              className="select select-bordered join-item "
               onChange={e => setSearchType(e.target.value)}
             >
               <option>선택</option>
@@ -209,7 +246,7 @@ const List2 = () => {
             <div>
               <div>
                 <input
-                  className="input input-bordered join-item"
+                  className="input input-bordered rounded-l-none "
                   placeholder="Search"
                   type="text"
                   value={searchInput}
@@ -239,15 +276,15 @@ const List2 = () => {
         </div>
       </div>
 
-      <div className="mt-4 ml-8 text-sm breadcrumbs">
+      <div className="mt-4 mr-8 float-end text-sm breadcrumbs">
         <ul>
           <li>홈</li>
           <li>애물단지 거래/나눔</li>
         </ul>
       </div>
 
-      <div className=" pt-4 px-20 lg:pt-5 pb-4 lg:pb-8 px-36 xl:px-40 xl:container mx-auto 2xl:px-60">
-        <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 xl:px-2 mb-20 xl:container mx-auto  ">
+      <div className=" mt-16 pt-4  lg:pt-5 pb-4 px-20  lg:pb-8 xl:px-40 xl:container  2xl:px-60">
+        <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto  ">
           <div className="flex justify-end mb-4">
             <button className="mr-5" onClick={handleSortByViews}>
               조회순
