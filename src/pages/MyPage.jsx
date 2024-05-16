@@ -20,6 +20,7 @@ import {
   fetchUserInfo,
   fetchUserNames,
 } from '../api/UserInfoAPI';
+import { signInState } from '../recoil/RecoilSignIn';
 
 const MyPage = () => {
   const [image, setImage] = useState(logoImg);
@@ -41,6 +42,7 @@ const MyPage = () => {
   const [registerMessage, setRegisterMessage] = useState('');
   const API_URL = import.meta.env.VITE_API_URL;
   const [imgFile, setImgFile] = useState(null);
+  const [signIn, setSignIn] = useRecoilState(signInState);
 
   //마이페이지 들어왔을때 유저정보 불러오기
   useEffect(() => {
@@ -131,6 +133,8 @@ const MyPage = () => {
       userName,
       setUserName,
       setRegisterMessage,
+      signIn,
+      setSignIn,
     );
   };
 
