@@ -20,7 +20,9 @@ const Home = () => {
       setSignIn(true);
       localStorage.setItem('accessToken', accessToken);
       console.log('쿠키에 있는 엑세스토큰:' + accessToken);
-      console.log('로컬스토리지에 있는 엑세스토큰:' + localStorage.accessToken);
+      console.log(
+        '로컬스토리지에 있는 엑세스토큰:' + localStorage.getItem('accessToken'),
+      );
     }
   }, []);
 

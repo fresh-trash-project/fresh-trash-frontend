@@ -11,7 +11,7 @@ const Nav = () => {
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
 
   const handleLogout = () => {
-    localStorage.removeItem('access-token');
+    localStorage.removeItem('accessToken');
     console.log(localStorage);
     setSignIn(false);
   };

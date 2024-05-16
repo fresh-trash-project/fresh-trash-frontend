@@ -32,7 +32,7 @@ const InputField = () => {
     const fetchData = async (wasteId, chatId) => {
       try {
         const messageList = await contentFetch(wasteId, chatId);
-   
+
         setMessageContent(messageList);
         const list = await ListFetch(wasteId, chatId);
         setUserList(list);
@@ -67,7 +67,7 @@ const InputField = () => {
   }, []);
   // 로컬 스토리지에서 사용자 정보 가져오기-----------------------
   const getCurrentUser = () => {
-    const userData = localStorage.getItem('access-token');
+    const userData = localStorage.getItem('accessToken');
 
     try {
       const [header, payload, signature] = userData.split('.');
@@ -124,7 +124,6 @@ const InputField = () => {
     initializeChat();
     console.log(stompClient);
 
-  
     // 컴포넌트 언마운트 시 연결 종료
     return () => {
       if (stompClient !== null) {
@@ -142,7 +141,6 @@ const InputField = () => {
       destination,
       body: JSON.stringify({
         message: inputMessage,
-
       }),
     });
 

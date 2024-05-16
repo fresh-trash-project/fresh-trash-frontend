@@ -6,73 +6,52 @@ import { signInState } from '../../../recoil/RecoilSignIn';
 import { useEffect } from 'react';
 import { fetchAlarm } from '../../../api/AlarmAPI';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import { SSE } from '../../../api/SSE';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
   const [signIn, setSignIn] = useRecoilState(signInState);
-  const accessToken = localStorage.getItem('access-token');
-  const API_URL = import.meta.env.VITE_API_URL;
-  //엑세스토큰있으면 로그인상태로
+  const navigate = useNavigate();
+
+  // 엑세스토큰있으면 로그인상태로 설정하고 알림 조회
   useEffect(() => {
-    const accessToken = localStorage.getItem('access-token');
+    const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
-      // Token exists, so the user is signed in
       setSignIn(true);
+      const getAlarms = async () => {
+        try {
+          const fetchedAlarms = await fetchAlarm(navigate);
+          setAlarmMsg(fetchedAlarms);
+        } catch (error) {
+          console.error('Error fetching alarms:', error);
+        }
+      };
+      getAlarms();
     }
-  }, []);
+  }, [setSignIn, setAlarmMsg, navigate]);
 
   // SSE -------------------------------------------------------------------------------------------------------
   useEffect(() => {
     let eventSource;
-    if (signIn) {
-      try {
-        eventSource = new EventSourcePolyfill(
-          `${API_URL}/api/v1/notis/subscribe`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-            heartbeatTimeout: 30 * 60 * 1000,
-            // withCredentials: true,
-          },
-        );
 
-        //맨 처음 연결할 때 받는 알람
-        eventSource.addEventListener('connected', e => {
-          console.log('receivedData:', e.data);
-        });
-
-        // 폐기물 판매 완료 후 받는 알람
-        eventSource.addEventListener('waste-transaction-alarm', e => {
-          console.log('receivedData:', e.data);
-        });
-
-        // eventSource.onmessage = async e => {
-        //   console.log(e.data);
-        // };
-      } catch (error) {
-        throw error;
+    async function setupEventSource() {
+      if (signIn) {
+        eventSource = await SSE();
+        console.log(eventSource);
       }
     }
-  }, [signIn]);
+    setupEventSource();
 
-  //알람받기 -----------------------------------------------------------------------------------------------
-  useEffect(() => {
-    const getAlarms = async () => {
-      if (signIn) {
-        try {
-          const fetchedAlarms = await fetchAlarm();
-          console.log(fetchedAlarms);
-          setAlarmMsg(fetchedAlarms);
-        } catch (error) {
-          console.error('Error fetching: ', error);
-        }
+    return () => {
+      if (eventSource) {
+        eventSource.close();
       }
     };
-    getAlarms();
-  }, []);
+  }, [signIn]);
 
+  //JSX -----------------------------------------------------------------------------------------------
   return (
     <div>
       <Nav />
