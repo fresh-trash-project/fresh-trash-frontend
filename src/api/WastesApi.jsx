@@ -96,7 +96,11 @@ export const createPost = async (
     formData.append('imgFile', imgFile);
     formData.append('wasteRequest', blob);
 
-    const response = await axiosWithTokenWastes.post(``, formData);
+    const response = await axiosWithTokenWastes.post(``, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // 이 줄은 생략해도 됩니다
+      },
+    });
     if (response.status === 201) {
       console.log('게시물 생성을 완료했습니다.', response.data);
       navigate('/ProductsList');
@@ -201,7 +205,11 @@ export const updatePost = async (
     formData.append('imgFile', imgFile);
     formData.append('wasteRequest', blob);
 
-    const response = await axiosWithTokenWastes.put(`/${wasteId}`, formData);
+    const response = await axiosWithTokenWastes.put(`/${wasteId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // 이 줄은 생략해도 됩니다
+      },
+    });
     if (response.status === 200) {
       console.log('폐기물 수정 성공', response.data);
       navigate(`/ProductDetail/${wasteId}`);
