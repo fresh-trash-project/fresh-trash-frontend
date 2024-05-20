@@ -28,16 +28,16 @@ const MyAuctionList = () => {
       <Header />
       <div className="navbar flex-row justify-end bg-base-100 shadow-md">
         <ul
-          className={`menu menu-horizontal bg-[var(--green-brunswick)] text-white rounded-box  `}
+          className={`menu menu-horizontal bg-green-brunswick text-white rounded-box  `}
         >
           <li
-            className={`hover:scale-110 hover:font-bold ${mySellListOpen && 'bg-[var(--yellow-saffron)] rounded-xl text-[var(--green-brunswick)] font-semibold'}`}
+            className={`hover:scale-110 hover:font-bold ${mySellListOpen && 'bg-yellow-saffron rounded-xl text-green-brunswick font-semibold'}`}
             onClick={handleMySellListOpen}
           >
             <p className=" text-xs md:text-sm">나의 판매내역</p>
           </li>
           <li
-            className={`hover:scale-110 hover:font-bold ${myBuyListOpen && 'bg-[var(--yellow-saffron)] rounded-xl text-[var(--green-brunswick)] font-semibold'}`}
+            className={`hover:scale-110 hover:font-bold ${myBuyListOpen && 'bg-yellow-saffron rounded-xl text-green-brunswick font-semibold'}`}
             onClick={handleMyBuyListOpen}
           >
             <p className=" text-xs md:text-sm">나의 구매내역</p>
@@ -54,14 +54,14 @@ const MyAuctionList = () => {
                 <div
                   role="tab"
                   onClick={handleOnSale}
-                  className={`tab ${onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
+                  className={`tab ${onSale && 'border-2 scale-110 font-bold bg-green-brunswick text-white'}`}
                 >
                   경매중 (8)
                 </div>
                 <div
                   role="tab"
                   onClick={() => setOnSale(false)}
-                  className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
+                  className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-green-brunswick text-white'}`}
                 >
                   경매완료 (13)
                 </div>
@@ -79,7 +79,7 @@ const MyAuctionList = () => {
             <div className="flex justify-between">
               <div
                 role="tab"
-                className="tab border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white"
+                className="tab border-2 scale-110 font-bold bg-green-brunswick text-white"
               >
                 낙찰 10
               </div>

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { signInState, signInPanelState } from '../../../recoil/RecoilSignIn';
 import { useRecoilState } from 'recoil';
-import { useState } from 'react';
 import { AlarmMsgState, AlarmState } from '../../../recoil/RecoilAlarm';
 
 const Nav = () => {
@@ -12,12 +11,11 @@ const Nav = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
-    console.log(localStorage);
     setSignIn(false);
   };
 
   return (
-    <div className="navbar bg-[var(--green-brunswick)] text-white pr-7 ">
+    <div className="navbar bg-green-brunswick text-white pr-7 ">
       <div className="navbar-start">
         <div className="dropdown ">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle ">
@@ -37,7 +35,7 @@ const Nav = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm top-[63px] dropdown-content z-[1] p-2 bg-[var(--green-brunswick)] rounded-box w-60 h-60 text-white"
+            className="menu menu-sm top-[63px] dropdown-content z-[1] p-2 bg-green-brunswick rounded-box w-60 h-60 text-white"
           >
             <li className="font-bold h-10 py-2">
               <Link to="/" className="lg:text-[1rem]">
@@ -85,7 +83,7 @@ const Nav = () => {
                 className="btn btn-ghost btn-circle flex items-end w-11 md:w-[3.5rem] lg:w-[5rem] outline-none"
               >
                 <div className="indicator">
-                  <div className="badge badge-neutral border-white bg-[var(--green-brunswick)] ">
+                  <div className="badge badge-neutral border-white bg-green-brunswick ">
                     <p className=" text-[0.4rem] md:text-[0.7rem] lg:text-[1rem]">
                       {' '}
                       로그인
@@ -101,7 +99,7 @@ const Nav = () => {
                 className="btn btn-ghost btn-circle flex items-end w-13 md:w-[4.5rem] lg:w-[5.5rem] outline-none"
               >
                 <div className="indicator">
-                  <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
+                  <div className="badge badge-neutral border-white bg-green-brunswick">
                     <p className="text-[0.4rem] md:text-[0.7rem] lg:text-[1rem]">
                       {' '}
                       회원가입
@@ -120,7 +118,7 @@ const Nav = () => {
                 className="btn btn-ghost btn-circle flex items-end  w-14 md:w-20 lg:w-[6.5rem] outline-none"
               >
                 <div className="indicator">
-                  <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
+                  <div className="badge badge-neutral border-white bg-green-brunswick">
                     <p className=" text-[0.4rem] md:text-[0.7rem] lg:text-[1rem]">
                       {' '}
                       마이페이지
@@ -136,7 +134,7 @@ const Nav = () => {
                 className="btn btn-ghost btn-circle flex items-end w-14 md:w-[4.5rem] lg:w-[6rem] outline-none"
               >
                 <div className="indicator">
-                  <div className="badge badge-neutral border-white bg-[var(--green-brunswick)]">
+                  <div className="badge badge-neutral border-white bg-green-brunswick">
                     <p className="text-[0.4rem] md:text-[0.7rem] lg:text-[1rem]">
                       {' '}
                       로그아웃
@@ -167,7 +165,7 @@ const Nav = () => {
                     d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                   />
                 </svg>
-                <span className="badge badge-xs badge-primary indicator-item bg-[var(--yellow-naples)] border-[var(--yellow-naples)] py-2 text-black">
+                <span className="badge badge-xs badge-primary indicator-item bg-yellow-naples border-yellow-naples py-2 text-black">
                   {alarmMsg?.length || 0}
                 </span>
               </div>

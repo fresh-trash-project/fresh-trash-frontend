@@ -38,13 +38,13 @@ const Hero = () => {
       <div className="absolute flex justify-between left-10 right-10 top-1/2">
         <div
           onClick={prevImage}
-          className="btn btn-circle  text-white bg-[var(--green-brunswick)] border-[var(--green-brunswick)] hover:bg-[var(--green-brunswick)]  hover:opacity-80"
+          className="btn btn-circle  text-white bg-green-brunswick border-green-brunswick hover:bg-green-brunswick hover:opacity-80"
         >
           ❮
         </div>
         <div
           onClick={nextImage}
-          className="btn btn-circle text-white bg-[var(--green-brunswick)] border-[var(--green-brunswick)] hover:bg-[var(--green-brunswick)]  hover:opacity-80"
+          className="btn btn-circle text-white bg-green-brunswick border-green-brunswick hover:bg-green-brunswick  hover:opacity-80"
         >
           ❯
         </div>

@@ -9,7 +9,7 @@ import {
   duplicationMessageState,
 } from '../recoil/RecoilUserName';
 import Header from '../components/common/header/Header';
-import Card1 from '../components/common/card/Card1';
+import NavigationCard from '../components/common/card/NavigationCard';
 import add from '../assets/add1.jpg';
 import auction from '../assets/auction2.jpg';
 import heart from '../assets/heart1.jpg';
@@ -397,25 +397,25 @@ const MyPage = () => {
 
         {/* 나의 목록들----------------------------------------------------------------------------------------- */}
         <div className="cards bg-white py-10 mt-5">
-          <Card1
+          <NavigationCard
             image={add}
             title="나의 거래 내역"
             phrase="My Trade List"
             link="MyTradeList"
           />
-          <Card1
+          <NavigationCard
             image={auction}
             title="나의 경매 내역"
             phrase="My Auction List"
             link="MyAuctionList"
           />
-          <Card1
+          <NavigationCard
             image={heart}
             title="나의 관심 목록"
             phrase="MY Likes"
             link="MyLikes"
           />
-          <Card1
+          <NavigationCard
             image={chat}
             title="나의 채팅 목록"
             phrase="My Chat List"
