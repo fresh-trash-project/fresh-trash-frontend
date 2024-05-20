@@ -7,7 +7,7 @@ import {
   fetchMySellOngoing,
 } from '../api/UserTradeAPI';
 import { PaginationButton } from 'flowbite-react';
-//왜 안되지 되라
+
 const MyTradeList = () => {
   const [mySellListOpen, setMySellListOpen] = useState(true);
   const [myBuyListOpen, setMyBuyListOpen] = useState(false);
