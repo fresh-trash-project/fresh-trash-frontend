@@ -246,7 +246,7 @@ const List2 = () => {
             <div>
               <div>
                 <input
-                  className="input input-bordered rounded-l-none "
+                  className="input input-bordered rounded-none "
                   placeholder="Search"
                   type="text"
                   value={searchInput}
