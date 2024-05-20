@@ -24,24 +24,16 @@ const Footer = () => {
       </nav>
       <nav>
         <div className="sns-icon-container grid grid-flow-col gap-4">
-          <Link
-            className={`p-2 ${contactClicked && 'bg-[var(--yellow-naples)]'}`}
-          >
+          <Link className={`p-2 ${contactClicked && 'bg-yellow-naples'}`}>
             <Facebook style="text-3xl" />
           </Link>
-          <Link
-            className={`p-2 ${contactClicked && 'bg-[var(--yellow-naples)]'}`}
-          >
+          <Link className={`p-2 ${contactClicked && 'bg-yellow-naples'}`}>
             <Instagram style="text-3xl" />
           </Link>
-          <Link
-            className={`p-2 ${contactClicked && 'bg-[var(--yellow-naples)]'}`}
-          >
+          <Link className={`p-2 ${contactClicked && 'bg-yellow-naples'}`}>
             <Google style="text-3xl" />
           </Link>
-          <Link
-            className={`p-2 ${contactClicked && 'bg-[var(--yellow-naples)]'}`}
-          >
+          <Link className={`p-2 ${contactClicked && 'bg-yellow-naples'}`}>
             <Phone style="text-3xl" />
           </Link>
         </div>

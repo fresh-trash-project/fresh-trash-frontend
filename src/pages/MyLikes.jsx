@@ -106,7 +106,7 @@ const MyLikes = () => {
           <div className="flex justify-between">
             <div
               role="tab"
-              className={`tab border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white`}
+              className={`tab border-2 scale-110 font-bold bg-green-brunswick text-white`}
             >
               찜 ({totalLikes})
             </div>

@@ -44,7 +44,7 @@ const ChatList = () => {
     <div>
       <Header />
       <div className="container bg-gray-100 text-black h-screen overflow-y-auto  w-7/12">
-        <div className='"px-6 py-3 bg-[var(--yellow-naples)] text-white text-2xl flex justify-center'>
+        <div className='"px-6 py-3 bg-yellow-naples text-white text-2xl flex justify-center'>
           채팅목록
         </div>
         {userList.map(userList => (

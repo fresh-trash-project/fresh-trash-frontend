@@ -10,7 +10,7 @@ const Card1 = ({ title, phrase, link, image }) => {
         <h2 className="card-title">{title}</h2>
         <p>{phrase}</p>
         <Link to={link} className="card-actions justify-end">
-          <button className="btn text-white bg-[var(--green-brunswick)] border-[var(--green-brunswick)] hover:bg-[var(--green-brunswick)] hover:opacity-90 hover:scale-110">
+          <button className="btn text-white bg-green-brunswick border-green-brunswick hover:bg-green-brunswick hover:opacity-90 hover:scale-110">
             View Now
           </button>
         </Link>
