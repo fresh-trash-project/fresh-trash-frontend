@@ -2,14 +2,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AlarmState, AlarmMsgState } from '../../../recoil/RecoilAlarm';
 import { useRecoilState } from 'recoil';
 import { IoMdClose } from 'react-icons/io';
-import { useEffect, useState } from 'react';
 import { signInState } from '../../../recoil/RecoilSignIn';
 import { fetchAlarm, readAlarm } from '../../../api/AlarmAPI';
 
 const Alarm = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
-  const [isHovered, setIsHovered] = useState(false);
   const [signIn, setSignIn] = useRecoilState(signInState);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
@@ -26,7 +24,7 @@ const Alarm = () => {
         return `/ProductDetail/${item.alarmArgs.targetId}`;
 
       default:
-        return '/MyPage';
+        return '/';
     }
   };
 
@@ -46,16 +44,14 @@ const Alarm = () => {
     setAlarmMsg(fetchedAlarms);
   };
 
-  // JSX -----------------------------------------------------------------------------------------------
   return (
     <div
       className={`menu absolute top-[70px] ${
         alarmOpen ? 'right-0' : '-right-full'
-      } bg-green-brunswick h-96 rounded-box z-50 text-[0.6rem] mr-2 md:w-96 md:mr-5`}
+      } bg-green-brunswick h-96 rounded-box z-50 text-[0.6rem] mr-2 md:w-96 md:mr-5 transition-all duration-300`}
     >
-      <div className="menu-title flex items-center justify-between bg-yellow-naples rounded-box mb-2">
-        <p>알람 ({alarmMsg.length})</p>
-
+      <div className="menu-title flex items-center justify-between bg-yellow-naples rounded-box mb-2 px-4 py-2">
+        <p>새 알람 ({alarmMsg.length})</p>
         <div
           onClick={() => {
             setAlarmOpen(false);
@@ -73,66 +69,23 @@ const Alarm = () => {
               <li
                 key={item.id}
                 onClick={() => readAlarmMessage(item)}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                className={`flex-nowrap border-b border-white border-opacity-30 flex flex-row items-center justify-between cursor-pointer  `}
+                className="flex-nowrap border-b border-white border-opacity-30 flex flex-row items-center justify-between cursor-pointer"
               >
-                <div className={`w-72`}>
-                  {isHovered ? (
-                    <Link to={getLinkByAlarmType(item)}>
-                      {/*프론트에서 메시지 가져올때 {originalText} */}
-                      {item.message}
-                    </Link>
-                  ) : (
-                    <Link to={getLinkByAlarmType(item)} className="truncate">
-                      {/*프론트에서 메시지 가져올때 {originalText} */}
-                      {item.message}
-                    </Link>
-                  )}
+                <div className="w-72 truncate hover:whitespace-pre-wrap">
+                  <Link to={getLinkByAlarmType(item)}>{item.message}</Link>
                 </div>
-
                 <div>
                   <IoMdClose
-                    className="text-white transition text-xl hover:text-red-cinnabar"
-                    onClick={() => removeAlarmMessage(item.id)}
+                    className="text-white text-xl hover:text-red-cinnabar"
+                    onClick={e => removeAlarmMessage(item.id)}
                   />
                 </div>
               </li>
             ),
         )}
-
-        {/* <li className="border-b border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li>
-        <li className="border-b border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li>
-        <li className="border-b-[1px] border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li>
-        <li className="border-b-[1px] border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li>
-        <li className="border-b-[1px] border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li>
-        <li className="border-b-[1px] border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li> */}
       </ul>
     </div>
   );
 };
+
 export default Alarm;

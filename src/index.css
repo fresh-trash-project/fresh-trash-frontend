@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.btn-circle-control {
+  @apply btn btn-circle text-white bg-green-brunswick border-green-brunswick hover:bg-green-brunswick hover:border-green-brunswick hover:scale-110;
+}
 
 /* 아래는 tailwind를 사용하지 않았을때 CSS리셋과 칼라설정. 
 Tailwind CSS는 이미 모든 요소의 마진, 패딩을 제거하고 모든 요소에 대해 box-sizing을 border-box로 설정하는 
@@ -126,9 +129,6 @@ time,
 mark,
 audio,
 video {
-  margin: 0;
-  padding: 0;
-
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
