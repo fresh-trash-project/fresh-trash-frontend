@@ -21,7 +21,8 @@ import {
   fetchUserNames,
 } from '../api/UserInfoAPI';
 import { signInState } from '../recoil/RecoilSignIn';
-
+import { globalFileAPI } from '../../variable';
+import urlJoin from 'url-join';
 const MyPage = () => {
   const [image, setImage] = useState(logoImg);
   const [isEditing, setIsEditing] = useState(false);
@@ -40,7 +41,6 @@ const MyPage = () => {
   );
   const [ratings, setRatings] = useState([]);
   const [registerMessage, setRegisterMessage] = useState('');
-  const API_URL = import.meta.env.VITE_API_URL;
   const [imgFile, setImgFile] = useState(null);
   const [signIn, setSignIn] = useRecoilState(signInState);
 
@@ -103,8 +103,7 @@ const MyPage = () => {
 
   //이미지 파일 경로-----------------------------
   const getImgUrl = fileName => {
-    console.log(fileName);
-    return `${API_URL}/imgs/${fileName}`;
+    return urlJoin(globalFileAPI, `${fileName}`);
   };
 
   //이미지삭제

@@ -9,3 +9,4 @@ export const globalAuctionsAPI = `${globalAPI}/auctions`;
 export const globalTransactionsAPI = `${globalAPI}/transactions`;
 export const globalMembersAPI = `${globalAPI}/members`;
 export const globalNotisAPI = `${globalAPI}/notis`;
+export const globalFileAPI = import.meta.env.VITE_FileURL;

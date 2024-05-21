@@ -11,7 +11,8 @@ import { deleteWaste, detailWaste, likeWaste } from '../../api/WastesApi';
 import { chatPost } from '../../api/ChattingAPI';
 import { LikesState } from '../../recoil/RecoilLikes';
 import { TbCurrencyWon } from 'react-icons/tb';
-const API_URL = import.meta.env.VITE_API_URL;
+import { globalFileAPI } from '../../../variable';
+import urlJoin from 'url-join';
 const DetailCard = () => {
   const { wasteId } = useParams(); // URL 파라미터에서 wasteId 가져오기
   const { chatId } = useParams();
@@ -103,7 +104,7 @@ const DetailCard = () => {
 
   //이미지 파일 경로-----------------------------
   const getImgeUrl = fileName => {
-    return `${API_URL}/imgs/${fileName}`;
+    return urlJoin(globalFileAPI, `${fileName}`);
   };
 
   //채팅------------------------------------

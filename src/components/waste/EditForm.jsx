@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import { detailWaste, updatePost } from '../../api/WastesApi';
 import { useNavigate } from 'react-router-dom';
 import { IoIosCamera } from 'react-icons/io';
-const API_URL = import.meta.env.VITE_API_URL;
-
+import { globalFileAPI } from '../../../variable';
+import urlJoin from 'url-join';
 const EditForm = () => {
   const [wasteCategory, setWasteCategory] = useState('');
   const [title, setTitle] = useState('');
@@ -111,7 +111,7 @@ const EditForm = () => {
     // }
   };
   const getImgeUrl = fileName => {
-    return `${API_URL}/imgs/${fileName}`;
+    return urlJoin(globalFileAPI, `${fileName}`);
   };
   return (
     <div>
