@@ -115,14 +115,14 @@ const EditForm = () => {
   };
   return (
     <div>
-      <div className="pt-4 lg:pt-5 pb-4 lg:pb-8 px-4 xl:px-2 xl:container mx-auto">
-        <div className="ml-8 text-sm breadcrumbs">
+      <div className="pt-4 lg:pt-5 pb-4 lg:pb-8 px-4 xl:px-2 xl:container mx-auto relative">
+        <div className=" text-sm breadcrumbs absolute right-8">
           <ul>
             <li>홈</li>
             <li>수정</li>
           </ul>
         </div>
-        <div className=" flex justify-center mt-10  ">
+        <div className=" flex justify-center mt-20  ">
           <form
             onSubmit={handleSubmit}
             className=" bg-slate-50 w-full p-5 rounded-md lg:w-full max-w-3xl"

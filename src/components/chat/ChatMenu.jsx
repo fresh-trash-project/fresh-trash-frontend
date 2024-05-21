@@ -4,9 +4,9 @@ import { deleteChat } from '../../api/ChattingAPI';
 
 const ChatMenu = ({ isOpen, messageList }) => {
   const navigate = useNavigate();
-  const handleDelete = async (wasteId, chatId) => {
+  const handleDelete = async chatId => {
     try {
-      await deleteChat(wasteId, chatId);
+      await deleteChat(chatId);
       navigate('/');
     } catch (error) {
       console.error('제품 삭제 중 오류가 발생했습니다:', error);
@@ -24,7 +24,7 @@ const ChatMenu = ({ isOpen, messageList }) => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="h-6 w-6 cursor-pointer text-gray-500 transition-all hover:text-[var(--green-brunswick)]"
+            className="h-6 w-6 cursor-pointer text-gray-500 transition-all hover:text-green-brunswick"
           >
             <path
               strokeLinecap="round"
@@ -48,7 +48,7 @@ const ChatMenu = ({ isOpen, messageList }) => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="h-6 w-6 cursor-pointer text-gray-500 hover:text-[var(--green-brunswick)]"
+            className="h-6 w-6 cursor-pointer text-gray-500 hover:text-green-brunswick"
           >
             <path
               strokeLinecap="round"

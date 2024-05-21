@@ -117,15 +117,14 @@ const DetailCard = () => {
   return (
     <div>
       <div className="container">
-        <div className="flex justify-between mt-16">
-          <div className=" mt-4  text-sm breadcrumbs 2xl:ml-8">
-            <ul>
-              <li>카테고리</li>
-              <li>{postDetails && postDetails.wasteCategory}</li>
-            </ul>
-          </div>
-
-          <div className="mr-8 dropdown dropdown-end">
+        <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
+          <ul>
+            <li>카테고리</li>
+            <li>{postDetails && postDetails.wasteCategory}</li>
+          </ul>
+        </div>
+        <div className="flex flex-row-reverse mt-12">
+          <div className="mr-28 dropdown dropdown-end">
             {currentUser &&
               postDetails &&
               currentUser.id === postDetails.memberResponse.id && (
@@ -245,10 +244,10 @@ const DetailCard = () => {
                   <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
                     {postDetails && postDetails.title}
                   </h1>
-                  <div className="bg-white text-yellow-saffron font-semibold ml-4 py-2 px-4 border border-yellow-saffron rounded">
+                  <div className="bg-white text-yellow-deep font-semibold ml-4 py-2 px-4 border border-yellow-deep rounded">
                     <p>{postDetails && postDetails.wasteStatus}</p>
                   </div>
-                  <div className="bg-white text-green-brunswick font-semibold ml-4 py-2 px-4 border border-green-brunswick rounded">
+                  <div className="bg-white text-purple-dpurple font-semibold ml-4 py-2 px-4 border border-purple-dpurple rounded">
                     {postDetails && postDetails.sellStatus}
                   </div>
                 </div>

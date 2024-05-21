@@ -18,8 +18,6 @@ import { Client } from '@stomp/stompjs';
 import { ListFetch } from '../../api/ChattingAPI';
 const InputField = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const [userList, setUserList] = useState([]);
   const { chatId, wasteId } = useParams();
 
   const toggleSidebar = () => {
@@ -29,19 +27,17 @@ const InputField = () => {
   const [messageContent, setMessageContent] = useState([]);
   const [messages, setMessages] = useState([]);
   useEffect(() => {
-    const fetchData = async (wasteId, chatId) => {
+    const fetchData = async chatId => {
       try {
-        const messageList = await contentFetch(wasteId, chatId);
+        const messageList = await contentFetch(chatId);
 
         setMessageContent(messageList);
-        const list = await ListFetch(wasteId, chatId);
-        setUserList(list);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-    fetchData(wasteId, chatId);
-  }, [wasteId, chatId]);
+    fetchData(chatId);
+  }, [chatId]);
   //판매완료
   const handleCompleted = async (wasteId, chatRoomId) => {
     await completePost(wasteId, chatRoomId);
@@ -155,20 +151,13 @@ const InputField = () => {
         messageList={messageContent && messageContent}
       />
       <div
-        className={`bg-gray-100 text-black w-40  top-0 left-0 transition-transform duration-300 ease-in-out transform overflow-y-auto   ${isSidebarOpen ? '-translate-x-0' : 'translate-x-40'}`}
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className={`bg-gray-100 text-black h-screen top-0 left-0 transition-transform duration-300 ease-in-out transform overflow-y-auto   ${isSidebarOpen ? '-translate-x-0' : 'translate-x-40'}`}
       >
-        {isSidebarOpen &&
-          userList.map(userList => (
-            <ChatList
-              key={userList.id}
-              isOpen={isSidebarOpen}
-              currentUser={currentUser}
-              userList={userList}
-            />
-          ))}
+        <ChatList isOpen={isSidebarOpen} currentUser={currentUser} />
       </div>
       <div className=" z-30 h-screen flex flex-col w-7/12  ">
-        <div className="bg-[var(--yellow-naples)] p-2  text-white flex justify-between  items-center ">
+        <div className="bg-yellow-naples p-2  text-white flex justify-between  items-center ">
           <button
             className={`btn  text-black font-bold py-2 px-4    ${isSidebarOpen ? '' : ''}`}
             onClick={toggleSidebar}
