@@ -21,12 +21,14 @@ export const chatPost = async wasteId => {
 };
 
 //채팅목록 api
-export const ListFetch = async wasteId => {
+export const ListFetch = async (page = 0, size = 10) => {
   try {
-    const response = await axiosWithToken.get(`/wastes/${wasteId}/chats`);
+    const response = await axiosWithToken.get(`/chats`, {
+      params: { page, size },
+    });
     if (response.status === 200) {
       console.log('채팅방목록을 불러왔습니다.', response.data);
-      return response.data.content;
+      return response.data;
     }
   } catch (error) {
     console.log('채팅방 목록을 불러오는데 실패했습니다.', error);
@@ -34,11 +36,9 @@ export const ListFetch = async wasteId => {
 };
 
 //채팅 나가기 api
-export const deleteChat = async (wasteId, chatId) => {
+export const deleteChat = async chatRoomId => {
   try {
-    const response = await axiosWithToken.put(
-      `/wastes/${wasteId}/chats/${chatId}`,
-    );
+    const response = await axiosWithToken.put(`/chats/${chatRoomId}`);
     if (response.status === 204) {
       console.log('게시물 삭제 성공');
     }
@@ -49,11 +49,9 @@ export const deleteChat = async (wasteId, chatId) => {
 
 //채팅 내용 조회 api
 
-export const contentFetch = async (wasteId, chatId) => {
+export const contentFetch = async chatRoomId => {
   try {
-    const response = await axiosWithToken.get(
-      `/wastes/${wasteId}/chats/${chatId}`,
-    );
+    const response = await axiosWithToken.get(`/chats/${chatRoomId}`);
     if (response.status === 200) {
       console.log('채팅 내용을 불러왔습니다.', response.data);
       return response.data;

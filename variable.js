@@ -1,4 +1,4 @@
-export const globalAPI = import.meta.env.VITE_API_URL + '/api/v1';
+export const globalAPI = import.meta.env.VITE_API_URL + 'api/v1';
 export const globalAuthAPI = `${globalAPI}/auth`;
 export const globalOauthAPI =
   import.meta.env.VITE_API_URL + 'oauth2/authorization';

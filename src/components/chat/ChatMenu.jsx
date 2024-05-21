@@ -4,9 +4,9 @@ import { deleteChat } from '../../api/ChattingAPI';
 
 const ChatMenu = ({ isOpen, messageList }) => {
   const navigate = useNavigate();
-  const handleDelete = async (wasteId, chatId) => {
+  const handleDelete = async chatId => {
     try {
-      await deleteChat(wasteId, chatId);
+      await deleteChat(chatId);
       navigate('/');
     } catch (error) {
       console.error('제품 삭제 중 오류가 발생했습니다:', error);
