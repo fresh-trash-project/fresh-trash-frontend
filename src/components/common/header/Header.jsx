@@ -5,7 +5,6 @@ import Alarm from './Alarm';
 import { signInState } from '../../../recoil/RecoilSignIn';
 import { useEffect } from 'react';
 import { fetchAlarm } from '../../../api/AlarmAPI';
-import { EventSourcePolyfill } from 'event-source-polyfill';
 import { SSE } from '../../../api/SSE';
 import { useNavigate } from 'react-router-dom';
 
@@ -39,7 +38,6 @@ const Header = () => {
     async function setupEventSource() {
       if (signIn) {
         eventSource = await SSE();
-        console.log(eventSource);
       }
     }
     setupEventSource();
