@@ -157,7 +157,7 @@ const InputField = () => {
         <ChatList isOpen={isSidebarOpen} currentUser={currentUser} />
       </div>
       <div className=" z-30 h-screen flex flex-col w-7/12  ">
-        <div className="bg-[var(--yellow-naples)] p-2  text-white flex justify-between  items-center ">
+        <div className="bg-yellow-naples p-2  text-white flex justify-between  items-center ">
           <button
             className={`btn  text-black font-bold py-2 px-4    ${isSidebarOpen ? '' : ''}`}
             onClick={toggleSidebar}

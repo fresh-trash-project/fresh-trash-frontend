@@ -244,10 +244,10 @@ const DetailCard = () => {
                   <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
                     {postDetails && postDetails.title}
                   </h1>
-                  <div className="bg-white text-[var(--yellow-deep)] font-semibold ml-4 py-2 px-4 border border-[var(--yellow-deep)] rounded">
+                  <div className="bg-white text-yellow-deep font-semibold ml-4 py-2 px-4 border border-yellow-deep rounded">
                     <p>{postDetails && postDetails.wasteStatus}</p>
                   </div>
-                  <div className="bg-white text-[var(--purple-dpurple)] font-semibold ml-4 py-2 px-4 border border-[var(--purple-dpurple)] rounded">
+                  <div className="bg-white text-purple-dpurple font-semibold ml-4 py-2 px-4 border border-purple-dpurple rounded">
                     {postDetails && postDetails.sellStatus}
                   </div>
                 </div>

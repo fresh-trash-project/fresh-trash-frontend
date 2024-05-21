@@ -11,7 +11,7 @@ const SideMenu = ({ isOpen }) => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="h-6 w-6 cursor-pointer text-gray-500 transition-all hover:text-[var(--green-brunswick)]"
+            className="h-6 w-6 cursor-pointer text-gray-500 transition-all hover:text-green-brunswick"
           >
             <path
               strokeLinecap="round"
@@ -27,7 +27,7 @@ const SideMenu = ({ isOpen }) => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="h-6 w-6 cursor-pointer text-gray-500 hover:text-[var(--green-brunswick)]"
+            className="h-6 w-6 cursor-pointer text-gray-500 hover:text-green-brunswick"
           >
             <path
               strokeLinecap="round"

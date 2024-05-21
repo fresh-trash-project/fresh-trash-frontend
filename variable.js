@@ -3,7 +3,7 @@ export const globalAuthAPI = `${globalAPI}/auth`;
 export const globalOauthAPI =
   import.meta.env.VITE_API_URL + 'oauth2/authorization';
 export const globalMailAPI = `${globalAPI}/mail`;
-export const globalWatesAPI = `${globalAPI}/wastes`;
+export const globalWastesAPI = `${globalAPI}/wastes`;
 export const globalChatAPI = `${globalAPI}/chats`;
 export const globalAuctionsAPI = `${globalAPI}/auctions`;
 export const globalTransactionsAPI = `${globalAPI}/transactions`;

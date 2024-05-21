@@ -41,7 +41,7 @@ export default {
 
         'yellow-saffron': '#f8c765',
         'yellow-naples': '#f7d865',
-
+        'yellow-deep': '#ffbf00',
         'red-cinnabar': '#e3492b',
         'red-tomato': '#fc6042',
 

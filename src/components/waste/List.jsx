@@ -198,7 +198,7 @@ const List2 = () => {
         </div>
         <div className="flex">
           <div
-            className="btn ml-3 bg-[var(--yellow-saffron)] hover:bg-[--yellow-saffron] sm:hidden relative"
+            className="btn ml-3 bg-yellow-saffron hover:bg-yellow-saffron sm:hidden relative"
             onClick={() => setIsSearchVisible(!isSearchVisible)}
           >
             <FaSearch />

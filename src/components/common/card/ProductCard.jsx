@@ -15,7 +15,7 @@ const ProductCard = ({ wastes }) => {
         />
       </figure>
       <div className="card-body">
-        <div className="bg-white w-20 text-[var(--purple-dpurple)] font-semibold text-xs py-1 px-2 border border-[var(--purple-dpurple)] rounded">
+        <div className="bg-white w-20 text-purple-dpurple font-semibold text-xs py-1 px-2 border border-purple-dpurple rounded">
           {wastes.sellStatus}
         </div>
 

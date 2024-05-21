@@ -1,8 +1,13 @@
-import { globalTransactionsAPI, globalWastesAPI } from '../../variable';
+import {
+  globalTransactionsAPI,
+  globalChatAPI,
+  globalWastesAPI,
+} from '../../variable';
 import createAxiosWithToken from './Axios';
 
 const axiosWithTokenTransactions = createAxiosWithToken(globalTransactionsAPI);
 const axiosWithTokenWastes = createAxiosWithToken(globalWastesAPI);
+const axiosWithTokenChat = createAxiosWithToken(globalChatAPI);
 
 //채팅요청  api
 export const chatPost = async wasteId => {
@@ -27,7 +32,7 @@ export const chatPost = async wasteId => {
 //채팅목록 api
 export const ListFetch = async (page = 0, size = 10) => {
   try {
-    const response = await axiosWithToken.get(`/chats`, {
+    const response = await axiosWithTokenChat.get('', {
       params: { page, size },
     });
     if (response.status === 200) {
@@ -50,7 +55,7 @@ export const ListFetch = async (page = 0, size = 10) => {
 //채팅 나가기 api
 export const deleteChat = async chatRoomId => {
   try {
-    const response = await axiosWithToken.put(`/chats/${chatRoomId}`);
+    const response = await axiosWithTokenChat.put(`/${chatRoomId}`);
     if (response.status === 204) {
       console.log('게시물 삭제 성공');
     }
@@ -68,7 +73,7 @@ export const deleteChat = async chatRoomId => {
 
 export const contentFetch = async chatRoomId => {
   try {
-    const response = await axiosWithToken.get(`/chats/${chatRoomId}`);
+    const response = await axiosWithTokenChat.get(`/${chatRoomId}`);
     if (response.status === 200) {
       console.log('채팅 내용을 불러왔습니다.', response.data);
     }
