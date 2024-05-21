@@ -1,91 +1,66 @@
-import axios from 'axios';
+import createAxiosWithToken from './Axios';
+import { globalTransactionsAPI } from '../../variable';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const axiosWithToken = createAxiosWithToken(globalTransactionsAPI);
+
 //나의 판매내역 > 판매중 리스트
 export const fetchMySellOngoing = async page => {
-  const accessToken = localStorage.getItem('access-token');
-  // console.log(accessToken);
   try {
-    const response = await axios.get(
-      `${API_URL}/api/v1/transactions?memberType=SELLER_ONGOING`,
-      { params: { page }, headers: { Authorization: `Bearer ${accessToken}` } },
-    );
-
-    console.log(response);
-    console.log(response.data.content);
+    const response = await axiosWithToken.get(``, {
+      params: { memberType: 'SELLER_ONGOING', page },
+    });
+    if (response.status === 200) {
+      console.log('나의 판매중 리스트를 불러왔습니다.', response.data);
+    }
     return response.data;
   } catch (error) {
     console.error('Error fetching: ', error);
     if (error.response.status === 404) {
       console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
+      localStorage.removeItem('accessToken');
     }
+    throw error;
   }
 };
 
 //나의 판매내역 > 판매완료 리스트
 export const fetchMySellClose = async page => {
-  const accessToken = localStorage.getItem('access-token');
-  // console.log(accessToken);
   try {
-    const response = await axios.get(
-      `${API_URL}/api/v1/transactions?memberType=SELLER_CLOSE`,
-      { params: { page }, headers: { Authorization: `Bearer ${accessToken}` } },
-    );
-
-    console.log(response);
-    console.log(response.data);
+    const response = await axiosWithToken.get(``, {
+      params: { memberType: 'SELLER_CLOSE', page },
+    });
+    if (response.status === 200) {
+      console.log('나의 판매완료 리스트를 불러왔습니다.', response.data);
+    }
     return response.data;
   } catch (error) {
     console.error('Error fetching: ', error);
     if (error.response.status === 404) {
       console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
+      localStorage.removeItem('accessToken');
     }
+    throw error;
   }
 };
 
 //나의 구매내역 > 거래완료 리스트
 export const fetchMyBuyList = async page => {
-  const accessToken = localStorage.getItem('access-token');
-
   try {
-    const response = await axios.get(
-      `${API_URL}/api/v1/transactions?memberType=BUYER`,
-      { params: { page }, headers: { Authorization: `Bearer ${accessToken}` } },
-    );
-
-    console.log(response);
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching: ', error);
-    if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
-    }
-  }
-};
-
-//나의 관심목록 > 판매완료 리스트
-export const fetchMyLikes = async page => {
-  const accessToken = localStorage.getItem('access-token');
-
-  try {
-    const response = await axios.get(`${API_URL}/api/v1/wastes/likes`, {
-      params: { page },
-      // params: { page, wasteCategory: selectedCategory },
-      headers: { Authorization: `Bearer ${accessToken}` },
+    const response = await axiosWithToken.get(``, {
+      params: { memberType: 'BUYER', page },
     });
-
-    console.log(response);
-    console.log(response.data);
+    if (response.status === 200) {
+      console.log('나의 구매내역을 불러왔습니다.', response.data);
+    }
     return response.data;
   } catch (error) {
     console.error('Error fetching: ', error);
     if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
+      console.log(
+        '404에러: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+      );
+      localStorage.removeItem('accessToken');
     }
+    throw error;
   }
 };

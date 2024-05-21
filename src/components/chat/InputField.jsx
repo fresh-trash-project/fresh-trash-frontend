@@ -63,7 +63,7 @@ const InputField = () => {
   }, []);
   // 로컬 스토리지에서 사용자 정보 가져오기-----------------------
   const getCurrentUser = () => {
-    const userData = localStorage.getItem('access-token');
+    const userData = localStorage.getItem('accessToken');
 
     try {
       const [header, payload, signature] = userData.split('.');

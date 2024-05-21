@@ -3,7 +3,7 @@ import React from 'react';
 const API_URL = import.meta.env.VITE_API_URL;
 const ProductCard = ({ wastes }) => {
   const getImgeUrl = fileName => {
-    return `${API_URL}/imgs/${fileName}`;
+    return `${API_URL}imgs/${fileName}`;
   };
   return (
     <div className="card w-80 bg-base-100 shadow md:w-72 xl:w-70 2xl:w-80 ">

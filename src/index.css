@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 아래는 tailwind를 사용하지 않았을때 CSS리셋과 칼라설정. 
+Tailwind CSS는 이미 모든 요소의 마진, 패딩을 제거하고 모든 요소에 대해 box-sizing을 border-box로 설정하는 
+자체 "preflight"를 포함하고 있다. 따라서 별도의 CSS 파일에서 이러한 설정을 명시적으로 설정하는 것은 
+Tailwind CSS를 이미 사용하고 있는 경우 중복일 수 있다. 필요한 리셋 속성은 tailwind.config에 명시하도록. 
+
 :root {
   padding: 0px;
   margin: 0px;
@@ -127,4 +132,4 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
-}
+} */

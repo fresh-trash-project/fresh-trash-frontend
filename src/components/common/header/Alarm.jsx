@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AlarmState, AlarmMsgState } from '../../../recoil/RecoilAlarm';
 import { useRecoilState } from 'recoil';
 import { IoMdClose } from 'react-icons/io';
@@ -11,7 +11,8 @@ const Alarm = () => {
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
   const [isHovered, setIsHovered] = useState(false);
   const [signIn, setSignIn] = useRecoilState(signInState);
-  const accessToken = localStorage.getItem('access-token');
+  const navigate = useNavigate();
+  const accessToken = localStorage.getItem('accessToken');
 
   // const originalText =
   // '채팅이 왔습니다. 글자가 많으면 점점점 표시되고 호버하면 다 보이도록 만들고 있습니다. 이곳에 알람 메시지를 받아와야 합니다.  ';
@@ -40,8 +41,8 @@ const Alarm = () => {
 
   //알람메시지 읽음처리 -> 메시지 개수 바뀌면 다시 로드되게
   const readAlarmMessage = async item => {
-    await readAlarm(item.id);
-    const fetchedAlarms = await fetchAlarm();
+    await readAlarm(item.id, navigate);
+    const fetchedAlarms = await fetchAlarm(navigate);
     setAlarmMsg(fetchedAlarms);
   };
 
@@ -50,9 +51,9 @@ const Alarm = () => {
     <div
       className={`menu absolute top-[70px] ${
         alarmOpen ? 'right-0' : '-right-full'
-      } bg-[var(--green-brunswick)] h-96 rounded-box z-50 text-[0.6rem] mr-2 md:w-96 md:mr-5`}
+      } bg-green-brunswick h-96 rounded-box z-50 text-[0.6rem] mr-2 md:w-96 md:mr-5`}
     >
-      <div className="menu-title flex items-center justify-between bg-[var(--yellow-naples)] rounded-box mb-2">
+      <div className="menu-title flex items-center justify-between bg-yellow-naples rounded-box mb-2">
         <p>알람 ({alarmMsg.length})</p>
 
         <div
@@ -92,7 +93,7 @@ const Alarm = () => {
 
                 <div>
                   <IoMdClose
-                    className="text-white transition text-xl hover:text-[var(--red-cinnabar)]"
+                    className="text-white transition text-xl hover:text-red-cinnabar"
                     onClick={() => removeAlarmMessage(item.id)}
                   />
                 </div>

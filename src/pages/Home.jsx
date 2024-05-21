@@ -1,7 +1,7 @@
 import Header from '../components/common/header/Header';
 import Hero from '../components/home/Hero';
 import Footer from '../components/common/footer/Footer';
-import Card1 from '../components/common/card/Card1';
+import NavigationCard from '../components/common/card/NavigationCard';
 import add from '../assets/add2.jpg';
 import auction from '../assets/auction3.jpg';
 import sell from '../assets/sell1.jpg';
@@ -20,7 +20,9 @@ const Home = () => {
       setSignIn(true);
       localStorage.setItem('accessToken', accessToken);
       console.log('쿠키에 있는 엑세스토큰:' + accessToken);
-      console.log('로컬스토리지에 있는 엑세스토큰:' + localStorage.accessToken);
+      console.log(
+        '로컬스토리지에 있는 엑세스토큰:' + localStorage.getItem('accessToken'),
+      );
     }
   }, []);
 
@@ -44,19 +46,19 @@ const Home = () => {
       <Hero />
       {/* <HeroVer2 /> */}
       <div className="cards bg-white py-10 px-3 ">
-        <Card1
+        <NavigationCard
           image={add}
           title="애물단지 등록하기"
           phrase="SELL YOUR FRESH TRASH"
           link="ProductAdd"
         />
-        <Card1
+        <NavigationCard
           image={sell}
           title="애물단지 거래 중..."
           phrase="GET YOUR FRESH TRASH"
           link="ProductsList"
         />
-        <Card1
+        <NavigationCard
           image={auction}
           title="애물단지 경매 중..."
           phrase="GET YOUR FRESH TRASH"

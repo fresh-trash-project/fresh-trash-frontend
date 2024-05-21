@@ -1,18 +1,11 @@
-import axios from 'axios';
+import { globalWastesAPI } from '../../variable';
+import createAxiosWithToken from './Axios';
 
-const API_URL = import.meta.env.VITE_API_URL;
-const axiosWithToken = axios.create({
-  baseURL: `${API_URL}/api/v1`,
-  headers: {
-    // 'Content-Type': 'application/json',
-    Authorization: localStorage.getItem('access-token'),
-  },
-});
+const axiosWithTokenWastes = createAxiosWithToken(globalWastesAPI);
 
 export const fetchProducts = async (currentPage, query) => {
   try {
-    const response = await axiosWithToken.get('/wastes');
-    // const response = await axiosWithToken.get('/wastes?page');
+    const response = await axiosWithTokenWastes.get('');
     const responseData = response.data;
     if (response.status === 200) {
       console.log('게시물 목록을 가져오기 성공', response.data);
@@ -23,7 +16,6 @@ export const fetchProducts = async (currentPage, query) => {
         pageable: responseData.pageable,
       };
     }
-
     // 서버로부터 받은 데이터 반환
   } catch (error) {
     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
@@ -33,7 +25,7 @@ export const fetchProducts = async (currentPage, query) => {
 
 const fetchQuery = async query => {
   try {
-    const response = await axiosWithToken.get(`/wastes${query}`);
+    const response = await axiosWithTokenWastes.get(`${query}`);
     // const response = await axiosWithToken.get('/wastes?page');
     const responseData = response.data;
     if (response.status === 200) {
@@ -49,6 +41,12 @@ const fetchQuery = async query => {
     // 서버로부터 받은 데이터 반환
   } catch (error) {
     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
+    if (error.response.status === 404) {
+      console.log(
+        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+      );
+      localStorage.removeItem('accessToken');
+    }
     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
   }
 };
@@ -98,14 +96,9 @@ export const createPost = async (
     formData.append('imgFile', imgFile);
     formData.append('wasteRequest', blob);
 
-    const accessToken = localStorage.getItem('access-token');
-    // if (!accessToken || accessToken.split('.').length !== 3) {
-    //   throw new Error('올바른 형식의 액세스 토큰이 없습니다.');
-    // }
-    const response = await axios.post(`${API_URL}/api/v1/wastes`, formData, {
+    const response = await axiosWithTokenWastes.post(``, formData, {
       headers: {
-        Authorization: `Bearer ${accessToken}`, // 액세스 토큰을 헤더에 추가
-        // 'Content-Type': 'multipart/form-data', // 요청의 컨텐츠 타입 지정
+        'Content-Type': 'multipart/form-data', // 이 줄은 생략해도 됩니다
       },
     });
     if (response.status === 201) {
@@ -113,32 +106,52 @@ export const createPost = async (
       navigate('/ProductsList');
     }
   } catch (error) {
-    console.log('게시물 생성을 실패하였습니다.', error);
+    console.error('게시물 생성을 실패하였습니다.', error);
+    if (error.response.status === 404) {
+      console.log(
+        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+      );
+      localStorage.removeItem('accessToken');
+    }
+    throw error;
   }
 };
 
 //상세페이지 api
 export const detailWaste = async wasteId => {
   try {
-    const response = await axiosWithToken.get(`/wastes/${wasteId}`);
+    const response = await axiosWithTokenWastes.get(`/${wasteId}`);
     if (response.status === 200) {
       console.log('상품 상세정보를 불러왔습니다:', response.data);
       return response.data; // 서버로부터 받은 데이터 반환
     }
   } catch (error) {
     console.error('상품 상세정보를 가져오는 중 에러 발생:', error);
+    if (error.response.status === 404) {
+      console.log(
+        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+      );
+      localStorage.removeItem('accessToken');
+    }
     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
   }
 };
 //폐기물 삭제 api
 export const deleteWaste = async wasteId => {
   try {
-    const response = await axiosWithToken.delete(`/wastes/${wasteId}`);
+    const response = await axiosWithTokenWastes.delete(`/${wasteId}`);
     if (response.status === 204) {
       console.log('게시물 삭제 성공');
     }
   } catch (error) {
     console.error('게시물을 삭제하는 중 오류가 발생했습니다:', error);
+    if (error.response.status === 404) {
+      console.log(
+        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+      );
+      localStorage.removeItem('accessToken');
+    }
+    throw error;
   }
 };
 //폐기물 수정 api
@@ -192,28 +205,32 @@ export const updatePost = async (
     formData.append('imgFile', imgFile);
     formData.append('wasteRequest', blob);
 
-    const accessToken = localStorage.getItem('access-token');
-    const response = await axios.put(
-      `${API_URL}/api/v1/wastes/${wasteId}`,
-      formData,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
+    const response = await axiosWithTokenWastes.put(`/${wasteId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // 이 줄은 생략해도 됩니다
       },
-    );
+    });
     if (response.status === 200) {
       console.log('폐기물 수정 성공', response.data);
       navigate(`/ProductDetail/${wasteId}`);
     }
     return response;
   } catch (error) {
-    console.log('폐기물 수정 실패', error);
+    console.error('폐기물 수정 실패', error);
+    if (error.response.status === 404) {
+      console.log(
+        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+      );
+      localStorage.removeItem('accessToken');
+    }
+    throw error;
   }
 };
 //관심 추가 api
 export const likeWaste = async (wasteId, query) => {
   try {
-    const response = await axiosWithToken.post(
-      `/wastes/${wasteId}/likes?likeStatus=${query}`,
+    const response = await axiosWithTokenWastes.post(
+      `/${wasteId}/likes?likeStatus=${query}`,
     );
 
     if (response.status === 200) {
@@ -229,6 +246,12 @@ export const likeWaste = async (wasteId, query) => {
     }
   } catch (error) {
     console.error('관심목록 추가 실패:', error);
+    if (error.response.status === 404) {
+      console.log(
+        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+      );
+      localStorage.removeItem('accessToken');
+    }
     throw error; // 오류를 다시 throw하여 컴포넌트에서 처리할 수 있도록 함
   }
 };

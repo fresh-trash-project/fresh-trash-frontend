@@ -1,6 +1,10 @@
-import axios from 'axios';
+import { globalMembersAPI } from '../../variable';
+import { globalAuthAPI } from '../../variable';
+import createAxiosWithToken from './Axios';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const axiosWithTokenMembers = createAxiosWithToken(globalMembersAPI);
+const axiosWithTokenAuth = createAxiosWithToken(globalAuthAPI);
+
 //닉네임 중복 확인
 export const fetchUserNames = async (
   setIsDuplicate,
@@ -8,20 +12,17 @@ export const fetchUserNames = async (
   userName,
   setUserName,
   setRegisterMessage,
+  signIn,
+  setSignIn,
 ) => {
-  const accessToken = localStorage.getItem('access-token');
-
   try {
-    const response = await axios.get(`${API_URL}/api/v1/auth/check-nickname`, {
+    const response = await axiosWithTokenAuth.get('/check-nickname', {
       params: {
         nickname: userName,
       },
-      headers: { Authorization: `Bearer ${accessToken}` },
     });
 
-    console.log(response);
     if (response.status === 200) {
-      console.log(response);
       setDuplicationMessage('사용 가능한 닉네임입니다.');
       setIsDuplicate(false);
       setUserName(userName);
@@ -34,6 +35,14 @@ export const fetchUserNames = async (
       setDuplicationMessage('중복된 닉네임입니다.');
       setIsDuplicate(true);
     }
+    if (signIn && error.response.status === 404) {
+      console.log(
+        '404에러: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+      );
+      setSignIn(false);
+      localStorage.removeItem('accessToken');
+    }
+    throw error;
   }
 };
 
@@ -62,61 +71,62 @@ export const changeUserInfo = async (
     formData.append('imgFile', image);
     formData.append('memberRequest', blob);
 
-    const accessToken = localStorage.getItem('access-token');
-
-    const response = await axios.put(`${API_URL}/api/v1/members`, formData, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    const response = await axiosWithTokenMembers.put('', formData);
 
     if (response.status === 200) {
       console.log('프로필 수정 성공');
     }
-    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
     setRegisterMessage('에러');
     if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
+      console.log(
+        '404 error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+      );
+      localStorage.removeItem('accessToken');
     }
+    throw error;
   }
 };
 
 //사용자 평점
 export const fetchRating = async () => {
-  const accessToken = localStorage.getItem('access-token');
   try {
-    const response = await axios.get(`${API_URL}/api/v1/members`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    console.log(response);
+    const response = await axiosWithTokenMembers.get('');
     const averageRating = response.data.rating;
+    if (response.status === 200) {
+      console.log('사용자 평점 받기 성공');
+    }
     return averageRating;
   } catch (error) {
     console.error('Error fetching ratings: ', error);
     if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
+      console.log(
+        '404 error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+      );
+      localStorage.removeItem('accessToken');
     }
+    throw error;
   }
 };
 
 //마이페이지 들어왔을때 유저정보 불러오기
 export const fetchUserInfo = async () => {
-  const accessToken = localStorage.getItem('access-token');
-
   try {
-    const response = await axios.get(`${API_URL}/api/v1/members`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    console.log(response);
-    return response;
+    const response = await axiosWithTokenMembers.get('');
+    if (response.status === 200) {
+      console.log('사용자 정보 불러오기 성공');
+      return response;
+    }
   } catch (error) {
     console.error('Error fetching: ', error);
     if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
+      console.log(
+        '404 error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+      );
+      localStorage.removeItem('accessToken');
     }
+    throw error;
   }
 };
