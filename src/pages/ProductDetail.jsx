@@ -1,12 +1,12 @@
 import React from 'react';
 import Header from '../components/common/header/Header';
 import Footer from '../components/common/footer/Footer';
-import DetailCard from '../components/waste/DetailCard';
+import DetailPrduct from '../components/waste/DetailProduct';
 const ProductDetail = () => {
   return (
     <div>
       <Header />
-      <DetailCard />
+      <DetailPrduct />
       <Footer />
     </div>
   );
