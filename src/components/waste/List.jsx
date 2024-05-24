@@ -40,14 +40,14 @@ const List2 = () => {
             page,
             sort,
           );
-        } else if (selectedCategory !== '전체') {
+        } else if (selectedCategory === '전체') {
+          productList = await fetchWastes.getPage(page, sort);
+        } else {
           productList = await fetchWastes.category(
             selectedCategory,
             page,
             sort,
           );
-        } else {
-          productList = await fetchWastes.getPage(page, sort);
         }
 
         setPosts(productList);
@@ -57,7 +57,7 @@ const List2 = () => {
     };
 
     fetchData();
-  }, [page, searchType, searchInput, sort]);
+  }, [page, searchType, searchInput, sort, selectedCategory]);
 
   //페이지네이션-------------------------------------
 

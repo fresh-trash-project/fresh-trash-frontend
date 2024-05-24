@@ -154,21 +154,6 @@ export const deleteWaste = async wasteId => {
     throw error;
   }
 };
-//폐기물 수정 api
-// export const updatePost = async (wasteId, updatedPost) => {
-//   try {
-//     const response = await axiosWithToken.put(
-//       `/wastes/${wasteId}`,
-//       updatedPost,
-//     );
-//     if (response.status === 200) {
-//       console.log('수정 완료', response.data);
-//       return response.data;
-//     }
-//   } catch (error) {
-//     console.log('수정 실패', error);
-//   }
-// };
 
 export const updatePost = async (
   wasteId,
