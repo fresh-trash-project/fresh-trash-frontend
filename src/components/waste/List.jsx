@@ -27,16 +27,27 @@ const List2 = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [sort, setSort] = useState('createdAt,desc');
   useEffect(() => {
     const fetchData = async category => {
       try {
         let productList;
         if (searchType === 'title') {
-          productList = await fetchWastes.titleSearch(searchInput, page);
+          productList = await fetchWastes.titleSearch(searchInput, page, sort);
         } else if (searchType === 'district') {
-          productList = await fetchWastes.districtSearch(searchInput, page);
+          productList = await fetchWastes.districtSearch(
+            searchInput,
+            page,
+            sort,
+          );
+        } else if (selectedCategory !== '전체') {
+          productList = await fetchWastes.category(
+            selectedCategory,
+            page,
+            sort,
+          );
         } else {
-          productList = await fetchWastes.getPage(page);
+          productList = await fetchWastes.getPage(page, sort);
         }
 
         setPosts(productList);
@@ -46,7 +57,7 @@ const List2 = () => {
     };
 
     fetchData();
-  }, [page, searchType, searchInput]);
+  }, [page, searchType, searchInput, sort]);
 
   //페이지네이션-------------------------------------
 
@@ -65,37 +76,17 @@ const List2 = () => {
     }
   };
 
-  //관심순--------------------------
-  const handleSortByLikes = async () => {
-    try {
-      const sortedList = await fetchWastes.likeCount('likeCount,desc');
-      setPosts(sortedList);
-      console.log('관심순으로 정렬', sortedList);
-    } catch (error) {
-      console.error('Error sorting by likes:', error);
-    }
-  };
-  //조회순---------------------------
-  const handleSortByViews = async () => {
-    try {
-      const sortedList = await fetchWastes.viewCount('viewCount,desc');
-      setPosts(sortedList);
-      console.log('조회순으로 정렬', sortedList);
-    } catch (error) {
-      console.error('Error sorting by viewCount:', error);
-    }
-  };
-  //날짜순----------------------------
-  const handleSortByCreated = async () => {
-    try {
-      const sortedList = await fetchWastes.likeCount('createdAt,desc');
-      setPosts(sortedList);
-      console.log('날짜순으로 정렬', sortedList);
-    } catch (error) {
-      console.error('Error sorting by createdAt:', error);
-    }
+  const handleSortByLikes = () => {
+    setSort('likeCount,desc');
   };
 
+  const handleSortByViews = () => {
+    setSort('viewCount,desc');
+  };
+
+  const handleSortByCreated = () => {
+    setSort('createdAt,desc');
+  };
   //삭제------------------------------
   const handleDelete = async postId => {
     try {
@@ -111,23 +102,9 @@ const List2 = () => {
 
   //카테고리--------------------------------
 
-  const handleCategoryChange = async category => {
-    try {
-      let productList;
-      if (category === '전체') {
-        productList = await fetchWastes.getPage(0);
-      } else {
-        productList = await fetchWastes.category(category);
-      }
-      setSelectedCategory(category);
-      if (searchResults.length > 0) {
-        setSearchResults(productList);
-      } else {
-        setPosts(productList);
-      }
-    } catch (error) {
-      console.error('An error occurred while retrieving Category:', error);
-    }
+  const handleCategoryChange = category => {
+    setSelectedCategory(category);
+    setPage(0); // 카테고리가 변경될 때 페이지를 0으로 초기화합니다.
   };
   //검색-------------------------------------------------
 

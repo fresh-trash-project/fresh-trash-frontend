@@ -51,15 +51,15 @@ const fetchQuery = async query => {
   }
 };
 export const fetchWastes = {
-  getPage: async currentPage => await fetchQuery(`?page=${currentPage}`),
-  likeCount: async sort => await fetchQuery(`?sort=${sort}`),
-  viewCount: async sort => await fetchQuery(`?sort=${sort}`),
-  titleSearch: async (keyword, currentPage) =>
-    await fetchQuery(`?title=${keyword}&page=${currentPage}`),
-  districtSearch: async (keyword, currentPage) =>
-    await fetchQuery(`?district=${keyword}&page=${currentPage}`),
-  category: async (search, currentPage) =>
-    await fetchQuery(`?category=${search}&page=${currentPage}`),
+  getPage: async (currentPage, sort) =>
+    await fetchQuery(`?page=${currentPage}&sort=${sort}`),
+
+  titleSearch: async (keyword, currentPage, sort) =>
+    await fetchQuery(`?title=${keyword}&page=${currentPage}&sort=${sort}`),
+  districtSearch: async (keyword, currentPage, sort) =>
+    await fetchQuery(`?district=${keyword}&page=${currentPage}&sort=${sort}`),
+  category: async (search, currentPage, sort) =>
+    await fetchQuery(`?category=${search}&page=${currentPage}&sort=${sort}`),
 };
 
 export const createPost = async (
