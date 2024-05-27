@@ -16,9 +16,10 @@ const Nav = () => {
     { path: '/ProductsList', label: '애물단지 거래' },
     { path: '/AuctionList', label: '애물단지 경매' },
   ];
-
+  console.log(localStorage);
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
+    console.log(localStorage);
     setSignIn(false);
     setAlarmMsg([]); // Clear alarms on logout
     setAlarmOpen(false);

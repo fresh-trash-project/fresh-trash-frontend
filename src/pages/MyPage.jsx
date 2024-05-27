@@ -40,10 +40,12 @@ const MyPage = () => {
     const getUserInfo = async () => {
       const myInfo = await fetchUserInfo();
 
+      console.log(myInfo);
+
       setUserName(myInfo.nickname);
       setAddress(myInfo.address);
       setAverageRating(myInfo.rating);
-      setImage(myInfo.fileName);
+      setImage(myInfo.fileName || logoImg); // Fallback to logoImg if fileName is not provided
 
       if (myInfo.address === null) {
         setAddress({
@@ -303,11 +305,11 @@ const MyPage = () => {
         <div className="rating flex flex-col mt-14">
           <div className="flex justify-between mb-2">
             <div className="my-rating rounded-lg p-2 bg-green-paleaqua ">
-              {userName}의 평점
+              나의 평점
             </div>
             <div className="rating-value rounded-lg p-2 bg-green-paleaqua ">
               {/*프론트에서 구할때 {averageRating()} / 5 */}
-              {averageRating}
+              {averageRating + ' / 5'}
             </div>
           </div>
 
