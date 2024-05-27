@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import Home from './pages/Home';
 import SignUpSignIn from './pages/SignUpSignIn';
-
 import MyPage from './pages/MyPage.jsx';
 import MyTradeList from './pages/MyTradeList';
 import MyAuctionList from './pages/MyAuctionList';
@@ -20,7 +19,7 @@ import Pay from './pages/Pay';
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <Home />,
     errorElement: ({ error }) => {
       if (error.status === 404) {
         return <div>404 Not Found 페이지를 표시할 수 없습니다. </div>;

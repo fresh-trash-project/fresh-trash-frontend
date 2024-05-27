@@ -1,3 +1,5 @@
+import { Md12Mp } from 'react-icons/md';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [

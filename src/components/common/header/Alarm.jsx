@@ -40,6 +40,7 @@ const Alarm = () => {
   //알람메시지 읽음처리 -> 메시지 개수 바뀌면 다시 로드되게
   const readAlarmMessage = async item => {
     await readAlarm(item.id, navigate);
+
     const fetchedAlarms = await fetchAlarm(navigate);
     setAlarmMsg(fetchedAlarms);
   };

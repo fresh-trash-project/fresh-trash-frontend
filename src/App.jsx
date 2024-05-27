@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
+import Header from './components/common/header/Header';
 import Home from './pages/Home';
-import { signInState } from './recoil/RecoilSignIn';
-import { useRecoilState } from 'recoil';
 
 function App() {
   return (

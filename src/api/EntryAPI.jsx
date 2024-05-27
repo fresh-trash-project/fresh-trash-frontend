@@ -1,55 +1,48 @@
 import { globalMailAPI } from '../../variable';
 import { globalAuthAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
+import { toast } from 'react-toastify';
+import { MESSAGES } from '../../Constants';
 
 const axiosWithTokenMail = createAxiosWithToken(globalMailAPI);
 const axiosWithTokenAuth = createAxiosWithToken(globalAuthAPI);
 
 // 이메일 인증버튼 눌렀을때 인증코드 받기
-export const fetchCode = async (setVerificationMessage, userEmail) => {
+export const fetchCode = async email => {
   try {
     const response = await axiosWithTokenMail.post(`/send-code`, {
-      email: userEmail,
+      email: email,
     });
 
     if (response.status === 200) {
-      setVerificationMessage('이메일로 받은 코드를 입력하세요');
+      toast.success(MESSAGES.SEND_CODE_SUCCESS);
+      return response.data;
     }
-    return response.data;
   } catch (error) {
-    console.log(error);
-    setVerificationMessage('에러');
+    console.log(error.message);
     if (error.response.status === 400) {
-      setVerificationMessage('잘못된 이메일입니다.');
+      toast.error(MESSAGES.INVALID_EMAIL_ERROR);
     }
     throw error;
   }
 };
 
 // 인증 코드 입력하고 확인버튼 눌렀을때
-export const verifyCode = async (
-  setConfirmMessage,
-  setIsConfirmed,
-  userEmail,
-  code,
-  setVerificationButtonClick,
-) => {
+export const verifyCode = async (email, code) => {
   try {
     const response = await axiosWithTokenMail.post(`/verify`, {
-      email: userEmail,
+      email: email,
       code: code,
     });
 
     if (response.status === 200) {
-      setIsConfirmed(true);
-      setVerificationButtonClick(false);
+      toast.success(MESSAGES.VERIFY_SUCCESS);
+      return response.data;
     }
-    return response.data;
   } catch (error) {
-    console.log(error);
-    setConfirmMessage('에러');
+    console.log(error.message);
     if (error.response.status === 400) {
-      setConfirmMessage('잘못된 인증코드입니다.');
+      toast.error(MESSAGES.INVALID_CODE_ERROR);
     }
     throw error;
   }
@@ -58,87 +51,75 @@ export const verifyCode = async (
 // 회원가입 버튼 눌렀을때
 export const signUpAccount = async (
   setSignIn,
-  setRegisterMessage,
+  setSignInPanel,
   userName,
   setUserName,
-  userPassword,
-  userEmail,
-  setSignInPanel,
+  password,
+  email,
 ) => {
   try {
     const response = await axiosWithTokenAuth.post('/signup', {
       nickname: userName,
-      password: userPassword,
-      email: userEmail,
+      password: password,
+      email: email,
     });
 
     if (response.status === 201) {
-      console.log('성공적 회원가입 ');
+      toast.success(MESSAGES.SIGN_UP_SUCCESS);
       setSignIn(true);
-      setUserName(userName);
       setSignInPanel(true);
+      setUserName(userName);
+      return response.data;
     }
-    return response.data;
   } catch (error) {
-    console.log(error);
-    setRegisterMessage('에러');
+    console.log(error.message);
     if (error.response.status === 400) {
-      setRegisterMessage(error.message);
+      toast.error(MESSAGES.EMAIL_EXIST_ERROR);
     }
     throw error;
   }
 };
 
 // 로그인 버튼 눌렀을때
-export const signInAccount = async (
-  setSignIn,
-  setRegisterMessage,
-  userPassword,
-  userEmail,
-  navigate,
-) => {
+export const signInAccount = async (setSignIn, password, email, navigate) => {
   try {
     const response = await axiosWithTokenAuth.post(`/signin`, {
-      password: userPassword,
-      email: userEmail,
+      password: password,
+      email: email,
     });
 
     if (response.status === 200) {
-      console.log(response.data);
       const accessToken = response.data.accessToken;
       localStorage.setItem('accessToken', accessToken);
-      console.log(localStorage);
-      console.log('성공적 로그인 ');
       setSignIn(true);
       navigate('/');
+      return response.data;
     }
-    return response.data;
   } catch (error) {
-    console.log(error);
-    setRegisterMessage('에러');
+    console.log(error.message);
+    toast.error(MESSAGES.WRONG_EMAIL_AND_PASSWORD);
     if (error.response.status === 404) {
-      setRegisterMessage('유저 정보가 존재하지 않습니다.');
+      toast.error(MESSAGES.USER_NOT_FOUND_ERROR);
     }
     throw error;
   }
 };
 
-//!비번을 잊었을때 아직 백 구현 안됨
-export const fetchPW = async (setVerificationMessage, userEmail) => {
+// 비번 잊었을때 임시비번 전송
+export const fetchTempPassword = async email => {
   try {
     const response = await axiosWithTokenMail.post(`/find-pass`, {
-      email: userEmail,
+      email: email,
     });
 
     if (response.status === 200) {
-      setVerificationMessage('이메일로 받은 코드를 입력하세요');
+      toast.success(MESSAGES.PASSWORD_RESET_SUCCESS);
+      return response.data;
     }
-    return response.data;
   } catch (error) {
-    console.log(error);
-    setVerificationMessage('에러');
+    console.log(error.message);
     if (error.response.status === 400) {
-      setVerificationMessage('잘못된 이메일입니다.');
+      toast.error(MESSAGES.PASSWORD_RESET_WRONG_EMAIL);
     }
     throw error;
   }
