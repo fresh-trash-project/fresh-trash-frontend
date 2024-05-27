@@ -20,6 +20,8 @@ const Nav = () => {
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     setSignIn(false);
+    setAlarmMsg([]); // Clear alarms on logout
+    setAlarmOpen(false);
   };
 
   return (

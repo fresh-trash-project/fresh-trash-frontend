@@ -1,13 +1,8 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import logoImg from '../assets/logo3-1.png';
 import { IoFootsteps } from 'react-icons/io5';
 import { useRecoilState } from 'recoil';
-import {
-  userNameState,
-  duplicationState,
-  duplicationMessageState,
-} from '../recoil/RecoilUserName';
+import { userNameState } from '../recoil/RecoilUserName';
 import Header from '../components/common/header/Header';
 import NavigationCard from '../components/common/card/NavigationCard';
 import add from '../assets/add1.jpg';
@@ -16,13 +11,14 @@ import heart from '../assets/heart1.jpg';
 import chat from '../assets/chat1.jpg';
 import {
   changeUserInfo,
-  fetchRating,
   fetchUserInfo,
-  fetchUserNames,
+  fetchUserName,
 } from '../api/UserInfoAPI';
 import { signInState } from '../recoil/RecoilSignIn';
 import { globalFileAPI } from '../../variable';
 import urlJoin from 'url-join';
+import UserNameLogic from '../components/entry/UserNameLogic';
+
 const MyPage = () => {
   const [image, setImage] = useState(logoImg);
   const [isEditing, setIsEditing] = useState(false);
@@ -34,13 +30,8 @@ const MyPage = () => {
     district: '',
     detail: '',
   });
-
-  const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
-  const [duplicationMessage, setDuplicationMessage] = useRecoilState(
-    duplicationMessageState,
-  );
-  const [ratings, setRatings] = useState([]);
-  const [registerMessage, setRegisterMessage] = useState('');
+  const { isDuplicate, setIsDuplicate } = UserNameLogic();
+  const [averageRating, setAverageRating] = useState(0);
   const [imgFile, setImgFile] = useState(null);
   const [signIn, setSignIn] = useRecoilState(signInState);
 
@@ -49,15 +40,12 @@ const MyPage = () => {
     const getUserInfo = async () => {
       const myInfo = await fetchUserInfo();
 
-      setUserName(myInfo.data.nickname);
-      setAddress(myInfo.data.address);
-      setRatings(myInfo.data.rating);
-      setImage(myInfo.data.fileName);
-      console.log(myInfo);
-      console.log(myInfo.data.fileName);
-      console.log(image);
+      setUserName(myInfo.nickname);
+      setAddress(myInfo.address);
+      setAverageRating(myInfo.rating);
+      setImage(myInfo.fileName);
 
-      if (myInfo.data.address === null) {
+      if (myInfo.address === null) {
         setAddress({
           zipcode: '',
           state: '',
@@ -68,6 +56,7 @@ const MyPage = () => {
       }
     };
     getUserInfo();
+    console.log(userName);
   }, []);
 
   //함수들-----------------------------------------------------------
@@ -86,10 +75,10 @@ const MyPage = () => {
       setRegisterMessage,
     );
     console.log(changeMyInfo);
-    setUserName(changeMyInfo.data.nickname);
-    setAddress(changeMyInfo.data.address);
-    setImage(changeMyInfo.data.fileName);
-    console.log(changeMyInfo.data.fileName);
+    setUserName(changeMyInfo.nickname);
+    setAddress(changeMyInfo.address);
+    setImage(changeMyInfo.fileName);
+    console.log(changeMyInfo.fileName);
   };
   console.log('이미지.jpg:' + image);
 
@@ -110,7 +99,7 @@ const MyPage = () => {
   const handleDeleteImage = async () => {
     try {
       // Call the backend API to update user information with null image
-      await changeUserInfo(userName, address, null, setRegisterMessage);
+      await changeUserInfo(userName, address, null);
       // If update is successful, set image state to null locally
       setImage(null);
     } catch (error) {
@@ -121,20 +110,11 @@ const MyPage = () => {
   const handleUserNameChange = e => {
     setUserName(e.target.value);
     setIsDuplicate(false);
-    setDuplicationMessage('');
   };
 
   //닉네임 중복확인
   const handleDuplication = async userName => {
-    fetchUserNames(
-      setIsDuplicate,
-      setDuplicationMessage,
-      userName,
-      setUserName,
-      setRegisterMessage,
-      signIn,
-      setSignIn,
-    );
+    fetchUserName(setIsDuplicate, userName, setUserName, signIn, setSignIn);
   };
 
   const handleSearchAddress = () => {
@@ -163,36 +143,6 @@ const MyPage = () => {
     }
   };
 
-  //사용자 평점 프론트에서 구할때--------------------------------------------------------
-  // useEffect(() => {
-  //   const fetchRatings = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:3000/ratings');
-  //       const ratingsArray = response.data;
-  //       setRatings(ratingsArray);
-  //     } catch (error) {
-  //       console.error('Error fetching ratings: ', error);
-  //     }
-  //   };
-  //   fetchRatings();
-  // }, []);
-
-  // const averageRating = () => {
-  //   if (ratings.length > 0) {
-  //     const totalRating = ratings.reduce((sum, rating) => sum + rating.rate, 0);
-  //     const average = (totalRating / ratings.length).toFixed(1);
-  //     return average;
-  //   } else {
-  //     return 'N/A'; //받은 평점이 하나도 없을때
-  //   }
-  // };
-
-  //프론트 발자국 이동거리
-  // const footstep = (averageRating() / 5) * 100 - (30 / greenBarWidth) * 100;
-  // if (averageRating() === 0) {
-  //   footstep = (averageRating / 5) * 100;
-  // }
-
   //초록바의 길이를 100%로 -------------------------------------------------------------
   const [greenBarWidth, setGreenBarWidth] = useState(0);
 
@@ -214,28 +164,10 @@ const MyPage = () => {
     return () => window.removeEventListener('resize', updateGreenBarWidth);
   }, []);
 
-  //백에서 평점 구할때
-  const [fetchedAverageRating, setFetchedAverageRating] = useState(null);
-
-  useEffect(() => {
-    const fetchAndCalculateFootstep = async () => {
-      try {
-        const fetchedRating = await fetchRating();
-        if (fetchedRating !== null) {
-          setFetchedAverageRating(fetchedRating);
-        }
-      } catch (error) {
-        console.error('Error fetching average rating:', error);
-      }
-    };
-
-    fetchAndCalculateFootstep(); // Call the function to fetch and calculate footstep
-  }, [fetchRating]);
-
-  // 백 발자국 이동거리
-  let footstep = (fetchedAverageRating / 5) * 100 - (30 / greenBarWidth) * 100;
-  if (fetchedAverageRating === 0) {
-    footstep = (fetchedAverageRating / 5) * 100;
+  //백에서 평점 받을 때 발자국 이동거리
+  let footstep = (averageRating / 5) * 100 - (30 / greenBarWidth) * 100;
+  if (averageRating === 0) {
+    footstep = (averageRating / 5) * 100;
   }
 
   //JSX-------------------------------------------------------------
@@ -301,9 +233,6 @@ const MyPage = () => {
                 )}
               </button>
             )}
-            {registerMessage === '에러' && (
-              <p className="text-red-400 text-center">{registerMessage}</p>
-            )}
           </div>
 
           <div className="w-full flex flex-col">
@@ -329,9 +258,7 @@ const MyPage = () => {
               {isEditing && (
                 <div
                   className={`mb-5 w-fit ${isDuplicate ? 'text-red-400' : 'text-blue-400'}`}
-                >
-                  {duplicationMessage}
-                </div>
+                ></div>
               )}
 
               <div className="addr flex flex-col mx-auto">
@@ -380,7 +307,7 @@ const MyPage = () => {
             </div>
             <div className="rating-value rounded-lg p-2 bg-green-paleaqua ">
               {/*프론트에서 구할때 {averageRating()} / 5 */}
-              {fetchedAverageRating} / 5
+              {averageRating}
             </div>
           </div>
 

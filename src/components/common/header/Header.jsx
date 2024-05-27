@@ -24,12 +24,12 @@ const Header = () => {
           const fetchedAlarms = await fetchAlarm(navigate);
           setAlarmMsg(fetchedAlarms);
         } catch (error) {
-          console.error('Error fetching alarms:', error);
+          console.log(error.message);
         }
       };
       getAlarms();
     }
-  }, [setSignIn, setAlarmMsg, navigate]);
+  }, [setSignIn, setAlarmMsg, navigate, signIn]);
 
   // SSE -------------------------------------------------------------------------------------------------------
   useEffect(() => {
@@ -37,6 +37,7 @@ const Header = () => {
 
     async function setupEventSource() {
       if (signIn) {
+        if (eventSource) eventSource.close(); // Ensure previous instance is closed
         eventSource = await SSE();
       }
     }

@@ -1,17 +1,17 @@
 import { globalMembersAPI } from '../../variable';
 import { globalAuthAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
+import { toast } from 'react-toastify';
+import { MESSAGES } from '../../Constants';
 
 const axiosWithTokenMembers = createAxiosWithToken(globalMembersAPI);
 const axiosWithTokenAuth = createAxiosWithToken(globalAuthAPI);
 
 //닉네임 중복 확인
-export const fetchUserNames = async (
+export const fetchUserName = async (
   setIsDuplicate,
-  setDuplicationMessage,
   userName,
   setUserName,
-  setRegisterMessage,
   signIn,
   setSignIn,
 ) => {
@@ -23,22 +23,18 @@ export const fetchUserNames = async (
     });
 
     if (response.status === 200) {
-      setDuplicationMessage('사용 가능한 닉네임입니다.');
+      toast.success(MESSAGES.USERNAME_AVAILABLE);
       setIsDuplicate(false);
       setUserName(userName);
+      return response.data;
     }
-    return response.data;
   } catch (error) {
-    console.log(error);
-    setRegisterMessage('에러');
+    console.log(error.message);
     if (error.response.status === 400) {
-      setDuplicationMessage('중복된 닉네임입니다.');
+      toast.error(MESSAGES.USERNAME_DUPLICATE);
       setIsDuplicate(true);
     }
-    if (signIn && error.response.status === 404) {
-      console.log(
-        '404에러: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-      );
+    if (signIn && error.response.status === 401) {
       setSignIn(false);
       localStorage.removeItem('accessToken');
     }
@@ -47,12 +43,7 @@ export const fetchUserNames = async (
 };
 
 //프로필 변경
-export const changeUserInfo = async (
-  userName,
-  address,
-  image,
-  setRegisterMessage,
-) => {
+export const changeUserInfo = async (userName, address, image) => {
   try {
     const memberRequest = {
       nickname: userName,
@@ -67,44 +58,18 @@ export const changeUserInfo = async (
     const json = JSON.stringify(memberRequest);
     const blob = new Blob([json], { type: 'application/json' });
     var formData = new FormData();
-    console.log(image);
     formData.append('imgFile', image);
     formData.append('memberRequest', blob);
 
     const response = await axiosWithTokenMembers.put('', formData);
 
     if (response.status === 200) {
-      console.log('프로필 수정 성공');
+      return response.data;
     }
-    return response;
   } catch (error) {
-    console.log(error);
-    setRegisterMessage('에러');
-    if (error.response.status === 404) {
-      console.log(
-        '404 error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-      );
-      localStorage.removeItem('accessToken');
-    }
-    throw error;
-  }
-};
-
-//사용자 평점
-export const fetchRating = async () => {
-  try {
-    const response = await axiosWithTokenMembers.get('');
-    const averageRating = response.data.rating;
-    if (response.status === 200) {
-      console.log('사용자 평점 받기 성공');
-    }
-    return averageRating;
-  } catch (error) {
-    console.error('Error fetching ratings: ', error);
-    if (error.response.status === 404) {
-      console.log(
-        '404 error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-      );
+    console.log(error.message);
+    toast.error(MESSAGES.PROFILE_UPDATE_FAILURE);
+    if (error.response.status === 401) {
       localStorage.removeItem('accessToken');
     }
     throw error;
@@ -116,17 +81,16 @@ export const fetchUserInfo = async () => {
   try {
     const response = await axiosWithTokenMembers.get('');
     if (response.status === 200) {
-      console.log('사용자 정보 불러오기 성공');
-      return response;
+      console.log(response.data);
+      return response.data;
     }
   } catch (error) {
-    console.error('Error fetching: ', error);
-    if (error.response.status === 404) {
-      console.log(
-        '404 error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-      );
+    console.log(error.message);
+    if (error.response.status === 401) {
       localStorage.removeItem('accessToken');
     }
     throw error;
   }
 };
+
+//response.data.rating
