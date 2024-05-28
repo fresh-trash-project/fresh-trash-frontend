@@ -69,7 +69,7 @@ export const createPost = async (
   wasteStatus,
   sellStatus,
   wastePrice,
-  address,
+  address = {},
   imgFile,
   navigate,
 ) => {
@@ -82,17 +82,18 @@ export const createPost = async (
       sellStatus: sellStatus,
       wastePrice: wastePrice,
       address: {
-        zipcode: address.zipcode,
-        state: address.state,
-        city: address.city,
-        district: address.district,
-        detail: address.detail,
+        zipcode: address.zipcode || '', // default value
+        state: address.state || '', // default value
+        city: address.city || '', // default value
+        district: address.district || '', // default value
+        detail: address.detail || '', // default value
       },
     };
     const json = JSON.stringify(wasteRequest);
     const blob = new Blob([json], { type: 'application/json' });
 
     const formData = new FormData();
+    console.log(imgFile);
     formData.append('imgFile', imgFile);
     formData.append('wasteRequest', blob);
 
@@ -163,7 +164,7 @@ export const updatePost = async (
   wasteStatus,
   sellStatus,
   wastePrice,
-  address,
+  address = {},
   imgFile,
   navigate,
 ) => {
@@ -176,11 +177,11 @@ export const updatePost = async (
       sellStatus: sellStatus,
       wastePrice: wastePrice,
       address: {
-        zipcode: address.zipcode,
-        state: address.state,
-        city: address.city,
-        district: address.district,
-        detail: address.detail,
+        zipcode: address.zipcode || '', // default value
+        state: address.state || '', // default value
+        city: address.city || '', // default value
+        district: address.district || '', // default value
+        detail: address.detail || '', // default value
       },
     };
     const json = JSON.stringify(wasteRequest);
@@ -202,13 +203,13 @@ export const updatePost = async (
     return response;
   } catch (error) {
     console.error('폐기물 수정 실패', error);
-    if (error.response.status === 404) {
-      console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-      );
-      localStorage.removeItem('accessToken');
-    }
-    throw error;
+    // if (error.response.status === 404) {
+    //   console.log(
+    //     '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+    //   );
+    //   localStorage.removeItem('accessToken');
+    // }
+    // throw error;
   }
 };
 //관심 추가 api
