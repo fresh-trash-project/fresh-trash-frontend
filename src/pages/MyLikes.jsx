@@ -14,38 +14,32 @@ const MyLikes = () => {
 
   useEffect(() => {
     const getMyLikes = async () => {
-      const dataMyLikes = await fetchMyLikes(page);
+      const dataMyLikes = await fetchMyLikes(selectedCategory, page);
       setMyLikes(dataMyLikes.content);
       setTotalLikes(dataMyLikes.totalElements);
       setTotalPage(dataMyLikes.totalPages);
     };
     getMyLikes();
-  }, [page]);
-
-  // useEffect(() => {
-  //   filterLikes(selectedCategory, myLikes); // Filter likes whenever the selected category changes
-  // }, [selectedCategory]);
-
-  // const filterLikes = (selectedCategory, myLikes) => {
-  //   const filtered =
-  //     selectedCategory === '전체'
-  //       ? myLikes
-  //       : myLikes.filter(data => data.content.wasteCategory === selectedCategory);
-  //   setFilteredLikes(filtered);
-  // };
-
-  // const handleCategoryChange = (category) => {
-  //   setSelectedCategory(category);
-  //   setPage(0); // Reset page to the first page
-  // };
+  }, [selectedCategory, page]);
 
   //페이지네이션-------------------------------------
-  const handlePreviousPage = () => {
-    setPage(prevPage => Math.max(prevPage - 1, 0)); // 이전 페이지로 이동
+  const handlePreviousPage = async () => {
+    setPage(page => Math.max(page - 1, 0)); // 이전 페이지로 이동
   };
 
-  const handleNextPage = () => {
-    setPage(prevPage => Math.min(prevPage + 1, totalPage - 1)); // 다음 페이지로 이동
+  const handleNextPage = async () => {
+    // 현재 페이지가 마지막 페이지보다 작은 경우에만 페이지를 증가시킵니다.
+    if (page < totalPage - 1) {
+      // 현재 페이지를 업데이트합니다.
+      setPage(page => page + 1);
+    }
+  };
+
+  //카테고리--------------------------------
+
+  const handleCategoryChange = category => {
+    setSelectedCategory(category);
+    setPage(0); // 카테고리가 변경될 때 페이지를 0으로 초기화합니다.
   };
 
   return (
@@ -120,8 +114,21 @@ const MyLikes = () => {
           </div>
         </div>
       </div>
-
-      <MyTradeCards myList={myLikes} />
+      <div className=" mt-16 pt-4  lg:pt-5 pb-4 px-20  lg:pb-8 xl:px-40 xl:container  2xl:px-60">
+        <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto  ">
+          <div className="grid gap-6 mt-12 justify-items-center md:grid-cols-2  lg:grid-cols-3 item_ list ">
+            {myLikes
+              .filter(
+                myList =>
+                  selectedCategory === '전체' ||
+                  myList.wasteCategory === selectedCategory,
+              )
+              .map(myLikes => (
+                <MyTradeCards key={myLikes.id} myList={myLikes} />
+              ))}
+          </div>
+        </div>
+      </div>
 
       <div className=" container flex justify-center mb-16">
         <PaginationButton

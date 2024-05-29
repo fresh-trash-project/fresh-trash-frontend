@@ -4,11 +4,11 @@ import { globalWastesAPI } from '../../variable';
 const axiosWithToken = createAxiosWithToken(globalWastesAPI);
 
 //나의 관심목록 > 판매완료 리스트
-export const fetchMyLikes = async page => {
+export const fetchMyLikes = async (search, currentPage) => {
   try {
-    const response = await axiosWithToken.get(`/likes`, {
-      params: { page },
-    });
+    const response = await axiosWithToken.get(
+      `/likes?category=${search}&page=${currentPage}`,
+    );
     if (response.status === 200) {
       console.log('나의 관심목록을 불러왔습니다.', response.data);
     }
