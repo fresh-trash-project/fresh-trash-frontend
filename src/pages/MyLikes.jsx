@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from '../components/common/header/Header';
 import MyTradeCards from '../components/common/card/MyTradeCards';
 import { fetchMyLikes } from '../api/UserLikesAPI';
-import { PaginationButton } from 'flowbite-react';
+import PaginationButton from '../components/common/pagination/PaginationButton';
 
 const MyLikes = () => {
   const [myLikes, setMyLikes] = useState([]);
@@ -132,19 +132,12 @@ const MyLikes = () => {
 
       <div className=" container flex justify-center mb-16">
         <PaginationButton
-          onClick={handlePreviousPage}
-          disabled={page === 0}
-          className="join-item btn mr-4"
-        >
-          이전
-        </PaginationButton>
-        <PaginationButton
-          onClick={handleNextPage}
-          disabled={page === totalPage - 1}
-          className="join-item btn ml-4"
-        >
-          다음
-        </PaginationButton>
+          handlePreviousPage={handlePreviousPage}
+          handleNextPage={handleNextPage}
+          // number={getPageNumbers}
+          page={page}
+          totalPages={totalPage}
+        />
       </div>
     </div>
   );

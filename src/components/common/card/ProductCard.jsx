@@ -1,7 +1,6 @@
 import React from 'react';
 import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
-
 const ProductCard = ({ wastes }) => {
   const getImgeUrl = fileName => {
     return urlJoin(globalFileAPI, `${fileName}`);
