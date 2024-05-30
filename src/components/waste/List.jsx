@@ -5,9 +5,9 @@ import { FaPlus } from 'react-icons/fa6';
 import { signInState } from '../../recoil/RecoilSignIn';
 import ProductCard from '../common/card/ProductCard';
 import { useNavigate } from 'react-router-dom';
-import { PaginationButton } from 'flowbite-react';
+import PaginationButton from '../common/pagination/PaginationButton';
 import { FaSearch } from 'react-icons/fa';
-const List2 = () => {
+const List = () => {
   const navigate = useNavigate();
   //회원만 등록페이지 접근-------------------------------
   const [signIn, setSignIn] = useRecoilState(signInState);
@@ -22,6 +22,7 @@ const List2 = () => {
   //fetch 호출-----------------------------------
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
   const [searchType, setSearchType] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -51,6 +52,7 @@ const List2 = () => {
         }
 
         setPosts(productList);
+        setTotalPage(productList.totalPages);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -272,20 +274,6 @@ const List2 = () => {
             <button onClick={handleSortByCreated}>최신순</button>
           </div>
           <div className="grid gap-6 justify-items-center md:grid-cols-2  lg:grid-cols-3 item_ list ">
-            {/* {posts.content &&
-              posts.content
-                .filter(
-                  wastes =>
-                    selectedCategory === '전체' ||
-                    wastes.wasteCategory === selectedCategory,
-                )
-                .map(wastes => (
-                  <ProductCard
-                    key={wastes.id}
-                    wastes={wastes}
-                    onDelete={handleDelete}
-                  />
-                ))} */}
             {searchResults.length > 0
               ? searchResults &&
                 searchResults
@@ -315,54 +303,21 @@ const List2 = () => {
                       onDelete={handleDelete}
                     />
                   ))}
-            {/* {searchResults && searchResults.length > 0
-              ? searchResults.map(wastes => (
-                  <ProductCard
-                    key={wastes.id}
-                    wastes={wastes}
-                    onDelete={handleDelete}
-                  />
-                ))
-              : // posts.content가 존재하고 비어있지 않은 경우에만 map 함수를 실행
-                posts.content &&
-                posts.content
-                  .filter(
-                    wastes =>
-                      selectedCategory === '전체' ||
-                      wastes.wasteCategory === selectedCategory,
-                  )
-                  .map(wastes => (
-                    <ProductCard
-                      key={wastes.id}
-                      wastes={wastes}
-                      onDelete={handleDelete}
-                    />
-                  ))} */}
-            {/* // : ( // // 검색 결과나 게시물이 없는 경우에는 메시지를 표시 //{' '}
-            <div>검색 결과가 없습니다.</div>
-            // ) */}
           </div>
         </div>
       </div>
 
       <div className=" container flex justify-center mb-16">
         <PaginationButton
-          onClick={handlePreviousPage}
-          disabled={page === 0}
-          className="join-item btn mr-4"
-        >
-          이전
-        </PaginationButton>
-        <PaginationButton
-          onClick={handleNextPage}
-          disabled={page === posts.totalPages - 1}
-          className="join-item btn ml-4"
-        >
-          다음
-        </PaginationButton>
+          handlePreviousPage={handlePreviousPage}
+          handleNextPage={handleNextPage}
+          // number={getPageNumbers}
+          page={page}
+          totalPages={totalPage}
+        />
       </div>
     </div>
   );
 };
 
-export default List2;
+export default List;
