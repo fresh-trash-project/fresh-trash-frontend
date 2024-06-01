@@ -41,12 +41,12 @@ const MyPage = () => {
       const myInfo = await fetchUserInfo();
 
       console.log(myInfo);
-
       setUserName(myInfo.nickname);
       setAddress(myInfo.address);
       setAverageRating(myInfo.rating);
       setImage(myInfo.fileName || logoImg); // Fallback to logoImg if fileName is not provided
 
+      // 처음 들어갔을때는 주소가 없으니까 불러오지 못하기 때문에 아래와 같이 null일때는 빈값보이도록 처리.
       if (myInfo.address === null) {
         setAddress({
           zipcode: '',
@@ -58,7 +58,6 @@ const MyPage = () => {
       }
     };
     getUserInfo();
-    console.log(userName);
   }, []);
 
   //함수들-----------------------------------------------------------
@@ -70,29 +69,24 @@ const MyPage = () => {
   const handleChangeUserInfo = async e => {
     e.preventDefault();
     setIsEditing(false);
-    const changeMyInfo = await changeUserInfo(
-      userName,
-      address,
-      image,
-      setRegisterMessage,
-    );
-    console.log(changeMyInfo);
+    const changeMyInfo = await changeUserInfo(userName, address, imgFile);
     setUserName(changeMyInfo.nickname);
     setAddress(changeMyInfo.address);
     setImage(changeMyInfo.fileName);
-    console.log(changeMyInfo.fileName);
   };
   console.log('이미지.jpg:' + image);
 
   //이미지 변경
   const handleImageChange = async e => {
     const file = e.target.files[0];
-    console.log(file);
-    setImage(file);
-    setImgFile(file);
+    const imageUrl = URL.createObjectURL(file);
+    setImage(imageUrl); // 미리보기용 URL을 저장
+    setImgFile(file); // 실제 파일 객체를 저장
+    console.log('미리보기 이미지URL:' + imageUrl);
+    console.log('이미지파일 객체:' + file);
   };
 
-  //이미지 파일 경로-----------------------------
+  //이미지 파일 경로-----------------------------getImgUrl 함수를 통해 서버로부터 반환된 파일 이름을 URL로 변환
   const getImgUrl = fileName => {
     return urlJoin(globalFileAPI, `${fileName}`);
   };
@@ -102,10 +96,10 @@ const MyPage = () => {
     try {
       // Call the backend API to update user information with null image
       await changeUserInfo(userName, address, null);
-      // If update is successful, set image state to null locally
-      setImage(null);
+      setImage(logoImg);
+      setImgFile(null);
     } catch (error) {
-      console.error('Error deleting image:', error);
+      console.log(error.message);
     }
   };
 
@@ -192,7 +186,8 @@ const MyPage = () => {
             {isEditing ? (
               <div className="w-72 rounded-full mx-auto md:mx-10 ">
                 <img
-                  src={imgFile && URL.createObjectURL(imgFile)}
+                  // src={imgFile && URL.createObjectURL(imgFile)}
+                  src={imgFile}
                   alt=""
                   className={'w-full h-full object-cover'}
                 />
