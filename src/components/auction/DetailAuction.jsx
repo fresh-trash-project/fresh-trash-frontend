@@ -9,17 +9,17 @@ import { LikesState } from '../../recoil/RecoilLikes';
 import { globalFileAPI } from '../../../variable';
 import DetailCard from '../common/card/DetailCard';
 import urlJoin from 'url-join';
-const DetailPrduct = () => {
+const DetailAuction = () => {
   const { wasteId } = useParams(); // URL 파라미터에서 wasteId 가져오기
   const { chatId } = useParams();
-  const [postDetails, setPostDetails] = useState(null);
+  const [auctionDetails, setAuctionDetails] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     const fetchDetail = async () => {
       try {
         const details = await detailWaste(wasteId);
-        setPostDetails(details);
+        setAuctionDetails(details);
       } catch (error) {
         console.error(
           '상품 상세 정보를 불러오는 도중 에러가 발생했습니다:',
@@ -29,36 +29,6 @@ const DetailPrduct = () => {
     };
     fetchDetail();
   }, [wasteId]);
-
-  //관심 추가--------------------------------------
-  const [likeState, setLikeState] = useRecoilState(LikesState);
-  // const [hearted, setHearted] = useState(false);
-  const [like, setLike] = useState(false);
-  const handleLikeToggle = async () => {
-    try {
-      // 관심 상태를 토글하고 상태 업데이트
-      const newLikeState = !likeState[wasteId];
-      setLikeState({ ...likeState, [wasteId]: newLikeState });
-
-      // API 호출하여 관심 상태 업데이트
-      const response = await likeWaste(
-        wasteId,
-        newLikeState ? 'LIKE' : 'UNLIKE',
-      );
-      console.log('하트상태', response.data);
-      setPostDetails(prevDetails => ({
-        ...prevDetails,
-        likeCount: newLikeState
-          ? prevDetails.likeCount + 1
-          : prevDetails.likeCount - 1,
-      }));
-    } catch (error) {
-      console.error(
-        '관심 상태를 업데이트하는 도중 오류가 발생했습니다:',
-        error,
-      );
-    }
-  };
 
   //수정하기 삭제하기 버튼 게시글 등록한 사람만 보이게------------------------
   useEffect(() => {
@@ -90,9 +60,9 @@ const DetailPrduct = () => {
   const handleDelete = async () => {
     try {
       // API를 사용하여 제품 삭제
-      await deleteWaste(postDetails.id);
+      await deleteWaste(auctionDetails.id);
 
-      navigate('/ProductsList');
+      navigate('/AuctionList');
     } catch (error) {
       console.error('제품 삭제 중 오류가 발생했습니다:', error);
     }
@@ -103,22 +73,20 @@ const DetailPrduct = () => {
     return urlJoin(globalFileAPI, `${fileName}`);
   };
 
-  //채팅------------------------------------
-
   return (
     <div>
       <div className="container">
         <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
           <ul>
             <li>카테고리</li>
-            <li>{postDetails && postDetails.wasteCategory}</li>
+            <li>{auctionDetails && auctionDetails.wasteCategory}</li>
           </ul>
         </div>
         <div className="flex flex-row-reverse mt-12">
           <div className="mr-28 dropdown dropdown-end">
             {currentUser &&
-              postDetails &&
-              currentUser.id === postDetails.memberResponse.id && (
+              auctionDetails &&
+              currentUser.id === auctionDetails.memberResponse.id && (
                 <div>
                   <div tabIndex={0} role="button" className="btn m-1">
                     <FiMoreVertical />
@@ -128,14 +96,9 @@ const DetailPrduct = () => {
                     className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
                   >
                     <li>
-                      <Link to={`/ProductEdit/${postDetails.id}`}>
-                        <p>수정하기</p>
-                      </Link>
-                    </li>
-                    <li>
                       <p
                         onClick={() =>
-                          handleDelete(postDetails && postDetails.id)
+                          handleDelete(auctionDetails && auctionDetails.id)
                         }
                       >
                         삭제하기
@@ -147,7 +110,7 @@ const DetailPrduct = () => {
           </div>
         </div>
         <DetailCard
-          postDetails={postDetails}
+          auctionDetails={auctionDetails}
           wasteId={wasteId}
           currentUser={currentUser}
         />
@@ -155,4 +118,4 @@ const DetailPrduct = () => {
     </div>
   );
 };
-export default DetailPrduct;
+export default DetailAuction;
