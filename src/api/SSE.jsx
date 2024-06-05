@@ -1,50 +1,69 @@
+import { useRecoilState } from 'recoil';
 import { globalNotisAPI } from '../../variable';
-import { EventSourcePolyfill } from 'event-source-polyfill';
+import { EventSource } from 'event-source-polyfill';
+import { signInState } from '../recoil/RecoilSignIn';
+import { useEffect } from 'react';
 
-export const SSE = async () => {
-  const accessToken = localStorage.getItem('accessToken');
-  const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
+let eventSource = null;
 
-  const eventSource = new EventSourcePolyfill(`${globalNotisAPI}/subscribe`, {
-    heartbeatTimeout: 30 * 60 * 1000,
-    headers, //인증토큰을 보냈을때 서버가 데이터를 보내준다.
-  });
+export const useSSE = async () => {
+  const [signIn, setSignIn] = useRecoilState(signInState);
 
-  //맨 처음 연결할 때 받는 알람
-  eventSource.addEventListener('connected', e => {
-    console.log('receivedData:', e.data);
-  });
+  useEffect(() => {
+    if (signIn) {
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) return;
+      if (EventSource) return eventSource; // 이미 생성된 인스턴스 재사용
 
-  // 거래상태 변경 후 받는 알람
-  eventSource.addEventListener('waste-transaction-alarm', e => {
-    console.log('receivedData:', e.data);
-  });
+      const headers = { Authorization: `Bearer ${accessToken}` };
 
-  eventSource.onmessage = e => {
-    console.log('message event received:', e.data);
-  };
+      eventSource = new EventSourcePolyfill(`${globalNotisAPI}/subscribe`, {
+        heartbeatTimeout: 30 * 60 * 1000,
+        headers, //인증토큰을 보냈을때 서버가 데이터를 보내준다.
+      });
 
-  // 오류 발생 시 디버깅 정보 추가
-  eventSource.onerror = error => {
-    console.log('EventSource error:', error);
-    console.log('EventSource readyState:', eventSource.readyState);
-    if (eventSource.readyState === EventSource.CLOSED) {
-      console.log('EventSource is closed.');
-    } else {
-      console.log('EventSource encountered an error but is not closed.');
-      console.log('Current time:', new Date().toISOString());
-      console.log('Retrying connection in 5 seconds...');
-      setTimeout(() => {
+      eventSource.onopen = () => console.log('SSE Opened');
+
+      //맨 처음 연결할 때 받는 알람
+      eventSource.addEventListener('connected', e => {
+        console.log('receivedData:', e.data);
+      });
+
+      // 거래상태 변경 후 받는 알람
+      eventSource.addEventListener('waste-transaction-alarm', e => {
+        console.log('receivedData:', e.data);
+      });
+
+      // eventSource.addEventListener('updated_product_status', e => {
+      //   console.log('receivedData:', e.data);
+      // });
+
+      // 경고
+      // eventSource.addEventListener('flag', e => {
+      //   console.log('receivedData:', e.data);
+      // });
+
+      eventSource.onmessage = e => {
+        console.log('message event received:', e.data);
+      };
+
+      // 오류 발생 시 디버깅 정보 추가
+      eventSource.onerror = error => {
+        console.log('error: ', error);
         eventSource.close();
-        SSE();
-      }, 5000); // 5초 후 재연결 시도
+        eventSource = null; // 중복 연결 방지
+      };
+    } else if (eventSource) {
+      eventSource.close();
+      eventSource = null;
     }
-  };
-  return {
-    close: () => {
-      if (eventSource.readyState !== EventSource.CLOSED) {
+
+    // Cleanup on unmount
+    return () => {
+      if (eventSource) {
         eventSource.close();
+        eventSource = null;
       }
-    },
-  };
+    };
+  }, [signIn]);
 };

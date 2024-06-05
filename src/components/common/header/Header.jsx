@@ -5,7 +5,7 @@ import Alarm from './Alarm';
 import { signInState } from '../../../recoil/RecoilSignIn';
 import { useEffect } from 'react';
 import { fetchAlarm } from '../../../api/AlarmAPI';
-import { SSE } from '../../../api/SSE';
+import { useSSE } from '../../../api/SSE';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
@@ -31,24 +31,8 @@ const Header = () => {
     }
   }, [setSignIn, setAlarmMsg, navigate, signIn]);
 
-  // SSE -------------------------------------------------------------------------------------------------------
-  useEffect(() => {
-    let eventSource;
-
-    async function setupEventSource() {
-      if (signIn) {
-        if (eventSource) eventSource.close(); // Ensure previous instance is closed
-        eventSource = await SSE();
-      }
-    }
-    setupEventSource();
-
-    return () => {
-      if (eventSource) {
-        eventSource.close();
-      }
-    };
-  }, [signIn]);
+  // SSE 연결-------------------------------------------------------------------------------------------------------
+  useSSE(signIn);
 
   //JSX -----------------------------------------------------------------------------------------------
   return (

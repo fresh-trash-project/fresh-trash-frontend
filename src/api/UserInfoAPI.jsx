@@ -56,8 +56,8 @@ export const changeUserInfo = async (userName, address, image) => {
       },
     };
     const json = JSON.stringify(memberRequest);
-    // const blob = new Blob([json], { type: 'application/json' });
-    const blob = new Blob([json], { type: 'multipart/form-data' });
+    const blob = new Blob([json], { type: 'application/json' });
+    // const blob = new Blob([json], { type: 'multipart/form-data' });
     var formData = new FormData();
     formData.append('imgFile', image);
     formData.append('memberRequest', blob);

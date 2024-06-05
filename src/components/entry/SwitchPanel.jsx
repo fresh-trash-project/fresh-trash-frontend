@@ -15,7 +15,7 @@ const SwitchPanel = ({
       <div className="switch flex">
         <p className="mr-2 text-sm">{buttonText}</p>
         <SwitchButton onClick={onClick}>
-          {signInPanel === false ? 'sign up' : 'sign in'}
+          {signInPanel === false ? 'Sign In' : 'Sign Up'}
         </SwitchButton>
       </div>
     </div>

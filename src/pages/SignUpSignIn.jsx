@@ -49,11 +49,11 @@ const SignUpSignIn = () => {
       <div className="container rounded-xl shadow-2xl relative overflow-hidden w-[30rem] max-w-full min-h-[45rem] md:w-[60rem] md:min-h-[35rem]">
         {/* 회원가입컨테이너--------------------------------------------------------------------------------------------------- */}
         <EntryContainer
-          signInPanel={!signInPanel}
+          signInPanel={false}
           translation={`${signInPanel ? 'translate-x-0 opacity-0 z-0' : 'md:translate-x-full opacity-1 z-10'}`}
           title="WELCOME"
           phrase="We invite you to FRESH TRASH"
-          buttonText="Already have an account?"
+          buttonText="Already have an account ?"
           onClick={() => setSignInPanel(true)}
         >
           <SignUpForm
@@ -74,11 +74,11 @@ const SignUpSignIn = () => {
 
         {/* 로그인컨테이너--------------------------------------------------------------------------------------------------- */}
         <EntryContainer
-          signInPanel={signInPanel}
+          signInPanel={true}
           translation={`${signInPanel ? 'translate-x-0 opacity-1 z-10' : 'md:translate-x-full opacity-0 z-0'}`}
           title="WELCOME BACK"
           phrase="It's time to FRESH TRASH"
-          buttonText="Don't have an account?"
+          buttonText="Don't have an account ?"
           onClick={() => setSignInPanel(false)}
         >
           <SignInForm
@@ -91,7 +91,7 @@ const SignUpSignIn = () => {
           />
         </EntryContainer>
 
-        {/* 스위치컨테이너----------------------------------------------------------------------------------------------------*/}
+        {/* 큰화면 스위치컨테이너----------------------------------------------------------------------------------------------------*/}
         <div
           className={`switchContainer z-10 absolute top-0 left-1/2 w-1/2 h-full overflow-hidden transition-all ${!signInPanel && '-translate-x-full'} hidden md:block`}
         >
@@ -100,16 +100,16 @@ const SignUpSignIn = () => {
           >
             <div className="Panel absolute top-0 text-center h-full w-1/2 flex items-center justify-center flex-col px-10 ">
               <SwitchPanel
-                signInPanel={signInPanel === false}
+                signInPanel={false}
                 translation={`${signInPanel ? 'translate-x-[30rem] opacity-0 z-0' : 'translate-x-0 opacity-1 z-10'}`}
                 title="WELCOME"
                 phrase="We invite you to Fresh Trash"
-                buttonText="Already have an account?"
+                buttonText="Already have an account ?"
                 onClick={() => setSignInPanel(true)}
               />
 
               <SwitchPanel
-                signInPanel={signInPanel === true}
+                signInPanel={true}
                 translation={`${signInPanel ? 'translate-x-[30rem] opacity-1 z-10' : 'translate-x-0 opacity-0 z-0'}`}
                 title="WELCOME BACK"
                 phrase="It's time to Fresh Trash"
