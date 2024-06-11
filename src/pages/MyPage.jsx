@@ -41,14 +41,13 @@ const MyPage = () => {
   useEffect(() => {
     const getUserInfo = async () => {
       const myInfo = await fetchUserInfo();
-
-      console.log(myInfo);
+      console.log('마이페이지 들어왔을때 받은 데이터: ', myInfo);
       setUserName(myInfo.nickname);
       setAddress(myInfo.address);
       setAverageRating(myInfo.rating);
-      setImage(myInfo.fileName || logoImg); // Fallback to logoImg if fileName is not provided
-      console.log('마이인포파일네임', myInfo.fileName);
-
+      setImage(myInfo.fileName || logoImg);
+      console.log('서버로부터 받은 파일 이름을 image에 저장: ', image);
+      console.log('이미지 객체 파일 imgFile: ', imgFile);
       // 처음 들어갔을때는 주소가 없으니까 불러오지 못하기 때문에 아래와 같이 null일때는 빈값보이도록 처리.
       if (myInfo.address === null) {
         setAddress({
@@ -73,20 +72,16 @@ const MyPage = () => {
     e.preventDefault();
     setIsEditing(false);
     const changeMyInfo = await changeUserInfo(userName, address, imgFile);
-    console.log('API response:', changeMyInfo); // API 응답 로그 출력
-
     setUserName(changeMyInfo.nickname);
     setAddress(changeMyInfo.address);
+
     // 이미지 상태 업데이트
     if (changeMyInfo && changeMyInfo.fileName) {
       setImage(changeMyInfo.fileName);
     } else {
-      setImage(logoImg); // 실패 시 로고 이미지로 재설정
+      setImage(logoImg);
     }
-    console.log('Updated image:', changeMyInfo.fileName); // 업데이트된 이미지 파일명 로그 출력
   };
-  console.log('imgFile:' + imgFile);
-  console.log('image:' + image);
 
   //이미지 변경
   const handleImageChange = async e => {
@@ -95,8 +90,6 @@ const MyPage = () => {
       const imageUrl = URL.createObjectURL(file);
       setImage(imageUrl); // 미리보기용 URL을 저장 - imgFile에(file에) createObjectUrl적용한것.
       setImgFile(file); // 실제 파일 객체를 저장
-      console.log('미리보기용 이미지URL:' + imageUrl);
-      console.log('imgFile:' + file);
     } else {
       setImage(logoImg);
     }
@@ -114,7 +107,7 @@ const MyPage = () => {
     }
     // 서버의 이미지 경로 처리
     const fullPath = urlJoin(globalFileAPI, `${image}`);
-    console.log('파일 이미지 경로: ', fullPath);
+    console.log('image를 경로 처리한 fullPath: ', fullPath);
     return fullPath;
   };
 
@@ -122,7 +115,6 @@ const MyPage = () => {
   const handleDeleteImage = async () => {
     try {
       const response = await changeUserInfo(userName, address, null);
-      console.log(response);
       if (response) {
         setImage(logoImg); // 로고 이미지로 재설정
         setImgFile(null); // 파일 객체 제거
@@ -215,12 +207,13 @@ const MyPage = () => {
                 alt="프로필 이미지"
                 className={'w-full h-full object-cover'}
                 onError={e => {
+                  console.error(e.target.src);
                   e.target.src = logoImg;
                 }} // 로드 실패 시 기본 이미지
               />
             </div>
-            {console.log(imgFile)}
-            {console.log(image)}
+            {/*console.log(imgFile)*/}
+            {/*console.log(image)*/}
             {/* 이미지를 업로드하면 imgFile, imgFile을 서버로 넘김 
             서버는 받은 imgFile을 서버의 파일시스템이나 S3같은 클라우드 스토리지에 저장 
             이미지파일 저장 과정에서 고유한 이름 생성('02db636b-986f-4e00-952c-bd8aa7a982f0.jpg')
@@ -228,7 +221,7 @@ const MyPage = () => {
             이 정보는 사용자의 프로필 이미지 경로로 사용되며 사용자 프로필을 조회할 떄 이 경로를 통해 이미지를 불러옴. 
             새 이미지 URL을 클라이언트에 반환. 
             클라이언트는 서버에서 보낸 URL을 image에 저장.*/}
-            {console.log(getImgUrl(image))}
+            {console.log('UI src: ', getImgUrl(image))}
             {/* getImgUrl 함수는 서버로부터 받은 이미지 파일명을 웹에서 접근 가능한 URL로 변환하는 역할을 합니다.  */}
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
