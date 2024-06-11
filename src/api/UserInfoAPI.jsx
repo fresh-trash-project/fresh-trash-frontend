@@ -43,7 +43,7 @@ export const fetchUserName = async (
 };
 
 //프로필 변경
-export const changeUserInfo = async (userName, address, image) => {
+export const changeUserInfo = async (userName, address, imgFile) => {
   try {
     const memberRequest = {
       nickname: userName,
@@ -57,12 +57,15 @@ export const changeUserInfo = async (userName, address, image) => {
     };
     const json = JSON.stringify(memberRequest);
     const blob = new Blob([json], { type: 'application/json' });
-    // const blob = new Blob([json], { type: 'multipart/form-data' });
+
     var formData = new FormData();
-    formData.append('imgFile', image);
+
+    formData.append('imgFile', imgFile);
     formData.append('memberRequest', blob);
 
     const response = await axiosWithTokenMembers.put('', formData);
+
+    console.log(response);
 
     if (response.status === 200) {
       return response.data;

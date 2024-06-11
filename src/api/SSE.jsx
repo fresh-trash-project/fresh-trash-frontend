@@ -6,14 +6,14 @@ import { useEffect } from 'react';
 
 let eventSource = null;
 
-export const useSSE = async () => {
+export const useSSE = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
 
   useEffect(() => {
     if (signIn) {
       const accessToken = localStorage.getItem('accessToken');
       if (!accessToken) return;
-      if (EventSource) return eventSource; // 이미 생성된 인스턴스 재사용
+      if (EventSource) return;
 
       const headers = { Authorization: `Bearer ${accessToken}` };
 
