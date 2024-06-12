@@ -107,40 +107,23 @@ export const completePost = async (wasteId, chatRoomId) => {
   }
 };
 
-//예약중,판매중 api
-// export const statusPost = async (chatRoomId, query) => {
-//   try {
-//     const response = await axiosWithTokenTransactions.post(
-//       `/chats/${chatRoomId}/status${query}`,
-//     );
-//     if (response.status === 200) {
-//       console.error('판매상태가 예약중으로 변경되었습니다.', response.data);
-//     }
-//   } catch (error) {
-//     console.log('판매상태가 예약중으로 변경 실패하였습니다.', error);
-//     if (error.response.status === 404) {
-//       console.log('404 Error: 토큰삭제 로그아웃');
-//       localStorage.removeItem('accessToken');
-//     }
-//     throw error;
-//   }
-// };
-
-// export const statusChange = {
-//   sellStatus: async (chatRoomId, status) =>
-//     await statusPost(chatRoomId, `?sellStatus=${status}`),
-// };
 //거래처리
-export const statusChat = async (chatRoomId, query) => {
+export const statusChat = async (chatRoomId, productEventType) => {
   try {
     const response = await axiosWithTokenChat.post(
-      `/${chatRoomId}/transaction${query}`,
+      `/${chatRoomId}/productDeal`,
+      null,
+      {
+        params: {
+          productEventType: productEventType,
+        },
+      },
     );
-    if (response.status === 201) {
+    if (response.status === 200) {
       console.log('거래처리 상태 변경을 성공하였습니다.');
     }
   } catch (error) {
-    console.log('거래처리상태가 변경을 실패했습니다.', error);
+    // console.log('거래처리상태가 변경을 실패했습니다.', error);
     // if (error.response.status === 404) {
     //   console.log('404 Error: 토큰삭제 로그아웃');
     //   localStorage.removeItem('accessToken');
@@ -148,10 +131,7 @@ export const statusChat = async (chatRoomId, query) => {
     throw error;
   }
 };
-export const statusChange = {
-  productEventType: async (chatRoomId, status) =>
-    await statusChat(chatRoomId, `?productEventType=${status}`),
-};
+
 //신고하기 api
 export const reportPost = async chatRoomId => {
   try {

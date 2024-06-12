@@ -11,7 +11,7 @@ import {
   completePost,
   contentFetch,
   reportPost,
-  statusChange,
+  statusChat,
 } from '../../api/ChattingAPI';
 import { useParams } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
@@ -38,17 +38,29 @@ const InputField = () => {
     };
     fetchData(chatId);
   }, [chatId]);
-  //판매완료
+  //판매완료 (거래완료)
   const handleCompleted = async () => {
-    await statusChange.productEventType(chatId, 'COMPLETE_DEAL');
+    await statusChat(chatId, 'COMPLETE_DEAL');
+    setMessageContent(prevContent => ({
+      ...prevContent,
+      chatRoom: { ...prevContent.chatRoom, sellStatus: 'CLOSE' },
+    }));
   };
-  //예약중 변경
+  //예약중 (예약 신청)
   const handleBooking = async () => {
-    await statusChange.productEventType(chatId, 'REQUEST_BOOKING');
+    await statusChat(chatId, 'REQUEST_BOOKING');
+    setMessageContent(prevContent => ({
+      ...prevContent,
+      chatRoom: { ...prevContent.chatRoom, sellStatus: 'BOOKING' },
+    }));
   };
   //판매중 변경(예약 취소)
   const handleOngoing = async () => {
-    await statusChange.productEventType(chatId, 'CANCEL_BOOKING');
+    await statusChat(chatId, 'CANCEL_BOOKING');
+    setMessageContent(prevContent => ({
+      ...prevContent,
+      chatRoom: { ...prevContent.chatRoom, sellStatus: 'ONGOING' },
+    }));
   };
   //신고하기
   const handleReport = async chatRoomId => {
