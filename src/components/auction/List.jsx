@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { fetchWastes } from '../../api/WastesApi';
+import { fetchProducts } from '../../api/ProductAPI';
 import { signInState } from '../../recoil/RecoilSignIn';
 import ProductCard from '../common/card/ProductCard';
 import { useNavigate } from 'react-router-dom';
@@ -34,9 +34,13 @@ const List = () => {
       try {
         let productList;
         if (searchType === 'title') {
-          productList = await fetchWastes.titleSearch(searchInput, page, sort);
+          productList = await fetchProducts.titleSearch(
+            searchInput,
+            page,
+            sort,
+          );
         } else if (searchType === 'district') {
-          productList = await fetchWastes.districtSearch(
+          productList = await fetchProducts.districtSearch(
             searchInput,
             page,
             sort,

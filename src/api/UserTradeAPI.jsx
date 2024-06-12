@@ -1,7 +1,7 @@
 import createAxiosWithToken from './Axios';
-import { globalTransactionsAPI } from '../../variable';
+import { globalProductDeals } from '../../variable';
 
-const axiosWithToken = createAxiosWithToken(globalTransactionsAPI);
+const axiosWithToken = createAxiosWithToken(globalProductDeals);
 
 //나의 판매내역 > 판매중 리스트
 export const fetchMySellOngoing = async page => {

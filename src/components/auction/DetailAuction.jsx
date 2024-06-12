@@ -3,7 +3,8 @@ import { useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import { FiMoreVertical } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
-import { deleteWaste, detailWaste, likeWaste } from '../../api/WastesApi';
+
+import { deleteProduct, detailProduct } from '../../api/ProductAPI';
 import { chatPost } from '../../api/ChattingAPI';
 import { LikesState } from '../../recoil/RecoilLikes';
 import { globalFileAPI } from '../../../variable';
@@ -18,7 +19,7 @@ const DetailAuction = () => {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const details = await detailWaste(wasteId);
+        const details = await detailProduct(wasteId);
         setAuctionDetails(details);
       } catch (error) {
         console.error(
@@ -60,7 +61,7 @@ const DetailAuction = () => {
   const handleDelete = async () => {
     try {
       // API를 사용하여 제품 삭제
-      await deleteWaste(auctionDetails.id);
+      await deleteProduct(auctionDetails.id);
 
       navigate('/AuctionList');
     } catch (error) {

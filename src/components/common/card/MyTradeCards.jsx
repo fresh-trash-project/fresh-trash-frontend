@@ -1,9 +1,9 @@
 import ProductCard from './ProductCard';
 
-const MyTradeCards = ({ myList }) => {
+const MyTradeCards = ({ product }) => {
   return (
     <div>
-      <ProductCard key={myList.id} wastes={myList} />
+      <ProductCard key={product.id} product={product} />
     </div>
   );
 };

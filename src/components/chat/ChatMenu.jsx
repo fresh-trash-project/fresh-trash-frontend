@@ -37,7 +37,7 @@ const ChatMenu = ({ isOpen, messageList }) => {
           className="p-5"
           onClick={() =>
             handleDelete(
-              messageList.chatRoom && messageList.chatRoom.wasteId,
+              messageList.chatRoom && messageList.chatRoom.productId,
               messageList.chatRoom && messageList.chatRoom.id,
             )
           }
