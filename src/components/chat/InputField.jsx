@@ -11,14 +11,14 @@ import {
   completePost,
   contentFetch,
   reportPost,
-  statusChange,
+  statusChat,
 } from '../../api/ChattingAPI';
 import { useParams } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
 import { ListFetch } from '../../api/ChattingAPI';
 const InputField = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { chatId, wasteId } = useParams();
+  const { chatId, productId } = useParams();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -38,17 +38,29 @@ const InputField = () => {
     };
     fetchData(chatId);
   }, [chatId]);
-  //판매완료
-  const handleCompleted = async (wasteId, chatRoomId) => {
-    await completePost(wasteId, chatRoomId);
+  //판매완료 (거래완료)
+  const handleCompleted = async () => {
+    await statusChat(chatId, 'COMPLETE_DEAL');
+    setMessageContent(prevContent => ({
+      ...prevContent,
+      chatRoom: { ...prevContent.chatRoom, sellStatus: 'CLOSE' },
+    }));
   };
-  //예약중 변경
+  //예약중 (예약 신청)
   const handleBooking = async () => {
-    await statusChange.sellStatus(chatId, 'BOOKING');
+    await statusChat(chatId, 'REQUEST_BOOKING');
+    setMessageContent(prevContent => ({
+      ...prevContent,
+      chatRoom: { ...prevContent.chatRoom, sellStatus: 'BOOKING' },
+    }));
   };
-  //판매중 변경
+  //판매중 변경(예약 취소)
   const handleOngoing = async () => {
-    await statusChange.sellStatus(chatId, 'ONGOING');
+    await statusChat(chatId, 'CANCEL_BOOKING');
+    setMessageContent(prevContent => ({
+      ...prevContent,
+      chatRoom: { ...prevContent.chatRoom, sellStatus: 'ONGOING' },
+    }));
   };
   //신고하기
   const handleReport = async chatRoomId => {
@@ -172,7 +184,7 @@ const InputField = () => {
             '
             {messageContent &&
               messageContent.chatRoom &&
-              messageContent.chatRoom.wasteTitle}
+              messageContent.chatRoom.productTitle}
             ' 애물단지 채팅방
           </p>
 
@@ -210,7 +222,7 @@ const InputField = () => {
                             onClick={() =>
                               handleCompleted(
                                 messageContent.chatRoom &&
-                                  messageContent.chatRoom.wasteId,
+                                  messageContent.chatRoom.productId,
                                 messageContent.chatRoom &&
                                   messageContent.chatRoom.id,
                               )

@@ -6,13 +6,18 @@ import { MdOutlineStar } from 'react-icons/md';
 import { IoHeartOutline } from 'react-icons/io5';
 import { IoHeartSharp } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
-import { detailWaste, likeWaste } from '../../../api/WastesApi';
+import { detailProduct, likeProduct } from '../../../api/ProductAPI';
 import { chatPost } from '../../../api/ChattingAPI';
 import { LikesState } from '../../../recoil/RecoilLikes';
 import { TbCurrencyWon } from 'react-icons/tb';
 import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
-const DetailCard = ({ postDetails, auctionDetails, currentUser, wasteId }) => {
+const DetailCard = ({
+  postDetails,
+  auctionDetails,
+  currentUser,
+  productId,
+}) => {
   const data = postDetails || auctionDetails;
   //관심 추가--------------------------------------
   const [likeState, setLikeState] = useRecoilState(LikesState);
@@ -21,12 +26,12 @@ const DetailCard = ({ postDetails, auctionDetails, currentUser, wasteId }) => {
   const handleLikeToggle = async () => {
     try {
       // 관심 상태를 토글하고 상태 업데이트
-      const newLikeState = !likeState[wasteId];
-      setLikeState({ ...likeState, [wasteId]: newLikeState });
+      const newLikeState = !likeState[productId];
+      setLikeState({ ...likeState, [productId]: newLikeState });
 
       // API 호출하여 관심 상태 업데이트
-      const response = await likeWaste(
-        wasteId,
+      const response = await likeProduct(
+        productId,
         newLikeState ? 'LIKE' : 'UNLIKE',
       );
       console.log('하트상태', response.data);
@@ -141,7 +146,7 @@ const DetailCard = ({ postDetails, auctionDetails, currentUser, wasteId }) => {
                   {data && data.title}
                 </h1>
                 <div className="bg-white text-yellow-deep font-semibold ml-4 py-2 px-4 border border-yellow-deep rounded">
-                  <p>{data && data.wasteStatus}</p>
+                  <p>{data && data.productStatus}</p>
                 </div>
                 <div className="bg-white text-purple-dpurple font-semibold ml-4 py-2 px-4 border border-purple-dpurple rounded">
                   {data && data.sellStatus}
@@ -150,7 +155,7 @@ const DetailCard = ({ postDetails, auctionDetails, currentUser, wasteId }) => {
               <div className="mt-4 sm:items-center sm:gap-4 sm:flex justify-between">
                 <div className=" flex items-center text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
                   <TbCurrencyWon />
-                  {data && data.wastePrice}
+                  {data && data.productPrice}
                 </div>
               </div>
 
@@ -182,7 +187,7 @@ const DetailCard = ({ postDetails, auctionDetails, currentUser, wasteId }) => {
                       role="button"
                       onClick={() => handleLikeToggle(data && data.id)}
                     >
-                      {likeState[wasteId] ? (
+                      {likeState[productId] ? (
                         <IoHeartSharp className="w-5 h-5 -ms-2 me-2" />
                       ) : (
                         <IoHeartOutline className="w-5 h-5 -ms-2 me-2" />
