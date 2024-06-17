@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { fetchProducts } from '../../api/ProductAPI';
+import { fetchAuctions } from '../../api/AuctionAPI';
 import { signInState } from '../../recoil/RecoilSignIn';
 import ProductCard from '../common/card/ProductCard';
 import { useNavigate } from 'react-router-dom';
@@ -32,31 +32,25 @@ const List = () => {
   useEffect(() => {
     const fetchData = async category => {
       try {
-        let productList;
+        let auctionList;
         if (searchType === 'title') {
-          productList = await fetchProducts.titleSearch(
-            searchInput,
-            page,
-            sort,
-          );
-        } else if (searchType === 'district') {
-          productList = await fetchProducts.districtSearch(
+          auctionList = await fetchAuctions.titleSearch(
             searchInput,
             page,
             sort,
           );
         } else if (selectedCategory === '전체') {
-          productList = await fetchWastes.getPage(page, sort);
+          auctionList = await fetchAuctions.getPage(page, sort);
         } else {
-          productList = await fetchWastes.category(
+          auctionList = await fetchAuctions.category(
             selectedCategory,
             page,
             sort,
           );
         }
 
-        setPosts(productList);
-        setTotalPage(productList.totalPages);
+        setPosts(auctionList);
+        setTotalPage(auctionList.totalPages);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -81,15 +75,15 @@ const List = () => {
       setPage(page => page + 1);
     }
   };
-
-  const handleSortByLikes = () => {
-    setSort('likeCount,desc');
+  //가격순
+  const handleSortByFinalBid = () => {
+    setSort('finalBid,desc');
   };
-
+  //죄회순
   const handleSortByViews = () => {
     setSort('viewCount,desc');
   };
-
+  //최신순
   const handleSortByCreated = () => {
     setSort('createdAt,desc');
   };
@@ -118,10 +112,10 @@ const List = () => {
     try {
       let result;
       if (searchType === 'title') {
-        result = await fetchWastes.titleSearch(searchInput);
+        result = await fetchAuctions.titleSearch(searchInput);
         setSearchResults(result);
       } else if (searchType === 'district') {
-        result = await fetchWastes.districtSearch(searchInput);
+        result = await fetchAuctions.districtSearch(searchInput);
         setSearchResults(result);
       }
     } catch (error) {
@@ -138,6 +132,7 @@ const List = () => {
         isSearchVisible={isSearchVisible}
         searchInput={searchInput}
         handleSearch={handleSearch}
+        auction={posts}
       />
       <div className="mt-4 mr-8 float-end text-sm breadcrumbs">
         <ul>
@@ -152,7 +147,7 @@ const List = () => {
             <button className="mr-5" onClick={handleSortByViews}>
               조회순
             </button>
-            <button className="mr-5" onClick={handleSortByLikes}>
+            <button className="mr-5" onClick={handleSortByFinalBid}>
               가격순
             </button>
             <button onClick={handleSortByCreated}>최신순</button>
@@ -164,7 +159,7 @@ const List = () => {
                   .filter(
                     auction =>
                       selectedCategory === '전체' ||
-                      auction.wasteCategory === selectedCategory,
+                      auction.productCategory === selectedCategory,
                   )
                   .map(auction => (
                     <ProductCard
@@ -178,7 +173,7 @@ const List = () => {
                   .filter(
                     auction =>
                       selectedCategory === '전체' ||
-                      auction.wasteCategory === selectedCategory,
+                      auction.productCategory === selectedCategory,
                   )
                   .map(auction => (
                     <ProductCard

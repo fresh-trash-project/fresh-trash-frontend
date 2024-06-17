@@ -2,7 +2,7 @@ import { globalProductsAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
 
 const axiosWithTokenProducts = createAxiosWithToken(globalProductsAPI);
-
+//목록페이지
 const fetchQuery = async query => {
   try {
     const response = await axiosWithTokenProducts.get(`${query}`);

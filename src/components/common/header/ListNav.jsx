@@ -10,6 +10,8 @@ const ListNav = ({
   setSearchInput,
   handleSearch,
   setSearchType,
+  auction,
+  product,
 }) => {
   return (
     <div className="navbar flex-row justify-between bg-base-100 shadow-md">
@@ -100,14 +102,25 @@ const ListNav = ({
           </div>
         )}
         <div className="join sm:flex hidden">
-          <select
-            className="select select-bordered join-item "
-            onChange={e => setSearchType(e.target.value)}
-          >
-            <option>선택</option>
-            <option value="district">지역</option>
-            <option value="title">제목</option>
-          </select>
+          {product ? (
+            <select
+              className="select select-bordered join-item "
+              onChange={e => setSearchType(e.target.value)}
+            >
+              <option>선택</option>
+              <option value="district">지역</option>
+              <option value="title">제목</option>
+            </select>
+          ) : (
+            <select
+              className="select select-bordered join-item "
+              onChange={e => setSearchType(e.target.value)}
+            >
+              <option>선택</option>
+              <option value="title">제목</option>
+            </select>
+          )}
+
           <div>
             <div>
               <input
