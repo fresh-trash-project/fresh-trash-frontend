@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 import { FaSearch } from 'react-icons/fa';
-
+import { Link } from 'react-router-dom';
 const ListNav = ({
   handleCategoryChange,
   isSearchVisible,
@@ -143,9 +143,11 @@ const ListNav = ({
         </div>
         <div className="flex">
           <div className="flex-none">
-            <button className="btn btn-square btn-ghost">
-              <FaPlus size="25" />
-            </button>
+            <Link to="/ProductAdd">
+              <button className="btn btn-square btn-ghost">
+                <FaPlus size="25" />
+              </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -40,7 +40,7 @@ export const fetchProducts = {
   category: async (search, currentPage, sort) =>
     await fetchQuery(`?category=${search}&page=${currentPage}&sort=${sort}`),
 };
-
+//상품 등록
 export const createPost = async (
   title,
   content,
@@ -72,13 +72,13 @@ export const createPost = async (
     const blob = new Blob([json], { type: 'application/json' });
 
     const formData = new FormData();
-    console.log(imgFile);
+    console.log('imgFile', imgFile);
     formData.append('imgFile', imgFile);
     formData.append('productRequest', blob);
 
     const response = await axiosWithTokenProducts.post(``, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', // 이 줄은 생략해도 됩니다
+        'Content-Type': 'multipart/form-data',
       },
     });
     if (response.status === 201) {
