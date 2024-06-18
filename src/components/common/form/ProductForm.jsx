@@ -197,7 +197,7 @@ const ProductForm = ({ initialData, isEditMode }) => {
         </div>
         <div className="w-full px-3 mb-6">
           <div className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            폐기물 상태
+            제품 상태
           </div>
           <div className="flex">
             <label className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2">

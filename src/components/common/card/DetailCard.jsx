@@ -149,14 +149,21 @@ const DetailCard = ({
                   <p>{data && data.productStatus}</p>
                 </div>
                 <div className="bg-white text-purple-dpurple font-semibold ml-4 py-2 px-4 border border-purple-dpurple rounded">
-                  {data && data.sellStatus}
+                  {data && data.auctionStatus}
                 </div>
               </div>
               <div className="mt-4 sm:items-center sm:gap-4 sm:flex justify-between">
-                <div className=" flex items-center text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
-                  <TbCurrencyWon />
-                  {data && data.productPrice}
-                </div>
+                {postDetails ? (
+                  <div className=" flex items-center text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
+                    <TbCurrencyWon />
+                    {data && data.productPrice}
+                  </div>
+                ) : (
+                  <div className=" flex items-center text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
+                    <TbCurrencyWon />
+                    {data && data.finalBid}
+                  </div>
+                )}
               </div>
 
               <p className="mb-6 text-gray-500 dark:text-gray-400">

@@ -137,6 +137,7 @@ const List = () => {
         isSearchVisible={isSearchVisible}
         searchInput={searchInput}
         handleSearch={handleSearch}
+        product={posts}
       />
 
       <div className="mt-4 mr-8 float-end text-sm breadcrumbs">
