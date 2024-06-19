@@ -12,6 +12,7 @@ import { LikesState } from '../../../recoil/RecoilLikes';
 import { TbCurrencyWon } from 'react-icons/tb';
 import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
+import BidModal from '../modal/BidModal';
 const DetailCard = ({
   postDetails,
   auctionDetails,
@@ -19,6 +20,7 @@ const DetailCard = ({
   productId,
 }) => {
   const data = postDetails || auctionDetails;
+  const [modalOpen, setModalOpen] = useState(false);
   //관심 추가--------------------------------------
   const [likeState, setLikeState] = useRecoilState(LikesState);
   // const [hearted, setHearted] = useState(false);
@@ -54,6 +56,7 @@ const DetailCard = ({
     return urlJoin(globalFileAPI, `${fileName}`);
   };
   const navigate = useNavigate();
+  //채팅 요청-----------------------------------
   const [chat, setChat] = useState('');
   const handleChat = async () => {
     const chat = await chatPost(data && data.id);
@@ -148,9 +151,15 @@ const DetailCard = ({
                 <div className="bg-white text-yellow-deep font-semibold ml-4 py-2 px-4 border border-yellow-deep rounded">
                   <p>{data && data.productStatus}</p>
                 </div>
-                <div className="bg-white text-purple-dpurple font-semibold ml-4 py-2 px-4 border border-purple-dpurple rounded">
-                  {data && data.auctionStatus}
-                </div>
+                {postDetails ? (
+                  <div className="bg-white text-purple-dpurple font-semibold ml-4 py-2 px-4 border border-purple-dpurple rounded">
+                    {data && data.sellStatus}
+                  </div>
+                ) : (
+                  <div className="bg-white text-purple-dpurple font-semibold ml-4 py-2 px-4 border border-purple-dpurple rounded">
+                    {data && data.auctionStatus}
+                  </div>
+                )}
               </div>
               <div className="mt-4 sm:items-center sm:gap-4 sm:flex justify-between">
                 {postDetails ? (
@@ -222,11 +231,19 @@ const DetailCard = ({
                     )}
                   </div>
                 ) : (
-                  <Link to="/Pay">
-                    <button className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
-                      입찰참여
+                  <div>
+                    <button
+                      className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100"
+                      onClick={() => setModalOpen(true)}
+                    >
+                      입찰 참여
                     </button>
-                  </Link>
+                    <BidModal
+                      isOpen={modalOpen}
+                      onClose={() => setModalOpen(false)}
+                      data={data}
+                    />
+                  </div>
                 )}
               </div>
             </div>

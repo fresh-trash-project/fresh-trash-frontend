@@ -129,3 +129,6 @@ export const createAuction = async (
     // throw error;
   }
 };
+
+//경매 입찰
+// export const AuctionBid = async(biddingPrice);
