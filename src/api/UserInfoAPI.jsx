@@ -98,3 +98,48 @@ export const fetchUserInfo = async () => {
 };
 
 //response.data.rating
+
+//비밀번호 변경
+export const changePassword = async (
+  oldPassword,
+  newPassword,
+  setSignIn,
+  navigate,
+) => {
+  try {
+    const passwordRequest = {
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    };
+
+    const response = await axiosWithTokenMembers.put(
+      '/change-password',
+      passwordRequest,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.status === 200) {
+      toast.success(MESSAGES.PASSWORD_UPDATE_SUCCESS);
+
+      // 3초 후에 로그아웃 처리
+      setTimeout(() => {
+        setSignIn(false);
+        localStorage.removeItem('accessToken');
+        navigate('/SignUpSignIn');
+      }, 3000);
+
+      return response.data;
+    }
+  } catch (error) {
+    console.log(error.message);
+    toast.error(MESSAGES.PASSWORD_UPDATE_FAILURE);
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('accessToken');
+    }
+    throw error;
+  }
+};

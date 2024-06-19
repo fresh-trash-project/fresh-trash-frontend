@@ -61,4 +61,15 @@ export default {
     require('flowbite/plugin'),
     require('tailwind-scrollbar'),
   ],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          primary: '#275a53',
+          '--tab-bg': '#275a53',
+          '--tab-border-color': '#275a53',
+        },
+      },
+    ],
+  },
 };

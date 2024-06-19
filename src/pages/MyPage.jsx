@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import logoImg from '../assets/logo.png';
 import { IoFootsteps } from 'react-icons/io5';
+import { FaCamera, FaTimes } from 'react-icons/fa';
+import { VscEye } from 'react-icons/vsc';
 import { useRecoilState } from 'recoil';
 import { userNameState } from '../recoil/RecoilUserName';
 import Header from '../components/common/header/Header';
@@ -10,6 +12,7 @@ import auction from '../assets/auction2.jpg';
 import heart from '../assets/heart1.jpg';
 import chat from '../assets/chat1.jpg';
 import {
+  changePassword,
   changeUserInfo,
   fetchUserInfo,
   fetchUserName,
@@ -18,6 +21,11 @@ import { signInState } from '../recoil/RecoilSignIn';
 import { globalFileAPI } from '../../variable';
 import urlJoin from 'url-join';
 import UserNameLogic from '../components/entry/UserNameLogic';
+import EmailLogic from '../components/entry/EmailLogic';
+import passwordLogic from '../components/entry/PasswordLogic';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { MESSAGES } from '../../Constants';
 
 const MyPage = () => {
   const [imgFile, setImgFile] = useState('');
@@ -34,8 +42,34 @@ const MyPage = () => {
   const { isDuplicate, setIsDuplicate } = UserNameLogic();
   const [averageRating, setAverageRating] = useState(0);
   const [signIn, setSignIn] = useRecoilState(signInState);
+  const [activeTab, setActiveTab] = useState('nickname');
+  const navigate = useNavigate();
+  // const [currentPassword, setCurrentPassword] = useState('');
+  // const [newPassword, setNewPassword] = useState('');
+  // const [confirmPassword, setConfirmPassword] = useState('');
+
   // imgFile은 로컬에서 미리보기를 위한 파일 객체를 저장하고,
   // image는 서버로부터 받은 파일 이름(fileName) 또는 URL을 저장
+
+  // 각 비밀번호 입력 필드의 상태 관리
+  const {
+    password: currentPassword,
+    showPassword: showCurrentPassword,
+    handlePasswordChange: handleCurrentPasswordChange,
+    handlePasswordVisibility: handleCurrentPasswordVisibility,
+  } = passwordLogic();
+  const {
+    password: newPassword,
+    showPassword: showNewPassword,
+    handlePasswordChange: handleNewPasswordChange,
+    handlePasswordVisibility: handleNewPasswordVisibility,
+  } = passwordLogic();
+  const {
+    password: confirmPassword,
+    showPassword: showConfirmPassword,
+    handlePasswordChange: handleConfirmPasswordChange,
+    handlePasswordVisibility: handleConfirmPasswordVisibility,
+  } = passwordLogic();
 
   //마이페이지 들어왔을때 유저정보 불러오기
   useEffect(() => {
@@ -88,6 +122,7 @@ const MyPage = () => {
     const file = e.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
+
       setImage(imageUrl); // 미리보기용 URL을 저장 - imgFile에(file에) createObjectUrl적용한것.
       setImgFile(file); // 실제 파일 객체를 저장
     } else {
@@ -164,6 +199,34 @@ const MyPage = () => {
     }
   };
 
+  // 비밀번호 상태 변수 및 함수
+  const currentPasswordLogic = passwordLogic();
+  const newPasswordLogic = passwordLogic();
+  const confirmPasswordLogic = passwordLogic();
+
+  // 비밀번호 변경
+  const handlePasswordChange = async () => {
+    console.log('Current Password:', currentPasswordLogic.password); // 디버그 정보
+    console.log('New Password:', newPasswordLogic.password); // 디버그 정보
+    console.log('Confirm Password:', confirmPasswordLogic.password); // 디버그 정보
+
+    if (newPasswordLogic.password !== confirmPasswordLogic.password) {
+      toast.error(MESSAGES.NEW_PASSWORD_NOT_MATCH);
+      return;
+    }
+
+    try {
+      await changePassword(
+        currentPasswordLogic.password,
+        newPasswordLogic.password,
+        setSignIn,
+        navigate,
+      );
+    } catch (error) {
+      console.log('비밀번호 변경 오류:', error);
+    }
+  };
+
   //초록바의 길이를 100%로 -------------------------------------------------------------
   const [greenBarWidth, setGreenBarWidth] = useState(0);
 
@@ -199,8 +262,8 @@ const MyPage = () => {
       <div className="px-5">
         <div className="md:flex">
           {/* 프로필 이미지------------------------------------------------------------------------- */}
-          <div className="avatar flex flex-col pt-5">
-            <div className="w-72 rounded-full mx-auto md:mx-10 ">
+          <div className="avatar flex flex-col pt-5 relative">
+            <div className="w-72 rounded-full mx-auto md:mx-10 border">
               {/* 편집 모드에서 로컬 이미지 파일이 있으면 그것을 사용, 없으면 서버 이미지 사용 */}
               <img
                 src={imgFile ? URL.createObjectURL(imgFile) : getImgUrl(image)}
@@ -231,10 +294,14 @@ const MyPage = () => {
               {isEditing ? '프로필 수정 완료' : '프로필 수정'}
             </button>
             {isEditing && (
-              <button className="mx-auto mt-2 md:mx-14">
+              <button>
                 {!image || image === logoImg ? (
-                  <label htmlFor="avatarInput" className="btn btn-wide">
-                    <p>이미지 업로드</p>
+                  <label
+                    htmlFor="avatarInput"
+                    className="absolute top-14 right-10 cursor-pointer"
+                  >
+                    <FaCamera className="text-white text-3xl bg-gray-700 p-1 rounded-full" />
+
                     <input
                       type="file"
                       id="avatarInput"
@@ -244,15 +311,18 @@ const MyPage = () => {
                     />
                   </label>
                 ) : (
-                  <button onClick={handleDeleteImage} className="btn btn-wide">
-                    이미지 삭제
+                  <button
+                    onClick={handleDeleteImage}
+                    className="absolute top-14 right-10 bg-gray-700 p-1 rounded-full"
+                  >
+                    <FaTimes className="text-white text-xl" />
                   </button>
                 )}
               </button>
             )}
           </div>
 
-          <div className="w-full flex flex-col">
+          {/* <div className="w-full flex flex-col">
             <div className="mx-auto mt-8 md:mx-14">
               <div className="flex items-center">
                 <input
@@ -312,6 +382,166 @@ const MyPage = () => {
                   }
                 />
               </div>
+            </div>
+          </div>
+        </div> */}
+
+          <div className="w-full flex flex-col">
+            <div className="mx-auto mt-8 md:mx-14">
+              <div className="tabs tabs-boxed mb-16">
+                <button
+                  className={`tab font-bold ${activeTab === 'nickname' ? 'tab-active' : ''}`}
+                  onClick={() => setActiveTab('nickname')}
+                >
+                  닉네임
+                </button>
+                <button
+                  className={`tab font-bold ${activeTab === 'address' ? 'tab-active' : ''}`}
+                  onClick={() => setActiveTab('address')}
+                >
+                  주소
+                </button>
+                <button
+                  className={`tab font-bold ${activeTab === 'password' ? 'tab-active' : ''}`}
+                  onClick={() => setActiveTab('password')}
+                >
+                  비밀번호
+                </button>
+              </div>
+
+              {activeTab === 'nickname' && (
+                <div>
+                  <div className="flex items-center">
+                    <input
+                      type="text"
+                      placeholder="닉네임"
+                      className={`input input-bordered w-1/2`}
+                      value={userName}
+                      onChange={handleUserNameChange}
+                      disabled={!isEditing}
+                    />
+
+                    {isEditing && (
+                      <button
+                        onClick={() => handleDuplication(userName)}
+                        className="btn btn-sm ml-2"
+                      >
+                        중복확인
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'address' && (
+                <div className="addr flex flex-col mx-auto">
+                  <div className="addr1 flex mb-2 items-center">
+                    <input
+                      type="text"
+                      placeholder="주소검색"
+                      className="input input-bordered w-full"
+                      value={`${address.zipcode} ${address.state} ${address.city} ${address.district}`}
+                      onChange={handleAddressChange}
+                      disabled={!isEditing}
+                      readOnly
+                    />
+                    {isEditing && (
+                      <button
+                        onClick={handleSearchAddress}
+                        className="btn btn-sm ml-2"
+                      >
+                        주소검색
+                      </button>
+                    )}
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="상세주소"
+                    className="input input-bordered w-full"
+                    disabled={!isEditing}
+                    value={address.detail}
+                    onChange={e =>
+                      setAddress(prevAddress => ({
+                        ...prevAddress,
+                        detail: e.target.value,
+                      }))
+                    }
+                  />
+                </div>
+              )}
+
+              {activeTab === 'password' && (
+                <div>
+                  <div className="flex items-center">
+                    <label className="input input-bordered mb-2 w-2/3 flex">
+                      <input
+                        type={
+                          currentPasswordLogic.showPassword
+                            ? 'text'
+                            : 'password'
+                        }
+                        placeholder="현재 비밀번호"
+                        className="w-full border-none focus:ring-0"
+                        disabled={!isEditing}
+                        value={currentPasswordLogic.password}
+                        onChange={currentPasswordLogic.handlePasswordChange}
+                      />
+                      <button
+                        onClick={currentPasswordLogic.handlePasswordVisibility}
+                      >
+                        <VscEye />
+                      </button>
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <label className="input input-bordered mb-2 w-2/3 flex">
+                      <input
+                        type={
+                          newPasswordLogic.showPassword ? 'text' : 'password'
+                        }
+                        placeholder="새 비밀번호"
+                        className="w-full border-none focus:ring-0"
+                        disabled={!isEditing}
+                        value={newPasswordLogic.password}
+                        onChange={newPasswordLogic.handlePasswordChange}
+                      />
+                      <button
+                        onClick={newPasswordLogic.handlePasswordVisibility}
+                      >
+                        <VscEye />
+                      </button>
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <label className="input input-bordered mb-2 w-2/3 flex">
+                      <input
+                        type={
+                          confirmPasswordLogic.showPassword
+                            ? 'text'
+                            : 'password'
+                        }
+                        placeholder="새 비밀번호 확인"
+                        className="w-full border-none focus:ring-0"
+                        disabled={!isEditing}
+                        value={confirmPasswordLogic.password}
+                        onChange={confirmPasswordLogic.handlePasswordChange}
+                      />
+                      <button
+                        onClick={confirmPasswordLogic.handlePasswordVisibility}
+                      >
+                        <VscEye />
+                      </button>
+                    </label>
+
+                    <button
+                      onClick={handlePasswordChange}
+                      className="btn btn-sm ml-2"
+                    >
+                      저장
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

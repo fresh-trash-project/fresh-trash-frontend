@@ -25,6 +25,12 @@ export const MESSAGES = {
   USERNAME_AVAILABLE: '사용 가능한 닉네임입니다.',
   USERNAME_DUPLICATE: '중복된 닉네임입니다.',
 
+  PASSWORD_UPDATE_SUCCESS:
+    '비밀번호가 성공적으로 변경되었습니다. 잠시 후 로그아웃됩니다. 새 비밀번호로 다시 로그인 하세요.',
+  PASSWORD_UPDATE_FAILURE: '비밀번호 변경에 실패했습니다',
+
+  NEW_PASSWORD_NOT_MATCH: '새 비밀번호가 일치하지 않습니다.',
+
   //! 여기서 부터 체크
   // PROFILE_UPDATE_SUCCESS: '프로필 수정에 성공했습니다.',
   PROFILE_UPDATE_FAILURE: '프로필 수정에 실패했습니다.',
