@@ -131,4 +131,48 @@ export const createAuction = async (
 };
 
 //경매 입찰
-// export const AuctionBid = async(biddingPrice);
+// export const AuctionBid = async (biddingPrice, auctionId, navigate) => {
+//   try {
+//     const formData = new FormData();
+//     console.log(biddingPrice);
+//     formData.append('biddingPrice', biddingPrice);
+//     const response = await axiosWithTokenAuctions.put(
+//       `${auctionId}/bid`,
+//       formData,
+//       {
+//         headers: {
+//           'Content-Type': 'multipart/form-data',
+//         },
+//       },
+//     );
+//     if (response.status === 200) {
+//       console.log('입찰 완료되었습니다.');
+//       navigate('/MyAuctionList');
+//     }
+//   } catch (error) {
+//     console.log('입찰 실패하였습니다.', error);
+//   }
+// };
+
+export const AuctionBid = async (biddingPrice, auctionId, navigate) => {
+  try {
+    const requestData = {
+      biddingPrice: biddingPrice,
+    };
+    const response = await axiosWithTokenAuctions.put(
+      `${auctionId}/bid`,
+      requestData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    if (response.status === 200) {
+      console.log('입찰 완료되었습니다.');
+      navigate('/MyPage/MyAuctionList');
+    }
+  } catch (error) {
+    console.log('입찰 실패하였습니다.', error);
+  }
+};
