@@ -13,8 +13,9 @@ const SignInForm = ({
   email,
   handleEmailChange,
   password,
-  showPassword,
-  handlePasswordChange,
+  showCurrentPassword,
+
+  handlePassword,
   handlePasswordVisibility,
 }) => {
   const [signIn, setSignIn] = useRecoilState(signInState);
@@ -40,8 +41,9 @@ const SignInForm = ({
       <Email email={email} handleEmailChange={handleEmailChange} />
       <Password
         password={password}
-        showPassword={showPassword}
-        handlePasswordChange={handlePasswordChange}
+        showCurrentPassword={showCurrentPassword}
+        // setShowCurrentPassword={setShowCurrentPassword}
+        handlePassword={handlePassword}
         handlePasswordVisibility={handlePasswordVisibility}
       />
       <div className="text-slate-400 mt-4 mb-4 no-underline text-xs w-[23rem] flex justify-end">

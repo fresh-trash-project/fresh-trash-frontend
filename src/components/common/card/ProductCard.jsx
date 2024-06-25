@@ -1,16 +1,19 @@
-import React from 'react';
 import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
+
 const ProductCard = ({ wastes, auction }) => {
   const data = wastes || auction;
-  const getImgeUrl = fileName => {
+
+  const getImgUrl = fileName => {
     return urlJoin(globalFileAPI, `${fileName}`);
   };
+
+  // JSX--------------------------------------------------------------------------------------------------------------
   return (
     <div className="card w-80 bg-base-100 shadow md:w-72 xl:w-70 2xl:w-80 ">
       <figure className="w-full h-40 md:h-36 xl:h-48 2xl:h-56 overflow-hidden">
         <img
-          src={getImgeUrl(data.fileName)}
+          src={getImgUrl(data.fileName)}
           className="object-cover w-full h-full"
           alt={data.title}
         />
@@ -24,8 +27,8 @@ const ProductCard = ({ wastes, auction }) => {
 
         <div className="flex justify-between mb-3">
           <div className="flex gap-2">
-            <span>{data.address.state}</span>
-            <span>{data.address.district}</span>
+            <span>{data.address?.state}</span>
+            <span>{data.address?.district}</span>
           </div>
           {wastes ? (
             <div className="flex items-center">

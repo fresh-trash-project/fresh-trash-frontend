@@ -15,7 +15,8 @@ export const MESSAGES = {
   // SIGN_IN_SUCCESS: '성공적으로 로그인 되었습니다.',
   // SIGN_IN_FAILURE: '로그인에 실패했습니다.',
   USER_NOT_FOUND_ERROR: '유저 정보가 존재하지 않습니다. 회원 가입 먼저 하세요.',
-
+  INVALID_PASSWORD:
+    '영어소문자, 숫자, 특수문자가 포함된 8자리 이상의 비밀번호로 넣어주세요.',
   PASSWORD_RESET_SUCCESS: '이메일로 임시 비밀번호가 발송되었습니다.',
   // PASSWORD_RESET_FAILURE: '임시 비밀번호 발송에 실패했습니다.',
   PASSWORD_RESET_WRONG_EMAIL: '잘못된 이메일입니다.',

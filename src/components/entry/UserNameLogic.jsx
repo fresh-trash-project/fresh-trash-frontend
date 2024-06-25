@@ -4,7 +4,7 @@ import { userNameState } from '../../recoil/RecoilUserName';
 import { useRecoilState } from 'recoil';
 import { signInState } from '../../recoil/RecoilSignIn';
 
-const UserNameLogic = () => {
+export const UserNameLogic = () => {
   const [userName, setUserName] = useRecoilState(userNameState);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [signIn, setSignIn] = useRecoilState(signInState);

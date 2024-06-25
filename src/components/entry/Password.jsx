@@ -4,8 +4,8 @@ import { VscEye } from 'react-icons/vsc';
 
 const Password = ({
   password,
-  showPassword,
-  handlePasswordChange,
+  showCurrentPassword,
+  handlePassword,
   handlePasswordVisibility,
 }) => {
   const passwordIconPaths = [
@@ -20,10 +20,10 @@ const Password = ({
     <div>
       <EntryInput
         iconPaths={passwordIconPaths}
-        type={showPassword ? 'text' : 'password'}
+        type={showCurrentPassword ? 'text' : 'password'}
         placeholder="Password"
         value={password}
-        onChange={handlePasswordChange}
+        onChange={handlePassword}
         extraButton={
           <InputButton onClick={handlePasswordVisibility} width="w-[4rem]">
             <VscEye />
