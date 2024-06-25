@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../components/common/header/Header';
 import MyTradeCards from '../components/common/card/MyTradeCards';
+import PaginationButton from '../components/common/pagination/PaginationButton';
 
 const MyAuctionList = () => {
   const [mySellListOpen, setMySellListOpen] = useState(true);
