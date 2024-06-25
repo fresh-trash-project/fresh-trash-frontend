@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductForm from '../common/form/ProductForm';
-import { detailWaste } from '../../api/WastesApi';
+import { detailProduct } from '../../api/ProductAPI';
 
 const EditForm = () => {
-  const { wasteId } = useParams();
+  const { productId } = useParams();
   const [initialData, setInitialData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await detailWaste(wasteId);
+        const result = await detailProduct(productId);
         setInitialData(result);
       } catch (error) {
         console.error('Error fetching post:', error);
@@ -18,7 +18,7 @@ const EditForm = () => {
     };
 
     fetchData();
-  }, [wasteId]);
+  }, [productId]);
 
   if (!initialData) {
     return <div>Loading...</div>;

@@ -3,14 +3,14 @@ import { useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import { FiMoreVertical } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
-import { deleteWaste, detailWaste, likeWaste } from '../../api/WastesApi';
+import { deleteAuction, detailAuction } from '../../api/AuctionAPI';
 import { chatPost } from '../../api/ChattingAPI';
 import { LikesState } from '../../recoil/RecoilLikes';
 import { globalFileAPI } from '../../../variable';
 import DetailCard from '../common/card/DetailCard';
 import urlJoin from 'url-join';
 const DetailAuction = () => {
-  const { wasteId } = useParams(); // URL 파라미터에서 wasteId 가져오기
+  const { auctionId } = useParams(); // URL 파라미터에서 auctionId 가져오기
   const { chatId } = useParams();
   const [auctionDetails, setAuctionDetails] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
@@ -18,8 +18,9 @@ const DetailAuction = () => {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const details = await detailWaste(wasteId);
+        const details = await detailAuction(auctionId);
         setAuctionDetails(details);
+        console.log(details);
       } catch (error) {
         console.error(
           '상품 상세 정보를 불러오는 도중 에러가 발생했습니다:',
@@ -28,9 +29,9 @@ const DetailAuction = () => {
       }
     };
     fetchDetail();
-  }, [wasteId]);
+  }, [auctionId]);
 
-  //수정하기 삭제하기 버튼 게시글 등록한 사람만 보이게------------------------
+  // 삭제하기 버튼 게시글 등록한 사람만 보이게------------------------
   useEffect(() => {
     // 현재 로그인한 사용자 정보 가져오기
     const user = getCurrentUser();
@@ -60,7 +61,7 @@ const DetailAuction = () => {
   const handleDelete = async () => {
     try {
       // API를 사용하여 제품 삭제
-      await deleteWaste(auctionDetails.id);
+      await deleteAuction(auctionDetails.id);
 
       navigate('/AuctionList');
     } catch (error) {
@@ -79,7 +80,7 @@ const DetailAuction = () => {
         <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
           <ul>
             <li>카테고리</li>
-            <li>{auctionDetails && auctionDetails.wasteCategory}</li>
+            <li>{auctionDetails && auctionDetails.productCategory}</li>
           </ul>
         </div>
         <div className="flex flex-row-reverse mt-12">
@@ -109,11 +110,7 @@ const DetailAuction = () => {
               )}
           </div>
         </div>
-        <DetailCard
-          auctionDetails={auctionDetails}
-          wasteId={wasteId}
-          currentUser={currentUser}
-        />
+        <DetailCard auctionDetails={auctionDetails} currentUser={currentUser} />
       </div>
     </div>
   );

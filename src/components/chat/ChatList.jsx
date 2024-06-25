@@ -21,8 +21,8 @@ const ChatList = ({ isOpen, currentUser }) => {
     };
     fetchData();
   }, [currentPage]);
-  const handleGoChatRoom = async (wasteId, chatId) => {
-    navigate(`/Chat/${wasteId}/${chatId}`);
+  const handleGoChatRoom = async (productId, chatId) => {
+    navigate(`/Chat/${productId}/${chatId}`);
   };
   const handleLoadMore = () => {
     setCurrentPage(prev => prev + 1); // 10명씩 추가로 보이도록 업데이트
@@ -33,16 +33,16 @@ const ChatList = ({ isOpen, currentUser }) => {
         {userList.map(userList => (
           <ul key={userList.id} className=" pt-4">
             <li
-              onClick={() => handleGoChatRoom(userList.id, userList.wasteId)}
+              onClick={() => handleGoChatRoom(userList.id, userList.productId)}
               className="px-6 py-3 hover:bg-gray-700 hover:text-white cursor-pointer"
             >
               {currentUser && currentUser.id === userList.buyerId ? (
                 <p>
-                  {userList.sellerNickname}-{userList.wasteTitle}
+                  {userList.sellerNickname}-{userList.productTitle}
                 </p>
               ) : (
                 <p>
-                  {userList.buyerNickname}- {userList.wasteTitle}
+                  {userList.buyerNickname}- {userList.productTitle}
                 </p>
               )}
             </li>

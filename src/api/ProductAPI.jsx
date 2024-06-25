@@ -1,32 +1,11 @@
 import { globalProductsAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
 
-const axiosWithTokenWastes = createAxiosWithToken(globalProductsAPI);
-
-export const fetchProducts = async (currentPage, query) => {
-  try {
-    const response = await axiosWithTokenWastes.get('');
-    const responseData = response.data;
-    if (response.status === 200) {
-      console.log('게시물 목록을 가져오기 성공', response.data);
-      return {
-        content: responseData.content,
-        totalPages: responseData.totalPages,
-        totalElements: responseData.totalElements,
-        pageable: responseData.pageable,
-      };
-    }
-    // 서버로부터 받은 데이터 반환
-  } catch (error) {
-    console.error('게시물 목록을 가져오는 중 에러 발생:', error);
-    throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
-  }
-};
-
+const axiosWithTokenProducts = createAxiosWithToken(globalProductsAPI);
+//목록페이지
 const fetchQuery = async query => {
   try {
-    const response = await axiosWithTokenWastes.get(`${query}`);
-    // const response = await axiosWithToken.get('/wastes?page');
+    const response = await axiosWithTokenProducts.get(`${query}`);
     const responseData = response.data;
     if (response.status === 200) {
       console.log('게시물 목록을 가져오기 성공', response.data);
@@ -50,7 +29,7 @@ const fetchQuery = async query => {
     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
   }
 };
-export const fetchWastes = {
+export const fetchProducts = {
   getPage: async (currentPage, sort) =>
     await fetchQuery(`?page=${currentPage}&sort=${sort}`),
 
@@ -61,26 +40,26 @@ export const fetchWastes = {
   category: async (search, currentPage, sort) =>
     await fetchQuery(`?category=${search}&page=${currentPage}&sort=${sort}`),
 };
-
+//상품 등록
 export const createPost = async (
   title,
   content,
-  wasteCategory,
-  wasteStatus,
+  productCategory,
+  productStatus,
   sellStatus,
-  wastePrice,
+  productPrice,
   address = {},
   imgFile,
   navigate,
 ) => {
   try {
-    const wasteRequest = {
+    const productRequest = {
       title: title,
       content: content,
-      wasteCategory: wasteCategory,
-      wasteStatus: wasteStatus,
+      productCategory: productCategory,
+      productStatus: productStatus,
       sellStatus: sellStatus,
-      wastePrice: wastePrice,
+      productPrice: productPrice,
       address: {
         zipcode: address.zipcode || '', // default value
         state: address.state || '', // default value
@@ -89,17 +68,17 @@ export const createPost = async (
         detail: address.detail || '', // default value
       },
     };
-    const json = JSON.stringify(wasteRequest);
+    const json = JSON.stringify(productRequest);
     const blob = new Blob([json], { type: 'application/json' });
 
     const formData = new FormData();
-    console.log(imgFile);
+    console.log('imgFile', imgFile);
     formData.append('imgFile', imgFile);
-    formData.append('wasteRequest', blob);
+    formData.append('productRequest', blob);
 
-    const response = await axiosWithTokenWastes.post(``, formData, {
+    const response = await axiosWithTokenProducts.post(``, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', // 이 줄은 생략해도 됩니다
+        'Content-Type': 'multipart/form-data',
       },
     });
     if (response.status === 201) {
@@ -119,9 +98,9 @@ export const createPost = async (
 };
 
 //상세페이지 api
-export const detailWaste = async wasteId => {
+export const detailProduct = async productId => {
   try {
-    const response = await axiosWithTokenWastes.get(`/${wasteId}`);
+    const response = await axiosWithTokenProducts.get(`/${productId}`);
     if (response.status === 200) {
       console.log('상품 상세정보를 불러왔습니다:', response.data);
       return response.data; // 서버로부터 받은 데이터 반환
@@ -138,9 +117,9 @@ export const detailWaste = async wasteId => {
   }
 };
 //폐기물 삭제 api
-export const deleteWaste = async wasteId => {
+export const deleteProduct = async productId => {
   try {
-    const response = await axiosWithTokenWastes.delete(`/${wasteId}`);
+    const response = await axiosWithTokenProducts.delete(`/${productId}`);
     if (response.status === 204) {
       console.log('게시물 삭제 성공');
     }
@@ -155,27 +134,27 @@ export const deleteWaste = async wasteId => {
     throw error;
   }
 };
-
+//폐기물 수정
 export const updatePost = async (
-  wasteId,
+  productId,
   title,
   content,
-  wasteCategory,
-  wasteStatus,
+  productCategory,
+  productStatus,
   sellStatus,
-  wastePrice,
+  productPrice,
   address = {},
   imgFile,
   navigate,
 ) => {
   try {
-    const wasteRequest = {
+    const productRequest = {
       title: title,
       content: content,
-      wasteCategory: wasteCategory,
-      wasteStatus: wasteStatus,
+      productCategory: productCategory,
+      productStatus: productStatus,
       sellStatus: sellStatus,
-      wastePrice: wastePrice,
+      productPrice: productPrice,
       address: {
         zipcode: address.zipcode || '', // default value
         state: address.state || '', // default value
@@ -184,21 +163,25 @@ export const updatePost = async (
         detail: address.detail || '', // default value
       },
     };
-    const json = JSON.stringify(wasteRequest);
+    const json = JSON.stringify(productRequest);
     const blob = new Blob([json], { type: 'application/json' });
     var formData = new FormData();
     console.log(imgFile);
     formData.append('imgFile', imgFile);
-    formData.append('wasteRequest', blob);
+    formData.append('productRequest', blob);
 
-    const response = await axiosWithTokenWastes.put(`/${wasteId}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data', // 이 줄은 생략해도 됩니다
+    const response = await axiosWithTokenProducts.put(
+      `/${productId}`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data', // 이 줄은 생략해도 됩니다
+        },
       },
-    });
+    );
     if (response.status === 200) {
       console.log('폐기물 수정 성공', response.data);
-      navigate(`/ProductDetail/${wasteId}`);
+      navigate(`/ProductDetail/${productId}`);
     }
     return response;
   } catch (error) {
@@ -213,10 +196,10 @@ export const updatePost = async (
   }
 };
 //관심 추가 api
-export const likeWaste = async (wasteId, query) => {
+export const likeProduct = async (productId, query) => {
   try {
-    const response = await axiosWithTokenWastes.post(
-      `/${wasteId}/likes?likeStatus=${query}`,
+    const response = await axiosWithTokenProducts.post(
+      `/${productId}/likes?likeStatus=${query}`,
     );
 
     if (response.status === 200) {

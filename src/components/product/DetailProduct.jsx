@@ -3,14 +3,19 @@ import { useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import { FiMoreVertical } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
-import { deleteWaste, detailWaste, likeWaste } from '../../api/WastesApi';
+import {
+  deleteProduct,
+  detailProduct,
+  likeProduct,
+} from '../../api/ProductAPI';
 import { chatPost } from '../../api/ChattingAPI';
 import { LikesState } from '../../recoil/RecoilLikes';
 import { globalFileAPI } from '../../../variable';
 import DetailCard from '../common/card/DetailCard';
 import urlJoin from 'url-join';
 const DetailPrduct = () => {
-  const { wasteId } = useParams(); // URL 파라미터에서 wasteId 가져오기
+  const { productId } = useParams(); // URL 파라미터에서 productId 가져오기
+  console.log('아이디' + productId);
   const { chatId } = useParams();
   const [postDetails, setPostDetails] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
@@ -18,7 +23,7 @@ const DetailPrduct = () => {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const details = await detailWaste(wasteId);
+        const details = await detailProduct(productId);
         setPostDetails(details);
       } catch (error) {
         console.error(
@@ -28,7 +33,7 @@ const DetailPrduct = () => {
       }
     };
     fetchDetail();
-  }, [wasteId]);
+  }, [productId]);
 
   //관심 추가--------------------------------------
   const [likeState, setLikeState] = useRecoilState(LikesState);
@@ -37,12 +42,12 @@ const DetailPrduct = () => {
   const handleLikeToggle = async () => {
     try {
       // 관심 상태를 토글하고 상태 업데이트
-      const newLikeState = !likeState[wasteId];
-      setLikeState({ ...likeState, [wasteId]: newLikeState });
+      const newLikeState = !likeState[productId];
+      setLikeState({ ...likeState, [productId]: newLikeState });
 
       // API 호출하여 관심 상태 업데이트
-      const response = await likeWaste(
-        wasteId,
+      const response = await likeProduct(
+        productId,
         newLikeState ? 'LIKE' : 'UNLIKE',
       );
       console.log('하트상태', response.data);
@@ -90,7 +95,7 @@ const DetailPrduct = () => {
   const handleDelete = async () => {
     try {
       // API를 사용하여 제품 삭제
-      await deleteWaste(postDetails.id);
+      await deleteProduct(postDetails.id);
 
       navigate('/ProductsList');
     } catch (error) {
@@ -111,7 +116,7 @@ const DetailPrduct = () => {
         <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
           <ul>
             <li>카테고리</li>
-            <li>{postDetails && postDetails.wasteCategory}</li>
+            <li>{postDetails && postDetails.productCategory}</li>
           </ul>
         </div>
         <div className="flex flex-row-reverse mt-12">
@@ -148,7 +153,7 @@ const DetailPrduct = () => {
         </div>
         <DetailCard
           postDetails={postDetails}
-          wasteId={wasteId}
+          productId={productId}
           currentUser={currentUser}
         />
       </div>

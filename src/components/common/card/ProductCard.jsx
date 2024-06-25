@@ -1,10 +1,9 @@
 import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
+const ProductCard = ({ product, auction }) => {
+  const data = product || auction;
 
-const ProductCard = ({ wastes, auction }) => {
-  const data = wastes || auction;
-
-  const getImgUrl = fileName => {
+  const getImgeUrl = fileName => {
     return urlJoin(globalFileAPI, `${fileName}`);
   };
 
@@ -19,8 +18,8 @@ const ProductCard = ({ wastes, auction }) => {
         />
       </figure>
       <div className="card-body">
-        <div className="bg-white w-20 text-purple-dpurple font-semibold text-xs py-1 px-2 border border-purple-dpurple rounded">
-          {data.sellStatus}
+        <div className="bg-white w-20 text-purple-dpurple font-semibold text-center text-xs py-1 px-2 border border-purple-dpurple rounded">
+          {data.productStatus}
         </div>
 
         <div className="card-title mb-3">{data.title}</div>
@@ -30,7 +29,7 @@ const ProductCard = ({ wastes, auction }) => {
             <span>{data.address?.state}</span>
             <span>{data.address?.district}</span>
           </div>
-          {wastes ? (
+          {product ? (
             <div className="flex items-center">
               <button className="mr-2"></button>
               <div>관심수 {data.likeCount}</div>
@@ -41,11 +40,12 @@ const ProductCard = ({ wastes, auction }) => {
             </div>
           )}
         </div>
-        <div className="flex justify-between">
-          <span className="text-2xl font-bold text-gray-900 ">
-            {data.productPrice}원
-          </span>
-          {wastes ? (
+
+        {product ? (
+          <div className="flex justify-between">
+            <span className="text-2xl font-bold text-gray-900 ">
+              {data.productPrice}원
+            </span>
             <a
               href={`/ProductDetail/${data.id}`}
               onClick={() => {
@@ -55,7 +55,12 @@ const ProductCard = ({ wastes, auction }) => {
             >
               상세보기
             </a>
-          ) : (
+          </div>
+        ) : (
+          <div className="flex justify-between">
+            <span className="text-2xl font-bold text-gray-900 ">
+              {data.finalBid}원
+            </span>
             <a
               href={`/AuctionDetail/${data.id}`}
               onClick={() => {
@@ -65,8 +70,8 @@ const ProductCard = ({ wastes, auction }) => {
             >
               상세보기
             </a>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

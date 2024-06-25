@@ -3,36 +3,36 @@ import { IoIosCamera } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import urlJoin from 'url-join';
 import { globalFileAPI } from '../../../../variable';
-import { updatePost, createPost } from '../../../api/WastesApi';
+import { createAuction } from '../../../api/AuctionAPI';
 
 const AuctionForm = ({ initialData, isEditMode }) => {
   const [title, setTitle] = useState(initialData.title || '');
   const [content, setContent] = useState(initialData.content || '');
-  const [wasteCategory, setWasteCategory] = useState(
-    initialData.wasteCategory || '',
+  const [productCategory, setProductCategory] = useState(
+    initialData.productCategory || '',
   );
-  const [wasteStatus, setWasteStatus] = useState(
-    initialData.wasteStatus || '최상',
+  const [productStatus, setProductStatus] = useState(
+    initialData.productStatus || '최상',
   );
-  const [sellStatus, setSellStatus] = useState(
-    initialData.sellStatus || 'ONGOING',
+  const [auctionStatus, setAuctionStatus] = useState(
+    initialData.auctionStatus || 'ONGOING',
   );
-  const [wastePrice, setWastePrice] = useState(initialData.wastePrice || '');
-  const [address, setAddress] = useState(
-    initialData.address || {
-      zipcode: '',
-      state: '',
-      city: '',
-      district: '',
-      detail: '',
-    },
-  );
-  const [imgFile, setImgFile] = useState(initialData.fileName || null);
-  const [minBid, setMinBid] = useState(initialData.minBid || '');
+  const [minimumBid, setMinimumBid] = useState(initialData.minimumBid || '');
+  // const [address, setAddress] = useState(
+  //   initialData.address || {
+  //     zipcode: '',
+  //     state: '',
+  //     city: '',
+  //     district: '',
+  //     detail: '',
+  //   },
+  // );
+  const [imgFile, setImgFile] = useState(null);
+  // const [minBid, setMinBid] = useState(initialData.minBid || '');
   const [endedAt, setEndedAt] = useState(initialData.endedAt || '');
-  const [startAt, setStartAt] = useState(initialData.startAt || '');
+  const [startedAt, setStartedAt] = useState(initialData.startAt || '');
   const navigate = useNavigate();
-  const { wasteId } = useParams();
+  const { auctionId } = useParams();
   const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
   const handleValueChange = newValue => {
     console.log('newValue:', newValue);
@@ -50,73 +50,61 @@ const AuctionForm = ({ initialData, isEditMode }) => {
     }
   };
 
-  const handleComplete = data => {
-    setAddress({
-      // address: data.address,
-      zipcode: data.zonecode,
-      state: data.sido,
-      city: data.sigungu,
-      district: data.bname,
-      detail: data.buildingName,
-    });
-  };
+  // const handleComplete = data => {
+  //   setAddress({
+  //     // address: data.address,
+  //     zipcode: data.zonecode,
+  //     state: data.sido,
+  //     city: data.sigungu,
+  //     district: data.bname,
+  //     detail: data.buildingName,
+  //   });
+  // };
 
-  const handleOpenAddressModal = () => {
-    new window.daum.Postcode({
-      oncomplete: handleComplete,
-    }).open();
+  // const handleOpenAddressModal = () => {
+  //   new window.daum.Postcode({
+  //     oncomplete: handleComplete,
+  //   }).open();
+  // };
+  const handleMinimumBidChange = e => {
+    const value = e.target.value;
+    if (/^[0-9]\d*$/.test(value) || value === '') {
+      setMinimumBid(value);
+    } else {
+      alert('양수를 입력하세요.');
+    }
+  };
+  const formatDateTime = dateTime => {
+    const date = new Date(dateTime);
+    const year = date.getFullYear();
+    const month = `0${date.getMonth() + 1}`.slice(-2);
+    const day = `0${date.getDate()}`.slice(-2);
+    const hours = `0${date.getHours()}`.slice(-2);
+    const minutes = `0${date.getMinutes()}`.slice(-2);
+    const seconds = `0${date.getSeconds()}`.slice(-2);
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const postData = {
+    // const formattedStartedAt = startedAt.includes(':')
+    //   ? `${startedAt}:00`
+    //   : startedAt;
+    // const formattedEndedAt = endedAt.includes(':') ? `${endedAt}:00` : endedAt;
+    const formattedStartedAt = formatDateTime(startedAt);
+    const formattedEndedAt = formatDateTime(endedAt);
+    await createAuction(
       title,
       content,
-      wasteCategory,
-      wasteStatus,
-      sellStatus,
-      wastePrice: Number(wastePrice),
-      address,
+      productCategory,
+      productStatus,
+      auctionStatus,
+      minimumBid,
+      formattedStartedAt,
+      formattedEndedAt,
       imgFile,
-      startAt,
-      endedAt,
       navigate,
-    };
-
-    try {
-      if (isEditMode) {
-        await updatePost(
-          wasteId,
-          postData.title,
-          postData.content,
-          postData.wasteCategory,
-          postData.wasteStatus,
-          postData.sellStatus,
-          postData.wastePrice,
-          postData.address,
-          postData.imgFile,
-          postData.startAt,
-          postData.endedAt,
-          navigate,
-        );
-      } else {
-        await createPost(
-          postData.title,
-          postData.content,
-          postData.wasteCategory,
-          postData.wasteStatus,
-          postData.sellStatus,
-          postData.wastePrice,
-          postData.address,
-          postData.imgFile,
-          postData.startAt,
-          postData.endedAt,
-          navigate,
-        );
-      }
-    } catch (error) {
-      console.error('Error submitting post:', error);
-    }
+    );
   };
   const getImgeUrl = fileName => {
     return urlJoin(globalFileAPI, `${fileName}`);
@@ -148,11 +136,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             />
             {imgFile && (
               <img
-                src={
-                  isEditMode
-                    ? getImgeUrl(imgFile)
-                    : URL.createObjectURL(imgFile)
-                }
+                src={URL.createObjectURL(imgFile)}
                 alt="게시물 이미지"
                 className="w-36 h-36"
               />
@@ -168,6 +152,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             type="text"
             value={title}
             onChange={e => setTitle(e.target.value)}
+            placeholder="제목을 입력하세요"
             required
           />
         </div>
@@ -178,8 +163,8 @@ const AuctionForm = ({ initialData, isEditMode }) => {
           <div className="relative">
             <select
               className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              value={wasteCategory}
-              onChange={e => setWasteCategory(e.target.value)}
+              value={productCategory}
+              onChange={e => setProductCategory(e.target.value)}
               required
             >
               <option value="">카테고리를 선택하세요</option>
@@ -208,7 +193,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
         </div>
         <div className="w-full px-3 mb-6">
           <div className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            폐기물 상태
+            경매제품 상태
           </div>
           <div className="flex">
             <label className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2">
@@ -216,10 +201,10 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             </label>
             <input
               type="radio"
-              name="wasteStatus"
+              name="productStatus"
               value="BEST"
-              checked={wasteStatus === 'BEST'}
-              onChange={e => setWasteStatus(e.target.value)}
+              checked={productStatus === 'BEST'}
+              onChange={e => setProductStatus(e.target.value)}
               required
               className="radio checked:bg-green-900 mr-5"
             />
@@ -228,10 +213,10 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             </label>
             <input
               type="radio"
-              name="wasteStatus"
+              name="productStatus"
               value="GOOD"
-              checked={wasteStatus === 'GOOD'}
-              onChange={e => setWasteStatus(e.target.value)}
+              checked={productStatus === 'GOOD'}
+              onChange={e => setProductStatus(e.target.value)}
               required
               className="radio checked:bg-green-900 mr-5"
             />
@@ -240,10 +225,10 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             </label>
             <input
               type="radio"
-              name="wasteStatus"
+              name="productStatus"
               value="NORMAL"
-              checked={wasteStatus === 'NORMAL'}
-              onChange={e => setWasteStatus(e.target.value)}
+              checked={productStatus === 'NORMAL'}
+              onChange={e => setProductStatus(e.target.value)}
               required
               className="radio checked:bg-green-900 mr-5"
             />
@@ -252,10 +237,10 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             </label>
             <input
               type="radio"
-              name="wasteStatus"
+              name="productStatus"
               value="WORST"
-              checked={wasteStatus === 'WORST'}
-              onChange={e => setWasteStatus(e.target.value)}
+              checked={productStatus === 'WORST'}
+              onChange={e => setProductStatus(e.target.value)}
               required
               className="radio checked:bg-green-900 mr-5"
             />
@@ -263,17 +248,15 @@ const AuctionForm = ({ initialData, isEditMode }) => {
         </div>
         <div className="w-full px-3 mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {Number(wastePrice) === 0 ? '나눔' : '가격'}
+            최소 가격
           </label>
           <input
             className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             type="number"
-            min="0"
-            step="100"
-            name="wastePrice"
-            value={Number(wastePrice)}
-            onChange={e => setWastePrice(e.target.value)}
-            placeholder="가격을 입력하세요 (0 입력 시 나눔)"
+            name="minimumBid"
+            value={minimumBid}
+            onChange={handleMinimumBidChange}
+            placeholder="가격을 입력하세요."
             required
           />
         </div>
@@ -285,23 +268,23 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             </label>
             <div className="flex items-center">
               <input
-                type="date"
+                type="datetime-local"
                 className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                value={startAt}
-                onChange={e => setStartAt}
+                value={startedAt}
+                onChange={e => setStartedAt(e.target.value)}
               />
               <p className="font-bold">~</p>
               <input
-                type="date"
+                type="datetime-local"
                 className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 value={endedAt}
-                onChange={e => setEndedAt}
+                onChange={e => setEndedAt(e.target.value)}
               />
             </div>
           </div>
         </div>
 
-        <div className="w-full px-3 mb-6">
+        {/* <div className="w-full px-3 mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
             주소
           </label>
@@ -326,7 +309,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="w-full px-3 mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
             내용
@@ -335,6 +318,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             value={content}
             onChange={e => setContent(e.target.value)}
             className="h-48 no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            placeholder="내용을 입력하세요"
             required
           />
         </div>
@@ -343,7 +327,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             className=" bg-green-900 hover:bg-green-700 text-white font-bold mt-3 py-3 px-4 rounded bg-green-900!important"
             type="submit"
           >
-            {isEditMode ? '수정하기' : '등록하기'}
+            {'등록하기'}
           </button>
         </div>
       </div>

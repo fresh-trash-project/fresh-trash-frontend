@@ -6,14 +6,21 @@ import { MdOutlineStar } from 'react-icons/md';
 import { IoHeartOutline } from 'react-icons/io5';
 import { IoHeartSharp } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
-import { detailWaste, likeWaste } from '../../../api/WastesApi';
+import { detailProduct, likeProduct } from '../../../api/ProductAPI';
 import { chatPost } from '../../../api/ChattingAPI';
 import { LikesState } from '../../../recoil/RecoilLikes';
 import { TbCurrencyWon } from 'react-icons/tb';
 import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
-const DetailCard = ({ postDetails, auctionDetails, currentUser, wasteId }) => {
+import BidModal from '../modal/BidModal';
+const DetailCard = ({
+  postDetails,
+  auctionDetails,
+  currentUser,
+  productId,
+}) => {
   const data = postDetails || auctionDetails;
+  const [modalOpen, setModalOpen] = useState(false);
   //관심 추가--------------------------------------
   const [likeState, setLikeState] = useRecoilState(LikesState);
   // const [hearted, setHearted] = useState(false);
@@ -21,12 +28,12 @@ const DetailCard = ({ postDetails, auctionDetails, currentUser, wasteId }) => {
   const handleLikeToggle = async () => {
     try {
       // 관심 상태를 토글하고 상태 업데이트
-      const newLikeState = !likeState[wasteId];
-      setLikeState({ ...likeState, [wasteId]: newLikeState });
+      const newLikeState = !likeState[productId];
+      setLikeState({ ...likeState, [productId]: newLikeState });
 
       // API 호출하여 관심 상태 업데이트
-      const response = await likeWaste(
-        wasteId,
+      const response = await likeProduct(
+        productId,
         newLikeState ? 'LIKE' : 'UNLIKE',
       );
       console.log('하트상태', response.data);
@@ -49,6 +56,7 @@ const DetailCard = ({ postDetails, auctionDetails, currentUser, wasteId }) => {
     return urlJoin(globalFileAPI, `${fileName}`);
   };
   const navigate = useNavigate();
+  //채팅 요청-----------------------------------
   const [chat, setChat] = useState('');
   const handleChat = async () => {
     const chat = await chatPost(data && data.id);
@@ -141,17 +149,30 @@ const DetailCard = ({ postDetails, auctionDetails, currentUser, wasteId }) => {
                   {data && data.title}
                 </h1>
                 <div className="bg-white text-yellow-deep font-semibold ml-4 py-2 px-4 border border-yellow-deep rounded">
-                  <p>{data && data.wasteStatus}</p>
+                  <p>{data && data.productStatus}</p>
                 </div>
-                <div className="bg-white text-purple-dpurple font-semibold ml-4 py-2 px-4 border border-purple-dpurple rounded">
-                  {data && data.sellStatus}
-                </div>
+                {postDetails ? (
+                  <div className="bg-white text-purple-dpurple font-semibold ml-4 py-2 px-4 border border-purple-dpurple rounded">
+                    {data && data.sellStatus}
+                  </div>
+                ) : (
+                  <div className="bg-white text-purple-dpurple font-semibold ml-4 py-2 px-4 border border-purple-dpurple rounded">
+                    {data && data.auctionStatus}
+                  </div>
+                )}
               </div>
               <div className="mt-4 sm:items-center sm:gap-4 sm:flex justify-between">
-                <div className=" flex items-center text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
-                  <TbCurrencyWon />
-                  {data && data.wastePrice}
-                </div>
+                {postDetails ? (
+                  <div className=" flex items-center text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
+                    <TbCurrencyWon />
+                    {data && data.productPrice}
+                  </div>
+                ) : (
+                  <div className=" flex items-center text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
+                    <TbCurrencyWon />
+                    {data && data.finalBid}
+                  </div>
+                )}
               </div>
 
               <p className="mb-6 text-gray-500 dark:text-gray-400">
@@ -182,7 +203,7 @@ const DetailCard = ({ postDetails, auctionDetails, currentUser, wasteId }) => {
                       role="button"
                       onClick={() => handleLikeToggle(data && data.id)}
                     >
-                      {likeState[wasteId] ? (
+                      {likeState[productId] ? (
                         <IoHeartSharp className="w-5 h-5 -ms-2 me-2" />
                       ) : (
                         <IoHeartOutline className="w-5 h-5 -ms-2 me-2" />
@@ -210,11 +231,19 @@ const DetailCard = ({ postDetails, auctionDetails, currentUser, wasteId }) => {
                     )}
                   </div>
                 ) : (
-                  <Link to="/Pay">
-                    <button className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
-                      입찰참여
+                  <div>
+                    <button
+                      className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100"
+                      onClick={() => setModalOpen(true)}
+                    >
+                      입찰 참여
                     </button>
-                  </Link>
+                    <BidModal
+                      isOpen={modalOpen}
+                      onClose={() => setModalOpen(false)}
+                      data={data}
+                    />
+                  </div>
                 )}
               </div>
             </div>

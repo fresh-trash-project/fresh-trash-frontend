@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { fetchWastes } from '../../api/WastesApi';
-import { FaPlus } from 'react-icons/fa6';
+import { fetchProducts } from '../../api/ProductAPI';
 import { signInState } from '../../recoil/RecoilSignIn';
 import ProductCard from '../common/card/ProductCard';
 import { useNavigate } from 'react-router-dom';
 import PaginationButton from '../common/pagination/PaginationButton';
-import { FaSearch } from 'react-icons/fa';
 import ListNav from '../common/header/ListNav';
 const List = () => {
   const navigate = useNavigate();
@@ -31,21 +29,25 @@ const List = () => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [sort, setSort] = useState('createdAt,desc');
   useEffect(() => {
-    const fetchData = async category => {
+    const fetchData = async () => {
       try {
         let productList;
         if (searchType === 'title') {
-          productList = await fetchWastes.titleSearch(searchInput, page, sort);
+          productList = await fetchProducts.titleSearch(
+            searchInput,
+            page,
+            sort,
+          );
         } else if (searchType === 'district') {
-          productList = await fetchWastes.districtSearch(
+          productList = await fetchProducts.districtSearch(
             searchInput,
             page,
             sort,
           );
         } else if (selectedCategory === '전체') {
-          productList = await fetchWastes.getPage(page, sort);
+          productList = await fetchProducts.getPage(page, sort);
         } else {
-          productList = await fetchWastes.category(
+          productList = await fetchProducts.category(
             selectedCategory,
             page,
             sort,
@@ -96,7 +98,7 @@ const List = () => {
       // API를 사용하여 제품 삭제
       await deletePost(postId);
       // 상태에서 해당 제품을 제거합니다.
-      setPosts(posts.filter(wastes => wastes.id !== postId));
+      setPosts(posts.filter(product => product.id !== postId));
       console.log('제품이 성공적으로 삭제되었습니다.');
     } catch (error) {
       console.error('제품 삭제 중 오류가 발생했습니다:', error);
@@ -115,10 +117,10 @@ const List = () => {
     try {
       let result;
       if (searchType === 'title') {
-        result = await fetchWastes.titleSearch(searchInput);
+        result = await fetchProducts.titleSearch(searchInput);
         setSearchResults(result);
       } else if (searchType === 'district') {
-        result = await fetchWastes.districtSearch(searchInput);
+        result = await fetchProducts.districtSearch(searchInput);
         setSearchResults(result);
       }
     } catch (error) {
@@ -135,6 +137,7 @@ const List = () => {
         isSearchVisible={isSearchVisible}
         searchInput={searchInput}
         handleSearch={handleSearch}
+        product={posts}
       />
 
       <div className="mt-4 mr-8 float-end text-sm breadcrumbs">
@@ -160,28 +163,28 @@ const List = () => {
               ? searchResults &&
                 searchResults
                   .filter(
-                    wastes =>
+                    product =>
                       selectedCategory === '전체' ||
-                      wastes.wasteCategory === selectedCategory,
+                      product.productCategory === selectedCategory,
                   )
-                  .map(wastes => (
+                  .map(product => (
                     <ProductCard
-                      key={wastes.id}
-                      wastes={wastes}
+                      key={product.id}
+                      product={product}
                       onDelete={handleDelete}
                     />
                   ))
               : posts.content &&
                 posts.content
                   .filter(
-                    wastes =>
+                    product =>
                       selectedCategory === '전체' ||
-                      wastes.wasteCategory === selectedCategory,
+                      product.productCategory === selectedCategory,
                   )
-                  .map(wastes => (
+                  .map(product => (
                     <ProductCard
-                      key={wastes.id}
-                      wastes={wastes}
+                      key={product.id}
+                      product={product}
                       onDelete={handleDelete}
                     />
                   ))}

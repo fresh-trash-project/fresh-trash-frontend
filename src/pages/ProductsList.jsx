@@ -1,5 +1,5 @@
 import Footer from '../components/common/footer/Footer';
-import List from '../components/waste/List';
+import List from '../components/product/List';
 import Header from '../components/common/header/Header';
 const ProductsList = () => {
   return (

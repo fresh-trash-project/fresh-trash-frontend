@@ -5,14 +5,14 @@ import {
 } from '../../variable';
 import createAxiosWithToken from './Axios';
 
-const axiosWithTokenTransactions = createAxiosWithToken(globalProductDealsAPI);
-const axiosWithTokenWastes = createAxiosWithToken(globalProductsAPI);
+// const axiosWithTokenTransactions = createAxiosWithToken(globalTransactionsAPI);
+const axiosWithTokenProducts = createAxiosWithToken(globalProductsAPI);
 const axiosWithTokenChat = createAxiosWithToken(globalChatAPI);
 
 //채팅요청  api
-export const chatPost = async wasteId => {
+export const chatPost = async productId => {
   try {
-    const response = await axiosWithTokenWastes.post(`/${wasteId}/chats`);
+    const response = await axiosWithTokenProducts.post(`/${productId}/chats`);
     if (response.status === 201) {
       console.log('채팅방 생성 성공', response.data);
     }
@@ -107,14 +107,20 @@ export const completePost = async (wasteId, chatRoomId) => {
   }
 };
 
-//예약중,판매중 api
-export const statusPost = async (chatRoomId, query) => {
+//거래처리
+export const statusChat = async (chatRoomId, productEventType) => {
   try {
-    const response = await axiosWithTokenTransactions.post(
-      `/chats/${chatRoomId}/status${query}`,
+    const response = await axiosWithTokenChat.post(
+      `/${chatRoomId}/productDeal`,
+      null,
+      {
+        params: {
+          productEventType: productEventType,
+        },
+      },
     );
     if (response.status === 200) {
-      console.error('판매상태가 예약중으로 변경되었습니다.', response.data);
+      console.log('거래처리 상태 변경을 성공하였습니다.');
     }
   } catch (error) {
     console.log('판매상태가 예약중으로 변경 실패하였습니다.', error);
@@ -126,17 +132,10 @@ export const statusPost = async (chatRoomId, query) => {
   }
 };
 
-export const statusChange = {
-  sellStatus: async (chatRoomId, status) =>
-    await statusPost(chatRoomId, `?sellStatus=${status}`),
-};
-
 //신고하기 api
 export const reportPost = async chatRoomId => {
   try {
-    const response = await axiosWithTokenTransactions.post(
-      `/chats/${chatRoomId}/flag`,
-    );
+    const response = await axiosWithTokenChat.post(`/${chatRoomId}/flag`);
     if (response.status === 200) {
       console.log('신고 신청이 완료되었습니다.', response.data);
     }

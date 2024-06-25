@@ -3,20 +3,22 @@ import { IoIosCamera } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import urlJoin from 'url-join';
 import { globalFileAPI } from '../../../../variable';
-import { updatePost, createPost } from '../../../api/WastesApi';
+import { updatePost, createPost } from '../../../api/ProductAPI';
 const ProductForm = ({ initialData, isEditMode }) => {
   const [title, setTitle] = useState(initialData.title || '');
   const [content, setContent] = useState(initialData.content || '');
-  const [wasteCategory, setWasteCategory] = useState(
-    initialData.wasteCategory || '',
+  const [productCategory, setProductCategory] = useState(
+    initialData.productCategory || '',
   );
-  const [wasteStatus, setWasteStatus] = useState(
-    initialData.wasteStatus || '최상',
+  const [productStatus, setProductStatus] = useState(
+    initialData.productStatus || '최상',
   );
   const [sellStatus, setSellStatus] = useState(
     initialData.sellStatus || 'ONGOING',
   );
-  const [wastePrice, setWastePrice] = useState(initialData.wastePrice || '');
+  const [productPrice, setProductPrice] = useState(
+    initialData.productPrice || '',
+  );
   const [address, setAddress] = useState(
     initialData.address || {
       zipcode: '',
@@ -29,7 +31,7 @@ const ProductForm = ({ initialData, isEditMode }) => {
   const [imgFile, setImgFile] = useState(initialData.fileName || null);
 
   const navigate = useNavigate();
-  const { wasteId } = useParams();
+  const { productId } = useParams();
   const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 
   const handleImageChange = e => {
@@ -66,10 +68,10 @@ const ProductForm = ({ initialData, isEditMode }) => {
     const postData = {
       title,
       content,
-      wasteCategory,
-      wasteStatus,
+      productCategory,
+      productStatus,
       sellStatus,
-      wastePrice: Number(wastePrice),
+      productPrice: Number(productPrice),
       address,
       imgFile,
       navigate,
@@ -78,13 +80,13 @@ const ProductForm = ({ initialData, isEditMode }) => {
     try {
       if (isEditMode) {
         await updatePost(
-          wasteId,
+          productId,
           postData.title,
           postData.content,
-          postData.wasteCategory,
-          postData.wasteStatus,
+          postData.productCategory,
+          postData.productStatus,
           postData.sellStatus,
-          postData.wastePrice,
+          postData.productPrice,
           postData.address,
           postData.imgFile,
           navigate,
@@ -93,10 +95,10 @@ const ProductForm = ({ initialData, isEditMode }) => {
         await createPost(
           postData.title,
           postData.content,
-          postData.wasteCategory,
-          postData.wasteStatus,
+          postData.productCategory,
+          postData.productStatus,
           postData.sellStatus,
-          postData.wastePrice,
+          postData.productPrice,
           postData.address,
           postData.imgFile,
           navigate,
@@ -132,7 +134,6 @@ const ProductForm = ({ initialData, isEditMode }) => {
               accept="image/png, image/jpeg, image/jpg"
               className="w-0 h-0 p-0 overflow-hidden border-0"
               onChange={handleImageChange}
-              required
             />
             {imgFile && (
               <img
@@ -166,8 +167,8 @@ const ProductForm = ({ initialData, isEditMode }) => {
           <div className="relative">
             <select
               className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              value={wasteCategory}
-              onChange={e => setWasteCategory(e.target.value)}
+              value={productCategory}
+              onChange={e => setProductCategory(e.target.value)}
               required
             >
               <option value="">카테고리를 선택하세요</option>
@@ -196,7 +197,7 @@ const ProductForm = ({ initialData, isEditMode }) => {
         </div>
         <div className="w-full px-3 mb-6">
           <div className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            폐기물 상태
+            제품 상태
           </div>
           <div className="flex">
             <label className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2">
@@ -204,10 +205,10 @@ const ProductForm = ({ initialData, isEditMode }) => {
             </label>
             <input
               type="radio"
-              name="wasteStatus"
+              name="productStatus"
               value="BEST"
-              checked={wasteStatus === 'BEST'}
-              onChange={e => setWasteStatus(e.target.value)}
+              checked={productStatus === 'BEST'}
+              onChange={e => setProductStatus(e.target.value)}
               required
               className="radio checked:bg-green-900 mr-5"
             />
@@ -216,10 +217,10 @@ const ProductForm = ({ initialData, isEditMode }) => {
             </label>
             <input
               type="radio"
-              name="wasteStatus"
+              name="productStatus"
               value="GOOD"
-              checked={wasteStatus === 'GOOD'}
-              onChange={e => setWasteStatus(e.target.value)}
+              checked={productStatus === 'GOOD'}
+              onChange={e => setProductStatus(e.target.value)}
               required
               className="radio checked:bg-green-900 mr-5"
             />
@@ -228,10 +229,10 @@ const ProductForm = ({ initialData, isEditMode }) => {
             </label>
             <input
               type="radio"
-              name="wasteStatus"
+              name="productStatus"
               value="NORMAL"
-              checked={wasteStatus === 'NORMAL'}
-              onChange={e => setWasteStatus(e.target.value)}
+              checked={productStatus === 'NORMAL'}
+              onChange={e => setProductStatus(e.target.value)}
               required
               className="radio checked:bg-green-900 mr-5"
             />
@@ -240,10 +241,10 @@ const ProductForm = ({ initialData, isEditMode }) => {
             </label>
             <input
               type="radio"
-              name="wasteStatus"
+              name="productStatus"
               value="WORST"
-              checked={wasteStatus === 'WORST'}
-              onChange={e => setWasteStatus(e.target.value)}
+              checked={productStatus === 'WORST'}
+              onChange={e => setProductStatus(e.target.value)}
               required
               className="radio checked:bg-green-900 mr-5"
             />
@@ -251,16 +252,16 @@ const ProductForm = ({ initialData, isEditMode }) => {
         </div>
         <div className="w-full px-3 mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            {Number(wastePrice) === 0 ? '나눔' : '가격'}
+            {Number(productPrice) === 0 ? '나눔' : '가격'}
           </label>
           <input
             className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             type="number"
             min="0"
             step="100"
-            name="wastePrice"
-            value={Number(wastePrice)}
-            onChange={e => setWastePrice(e.target.value)}
+            name="productPrice"
+            value={Number(productPrice)}
+            onChange={e => setProductPrice(e.target.value)}
             placeholder="가격을 입력하세요 (0 입력 시 나눔)"
             required
           />
