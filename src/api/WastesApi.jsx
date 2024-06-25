@@ -1,7 +1,7 @@
-import { globalWastesAPI } from '../../variable';
+import { globalProductsAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
 
-const axiosWithTokenWastes = createAxiosWithToken(globalWastesAPI);
+const axiosWithTokenWastes = createAxiosWithToken(globalProductsAPI);
 
 export const fetchProducts = async (currentPage, query) => {
   try {

@@ -43,7 +43,7 @@ const ProductCard = ({ wastes, auction }) => {
         </div>
         <div className="flex justify-between">
           <span className="text-2xl font-bold text-gray-900 ">
-            {data.wastePrice}원
+            {data.productPrice}원
           </span>
           {wastes ? (
             <a
