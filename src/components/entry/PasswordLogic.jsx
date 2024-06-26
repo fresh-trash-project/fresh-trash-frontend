@@ -1,44 +1,78 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { signInPanelState } from '../../recoil/RecoilSignIn';
+import { MESSAGES } from '../../../Constants';
+import { signInState } from '../../recoil/RecoilSignIn';
 import { useRecoilState } from 'recoil';
+import { changePassword } from '../../api/UserInfoAPI';
+import { useNavigate } from 'react-router-dom';
 
 const passwordLogic = () => {
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [signIn, setSignIn] = useRecoilState(signInState);
+  const navigate = useNavigate();
 
-  const handlePasswordChange = e => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
-    validatePassword(newPassword);
-  };
+  const handlePassword =
+    (setter, validate = false) =>
+    e => {
+      setter(e.target.value);
+      if (validate) {
+        validatePassword(e.target.value);
+      }
+    };
 
-  const handlePasswordVisibility = e => {
+  const handlePasswordVisibility = setter => e => {
     e.preventDefault();
-    setShowPassword(!showPassword);
+    setter(prev => !prev);
   };
 
-  const validatePassword = password => {
+  const validatePassword = newPassword => {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!signInPanel && !passwordRegex.test(password)) {
+
+    if (!passwordRegex.test(newPassword)) {
       if (!toast.isActive('password-error')) {
-        toast.error(
-          '영어소문자, 숫자, 특수문자가 포함된 8자리 이상의 비밀번호로 넣어주세요.',
-          { toastId: 'password-error' },
-        );
+        toast.error(MESSAGES.INVALID_PASSWORD, { toastId: 'password-error' });
       }
+    }
+    return passwordRegex.test(newPassword);
+  };
+
+  // 비밀번호 변경
+  const handlePasswordChange = async e => {
+    if (newPassword !== confirmPassword) {
+      toast.error(MESSAGES.NEW_PASSWORD_NOT_MATCH);
+      return;
+    }
+
+    try {
+      await changePassword(currentPassword, newPassword, setSignIn, navigate);
+    } catch (error) {
+      console.log('비밀번호 변경 오류:', error);
     }
   };
 
   return {
-    password,
-    setPassword,
-    showPassword,
-    setShowPassword,
+    currentPassword,
+    setCurrentPassword,
+    newPassword,
+    setNewPassword,
+    confirmPassword,
+    setConfirmPassword,
+    showCurrentPassword,
+    showNewPassword,
+    showConfirmPassword,
+    setShowCurrentPassword,
+    setShowNewPassword,
+    setShowConfirmPassword,
+    handlePassword,
     handlePasswordChange,
     handlePasswordVisibility,
+    validatePassword,
   };
 };
 

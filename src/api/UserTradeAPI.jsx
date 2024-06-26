@@ -1,7 +1,7 @@
 import createAxiosWithToken from './Axios';
-import { globalProductDeals } from '../../variable';
+import { globalProductDealsAPI } from '../../variable';
 
-const axiosWithToken = createAxiosWithToken(globalProductDeals);
+const axiosWithToken = createAxiosWithToken(globalProductDealsAPI);
 
 //나의 판매내역 > 판매중 리스트
 export const fetchMySellOngoing = async page => {
@@ -10,13 +10,13 @@ export const fetchMySellOngoing = async page => {
       params: { memberType: 'SELLER_ONGOING', page },
     });
     if (response.status === 200) {
-      console.log('나의 판매중 리스트를 불러왔습니다.', response.data);
+      console.log('나의 판매중 리스트를 불러왔습니다.', response);
     }
     return response.data;
   } catch (error) {
     console.error('Error fetching: ', error);
-    if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
+    if (error.response.status === 401) {
+      console.log('401에러: 토큰삭제 로그아웃');
       localStorage.removeItem('accessToken');
     }
     throw error;
@@ -35,8 +35,8 @@ export const fetchMySellClose = async page => {
     return response.data;
   } catch (error) {
     console.error('Error fetching: ', error);
-    if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
+    if (error.response.status === 401) {
+      console.log('401에러: 토큰삭제 로그아웃');
       localStorage.removeItem('accessToken');
     }
     throw error;
@@ -55,9 +55,9 @@ export const fetchMyBuyList = async page => {
     return response.data;
   } catch (error) {
     console.error('Error fetching: ', error);
-    if (error.response.status === 404) {
+    if (error.response.status === 401) {
       console.log(
-        '404에러: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+        '401에러: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
       );
       localStorage.removeItem('accessToken');
     }

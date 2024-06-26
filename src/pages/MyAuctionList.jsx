@@ -1,27 +1,62 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../components/common/header/Header';
 import MyTradeCards from '../components/common/card/MyTradeCards';
+import PaginationButton from '../components/common/pagination/PaginationButton';
 
 const MyAuctionList = () => {
   const [mySellListOpen, setMySellListOpen] = useState(true);
   const [myBuyListOpen, setMyBuyListOpen] = useState(false);
   const [onSale, setOnSale] = useState(true);
+  const [myList, setMyList] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [totalBuy, setTotalBuy] = useState(0);
+  const [totalOngoing, setTotalOngoing] = useState(0);
+  const [totalClose, setTotalClose] = useState(0);
 
-  const handleMySellListOpen = () => {
+  useEffect(() => {
+    handleOnSale();
+  }, [page]);
+
+  const handleMySellListOpen = async () => {
     setMySellListOpen(true);
     setMyBuyListOpen(false);
+    handleOnSale();
   };
 
-  const handleMyBuyListOpen = () => {
+  const handleMyBuyListOpen = async () => {
     setMyBuyListOpen(true);
     setMySellListOpen(false);
+    const dataBuyList = await fetchMyBuyList(page);
+    setMyList(dataBuyList.content);
+    setTotalPage(dataBuyList.totalPages);
+    setTotalBuy(dataBuyList.totalElements);
   };
 
-  const handleOnSale = () => {
+  const handleOnSale = async () => {
     setOnSale(true);
+    const ongoingList = await fetchMySellOngoing(page);
+    setMyList(ongoingList.content);
+    setTotalPage(ongoingList.totalPages);
+    setTotalOngoing(ongoingList.totalElements);
   };
 
-  console.log(onSale);
+  const handleDoneSale = async () => {
+    setOnSale(false);
+    const closeList = await fetchMySellClose(page);
+    setMyList(closeList.content);
+    setTotalPage(closeList.totalPages);
+    setTotalClose(closeList.totalElements);
+  };
+
+  //페이지네이션-------------------------------------
+  const handlePreviousPage = () => {
+    setPage(prevPage => Math.max(prevPage - 1, 0)); // 이전 페이지로 이동
+  };
+
+  const handleNextPage = () => {
+    setPage(prevPage => Math.min(prevPage + 1, totalPage - 1)); // 다음 페이지로 이동
+  };
 
   return (
     <div>
@@ -46,7 +81,7 @@ const MyAuctionList = () => {
       </div>
 
       {/* 라벨------------------------------------------------------------------------ */}
-      <div role="tablist" className="tabs tabs-boxed">
+      <div role="tablist" className="tabs tabs-boxed shadow-md">
         <div className="px-4">
           {mySellListOpen && (
             <div className="flex justify-between">
@@ -56,21 +91,21 @@ const MyAuctionList = () => {
                   onClick={handleOnSale}
                   className={`tab ${onSale && 'border-2 scale-110 font-bold bg-green-brunswick text-white'}`}
                 >
-                  경매중 (8)
+                  판매중 ({totalOngoing})
                 </div>
                 <div
                   role="tab"
-                  onClick={() => setOnSale(false)}
+                  onClick={handleDoneSale}
                   className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-green-brunswick text-white'}`}
                 >
-                  경매완료 (13)
+                  판매완료 ({totalClose})
                 </div>
               </div>
               <div className="text-sm breadcrumbs">
                 <ul>
                   <li>홈</li>
                   <li>마이페이지</li>
-                  <li>나의 경매내역</li>
+                  <li>나의 거래내역</li>
                 </ul>
               </div>
             </div>
@@ -81,13 +116,14 @@ const MyAuctionList = () => {
                 role="tab"
                 className="tab border-2 scale-110 font-bold bg-green-brunswick text-white"
               >
-                낙찰 10
+                거래완료 ({totalBuy})
               </div>
+
               <div className="text-sm breadcrumbs">
                 <ul>
                   <li>홈</li>
                   <li>마이페이지</li>
-                  <li>나의 경매내역</li>
+                  <li>나의 거래내역</li>
                 </ul>
               </div>
             </div>
@@ -95,8 +131,24 @@ const MyAuctionList = () => {
         </div>
       </div>
 
-      {/* //!라벨에 따라 내용 표시---------------------------------------------------------- */}
-      {/* <MyTradeCards /> */}
+      <MyTradeCards myList={myList} />
+
+      <div className=" container flex justify-center mb-16">
+        <PaginationButton
+          onClick={handlePreviousPage}
+          disabled={page === 0}
+          className="join-item btn mr-4"
+        >
+          이전
+        </PaginationButton>
+        <PaginationButton
+          onClick={handleNextPage}
+          disabled={page === totalPage - 1}
+          className="join-item btn ml-4"
+        >
+          다음
+        </PaginationButton>
+      </div>
     </div>
   );
 };

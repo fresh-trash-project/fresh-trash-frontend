@@ -1,5 +1,5 @@
 import {
-  globalTransactionsAPI,
+  globalProductDealsAPI,
   globalChatAPI,
   globalProductsAPI,
 } from '../../variable';
@@ -19,9 +19,9 @@ export const chatPost = async productId => {
     return response.data;
   } catch (error) {
     console.error('채팅방 생성 실패', error);
-    if (error.response.status === 404) {
+    if (error.response.status === 401) {
       console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+        '401 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
       );
       localStorage.removeItem('accessToken');
     }
@@ -42,9 +42,9 @@ export const ListFetch = async (page = 0, size = 10) => {
     return response.data.content;
   } catch (error) {
     console.error('채팅방 목록을 불러오는데 실패했습니다.', error);
-    if (error.response.status === 404) {
+    if (error.response.status === 401) {
       console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+        '401 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
       );
       localStorage.removeItem('accessToken');
     }
@@ -61,8 +61,8 @@ export const deleteChat = async chatRoomId => {
     }
   } catch (error) {
     console.error('게시물을 삭제하는 중 오류가 발생했습니다:', error);
-    if (error.response.status === 404) {
-      console.log('404 Error: 토큰삭제 로그아웃');
+    if (error.response.status === 401) {
+      console.log('401 Error: 토큰삭제 로그아웃');
       localStorage.removeItem('accessToken');
     }
     throw error;
@@ -80,8 +80,8 @@ export const contentFetch = async chatRoomId => {
     return response.data;
   } catch (error) {
     console.error('채팅 내용을 불러오는데 실패했습니다.', error);
-    if (error.response.status === 404) {
-      console.log('404 Error: 토큰삭제 로그아웃');
+    if (error.response.status === 401) {
+      console.log('401 Error: 토큰삭제 로그아웃');
       localStorage.removeItem('accessToken');
     }
     throw error;
@@ -99,8 +99,8 @@ export const completePost = async (wasteId, chatRoomId) => {
     }
   } catch (error) {
     console.error('판매완료 요청을 실패했습니다.', error);
-    if (error.response.status === 404) {
-      console.log('404 Error: 토큰삭제 로그아웃');
+    if (error.response.status === 401) {
+      console.log('401 Error: 토큰삭제 로그아웃');
       localStorage.removeItem('accessToken');
     }
     throw error;
@@ -123,11 +123,11 @@ export const statusChat = async (chatRoomId, productEventType) => {
       console.log('거래처리 상태 변경을 성공하였습니다.');
     }
   } catch (error) {
-    // console.log('거래처리상태가 변경을 실패했습니다.', error);
-    // if (error.response.status === 404) {
-    //   console.log('404 Error: 토큰삭제 로그아웃');
-    //   localStorage.removeItem('accessToken');
-    // }
+    console.log('판매상태가 예약중으로 변경 실패하였습니다.', error);
+    if (error.response.status === 401) {
+      console.log('401 Error: 토큰삭제 로그아웃');
+      localStorage.removeItem('accessToken');
+    }
     throw error;
   }
 };
@@ -141,8 +141,8 @@ export const reportPost = async chatRoomId => {
     }
   } catch (error) {
     console.error('신고 신청을 실패하였습니다.', error);
-    if (error.response.status === 404) {
-      console.log('404 Error: 토큰삭제 로그아웃');
+    if (error.response.status === 401) {
+      console.log('401 Error: 토큰삭제 로그아웃');
       localStorage.removeItem('accessToken');
     }
     throw error;
