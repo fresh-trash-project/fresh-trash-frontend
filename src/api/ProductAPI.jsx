@@ -20,9 +20,9 @@ const fetchQuery = async query => {
     // 서버로부터 받은 데이터 반환
   } catch (error) {
     console.error('게시물 목록을 가져오는 중 에러 발생:', error);
-    if (error.response.status === 404) {
+    if (error.response.status === 401) {
       console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+        '401 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
       );
       localStorage.removeItem('accessToken');
     }
@@ -87,9 +87,9 @@ export const createPost = async (
     }
   } catch (error) {
     console.error('게시물 생성을 실패하였습니다.', error);
-    if (error.response.status === 404) {
+    if (error.response.status === 401) {
       console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+        '401 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
       );
       localStorage.removeItem('accessToken');
     }
@@ -107,9 +107,9 @@ export const detailProduct = async productId => {
     }
   } catch (error) {
     console.error('상품 상세정보를 가져오는 중 에러 발생:', error);
-    if (error.response.status === 404) {
+    if (error.response.status === 401) {
       console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+        '401 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
       );
       localStorage.removeItem('accessToken');
     }
@@ -125,9 +125,9 @@ export const deleteProduct = async productId => {
     }
   } catch (error) {
     console.error('게시물을 삭제하는 중 오류가 발생했습니다:', error);
-    if (error.response.status === 404) {
+    if (error.response.status === 401) {
       console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+        '401 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
       );
       localStorage.removeItem('accessToken');
     }
@@ -186,9 +186,9 @@ export const updatePost = async (
     return response;
   } catch (error) {
     console.error('폐기물 수정 실패', error);
-    // if (error.response.status === 404) {
+    // if (error.response.status === 401) {
     //   console.log(
-    //     '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
+    //     '401 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
     //   );
     //   localStorage.removeItem('accessToken');
     // }

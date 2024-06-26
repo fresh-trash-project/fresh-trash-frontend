@@ -3,7 +3,7 @@ import urlJoin from 'url-join';
 const ProductCard = ({ product, auction }) => {
   const data = product || auction;
 
-  const getImgeUrl = fileName => {
+  const getImgUrl = fileName => {
     return urlJoin(globalFileAPI, `${fileName}`);
   };
 

@@ -6,6 +6,7 @@ import ProductCard from '../common/card/ProductCard';
 import { useNavigate } from 'react-router-dom';
 import PaginationButton from '../common/pagination/PaginationButton';
 import ListNav from '../common/header/ListNav';
+
 const List = () => {
   const navigate = useNavigate();
   //회원만 등록페이지 접근-------------------------------
