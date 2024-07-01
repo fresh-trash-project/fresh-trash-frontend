@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import logoImg from '../../assets/logo.png';
 import { FaCamera, FaTimes } from 'react-icons/fa';
 import { changeUserInfo } from '../../api/UserInfoAPI';

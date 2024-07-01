@@ -29,7 +29,11 @@ const SignInForm = ({
   const handlePasswordReset = async e => {
     e.preventDefault();
     if (email.length === 0) {
-      toast.error(MESSAGES.WRITE_EMAIL);
+      if (!toast.isActive('write-email')) {
+        toast.error(MESSAGES.WRITE_EMAIL, {
+          toastId: 'write-email',
+        });
+      }
     } else {
       await fetchTempPassword(email);
     }

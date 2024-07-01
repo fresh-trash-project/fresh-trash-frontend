@@ -76,6 +76,7 @@ const MyTradeList = () => {
         myBuyListOpen={myBuyListOpen}
         handleSellListOpen={handleMySellListOpen}
         handleBuyListOpen={handleMyBuyListOpen}
+        isAuction={false}
       />
 
       {/* 라벨------------------------------------------------------------------------ */}

@@ -45,7 +45,11 @@ const passwordLogic = () => {
   // 비밀번호 변경
   const handlePasswordChange = async e => {
     if (newPassword !== confirmPassword) {
-      toast.error(MESSAGES.NEW_PASSWORD_NOT_MATCH);
+      if (!toast.isActive('password-not-match')) {
+        toast.error(MESSAGES.NEW_PASSWORD_NOT_MATCH, {
+          toastId: 'password-not-match',
+        });
+      }
       return;
     }
 

@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AlarmState, AlarmMsgState } from '../../../recoil/RecoilAlarm';
 import { useRecoilState } from 'recoil';
 import { IoMdClose } from 'react-icons/io';
-import { signInState } from '../../../recoil/RecoilSignIn';
 import { fetchAlarm, readAlarm } from '../../../api/AlarmAPI';
 
 const Alarm = () => {
@@ -12,10 +11,11 @@ const Alarm = () => {
 
   //알람타입에 따라 알람메시지 클릭했을때 링크 이동
   const getLinkByAlarmType = item => {
+    console.log(item);
     switch (item.alarmType) {
-      case 'CHAT':
-        return `/Chat/${item.alarmArgs.targetId}`;
-      case 'TRANSACTION':
+      // case 'CHAT':
+      //   return `/Chat/${item.alarmArgs.targetId}`;
+      case ('product_status', 'auction_status'):
         return `/ProductDetail/${item.alarmArgs.targetId}`;
 
       default:

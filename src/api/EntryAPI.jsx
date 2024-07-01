@@ -15,13 +15,22 @@ export const fetchCode = async email => {
     });
 
     if (response.status === 200) {
-      toast.success(MESSAGES.SEND_CODE_SUCCESS);
+      if (!toast.isActive('send-code-success')) {
+        toast.success(MESSAGES.SEND_CODE_SUCCESS, {
+          toastId: 'send-code-success',
+        });
+      }
+
       return response.data;
     }
   } catch (error) {
     console.log(error.message);
     if (error.response.status === 400) {
-      toast.error(MESSAGES.INVALID_EMAIL_ERROR);
+      if (!toast.isActive('invalid-email')) {
+        toast.error(MESSAGES.INVALID_EMAIL_ERROR, {
+          toastId: 'invalid-email',
+        });
+      }
     }
     throw error;
   }
@@ -36,13 +45,22 @@ export const verifyCode = async (email, code) => {
     });
 
     if (response.status === 200) {
-      toast.success(MESSAGES.VERIFY_SUCCESS);
+      if (!toast.isActive('verify-success')) {
+        toast.success(MESSAGES.VERIFY_SUCCESS, {
+          toastId: 'verify-success',
+        });
+      }
+
       return response.data;
     }
   } catch (error) {
     console.log(error.message);
     if (error.response.status === 400) {
-      toast.error(MESSAGES.INVALID_CODE_ERROR);
+      if (!toast.isActive('invalid-code-error')) {
+        toast.error(MESSAGES.INVALID_CODE_ERROR, {
+          toastId: 'invalid-code-error',
+        });
+      }
     }
     throw error;
   }
@@ -65,7 +83,12 @@ export const signUpAccount = async (
     });
 
     if (response.status === 201) {
-      toast.success(MESSAGES.SIGN_UP_SUCCESS);
+      if (!toast.isActive('signup-success')) {
+        toast.success(MESSAGES.SIGN_UP_SUCCESS, {
+          toastId: 'signup-success',
+        });
+      }
+
       setSignIn(true);
       setSignInPanel(true);
       setUserName(userName);
@@ -74,7 +97,11 @@ export const signUpAccount = async (
   } catch (error) {
     console.log(error.message);
     if (error.response.status === 400) {
-      toast.error(MESSAGES.EMAIL_EXIST_ERROR);
+      if (!toast.isActive('email-exist')) {
+        toast.error(MESSAGES.EMAIL_EXIST_ERROR, {
+          toastId: 'email-exist',
+        });
+      }
     }
     throw error;
   }
@@ -97,9 +124,18 @@ export const signInAccount = async (setSignIn, password, email, navigate) => {
     }
   } catch (error) {
     console.log(error.message);
-    toast.error(MESSAGES.WRONG_EMAIL_AND_PASSWORD);
+    if (!toast.isActive('wrong-email-password')) {
+      toast.error(MESSAGES.WRONG_EMAIL_AND_PASSWORD, {
+        toastId: 'wrong-email-password',
+      });
+    }
+
     if (error.response.status === 404) {
-      toast.error(MESSAGES.USER_NOT_FOUND_ERROR);
+      if (!toast.isActive('user-not-found')) {
+        toast.error(MESSAGES.USER_NOT_FOUND_ERROR, {
+          toastId: 'user-not-found',
+        });
+      }
     }
     throw error;
   }
@@ -113,13 +149,22 @@ export const fetchTempPassword = async email => {
     });
 
     if (response.status === 200) {
-      toast.success(MESSAGES.PASSWORD_RESET_SUCCESS);
+      if (!toast.isActive('password-reset-success')) {
+        toast.success(MESSAGES.PASSWORD_RESET_SUCCESS, {
+          toastId: 'password-reset-success',
+        });
+      }
+
       return response.data;
     }
   } catch (error) {
     console.log(error.message);
     if (error.response.status === 400) {
-      toast.error(MESSAGES.PASSWORD_RESET_WRONG_EMAIL);
+      if (!toast.isActive('password-reset-wrong-email')) {
+        toast.error(MESSAGES.PASSWORD_RESET_WRONG_EMAIL, {
+          toastId: 'password-reset-wrong-email',
+        });
+      }
     }
     throw error;
   }
