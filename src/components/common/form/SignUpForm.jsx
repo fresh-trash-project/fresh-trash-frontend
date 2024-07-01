@@ -18,8 +18,8 @@ const SignUpForm = ({
   handleSendCode,
   handleVerifyCode,
   password,
-  showPassword,
-  handlePasswordChange,
+  showCurrentPassword,
+  handlePassword,
   handlePasswordVisibility,
 }) => {
   const [signIn, setSignIn] = useRecoilState(signInState);
@@ -55,8 +55,8 @@ const SignUpForm = ({
       />
       <Password
         password={password}
-        showPassword={showPassword}
-        handlePasswordChange={handlePasswordChange}
+        showCurrentPassword={showCurrentPassword}
+        handlePassword={handlePassword}
         handlePasswordVisibility={handlePasswordVisibility}
       />
       <UserName />

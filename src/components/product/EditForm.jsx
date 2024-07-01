@@ -10,7 +10,7 @@ const EditForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await detailProduct(productId);
+        const result = await detailProduct(productId, navigate);
         setInitialData(result);
       } catch (error) {
         console.error('Error fetching post:', error);

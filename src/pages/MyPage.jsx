@@ -1,25 +1,23 @@
+import Header from '../components/common/header/Header';
 import { useEffect, useState } from 'react';
-import logoImg from '../assets/logo.png';
-import { IoFootsteps } from 'react-icons/io5';
 import { useRecoilState } from 'recoil';
 import { userNameState } from '../recoil/RecoilUserName';
-import Header from '../components/common/header/Header';
-import NavigationCard from '../components/common/card/NavigationCard';
+import logoImg from '../assets/logo.png';
 import add from '../assets/add1.jpg';
 import auction from '../assets/auction2.jpg';
 import heart from '../assets/heart1.jpg';
 import chat from '../assets/chat1.jpg';
-import {
-  changeUserInfo,
-  fetchUserInfo,
-  fetchUserName,
-} from '../api/UserInfoAPI';
-import { signInState } from '../recoil/RecoilSignIn';
-import { globalFileAPI } from '../../variable';
-import urlJoin from 'url-join';
-import UserNameLogic from '../components/entry/UserNameLogic';
+import ProfileImageEditor from '../components/userInfo/ProfileImageEditor';
+import UserNameEditor from '../components/userInfo/UserNameEditor';
+import AddressEditor from '../components/userInfo/AddressEditor';
+import PasswordEditor from '../components/userInfo/PasswordEditor';
+import Rating from '../components/userInfo/Rating';
+import NavigationCard from '../components/common/card/NavigationCard';
+import { changeUserInfo, fetchUserInfo } from '../api/UserInfoAPI';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
+  const navigate = useNavigate();
   const [imgFile, setImgFile] = useState('');
   const [image, setImage] = useState(logoImg);
   const [isEditing, setIsEditing] = useState(false);
@@ -31,23 +29,50 @@ const MyPage = () => {
     district: '',
     detail: '',
   });
-  const { isDuplicate, setIsDuplicate } = UserNameLogic();
-  const [averageRating, setAverageRating] = useState(0);
-  const [signIn, setSignIn] = useRecoilState(signInState);
-  // imgFile은 로컬에서 미리보기를 위한 파일 객체를 저장하고,
-  // image는 서버로부터 받은 파일 이름(fileName) 또는 URL을 저장
 
-  //마이페이지 들어왔을때 유저정보 불러오기
+  const [averageRating, setAverageRating] = useState(0);
+  const [activeTab, setActiveTab] = useState('nickname');
+  const tabs = [
+    { name: 'nickname', label: '닉네임' },
+    { name: 'address', label: '주소' },
+    { name: 'password', label: '비밀번호' },
+  ];
+  const navigationItems = [
+    {
+      image: add,
+      title: '나의 거래 내역',
+      phrase: 'My Trade List',
+      link: 'MyTradeList',
+    },
+    {
+      image: auction,
+      title: '나의 경매 내역',
+      phrase: 'My Auction List',
+      link: 'MyAuctionList',
+    },
+    {
+      image: heart,
+      title: '나의 관심 목록',
+      phrase: 'MY Likes',
+      link: 'MyLikes',
+    },
+    {
+      image: chat,
+      title: '나의 채팅 목록',
+      phrase: 'My Chat List',
+      link: 'ChatList',
+    },
+  ];
+
+  //마이페이지 들어왔을때 유저정보 불러오기-------------------------------------------------------
   useEffect(() => {
     const getUserInfo = async () => {
-      const myInfo = await fetchUserInfo();
+      const myInfo = await fetchUserInfo(navigate);
       console.log('마이페이지 들어왔을때 받은 데이터: ', myInfo);
       setUserName(myInfo.nickname);
       setAddress(myInfo.address);
       setAverageRating(myInfo.rating);
       setImage(myInfo.fileName || logoImg);
-      console.log('서버로부터 받은 파일 이름을 image에 저장: ', image);
-      console.log('이미지 객체 파일 imgFile: ', imgFile);
       // 처음 들어갔을때는 주소가 없으니까 불러오지 못하기 때문에 아래와 같이 null일때는 빈값보이도록 처리.
       if (myInfo.address === null) {
         setAddress({
@@ -62,16 +87,21 @@ const MyPage = () => {
     getUserInfo();
   }, []);
 
-  //함수들-----------------------------------------------------------
+  // 프로필 수정 --------------------------------------------------------------
   const handleEditProfile = () => {
     setIsEditing(true);
   };
 
-  //유저정보 변경
+  // 유저정보 변경---------------------------------------------------------
   const handleChangeUserInfo = async e => {
     e.preventDefault();
     setIsEditing(false);
-    const changeMyInfo = await changeUserInfo(userName, address, imgFile);
+    const changeMyInfo = await changeUserInfo(
+      userName,
+      address,
+      imgFile,
+      navigate,
+    );
     setUserName(changeMyInfo.nickname);
     setAddress(changeMyInfo.address);
 
@@ -83,287 +113,100 @@ const MyPage = () => {
     }
   };
 
-  //이미지 변경
-  const handleImageChange = async e => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl); // 미리보기용 URL을 저장 - imgFile에(file에) createObjectUrl적용한것.
-      setImgFile(file); // 실제 파일 객체를 저장
-    } else {
-      setImage(logoImg);
-    }
-  };
-
-  //이미지 파일 경로-----------------------------getImgUrl 함수를 통해 서버로부터 반환된 파일 이름을 URL로 변환
-  const getImgUrl = image => {
-    // 로컬 리소스인 경우 바로 경로를 반환
-    if (!image || image === logoImg) {
-      return logoImg;
-    }
-    // Blob URL인 경우 원본 URL을 그대로 반환. blob URL은 로컬 파일의 미리보기를 위한 URL로 서버URL로 변환하면 안됨.
-    if (image.startsWith('blob:')) {
-      return image;
-    }
-    // 서버의 이미지 경로 처리
-    const fullPath = urlJoin(globalFileAPI, `${image}`);
-    console.log('image를 경로 처리한 fullPath: ', fullPath);
-    return fullPath;
-  };
-
-  //이미지삭제
-  const handleDeleteImage = async () => {
-    try {
-      const response = await changeUserInfo(userName, address, null);
-      if (response) {
-        setImage(logoImg); // 로고 이미지로 재설정
-        setImgFile(null); // 파일 객체 제거
-      } else {
-        console.error('Failed to delete image:', response);
-      }
-    } catch (error) {
-      console.error('Error deleting image:', error);
-    }
-    // setImage(logoImg); // 로고 이미지로 재설정
-    // setImgFile(null); // 파일 객체 제거
-  };
-
-  const handleUserNameChange = e => {
-    setUserName(e.target.value);
-    setIsDuplicate(false);
-  };
-
-  //닉네임 중복확인
-  const handleDuplication = async userName => {
-    fetchUserName(setIsDuplicate, userName, setUserName, signIn, setSignIn);
-  };
-
+  // 주소 검색 ---------------------------------------------------------------------------
   const handleSearchAddress = () => {
     new window.daum.Postcode({
-      oncomplete: handleAddressChange,
+      oncomplete: data => {
+        const newAddress = {
+          zipcode: data.zonecode,
+          state: data.sido,
+          city: data.sigungu,
+          district: data.bname,
+          detail: data.buildingName,
+        };
+
+        setAddress(newAddress);
+      },
     }).open();
   };
 
-  const handleAddressChange = data => {
-    const newAddress = {
-      zipcode: data.zonecode,
-      state: data.sido,
-      city: data.sigungu,
-      district: data.bname,
-      detail: data.buildingName,
-    };
-    setAddress(newAddress);
-    if (newAddress === null) {
-      setAddress({
-        zipcode: '',
-        state: '',
-        city: '',
-        district: '',
-        detail: '',
-      });
-    }
-  };
-
-  //초록바의 길이를 100%로 -------------------------------------------------------------
-  const [greenBarWidth, setGreenBarWidth] = useState(0);
-
-  useEffect(() => {
-    // Function to update the green bar width
-    const updateGreenBarWidth = () => {
-      const parentElement = document.querySelector('.ratingBar').parentElement;
-      if (parentElement) {
-        setGreenBarWidth(parentElement.offsetWidth);
-      }
-    };
-    // Call the function once on mount
-    updateGreenBarWidth();
-
-    // Listen for window resize to update the width dynamically
-    window.addEventListener('resize', updateGreenBarWidth);
-
-    // Clean up event listener on unmount
-    return () => window.removeEventListener('resize', updateGreenBarWidth);
-  }, []);
-
-  //백에서 평점 받을 때 발자국 이동거리
-  let footstep = (averageRating / 5) * 100 - (30 / greenBarWidth) * 100;
-  if (averageRating === 0) {
-    footstep = (averageRating / 5) * 100;
-  }
-
-  //JSX-------------------------------------------------------------
+  //JSX----------------------------------------------------------------------------------------------
   return (
     <div>
       <Header />
 
       <div className="px-5">
         <div className="md:flex">
-          {/* 프로필 이미지------------------------------------------------------------------------- */}
-          <div className="avatar flex flex-col pt-5">
-            <div className="w-72 rounded-full mx-auto md:mx-10 ">
-              {/* 편집 모드에서 로컬 이미지 파일이 있으면 그것을 사용, 없으면 서버 이미지 사용 */}
-              <img
-                src={imgFile ? URL.createObjectURL(imgFile) : getImgUrl(image)}
-                alt="프로필 이미지"
-                className={'w-full h-full object-cover'}
-                onError={e => {
-                  console.error(e.target.src);
-                  e.target.src = logoImg;
-                }} // 로드 실패 시 기본 이미지
-              />
-            </div>
-            {/*console.log(imgFile)*/}
-            {/*console.log(image)*/}
-            {/* 이미지를 업로드하면 imgFile, imgFile을 서버로 넘김 
-            서버는 받은 imgFile을 서버의 파일시스템이나 S3같은 클라우드 스토리지에 저장 
-            이미지파일 저장 과정에서 고유한 이름 생성('02db636b-986f-4e00-952c-bd8aa7a982f0.jpg')
-            저장된 이미지파일의 접근 경로(URL) 또는 파일명을 데이터베이스에 저장. 
-            이 정보는 사용자의 프로필 이미지 경로로 사용되며 사용자 프로필을 조회할 떄 이 경로를 통해 이미지를 불러옴. 
-            새 이미지 URL을 클라이언트에 반환. 
-            클라이언트는 서버에서 보낸 URL을 image에 저장.*/}
-            {console.log('UI src: ', getImgUrl(image))}
-            {/* getImgUrl 함수는 서버로부터 받은 이미지 파일명을 웹에서 접근 가능한 URL로 변환하는 역할을 합니다.  */}
+          {/* 프로필 이미지 수정---------------------------------------------------------------------- */}
+          <div className="avatar flex flex-col pt-5 ">
+            <ProfileImageEditor
+              image={image}
+              setImage={setImage}
+              imgFile={imgFile}
+              setImgFile={setImgFile}
+              userName={userName}
+              address={address}
+              isEditing={isEditing}
+            />
+
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
               onClick={isEditing ? handleChangeUserInfo : handleEditProfile}
-              disabled={isEditing && isDuplicate}
             >
               {isEditing ? '프로필 수정 완료' : '프로필 수정'}
             </button>
-            {isEditing && (
-              <button className="mx-auto mt-2 md:mx-14">
-                {!image || image === logoImg ? (
-                  <label htmlFor="avatarInput" className="btn btn-wide">
-                    <p>이미지 업로드</p>
-                    <input
-                      type="file"
-                      id="avatarInput"
-                      className="file-input file-input-bordered hidden"
-                      accept=".jpg, .png, .jpeg"
-                      onChange={handleImageChange}
-                    />
-                  </label>
-                ) : (
-                  <button onClick={handleDeleteImage} className="btn btn-wide">
-                    이미지 삭제
-                  </button>
-                )}
-              </button>
-            )}
           </div>
 
+          {/* 탭별 프로필 수정-------------------------------------------------------------------- */}
           <div className="w-full flex flex-col">
             <div className="mx-auto mt-8 md:mx-14">
-              <div className="flex items-center">
-                <input
-                  type="text"
-                  placeholder="닉네임"
-                  className={`input input-bordered ${isEditing ? 'mb-2' : 'mb-5'} `}
-                  value={userName}
-                  onChange={handleUserNameChange}
-                  disabled={!isEditing}
-                />
-                {isEditing && (
+              {/* 탭----------------------------------------------------------------------------------------- */}
+              <div className="tabs tabs-boxed mb-16">
+                {tabs.map(tab => (
                   <button
-                    onClick={() => handleDuplication(userName)}
-                    className="btn btn-sm ml-2"
+                    key={tab.name}
+                    className={`tab font-bold ${activeTab === tab.name ? 'tab-active' : ''}`}
+                    onClick={() => setActiveTab(tab.name)}
                   >
-                    중복확인
+                    {tab.label}
                   </button>
-                )}
+                ))}
               </div>
-              {isEditing && (
-                <div
-                  className={`mb-5 w-fit ${isDuplicate ? 'text-red-400' : 'text-blue-400'}`}
-                ></div>
+              {/* 닉네임변경----------------------------------------------------------------------------------------- */}
+              {activeTab === 'nickname' && (
+                <UserNameEditor isEditing={isEditing} />
               )}
-
-              <div className="addr flex flex-col mx-auto">
-                <div className="addr1 flex mb-2 items-center">
-                  <input
-                    type="text"
-                    placeholder="주소검색"
-                    className="input input-bordered w-80"
-                    value={`${address.zipcode} ${address.state} ${address.city} ${address.district}`}
-                    onChange={handleAddressChange}
-                    disabled={!isEditing}
-                    readOnly
-                  />
-                  {isEditing && (
-                    <button
-                      onClick={handleSearchAddress}
-                      className="btn btn-sm ml-2"
-                    >
-                      주소검색
-                    </button>
-                  )}
-                </div>
-                <input
-                  type="text"
-                  placeholder="상세주소"
-                  className="input input-bordered w-80"
-                  disabled={!isEditing}
-                  value={address.detail}
-                  onChange={e =>
-                    setAddress(prevAddress => ({
-                      ...prevAddress,
-                      detail: e.target.value,
-                    }))
-                  }
+              {/* 주소변경----------------------------------------------------------------------------------------- */}
+              {activeTab === 'address' && (
+                <AddressEditor
+                  address={address}
+                  setAddress={setAddress}
+                  isEditing={isEditing}
+                  handleSearchAddress={handleSearchAddress}
                 />
-              </div>
+              )}
+              {/* 비번변경----------------------------------------------------------------------------------------- */}
+              {activeTab === 'password' && (
+                <PasswordEditor isEditing={isEditing} />
+              )}
             </div>
           </div>
         </div>
 
         {/* 평점----------------------------------------------------------------------------------------- */}
-        <div className="rating flex flex-col mt-14">
-          <div className="flex justify-between mb-2">
-            <div className="my-rating rounded-lg p-2 bg-green-paleaqua ">
-              나의 평점
-            </div>
-            <div className="rating-value rounded-lg p-2 bg-green-paleaqua ">
-              {/*프론트에서 구할때 {averageRating()} / 5 */}
-              {averageRating + ' / 5'}
-            </div>
-          </div>
-
-          <div>
-            <div className="ratingBar relative h-8 rounded-lg bg-gradient-to-br from-green-200 via-green-700 to-green-950 ">
-              <IoFootsteps
-                className={`absolute text-3xl rotate-90 text-white-ivory`}
-                style={{ left: `${footstep}%` }}
-              />
-            </div>
-          </div>
-        </div>
+        <Rating averageRating={averageRating} />
 
         {/* 나의 목록들----------------------------------------------------------------------------------------- */}
         <div className="cards bg-white py-10 mt-5">
-          <NavigationCard
-            image={add}
-            title="나의 거래 내역"
-            phrase="My Trade List"
-            link="MyTradeList"
-          />
-          <NavigationCard
-            image={auction}
-            title="나의 경매 내역"
-            phrase="My Auction List"
-            link="MyAuctionList"
-          />
-          <NavigationCard
-            image={heart}
-            title="나의 관심 목록"
-            phrase="MY Likes"
-            link="MyLikes"
-          />
-          <NavigationCard
-            image={chat}
-            title="나의 채팅 목록"
-            phrase="My Chat List"
-            link="ChatList"
-          />
+          {navigationItems.map(item => (
+            <NavigationCard
+              key={item.link}
+              image={item.image}
+              title={item.title}
+              phrase={item.phrase}
+              link={item.link}
+            />
+          ))}
         </div>
       </div>
     </div>

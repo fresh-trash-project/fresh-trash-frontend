@@ -3,11 +3,13 @@ import { fetchUserName } from '../../api/UserInfoAPI';
 import { userNameState } from '../../recoil/RecoilUserName';
 import { useRecoilState } from 'recoil';
 import { signInState } from '../../recoil/RecoilSignIn';
+import { useNavigate } from 'react-router-dom';
 
-const UserNameLogic = () => {
+export const UserNameLogic = () => {
   const [userName, setUserName] = useRecoilState(userNameState);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [signIn, setSignIn] = useRecoilState(signInState);
+  const navigate = useNavigate();
 
   const handleUserNameChange = e => {
     const newUserName = e.target.value;
@@ -22,7 +24,7 @@ const UserNameLogic = () => {
       userName,
       setUserName,
       signIn,
-      setSignIn,
+      navigate,
     );
   };
 

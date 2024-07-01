@@ -21,9 +21,11 @@ const SignUpSignIn = () => {
     handleVerifyCode,
   } = EmailLogic();
   const {
-    password,
-    showPassword,
-    handlePasswordChange,
+    currentPassword,
+    setCurrentPassword,
+    showCurrentPassword,
+    setShowCurrentPassword,
+    handlePassword,
     handlePasswordVisibility,
   } = PasswordLogic();
   // UserNameLogic은 SignUpForm에서만 필요하니까 SignUpForm에서 import해서 prop drilling을 줄였다.
@@ -65,10 +67,12 @@ const SignUpSignIn = () => {
             handleEmailChange={handleEmailChange}
             handleSendCode={handleSendCode}
             handleVerifyCode={handleVerifyCode}
-            password={password}
-            showPassword={showPassword}
-            handlePasswordChange={handlePasswordChange}
-            handlePasswordVisibility={handlePasswordVisibility}
+            password={currentPassword}
+            showCurrentPassword={showCurrentPassword}
+            handlePassword={handlePassword(setCurrentPassword)}
+            handlePasswordVisibility={handlePasswordVisibility(
+              setShowCurrentPassword,
+            )}
           />
         </EntryContainer>
 
@@ -84,10 +88,12 @@ const SignUpSignIn = () => {
           <SignInForm
             email={email}
             handleEmailChange={handleEmailChange}
-            password={password}
-            showPassword={showPassword}
-            handlePasswordChange={handlePasswordChange}
-            handlePasswordVisibility={handlePasswordVisibility}
+            password={currentPassword}
+            showCurrentPassword={showCurrentPassword}
+            handlePassword={handlePassword(setCurrentPassword)}
+            handlePasswordVisibility={handlePasswordVisibility(
+              setShowCurrentPassword,
+            )}
           />
         </EntryContainer>
 

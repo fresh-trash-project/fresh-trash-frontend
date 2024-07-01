@@ -3,18 +3,20 @@ import Header from '../components/common/header/Header';
 import MyTradeCards from '../components/common/card/MyTradeCards';
 import { fetchMyLikes } from '../api/UserLikesAPI';
 import PaginationButton from '../components/common/pagination/PaginationButton';
+import Label from '../components/common/label/Label';
+import { useNavigate } from 'react-router-dom';
 
 const MyLikes = () => {
   const [myLikes, setMyLikes] = useState([]);
   const [totalLikes, setTotalLikes] = useState(0);
-  const [filteredLikes, setFilteredLikes] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('전체');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getMyLikes = async () => {
-      const dataMyLikes = await fetchMyLikes(selectedCategory, page);
+      const dataMyLikes = await fetchMyLikes(selectedCategory, page, navigate);
       setMyLikes(dataMyLikes.content);
       setTotalLikes(dataMyLikes.totalElements);
       setTotalPage(dataMyLikes.totalPages);
@@ -95,32 +97,18 @@ const MyLikes = () => {
       </div>
 
       {/* 라벨------------------------------------------------------------------------ */}
-      <div role="tablist" className="tabs tabs-boxed shadow-md ">
-        <div className="px-4">
-          <div className="flex justify-between">
-            <div
-              role="tab"
-              className={`tab border-2 scale-110 font-bold bg-green-brunswick text-white`}
-            >
-              찜 ({totalLikes})
-            </div>
-            <div className=" text-sm breadcrumbs">
-              <ul>
-                <li>홈</li>
-                <li>마이페이지</li>
-                <li>나의 관심목록</li>
-              </ul>
-            </div>
-          </div>
+      <Label breadcrumbItems={['홈', '마이페이지', '나의 관심목록']}>
+        <div
+          role="tab"
+          className="tab border-2 scale-110 font-bold bg-green-brunswick text-white"
+        >
+          찜 ({totalLikes})
         </div>
-      </div>
+      </Label>
+
       <div className=" mt-16 pt-4  lg:pt-5 pb-4 px-20  lg:pb-8 xl:px-40 xl:container  2xl:px-60">
         <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto  ">
-          <div className="grid gap-6 mt-12 justify-items-center md:grid-cols-2  lg:grid-cols-3 item_ list ">
-            {myLikes.map(product => (
-              <MyTradeCards key={product.id} product={product} />
-            ))}
-          </div>
+          <MyTradeCards myList={myLikes} type="product" />
         </div>
       </div>
 
