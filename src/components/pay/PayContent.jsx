@@ -108,7 +108,7 @@ const PayContent = () => {
             {auctionDetails && auctionDetails.finalBid}원을 입금하세요.
           </p>
           <button
-            className=" py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100"
+            className=" py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-brunswick rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100"
             onClick={requestPay}
           >
             결제하기
