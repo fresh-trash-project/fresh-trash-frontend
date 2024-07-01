@@ -6,27 +6,48 @@ import {
   fetchMySellClose,
   fetchMySellOngoing,
 } from '../api/UserTradeAPI';
-import { PaginationButton } from 'flowbite-react';
 import TradeTabs from '../components/common/button/TradeTab';
 import Label from '../components/common/label/Label';
 import { useNavigate } from 'react-router-dom';
+import PaginationButton from '../components/common/pagination/PaginationButton';
 
 const MyTradeList = () => {
   const [mySellListOpen, setMySellListOpen] = useState(true);
   const [myBuyListOpen, setMyBuyListOpen] = useState(false);
   const [onSale, setOnSale] = useState(true);
   const [myList, setMyList] = useState([]);
-  const [page, setPage] = useState(0);
-  const [totalPage, setTotalPage] = useState(0);
+
+  // 페이지 상태 추가
+  const [pageBuy, setPageBuy] = useState(0);
+  const [pageOngoing, setPageOngoing] = useState(0);
+  const [pageClose, setPageClose] = useState(0);
+
+  const [totalPageBuy, setTotalPageBuy] = useState(0);
+  const [totalPageOngoing, setTotalPageOngoing] = useState(0);
+  const [totalPageClose, setTotalPageClose] = useState(0);
+
   const [totalBuy, setTotalBuy] = useState(0);
   const [totalOngoing, setTotalOngoing] = useState(0);
   const [totalClose, setTotalClose] = useState(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    handleDoneSale();
-    handleOnSale();
-  }, [page]);
+    const fetchAllData = async () => {
+      await handleDoneSale();
+      await handleOnSale();
+    };
+    fetchAllData();
+    if (mySellListOpen) {
+      if (onSale) {
+        handleOnSale();
+      } else {
+        handleDoneSale();
+      }
+    } else if (myBuyListOpen) {
+      handleMyBuyListOpen();
+    }
+  }, [pageBuy, pageOngoing, pageClose]);
 
   const handleMySellListOpen = async () => {
     setMySellListOpen(true);
@@ -37,35 +58,26 @@ const MyTradeList = () => {
   const handleMyBuyListOpen = async () => {
     setMyBuyListOpen(true);
     setMySellListOpen(false);
-    const dataBuyList = await fetchMyBuyList(page, navigate);
+    const dataBuyList = await fetchMyBuyList(pageBuy, navigate);
     setMyList(dataBuyList.content);
-    setTotalPage(dataBuyList.totalPages);
+    setTotalPageBuy(dataBuyList.totalPages);
     setTotalBuy(dataBuyList.totalElements);
   };
 
   const handleOnSale = async () => {
     setOnSale(true);
-    const ongoingList = await fetchMySellOngoing(page, navigate);
+    const ongoingList = await fetchMySellOngoing(pageOngoing, navigate);
     setMyList(ongoingList.content);
-    setTotalPage(ongoingList.totalPages);
+    setTotalPageOngoing(ongoingList.totalPages);
     setTotalOngoing(ongoingList.totalElements);
   };
 
   const handleDoneSale = async () => {
     setOnSale(false);
-    const closeList = await fetchMySellClose(page, navigate);
+    const closeList = await fetchMySellClose(pageClose, navigate);
     setMyList(closeList.content);
-    setTotalPage(closeList.totalPages);
+    setTotalPageClose(closeList.totalPages);
     setTotalClose(closeList.totalElements);
-  };
-
-  //페이지네이션-------------------------------------
-  const handlePreviousPage = () => {
-    setPage(prevPage => Math.max(prevPage - 1, 0)); // 이전 페이지로 이동
-  };
-
-  const handleNextPage = () => {
-    setPage(prevPage => Math.min(prevPage + 1, totalPage - 1)); // 다음 페이지로 이동
   };
 
   return (
@@ -110,29 +122,30 @@ const MyTradeList = () => {
         </div>
       </Label>
 
-      <div className=" mt-16 pt-4  lg:pt-5 pb-4 px-20  lg:pb-8 xl:px-40 xl:container  2xl:px-60">
-        <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto  ">
+      <div className="mt-16 pt-4 lg:pt-5 pb-4 px-20 lg:pb-8 xl:px-40 xl:container 2xl:px-60">
+        <div className="pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto">
           <MyTradeCards myList={myList} type="product" />
         </div>
       </div>
 
-      <div className=" container flex justify-center mb-16">
-        <PaginationButton
-          onClick={handlePreviousPage}
-          disabled={page === 0}
-          className="join-item btn mr-4"
-        >
-          이전
-        </PaginationButton>
-        <PaginationButton
-          onClick={handleNextPage}
-          disabled={page === totalPage - 1}
-          className="join-item btn ml-4"
-        >
-          다음
-        </PaginationButton>
+      <div className="container flex justify-center mb-16">
+        {mySellListOpen && (
+          <PaginationButton
+            setPage={onSale ? setPageOngoing : setPageClose}
+            page={onSale ? pageOngoing : pageClose}
+            totalPages={onSale ? totalPageOngoing : totalPageClose}
+          />
+        )}
+        {myBuyListOpen && (
+          <PaginationButton
+            setPage={setPageBuy}
+            page={pageBuy}
+            totalPages={totalPageBuy}
+          />
+        )}
       </div>
     </div>
   );
 };
+
 export default MyTradeList;

@@ -66,23 +66,6 @@ const List = () => {
     fetchData();
   }, [page, searchType, searchInput, sort, selectedCategory]);
 
-  //페이지네이션-------------------------------------
-
-  const handlePreviousPage = async () => {
-    setPage(page => Math.max(page - 1, 0)); // 이전 페이지로 이동
-  };
-
-  // const handleNextPage = async () => {
-  //   setPage(page => Math.min(page + 1, posts.totalPages - 1)); // 다음 페이지로 이동
-  // };
-  const handleNextPage = async () => {
-    // 현재 페이지가 마지막 페이지보다 작은 경우에만 페이지를 증가시킵니다.
-    if (page < posts.totalPages - 1) {
-      // 현재 페이지를 업데이트합니다.
-      setPage(page => page + 1);
-    }
-  };
-
   const handleSortByLikes = () => {
     setSort('likeCount,desc');
   };
@@ -259,9 +242,7 @@ const List = () => {
 
       <div className=" container flex justify-center mb-16">
         <PaginationButton
-          handlePreviousPage={handlePreviousPage}
-          handleNextPage={handleNextPage}
-          // number={getPageNumbers}
+          setPage={setPage}
           page={page}
           totalPages={totalPage}
         />

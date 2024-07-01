@@ -14,7 +14,7 @@ const ChatMenu = ({ isOpen, messageList }) => {
   };
   return (
     <div
-      className={`w-16  space-y-10 py-1 border border-spacing-2   ${isOpen ? '-translate-x-0' : 'translate-x-40'}`}
+      className={`w-16 space-y-10 py-1 border border-spacing-2   ${isOpen ? '-translate-x-0' : 'translate-x-80'}`}
     >
       <ul>
         <li className="p-5">
