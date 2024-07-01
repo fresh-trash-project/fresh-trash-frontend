@@ -13,7 +13,7 @@ import { TbCurrencyWon } from 'react-icons/tb';
 import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
 import BidModal from '../modal/BidModal';
-
+import DateCounter from '../counter/DateCounter';
 const DetailCard = ({
   postDetails,
   auctionDetails,
@@ -65,6 +65,7 @@ const DetailCard = ({
     setChat(chat);
     navigate(`/Chat/${chat && chat.id}/${data && data.id}`);
   };
+
   return (
     <div>
       <section className="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
@@ -192,7 +193,12 @@ const DetailCard = ({
               ) : (
                 <div className="flex justify-between">
                   <div>조회수 {data && data.viewCount} </div>
-                  <div>작성일자 - 마감일자 </div>
+                  <div>
+                    <DateCounter
+                      startDate={data && data.startedAt}
+                      endDate={data && data.endedAt}
+                    />
+                  </div>
                 </div>
               )}
 

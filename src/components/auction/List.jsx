@@ -123,6 +123,7 @@ const List = () => {
       console.error('검색 중 에러 발생:', error);
     }
   };
+
   return (
     <div>
       <ListNav
@@ -225,7 +226,7 @@ const List = () => {
             </button>
             <button onClick={handleSortByCreated}>최신순</button>
           </div>
-          <div className="grid gap-6 justify-items-center md:grid-cols-2  lg:grid-cols-3 item_ list ">
+          <div className="grid gap-6 justify-items-center md:grid-cols-2  lg:grid-cols-3  ">
             {searchResults.length > 0
               ? searchResults &&
                 searchResults

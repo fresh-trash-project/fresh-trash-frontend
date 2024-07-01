@@ -10,6 +10,7 @@ const fetchQuery = async (query, navigate) => {
     const response = await axiosWithTokenAuctions.get(`${query}`);
     const responseData = response.data;
     if (response.status === 200) {
+      console.log(response.data);
       return {
         content: responseData.content,
         totalPages: responseData.totalPages,
