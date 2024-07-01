@@ -9,6 +9,7 @@ import {
 import { PaginationButton } from 'flowbite-react';
 import TradeTabs from '../components/common/button/TradeTab';
 import Label from '../components/common/label/Label';
+import { useNavigate } from 'react-router-dom';
 
 const MyTradeList = () => {
   const [mySellListOpen, setMySellListOpen] = useState(true);
@@ -20,6 +21,7 @@ const MyTradeList = () => {
   const [totalBuy, setTotalBuy] = useState(0);
   const [totalOngoing, setTotalOngoing] = useState(0);
   const [totalClose, setTotalClose] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     handleDoneSale();
@@ -35,7 +37,7 @@ const MyTradeList = () => {
   const handleMyBuyListOpen = async () => {
     setMyBuyListOpen(true);
     setMySellListOpen(false);
-    const dataBuyList = await fetchMyBuyList(page);
+    const dataBuyList = await fetchMyBuyList(page, navigate);
     setMyList(dataBuyList.content);
     setTotalPage(dataBuyList.totalPages);
     setTotalBuy(dataBuyList.totalElements);
@@ -43,7 +45,7 @@ const MyTradeList = () => {
 
   const handleOnSale = async () => {
     setOnSale(true);
-    const ongoingList = await fetchMySellOngoing(page);
+    const ongoingList = await fetchMySellOngoing(page, navigate);
     setMyList(ongoingList.content);
     setTotalPage(ongoingList.totalPages);
     setTotalOngoing(ongoingList.totalElements);
@@ -51,7 +53,7 @@ const MyTradeList = () => {
 
   const handleDoneSale = async () => {
     setOnSale(false);
-    const closeList = await fetchMySellClose(page);
+    const closeList = await fetchMySellClose(page, navigate);
     setMyList(closeList.content);
     setTotalPage(closeList.totalPages);
     setTotalClose(closeList.totalElements);

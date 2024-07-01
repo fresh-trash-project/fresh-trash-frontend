@@ -13,6 +13,7 @@ import { TbCurrencyWon } from 'react-icons/tb';
 import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
 import BidModal from '../modal/BidModal';
+
 const DetailCard = ({
   postDetails,
   auctionDetails,
@@ -35,6 +36,7 @@ const DetailCard = ({
       const response = await likeProduct(
         productId,
         newLikeState ? 'LIKE' : 'UNLIKE',
+        navigate,
       );
       console.log('하트상태', response.data);
       setLike(prevDetails => ({
@@ -59,7 +61,7 @@ const DetailCard = ({
   //채팅 요청-----------------------------------
   const [chat, setChat] = useState('');
   const handleChat = async () => {
-    const chat = await chatPost(data && data.id);
+    const chat = await chatPost(data && data.id, navigate);
     setChat(chat);
     navigate(`/Chat/${chat && chat.id}/${data && data.id}`);
   };

@@ -4,6 +4,7 @@ import MyTradeCards from '../components/common/card/MyTradeCards';
 import { fetchMyLikes } from '../api/UserLikesAPI';
 import PaginationButton from '../components/common/pagination/PaginationButton';
 import Label from '../components/common/label/Label';
+import { useNavigate } from 'react-router-dom';
 
 const MyLikes = () => {
   const [myLikes, setMyLikes] = useState([]);
@@ -11,10 +12,11 @@ const MyLikes = () => {
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('전체');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getMyLikes = async () => {
-      const dataMyLikes = await fetchMyLikes(selectedCategory, page);
+      const dataMyLikes = await fetchMyLikes(selectedCategory, page, navigate);
       setMyLikes(dataMyLikes.content);
       setTotalLikes(dataMyLikes.totalElements);
       setTotalPage(dataMyLikes.totalPages);

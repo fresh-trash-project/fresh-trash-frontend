@@ -42,7 +42,17 @@ export const MESSAGES = {
   // FETCH_USER_INFO_FAILURE: '사용자 정보를 불러오는 데 실패했습니다.',
 
   GENERIC_ERROR: '에러',
-  //콘솔용
+};
+
+export const CONSOLE = {
+  GENERIC_ERROR: '에러',
   RESOURCE_NOT_FOUND_ERROR:
-    '401에러: 요청한 리소스를 찾을 수 없습니다. 유효하지 않은 토큰 또는 만료된 토큰. 토큰삭제 로그아웃',
+    '401에러: 요청한 리소스를 찾을 수 없습니다. 유효하지 않은 토큰 또는 만료된 토큰입니다. 토큰을 삭제하고 로그아웃됩니다.',
+  ALARM_READ: '알림이 읽음 처리되었습니다.',
+  FETCH_MY_LIKES_SUCCESS: '나의 관심목록을 불러왔습니다.',
+  FETCH_MY_ON_SALE_LIST_SUCCESS: '나의 판매중 리스트를 불러왔습니다.',
+  FETCH_MY_DONE_SALE_LIST_SUCCESS: '나의 판매완료 리스트를 불러왔습니다.',
+  FETCH_MY_BUY_LIST_SUCCESS: '나의 구매내역을 불러왔습니다.',
+  FETCH_POSTS_ERROR: '게시글 목록을 가져오는 중 에러 발생',
+  FETCH_POSTS_SUCCESS: '게시글 목록을 가져오기 성공',
 };

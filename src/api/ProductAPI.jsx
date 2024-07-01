@@ -1,14 +1,15 @@
 import { globalProductsAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
+import { CONSOLE } from '../../Constants';
 
 const axiosWithTokenProducts = createAxiosWithToken(globalProductsAPI);
 //목록페이지
-const fetchQuery = async query => {
+const fetchQuery = async (query, navigate) => {
   try {
     const response = await axiosWithTokenProducts.get(`${query}`);
     const responseData = response.data;
     if (response.status === 200) {
-      console.log('게시물 목록을 가져오기 성공', response.data);
+      console.log(CONSOLE.FETCH_POSTS_SUCCESS, response.data);
       return {
         content: responseData.content,
         totalPages: responseData.totalPages,
@@ -19,12 +20,11 @@ const fetchQuery = async query => {
 
     // 서버로부터 받은 데이터 반환
   } catch (error) {
-    console.error('게시물 목록을 가져오는 중 에러 발생:', error);
-    if (error.response.status === 404) {
-      console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-      );
+    console.error('게시물 목록을 가져오는 중 에러 발생:', error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
     }
     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
   }
@@ -86,19 +86,18 @@ export const createPost = async (
       navigate('/ProductsList');
     }
   } catch (error) {
-    console.error('게시물 생성을 실패하였습니다.', error);
-    if (error.response.status === 404) {
-      console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-      );
+    console.error('게시물 생성을 실패하였습니다.', error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
     }
     throw error;
   }
 };
 
 //상세페이지 api
-export const detailProduct = async productId => {
+export const detailProduct = async (productId, navigate) => {
   try {
     const response = await axiosWithTokenProducts.get(`/${productId}`);
     if (response.status === 200) {
@@ -106,30 +105,28 @@ export const detailProduct = async productId => {
       return response.data; // 서버로부터 받은 데이터 반환
     }
   } catch (error) {
-    console.error('상품 상세정보를 가져오는 중 에러 발생:', error);
-    if (error.response.status === 404) {
-      console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-      );
+    console.error('상품 상세정보를 가져오는 중 에러 발생:', error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
     }
     throw error; // 에러를 다시 throw하여 상위 컴포넌트에서 처리할 수 있도록 함
   }
 };
 //폐기물 삭제 api
-export const deleteProduct = async productId => {
+export const deleteProduct = async (productId, navigate) => {
   try {
     const response = await axiosWithTokenProducts.delete(`/${productId}`);
     if (response.status === 204) {
       console.log('게시물 삭제 성공');
     }
   } catch (error) {
-    console.error('게시물을 삭제하는 중 오류가 발생했습니다:', error);
-    if (error.response.status === 404) {
-      console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-      );
+    console.error('게시물을 삭제하는 중 오류가 발생했습니다:', error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
     }
     throw error;
   }
@@ -185,18 +182,17 @@ export const updatePost = async (
     }
     return response;
   } catch (error) {
-    console.error('폐기물 수정 실패', error);
-    // if (error.response.status === 404) {
-    //   console.log(
-    //     '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-    //   );
-    //   localStorage.removeItem('accessToken');
-    // }
-    // throw error;
+    console.error('폐기물 수정 실패', error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+      localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
+    }
+    throw error;
   }
 };
 //관심 추가 api
-export const likeProduct = async (productId, query) => {
+export const likeProduct = async (productId, query, navigate) => {
   try {
     const response = await axiosWithTokenProducts.post(
       `/${productId}/likes?likeStatus=${query}`,
@@ -214,12 +210,11 @@ export const likeProduct = async (productId, query) => {
       return response.data;
     }
   } catch (error) {
-    console.error('관심목록 추가 실패:', error);
-    if (error.response.status === 404) {
-      console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-      );
+    console.error('관심목록 추가 실패:', error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
     }
     throw error; // 오류를 다시 throw하여 컴포넌트에서 처리할 수 있도록 함
   }

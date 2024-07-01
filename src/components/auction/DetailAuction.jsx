@@ -18,7 +18,7 @@ const DetailAuction = () => {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const details = await detailAuction(auctionId);
+        const details = await detailAuction(auctionId, navigate);
         setAuctionDetails(details);
         console.log(details);
       } catch (error) {
@@ -61,7 +61,7 @@ const DetailAuction = () => {
   const handleDelete = async () => {
     try {
       // API를 사용하여 제품 삭제
-      await deleteAuction(auctionDetails.id);
+      await deleteAuction(auctionDetails.id, navigate);
 
       navigate('/AuctionList');
     } catch (error) {

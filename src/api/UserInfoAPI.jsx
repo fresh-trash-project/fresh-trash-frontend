@@ -2,7 +2,7 @@ import { globalMembersAPI } from '../../variable';
 import { globalAuthAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
 import { toast } from 'react-toastify';
-import { MESSAGES } from '../../Constants';
+import { CONSOLE, MESSAGES } from '../../Constants';
 
 const axiosWithTokenMembers = createAxiosWithToken(globalMembersAPI);
 const axiosWithTokenAuth = createAxiosWithToken(globalAuthAPI);
@@ -13,7 +13,7 @@ export const fetchUserName = async (
   userName,
   setUserName,
   signIn,
-  setSignIn,
+  navigate,
 ) => {
   try {
     const response = await axiosWithTokenAuth.get('/check-nickname', {
@@ -35,15 +35,16 @@ export const fetchUserName = async (
       setIsDuplicate(true);
     }
     if (signIn && error.response.status === 401) {
-      setSignIn(false);
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
     }
     throw error;
   }
 };
 
 //프로필 변경
-export const changeUserInfo = async (userName, address, imgFile) => {
+export const changeUserInfo = async (userName, address, imgFile, navigate) => {
   try {
     const memberRequest = {
       nickname: userName,
@@ -74,14 +75,16 @@ export const changeUserInfo = async (userName, address, imgFile) => {
     console.log(error.message);
     toast.error(MESSAGES.PROFILE_UPDATE_FAILURE);
     if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
     }
     throw error;
   }
 };
 
 //마이페이지 들어왔을때 유저정보 불러오기
-export const fetchUserInfo = async () => {
+export const fetchUserInfo = async navigate => {
   try {
     const response = await axiosWithTokenMembers.get('');
     if (response.status === 200) {
@@ -91,7 +94,9 @@ export const fetchUserInfo = async () => {
   } catch (error) {
     console.log(error.message);
     if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
     }
     throw error;
   }
@@ -138,7 +143,9 @@ export const changePassword = async (
     console.log(error.message);
     toast.error(MESSAGES.PASSWORD_UPDATE_FAILURE);
     if (error.response && error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
     }
     throw error;
   }

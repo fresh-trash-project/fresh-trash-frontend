@@ -98,7 +98,7 @@ const List = () => {
   const handleDelete = async postId => {
     try {
       // API를 사용하여 제품 삭제
-      await deletePost(postId);
+      await deletePost(postId, navigate);
       // 상태에서 해당 제품을 제거합니다.
       setPosts(posts.filter(product => product.id !== postId));
       console.log('제품이 성공적으로 삭제되었습니다.');

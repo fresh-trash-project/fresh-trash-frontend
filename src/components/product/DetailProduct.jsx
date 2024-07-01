@@ -13,6 +13,7 @@ import { LikesState } from '../../recoil/RecoilLikes';
 import { globalFileAPI } from '../../../variable';
 import DetailCard from '../common/card/DetailCard';
 import urlJoin from 'url-join';
+
 const DetailPrduct = () => {
   const { productId } = useParams(); // URL 파라미터에서 productId 가져오기
   console.log('아이디' + productId);
@@ -23,7 +24,7 @@ const DetailPrduct = () => {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const details = await detailProduct(productId);
+        const details = await detailProduct(productId, navigate);
         setPostDetails(details);
       } catch (error) {
         console.error(
@@ -49,6 +50,7 @@ const DetailPrduct = () => {
       const response = await likeProduct(
         productId,
         newLikeState ? 'LIKE' : 'UNLIKE',
+        navigate,
       );
       console.log('하트상태', response.data);
       setPostDetails(prevDetails => ({
@@ -95,7 +97,7 @@ const DetailPrduct = () => {
   const handleDelete = async () => {
     try {
       // API를 사용하여 제품 삭제
-      await deleteProduct(postDetails.id);
+      await deleteProduct(postDetails.id, navigate);
 
       navigate('/ProductsList');
     } catch (error) {
