@@ -17,7 +17,8 @@ const Alarm = () => {
         return `/Chat/${item.alarmArgs.targetId}`;
       case 'TRANSACTION':
         return `/ProductDetail/${item.alarmArgs.targetId}`;
-
+      case 'BIDDING':
+        return `/Pay/${item.alarmArgs.targetId}`;
       default:
         return '/';
     }
