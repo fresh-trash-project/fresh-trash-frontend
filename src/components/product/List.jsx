@@ -6,6 +6,7 @@ import ProductCard from '../common/card/ProductCard';
 import { useNavigate } from 'react-router-dom';
 import PaginationButton from '../common/pagination/PaginationButton';
 import ListNav from '../common/header/ListNav';
+import Label from '../common/label/Label';
 const List = () => {
   const navigate = useNavigate();
   //회원만 등록페이지 접근-------------------------------
@@ -28,6 +29,7 @@ const List = () => {
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [sort, setSort] = useState('createdAt,desc');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -139,26 +141,44 @@ const List = () => {
         handleSearch={handleSearch}
         product={posts}
       />
-
-      <div className="mt-4 mr-8 float-end text-sm breadcrumbs">
-        <ul>
-          <li>홈</li>
-          <li>애물단지 거래/나눔</li>
-        </ul>
-      </div>
+      <Label breadcrumbItems={['홈', '애물단지 거래/나눔']}>
+        <div className="flex ">
+          <button
+            className={`tab ${
+              sort === 'viewCount,desc'
+                ? ' border-2 scale-110 font-bold bg-green-brunswick text-white'
+                : ''
+            }`}
+            onClick={handleSortByViews}
+          >
+            조회순
+          </button>
+          <button
+            className={`tab ${
+              sort === 'likeCount,desc'
+                ? 'border-2  scale-110 font-bold bg-green-brunswick text-white'
+                : ''
+            }`}
+            onClick={handleSortByLikes}
+          >
+            관심순
+          </button>
+          <button
+            className={`tab  ${
+              sort === 'createdAt,desc'
+                ? 'border-2 scale-110 font-bold bg-green-brunswick text-white'
+                : ''
+            }`}
+            onClick={handleSortByCreated}
+          >
+            최신순
+          </button>
+        </div>
+      </Label>
 
       <div className=" mt-16 pt-4  lg:pt-5 pb-4 px-20  lg:pb-8 xl:px-40 xl:container  2xl:px-60">
         <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto  ">
-          <div className="flex justify-end mb-4">
-            <button className="mr-5" onClick={handleSortByViews}>
-              조회순
-            </button>
-            <button className="mr-5" onClick={handleSortByLikes}>
-              관심순
-            </button>
-            <button onClick={handleSortByCreated}>최신순</button>
-          </div>
-          <div className="grid gap-6 justify-items-center md:grid-cols-2  lg:grid-cols-3 item_ list ">
+          <div className="grid gap-6 justify-items-center  md:grid-cols-2  lg:grid-cols-3 item_ list ">
             {searchResults.length > 0
               ? searchResults &&
                 searchResults
@@ -191,6 +211,51 @@ const List = () => {
           </div>
         </div>
       </div>
+
+      {/* <div className=" mt-16 pt-4  lg:pt-5 pb-4 px-20  lg:pb-8 xl:px-40 xl:container  2xl:px-60">
+          <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto  ">
+            <div className="flex justify-end mb-4">
+              <button className="mr-5" onClick={handleSortByViews}>
+                조회순
+              </button>
+              <button className="mr-5" onClick={handleSortByLikes}>
+                관심순
+              </button>
+              <button onClick={handleSortByCreated}>최신순</button>
+            </div>
+            <div className="grid gap-6 justify-items-center md:grid-cols-2  lg:grid-cols-3 item_ list ">
+              {searchResults.length > 0
+                ? searchResults &&
+                  searchResults
+                    .filter(
+                      product =>
+                        selectedCategory === '전체' ||
+                        product.productCategory === selectedCategory,
+                    )
+                    .map(product => (
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        onDelete={handleDelete}
+                      />
+                    ))
+                : posts.content &&
+                  posts.content
+                    .filter(
+                      product =>
+                        selectedCategory === '전체' ||
+                        product.productCategory === selectedCategory,
+                    )
+                    .map(product => (
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        onDelete={handleDelete}
+                      />
+                    ))}
+            </div>
+          </div>
+        </div> */}
 
       <div className=" container flex justify-center mb-16">
         <PaginationButton
