@@ -1,12 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
+import DateCounter from '../counter/DateCounter';
 const ProductCard = ({ product, auction }) => {
   const data = product || auction;
-
+  // const [timeLeft, setTimeLeft] = useState(
+  //   calculateTimeLeft(data.startedAt, data.endedAt),
+  // );
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setTimeLeft(calculateTimeLeft(data.startedAt, data.endedAt));
+  //   }, 1000);
+  //   return () => clearInterval(timer);
+  // }, [data.startedAt, data.endedAt]);
   const getImgeUrl = fileName => {
     return urlJoin(globalFileAPI, `${fileName}`);
   };
+  // function calculateTimeLeft(startedAt, endedAt) {
+  //   const start = new Date(startedAt);
+  //   const end = new Date(endedAt);
+  //   const now = new Date();
+  //   // const difference = target - now;
+
+  //   let timeLeft = {};
+
+  //   if (now < start) {
+  //     timeLeft = {
+  //       message: `OPEN ${data.createdAt}`,
+  //     };
+  //   } else if (now < end) {
+  //     const difference = end - now;
+  //     timeLeft = {
+  //       days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+  //       hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+  //       minutes: Math.floor((difference / 1000 / 60) % 60),
+  //       seconds: Math.floor((difference / 1000) % 60),
+  //     };
+  //   } else {
+  //     timeLeft = {
+  //       message: 'CLOSE',
+  //     };
+  //   }
+
+  //   return timeLeft;
+  // }
   return (
     <div className="card w-80 bg-base-100 shadow md:w-72 xl:w-70 2xl:w-80 ">
       <figure className="w-full h-40 md:h-36 xl:h-48 2xl:h-56 overflow-hidden">
@@ -40,7 +77,12 @@ const ProductCard = ({ product, auction }) => {
             </div>
           ) : (
             <div className="flex items-center">
-              <div>작성일자 - 마감일자</div>
+              <div>
+                <DateCounter
+                  startDate={data.startedAt}
+                  endDate={data.endedAt}
+                />
+              </div>
             </div>
           )}
         </div>
