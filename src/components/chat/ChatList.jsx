@@ -12,7 +12,7 @@ const ChatList = ({ isOpen, currentUser }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const list = await ListFetch(currentPage);
+        const list = await ListFetch(currentPage, navigate);
         setUserList(prevList => [...prevList, ...list.content]);
         setPage(list.totalElements);
       } catch (error) {

@@ -5,6 +5,7 @@ import { signInState } from '../../recoil/RecoilSignIn';
 import ProductCard from '../common/card/ProductCard';
 import { useNavigate } from 'react-router-dom';
 import PaginationButton from '../common/pagination/PaginationButton';
+import Label from '../common/label/Label';
 
 import ListNav from '../common/header/ListNav';
 const List = () => {
@@ -91,7 +92,7 @@ const List = () => {
   const handleDelete = async postId => {
     try {
       // API를 사용하여 제품 삭제
-      await deletePost(postId);
+      await deletePost(postId, navigate);
       // 상태에서 해당 제품을 제거합니다.
       setPosts(posts.filter(wastes => wastes.id !== postId));
       console.log('제품이 성공적으로 삭제되었습니다.');
@@ -134,7 +135,79 @@ const List = () => {
         handleSearch={handleSearch}
         auction={posts}
       />
-      <div className="mt-4 mr-8 float-end text-sm breadcrumbs">
+
+      <Label breadcrumbItems={['홈', '애물단지 경매']}>
+        <div className="flex ">
+          <button
+            className={`tab ${
+              sort === 'viewCount,desc'
+                ? ' border-2 scale-110 font-bold bg-green-brunswick text-white'
+                : ''
+            }`}
+            onClick={handleSortByViews}
+          >
+            조회순
+          </button>
+          <button
+            className={`tab ${
+              sort === 'finalBid,desc'
+                ? ' border-2 scale-110 font-bold bg-green-brunswick text-white'
+                : ''
+            }`}
+            onClick={handleSortByFinalBid}
+          >
+            가격순
+          </button>
+          <button
+            className={`tab  ${
+              sort === 'createdAt,desc'
+                ? 'border-2 scale-110 font-bold bg-green-brunswick text-white'
+                : ''
+            }`}
+            onClick={handleSortByCreated}
+          >
+            최신순
+          </button>
+        </div>
+      </Label>
+
+      <div className=" mt-16 pt-4  lg:pt-5 pb-4 px-20  lg:pb-8 xl:px-40 xl:container  2xl:px-60">
+        <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto  ">
+          <div className="grid gap-6 justify-items-center  md:grid-cols-2  lg:grid-cols-3 item_ list ">
+            {searchResults.length > 0
+              ? searchResults &&
+                searchResults
+                  .filter(
+                    auction =>
+                      selectedCategory === '전체' ||
+                      auction.productCategory === selectedCategory,
+                  )
+                  .map(auction => (
+                    <ProductCard
+                      key={auction.id}
+                      auction={auction}
+                      onDelete={handleDelete}
+                    />
+                  ))
+              : posts.content &&
+                posts.content
+                  .filter(
+                    auction =>
+                      selectedCategory === '전체' ||
+                      auction.productCategory === selectedCategory,
+                  )
+                  .map(auction => (
+                    <ProductCard
+                      key={auction.id}
+                      auction={auction}
+                      onDelete={handleDelete}
+                    />
+                  ))}
+          </div>
+        </div>
+      </div>
+
+      {/* <div className="mt-4 mr-8 float-end text-sm breadcrumbs">
         <ul>
           <li>홈</li>
           <li>애물단지 경매</li>
@@ -183,8 +256,8 @@ const List = () => {
                     />
                   ))}
           </div>
-        </div>
-      </div>
+        </div> 
+      </div> */}
 
       <div className=" container flex justify-center mb-16">
         <PaginationButton

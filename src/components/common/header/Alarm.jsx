@@ -8,12 +8,7 @@ import { fetchAlarm, readAlarm } from '../../../api/AlarmAPI';
 const Alarm = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
-  const [signIn, setSignIn] = useRecoilState(signInState);
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem('accessToken');
-
-  // const originalText =
-  // '채팅이 왔습니다. 글자가 많으면 점점점 표시되고 호버하면 다 보이도록 만들고 있습니다. 이곳에 알람 메시지를 받아와야 합니다.  ';
 
   //알람타입에 따라 알람메시지 클릭했을때 링크 이동
   const getLinkByAlarmType = item => {

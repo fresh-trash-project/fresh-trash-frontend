@@ -1,12 +1,14 @@
 import ProductCard from './ProductCard';
 
-const MyTradeCards = ({ myList }) => {
-  console.log('myList', myList);
+const MyTradeCards = ({ myList, type }) => {
   return (
-    //! 이부분 css 효진 거래내역과 맞추기
-    <div className="flex flex-wrap gap-4">
-      {myList.map(list => (
-        <ProductCard key={product.id} product={product} />
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3  justify-center">
+      {myList.map(item => (
+        <ProductCard
+          key={item.id}
+          product={type === 'product' ? item : undefined}
+          auction={type === 'auction' ? item : undefined}
+        />
       ))}
     </div>
   );

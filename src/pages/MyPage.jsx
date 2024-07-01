@@ -14,8 +14,10 @@ import PasswordEditor from '../components/userInfo/PasswordEditor';
 import Rating from '../components/userInfo/Rating';
 import NavigationCard from '../components/common/card/NavigationCard';
 import { changeUserInfo, fetchUserInfo } from '../api/UserInfoAPI';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
+  const navigate = useNavigate();
   const [imgFile, setImgFile] = useState('');
   const [image, setImage] = useState(logoImg);
   const [isEditing, setIsEditing] = useState(false);
@@ -65,7 +67,7 @@ const MyPage = () => {
   //마이페이지 들어왔을때 유저정보 불러오기-------------------------------------------------------
   useEffect(() => {
     const getUserInfo = async () => {
-      const myInfo = await fetchUserInfo();
+      const myInfo = await fetchUserInfo(navigate);
       console.log('마이페이지 들어왔을때 받은 데이터: ', myInfo);
       setUserName(myInfo.nickname);
       setAddress(myInfo.address);
@@ -94,7 +96,12 @@ const MyPage = () => {
   const handleChangeUserInfo = async e => {
     e.preventDefault();
     setIsEditing(false);
-    const changeMyInfo = await changeUserInfo(userName, address, imgFile);
+    const changeMyInfo = await changeUserInfo(
+      userName,
+      address,
+      imgFile,
+      navigate,
+    );
     setUserName(changeMyInfo.nickname);
     setAddress(changeMyInfo.address);
 

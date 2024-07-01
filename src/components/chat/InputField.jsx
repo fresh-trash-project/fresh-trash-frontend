@@ -13,13 +13,13 @@ import {
   reportPost,
   statusChat,
 } from '../../api/ChattingAPI';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
 import { ListFetch } from '../../api/ChattingAPI';
 const InputField = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { chatId, productId } = useParams();
-
+  const navigate = useNavigate();
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -29,7 +29,7 @@ const InputField = () => {
   useEffect(() => {
     const fetchData = async chatId => {
       try {
-        const messageList = await contentFetch(chatId);
+        const messageList = await contentFetch(chatId, navigate);
 
         setMessageContent(messageList);
       } catch (error) {
@@ -40,7 +40,7 @@ const InputField = () => {
   }, [chatId]);
   //판매완료 (거래완료)
   const handleCompleted = async () => {
-    await statusChat(chatId, 'COMPLETE_DEAL');
+    await statusChat(chatId, 'COMPLETE_DEAL', navigate);
     setMessageContent(prevContent => ({
       ...prevContent,
       chatRoom: { ...prevContent.chatRoom, sellStatus: 'CLOSE' },
@@ -48,7 +48,7 @@ const InputField = () => {
   };
   //예약중 (예약 신청)
   const handleBooking = async () => {
-    await statusChat(chatId, 'REQUEST_BOOKING');
+    await statusChat(chatId, 'REQUEST_BOOKING', navigate);
     setMessageContent(prevContent => ({
       ...prevContent,
       chatRoom: { ...prevContent.chatRoom, sellStatus: 'BOOKING' },
@@ -56,7 +56,7 @@ const InputField = () => {
   };
   //판매중 변경(예약 취소)
   const handleOngoing = async () => {
-    await statusChat(chatId, 'CANCEL_BOOKING');
+    await statusChat(chatId, 'CANCEL_BOOKING', navigate);
     setMessageContent(prevContent => ({
       ...prevContent,
       chatRoom: { ...prevContent.chatRoom, sellStatus: 'ONGOING' },
@@ -64,7 +64,7 @@ const InputField = () => {
   };
   //신고하기
   const handleReport = async chatRoomId => {
-    await reportPost(chatRoomId);
+    await reportPost(chatRoomId, navigate);
   };
   const [currentUser, setCurrentUser] = useState(null);
   //유저 정보 가져오기------------------------------------------------------

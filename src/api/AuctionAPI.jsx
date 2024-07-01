@@ -1,10 +1,11 @@
 import { globalAuctionsAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
+import { CONSOLE } from '../../Constants';
 
 const axiosWithTokenAuctions = createAxiosWithToken(globalAuctionsAPI);
 
 //경매 목록 요청
-const fetchQuery = async query => {
+const fetchQuery = async (query, navigate) => {
   try {
     const response = await axiosWithTokenAuctions.get(`${query}`);
     const responseData = response.data;
@@ -17,16 +18,16 @@ const fetchQuery = async query => {
       };
     }
   } catch (error) {
-    console.log('게시글 목록을 가져오는 중 에러 발생', error);
-    if (error.response.status === 404) {
-      console.log(
-        '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-      );
+    console.log(CONSOLE.FETCH_POSTS_ERROR, error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
     }
     throw error;
   }
 };
+
 export const fetchAuctions = {
   getPage: async (currentPage, sort) =>
     await fetchQuery(`?page=${currentPage}&sort=${sort}`),
@@ -39,7 +40,7 @@ export const fetchAuctions = {
 };
 
 //경매 상세목록 요청
-export const detailAuction = async auctionId => {
+export const detailAuction = async (auctionId, navigate) => {
   try {
     const response = await axiosWithTokenAuctions.get(`${auctionId}`);
     if (response.status === 200) {
@@ -47,33 +48,31 @@ export const detailAuction = async auctionId => {
       return response.data;
     }
   } catch (error) {
-    console.log('경매 상품 상세정보를 가져오는 중 에러발생:', error);
-    //  if (error.response.status === 404) {
-    //    console.log(
-    //      '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-    //    );
-    //    localStorage.removeItem('accessToken');
-    //  }
-    //  throw error;
+    console.log('경매 상품 상세정보를 가져오는 중 에러발생:', error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+      localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
+    }
+    throw error;
   }
 };
 
 //경매 상품 삭제
-export const deleteAuction = async auctionId => {
+export const deleteAuction = async (auctionId, navigate) => {
   try {
     const response = await axiosWithTokenAuctions.delete(`${auctionId}`);
     if (response === 204) {
       console.log('경매 상품 삭제 성공');
     }
   } catch (error) {
-    console.log('경매 상품 삭제가 완료되었습니다.');
-    //  if (error.response.status === 404) {
-    //    console.log(
-    //      '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-    //    );
-    //    localStorage.removeItem('accessToken');
-    //  }
-    //  throw error;
+    console.log('경매 상품 삭제가 완료되었습니다.', error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+      localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
+    }
+    throw error;
   }
 };
 
@@ -119,14 +118,13 @@ export const createAuction = async (
       navigate('/AuctionList');
     }
   } catch (error) {
-    console.error('경매 제품 등록을 실패하였습니다.', error);
-    // if (error.response.status === 404) {
-    //   console.log(
-    //     '404 Error: 요청한 리소스를 찾을 수 없습니다. 토큰삭제 로그아웃',
-    //   );
-    //   localStorage.removeItem('accessToken');
-    // }
-    // throw error;
+    console.error('경매 제품 등록을 실패하였습니다.', error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+      localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
+    }
+    throw error;
   }
 };
 
@@ -173,6 +171,12 @@ export const AuctionBid = async (biddingPrice, auctionId, navigate) => {
       navigate('/MyPage/MyAuctionList');
     }
   } catch (error) {
-    console.log('입찰 실패하였습니다.', error);
+    console.log('입찰 실패하였습니다.', error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+      localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
+    }
+    throw error;
   }
 };
