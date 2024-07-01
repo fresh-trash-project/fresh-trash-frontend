@@ -5,7 +5,7 @@ import { fetchMyLikes } from '../api/UserLikesAPI';
 import PaginationButton from '../components/common/pagination/PaginationButton';
 import Label from '../components/common/label/Label';
 import { useNavigate } from 'react-router-dom';
-
+import CategoryDropDown from '../components/common/category/CategoryDropDown';
 const MyLikes = () => {
   const [myLikes, setMyLikes] = useState([]);
   const [totalLikes, setTotalLikes] = useState(0);
@@ -24,19 +24,6 @@ const MyLikes = () => {
     getMyLikes();
   }, [selectedCategory, page]);
 
-  //페이지네이션-------------------------------------
-  const handlePreviousPage = async () => {
-    setPage(page => Math.max(page - 1, 0)); // 이전 페이지로 이동
-  };
-
-  const handleNextPage = async () => {
-    // 현재 페이지가 마지막 페이지보다 작은 경우에만 페이지를 증가시킵니다.
-    if (page < totalPage - 1) {
-      // 현재 페이지를 업데이트합니다.
-      setPage(page => page + 1);
-    }
-  };
-
   //카테고리--------------------------------
 
   const handleCategoryChange = category => {
@@ -48,52 +35,7 @@ const MyLikes = () => {
     <div>
       <Header />
       <div className="navbar flex-row justify-between bg-white shadow-md px-4">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn bg-gray-200">
-            카테고리
-          </div>
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            <li onClick={() => handleCategoryChange('전체')}>
-              <p>전체</p>
-            </li>
-            <li onClick={() => handleCategoryChange('ELECTRONICS')}>
-              <p>전자기기</p>
-            </li>
-            <li onClick={() => handleCategoryChange('CLOTHING')}>
-              <p>의류</p>
-            </li>
-            <li onClick={() => handleCategoryChange('HOME_KITCHEN')}>
-              <p>생활/주방</p>
-            </li>
-            <li onClick={() => handleCategoryChange('BEAUTY')}>
-              <p>뷰티</p>
-            </li>
-            <li onClick={() => handleCategoryChange('HEALTH')}>
-              <p>건강</p>
-            </li>
-            <li onClick={() => handleCategoryChange('SPORTS')}>
-              <p>스포츠</p>
-            </li>
-            <li onClick={() => handleCategoryChange('BOOKS')}>
-              <p>도서</p>
-            </li>
-            <li onClick={() => handleCategoryChange('TOYS_GAMES')}>
-              <p>장난감/게임</p>
-            </li>
-            <li onClick={() => handleCategoryChange('FURNITURE_DECOR')}>
-              <p>가구/인테리어</p>
-            </li>
-            <li onClick={() => handleCategoryChange('PET_SUPPLIES')}>
-              <p>반려동물용품</p>
-            </li>
-            <li onClick={() => handleCategoryChange('PLANT_SUPPLIES')}>
-              <p>식물</p>
-            </li>
-          </ul>
-        </div>
+        <CategoryDropDown handleCategoryChange={handleCategoryChange} />
       </div>
 
       {/* 라벨------------------------------------------------------------------------ */}
@@ -114,9 +56,10 @@ const MyLikes = () => {
 
       <div className=" container flex justify-center mb-16">
         <PaginationButton
-          handlePreviousPage={handlePreviousPage}
-          handleNextPage={handleNextPage}
+          // handlePreviousPage={handlePreviousPage}
+          // handleNextPage={handleNextPage}
           // number={getPageNumbers}
+          setPage={setPage}
           page={page}
           totalPages={totalPage}
         />
