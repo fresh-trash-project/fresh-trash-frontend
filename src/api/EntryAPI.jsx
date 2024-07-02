@@ -161,7 +161,7 @@ export const fetchTempPassword = async email => {
     console.log(error.message);
     if (error.response.status === 400) {
       if (!toast.isActive('password-reset-wrong-email')) {
-        toast.error(MESSAGES.PASSWORD_RESET_WRONG_EMAIL, {
+        toast.error(MESSAGES.INVALID_EMAIL_ERROR, {
           toastId: 'password-reset-wrong-email',
         });
       }

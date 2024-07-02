@@ -1,12 +1,12 @@
 import { useRecoilState } from 'recoil';
-import { signInPanelState, signInState } from '../../../recoil/RecoilSignIn';
-import { userNameState } from '../../../recoil/RecoilUserName';
-import { signUpAccount } from '../../../api/EntryAPI';
-import Email from '../../entry/Email';
-import Password from '../../entry/Password';
-import UserName from '../../entry/UserName';
-import EntryButton from '../button/EntryButton';
-import UserNameLogic from '../../entry/UserNameLogic';
+import { signInPanelState, signInState } from '../../recoil/RecoilSignIn';
+import { userNameState } from '../../recoil/RecoilUserName';
+import { signUpAccount } from '../../api/EntryAPI';
+import Email from '../entry/Email';
+import Password from '../entry/Password';
+import UserName from '../entry/UserName';
+import EntryButton from '../common/button/EntryButton';
+import useUserNameLogic from '../../hooks/entry/useUserNameLogic';
 
 const SignUpForm = ({
   email,
@@ -25,7 +25,7 @@ const SignUpForm = ({
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
   const [userName, setUserName] = useRecoilState(userNameState);
-  const { isDuplicate, setIsDuplicate } = UserNameLogic();
+  const { isDuplicate, setIsDuplicate } = useUserNameLogic();
 
   const handleSignUp = async e => {
     e.preventDefault();

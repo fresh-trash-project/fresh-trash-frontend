@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ProductForm from '../common/form/ProductForm';
+import ProductForm from '../form/ProductForm';
 import { detailProduct } from '../../api/ProductAPI';
 
 const EditForm = () => {

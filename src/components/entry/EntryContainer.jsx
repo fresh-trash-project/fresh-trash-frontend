@@ -9,7 +9,6 @@ const EntryContainer = ({
 }) => {
   return (
     <div
-      signInPanel={signInPanel}
       className={`absolute top-0 left-0 h-full w-full md:w-1/2 transition-all ${translation} `}
     >
       <div className="text-center bg-green-brunswick text-white py-8 px-10 leading-5 md:hidden">

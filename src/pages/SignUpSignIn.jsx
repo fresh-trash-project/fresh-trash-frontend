@@ -1,9 +1,9 @@
 import { useRecoilState } from 'recoil';
 import { signInPanelState, signInState } from '../recoil/RecoilSignIn';
-import SignUpForm from '../components/common/form/SignUpForm';
-import SignInForm from '../components/common/form/SignInForm';
-import PasswordLogic from '../components/entry/PasswordLogic';
-import EmailLogic from '../components/entry/EmailLogic';
+import SignUpForm from '../components/form/SignUpForm';
+import SignInForm from '../components/form/SignInForm';
+import usePasswordLogic from '../hooks/entry/usePasswordLogic';
+import useEmailLogic from '../hooks/entry/useEmailLogic';
 import SwitchPanel from '../components/entry/SwitchPanel';
 import EntryContainer from '../components/entry/EntryContainer';
 
@@ -19,7 +19,7 @@ const SignUpSignIn = () => {
     handleEmailChange,
     handleSendCode,
     handleVerifyCode,
-  } = EmailLogic();
+  } = useEmailLogic();
   const {
     currentPassword,
     setCurrentPassword,
@@ -27,8 +27,8 @@ const SignUpSignIn = () => {
     setShowCurrentPassword,
     handlePassword,
     handlePasswordVisibility,
-  } = PasswordLogic();
-  // UserNameLogic은 SignUpForm에서만 필요하니까 SignUpForm에서 import해서 prop drilling을 줄였다.
+  } = usePasswordLogic();
+  // useUserNameLogic은 SignUpForm에서만 필요하니까 SignUpForm에서 import해서 prop drilling을 줄였다.
 
   // CSS에서 rem 단위는 html 태그의 폰트 사이즈를 기준으로 삼기 때문에, html 폰트 사이즈를 변경하면 rem을 사용하는 모든 요소의 크기가 영향을 받는다.
   return (

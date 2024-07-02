@@ -1,4 +1,4 @@
-import EntryInput from '../common/form/EntryInput';
+import EntryInput from '../common/input/EntryInput';
 import InputButton from '../common/button/InputButton';
 
 const Email = ({

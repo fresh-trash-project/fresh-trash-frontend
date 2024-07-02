@@ -14,7 +14,7 @@ const Input = ({
     {iconPaths.length > 0 && <Icon iconPaths={iconPaths} />}
     <input
       type={type}
-      className="grow border-0 outline-none"
+      className="grow border-0 focus:ring-0"
       placeholder={placeholder}
       value={value}
       onChange={onChange}

@@ -1,13 +1,13 @@
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { signInState } from '../../../recoil/RecoilSignIn';
-import { fetchTempPassword, signInAccount } from '../../../api/EntryAPI';
-import Email from '../../entry/Email';
-import Password from '../../entry/Password';
-import EntryButton from '../button/EntryButton';
-import SNSLogIn from '../../entry/SNSLogIn';
+import { signInState } from '../../recoil/RecoilSignIn';
+import { fetchTempPassword, signInAccount } from '../../api/EntryAPI';
+import Email from '../entry/Email';
+import Password from '../entry/Password';
+import EntryButton from '../common/button/EntryButton';
+import SNSLogIn from '../entry/SNSLogIn';
 import { toast } from 'react-toastify';
-import { MESSAGES } from '../../../../Constants';
+import { MESSAGES } from '../../../Constants';
 
 const SignInForm = ({
   email,

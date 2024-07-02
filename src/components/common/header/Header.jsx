@@ -23,6 +23,7 @@ const Header = () => {
         try {
           const fetchedAlarms = await fetchAlarm(navigate);
           setAlarmMsg(fetchedAlarms);
+          console.log(fetchedAlarms);
         } catch (error) {
           console.log(error.message);
         }

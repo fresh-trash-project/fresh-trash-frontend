@@ -2,20 +2,33 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AlarmState, AlarmMsgState } from '../../../recoil/RecoilAlarm';
 import { useRecoilState } from 'recoil';
 import { IoMdClose } from 'react-icons/io';
-import { fetchAlarm, readAlarm } from '../../../api/AlarmAPI';
+import { readAlarm } from '../../../api/AlarmAPI';
+import { useState } from 'react';
+import RatingModal from '../modal/RatingModal';
 
 const Alarm = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
+  const [activeTab, setActiveTab] = useState('new'); // 'new' or 'read'
+  const [showRatingModal, setShowRatingModal] = useState(false); // 평점 모달 상태 추가
+  const [currentItem, setCurrentItem] = useState(null); // 현재 클릭된 알람 메시지 저장
   const navigate = useNavigate();
+
+  const handleTabClick = tab => {
+    setActiveTab(tab);
+  };
+
+  const displayedMessages =
+    activeTab === 'new'
+      ? alarmMsg.filter(msg => !msg.readAt)
+      : alarmMsg.filter(msg => msg.readAt);
 
   //알람타입에 따라 알람메시지 클릭했을때 링크 이동
   const getLinkByAlarmType = item => {
-    console.log(item);
     switch (item.alarmType) {
       // case 'CHAT':
       //   return `/Chat/${item.alarmArgs.targetId}`;
-      case ('product_status', 'auction_status'):
+      case 'TRANSACTION':
         return `/ProductDetail/${item.alarmArgs.targetId}`;
 
       default:
@@ -32,54 +45,102 @@ const Alarm = () => {
     });
   };
 
-  //알람메시지 읽음처리 -> 메시지 개수 바뀌면 다시 로드되게
+  //알람메시지 읽음처리
   const readAlarmMessage = async item => {
-    await readAlarm(item.id, navigate);
+    if (!item.readAt) {
+      await readAlarm(item.id, navigate);
+      setAlarmMsg(prevMessages =>
+        prevMessages.map(msg =>
+          msg.id === item.id
+            ? { ...msg, readAt: new Date().toISOString() }
+            : msg,
+        ),
+      );
+    }
+  };
 
-    const fetchedAlarms = await fetchAlarm(navigate);
-    setAlarmMsg(fetchedAlarms);
+  //! 확인 필요
+  const handleAlarmClick = async item => {
+    await readAlarmMessage(item);
+    if (item.alarmType === 'RECEIVE') {
+      setCurrentItem(item);
+      setShowRatingModal(true);
+    } else {
+      const link = getLinkByAlarmType(item);
+      if (link) {
+        navigate(link);
+      }
+    }
+  };
+
+  //! 확인 필요
+  const closeRatingModal = () => {
+    setShowRatingModal(false);
+    setCurrentItem(null);
   };
 
   return (
     <div
-      className={`menu absolute top-[70px] ${
-        alarmOpen ? 'right-0' : '-right-full'
-      } bg-green-brunswick h-96 rounded-box z-50 text-[0.6rem] mr-2 md:w-96 md:mr-5 transition-all duration-300`}
+      className={`menu absolute top-[70px] ${alarmOpen ? 'right-0' : '-right-full'} bg-green-brunswick h-96 rounded-box z-50 text-[0.6rem] mr-2 md:w-96 md:mr-5 transition-all duration-300`}
     >
       <div className="menu-title flex items-center justify-between bg-yellow-naples rounded-box mb-2 px-4 py-2">
-        <p>새 알람 ({alarmMsg.length})</p>
+        <div className="flex space-x-1">
+          <button
+            onClick={() => handleTabClick('new')}
+            className={`px-4 py-2 rounded ${activeTab === 'new' ? 'bg-green-current text-white' : 'bg-gray-200'} hover:bg-green-current hover:text-white`}
+          >
+            새 알람
+          </button>
+          <button
+            onClick={() => handleTabClick('read')}
+            className={`px-4 py-2 rounded ${activeTab === 'read' ? 'bg-green-current text-white' : 'bg-gray-200'} hover:bg-green-current hover:text-white`}
+          >
+            읽은 알람
+          </button>
+        </div>
         <div
-          onClick={() => {
-            setAlarmOpen(false);
-          }}
-          className="cursor-pointer"
+          onClick={() => setAlarmOpen(false)}
+          className="cursor-pointer hover:text-green-current"
         >
           CLOSE
         </div>
       </div>
 
       <ul className="h-60 overflow-y-scroll scrollbar scrollbar-thumb-yellow-naples scrollbar-track-white-ivory text-white md:text-sm">
-        {alarmMsg.map(
-          item =>
-            item && (
-              <li
-                key={item.id}
-                onClick={() => readAlarmMessage(item)}
-                className="flex-nowrap border-b border-white border-opacity-30 flex flex-row items-center justify-between cursor-pointer"
-              >
-                <div className="w-72 truncate hover:whitespace-pre-wrap">
-                  <Link to={getLinkByAlarmType(item)}>{item.message}</Link>
-                </div>
-                <div>
-                  <IoMdClose
-                    className="text-white text-xl hover:text-red-cinnabar"
-                    onClick={e => removeAlarmMessage(item.id)}
-                  />
-                </div>
-              </li>
-            ),
-        )}
+        {displayedMessages.map(item => (
+          <li
+            key={item.id}
+            onClick={() => handleAlarmClick(item)}
+            // onClick={() => readAlarmMessage(item)}
+            className={`flex-nowrap border-b border-white border-opacity-30 flex flex-row items-center justify-between cursor-pointer ${item.readAt ? 'text-gray-500' : ''}`}
+          >
+            <div className="w-72 truncate hover:whitespace-pre-wrap">
+              {item.alarmType !== 'TRANSACTION' ? (
+                <Link to={getLinkByAlarmType(item)}>{item.message}</Link>
+              ) : (
+                <span>{item.message}</span>
+              )}
+              {/* <Link to={getLinkByAlarmType(item)}>{item.message}</Link> */}
+            </div>
+            <div>
+              <IoMdClose
+                className="text-white text-xl hover:text-red-cinnabar"
+                onClick={e => {
+                  e.stopPropagation();
+                  removeAlarmMessage(item.id);
+                }}
+              />
+            </div>
+          </li>
+        ))}
       </ul>
+      {showRatingModal && currentItem && (
+        <RatingModal
+          type={currentItem.alarmType === 'RECEIVE' ? 'product' : 'auction'} //! 이부분 수정
+          id={currentItem.alarmArgs.targetId}
+          onClose={closeRatingModal}
+        />
+      )}
     </div>
   );
 };

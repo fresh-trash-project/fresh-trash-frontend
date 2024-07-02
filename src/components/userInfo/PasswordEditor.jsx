@@ -1,5 +1,5 @@
 import { VscEye } from 'react-icons/vsc';
-import passwordLogic from '../entry/PasswordLogic';
+import usePasswordLogic from '../../hooks/entry/usePasswordLogic';
 
 const PasswordEditor = ({ isEditing, navigate }) => {
   const {
@@ -19,7 +19,7 @@ const PasswordEditor = ({ isEditing, navigate }) => {
     handlePasswordChange,
     handlePasswordVisibility,
     validatePassword,
-  } = passwordLogic();
+  } = usePasswordLogic();
 
   return (
     <div>
