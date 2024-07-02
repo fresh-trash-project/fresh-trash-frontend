@@ -28,6 +28,7 @@ export const readAlarm = async (notisId, navigate) => {
     const response = await axiosWithToken.put(`/${notisId}`);
     if (response.status === 200) {
       console.log(CONSOLE.ALARM_READ, response.data);
+      return response.data;
     }
   } catch (error) {
     console.log(error.message);

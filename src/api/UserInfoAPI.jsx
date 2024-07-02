@@ -23,7 +23,11 @@ export const fetchUserName = async (
     });
 
     if (response.status === 200) {
-      toast.success(MESSAGES.USERNAME_AVAILABLE);
+      if (!toast.isActive('username-available')) {
+        toast.success(MESSAGES.USERNAME_AVAILABLE, {
+          toastId: 'username-available',
+        });
+      }
       setIsDuplicate(false);
       setUserName(userName);
       return response.data;
@@ -31,7 +35,12 @@ export const fetchUserName = async (
   } catch (error) {
     console.log(error.message);
     if (error.response.status === 400) {
-      toast.error(MESSAGES.USERNAME_DUPLICATE);
+      if (!toast.isActive('username-duplicate')) {
+        toast.error(MESSAGES.USERNAME_DUPLICATE, {
+          toastId: 'username-duplicate',
+        });
+      }
+
       setIsDuplicate(true);
     }
     if (signIn && error.response.status === 401) {
@@ -73,7 +82,13 @@ export const changeUserInfo = async (userName, address, imgFile, navigate) => {
     }
   } catch (error) {
     console.log(error.message);
-    toast.error(MESSAGES.PROFILE_UPDATE_FAILURE);
+
+    if (!toast.isActive('profile-update-failure')) {
+      toast.error(MESSAGES.PROFILE_UPDATE_FAILURE, {
+        toastId: 'profile-update-failure',
+      });
+    }
+
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
@@ -128,7 +143,11 @@ export const changePassword = async (
     );
 
     if (response.status === 200) {
-      toast.success(MESSAGES.PASSWORD_UPDATE_SUCCESS);
+      if (!toast.isActive('password-update-success')) {
+        toast.success(MESSAGES.PASSWORD_UPDATE_SUCCESS, {
+          toastId: 'password-update-success',
+        });
+      }
 
       // 3초 후에 로그아웃 처리
       setTimeout(() => {
@@ -141,7 +160,12 @@ export const changePassword = async (
     }
   } catch (error) {
     console.log(error.message);
-    toast.error(MESSAGES.PASSWORD_UPDATE_FAILURE);
+    if (!toast.isActive('password-update-failure')) {
+      toast.error(MESSAGES.PASSWORD_UPDATE_FAILURE, {
+        toastId: 'password-update-failure',
+      });
+    }
+
     if (error.response && error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');

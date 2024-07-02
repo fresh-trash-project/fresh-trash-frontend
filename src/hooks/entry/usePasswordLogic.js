@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import { changePassword } from '../../api/UserInfoAPI';
 import { useNavigate } from 'react-router-dom';
 
-const passwordLogic = () => {
+const usePasswordLogic = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -80,4 +80,4 @@ const passwordLogic = () => {
   };
 };
 
-export default passwordLogic;
+export default usePasswordLogic;

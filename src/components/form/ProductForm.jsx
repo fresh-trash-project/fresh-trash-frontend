@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { IoIosCamera } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import urlJoin from 'url-join';
-import { globalFileAPI } from '../../../../variable';
-import { updatePost, createPost } from '../../../api/ProductAPI';
+import { globalFileAPI } from '../../../variable';
+import { updatePost, createPost } from '../../api/ProductAPI';
 const ProductForm = ({ initialData, isEditMode }) => {
   const [title, setTitle] = useState(initialData.title || '');
   const [content, setContent] = useState(initialData.content || '');

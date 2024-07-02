@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import ProductForm from '../common/form/ProductForm';
-import AuctionForm from '../common/form/AuctionForm';
+import ProductForm from '../form/ProductForm';
+import AuctionForm from '../form/AuctionForm';
 import Label from '../common/label/Label';
 
 const AddForm = () => {

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { IoIosCamera } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import urlJoin from 'url-join';
-import { globalFileAPI } from '../../../../variable';
-import { createAuction } from '../../../api/AuctionAPI';
+import { globalFileAPI } from '../../../variable';
+import { createAuction } from '../../api/AuctionAPI';
 
 const AuctionForm = ({ initialData, isEditMode }) => {
   const [title, setTitle] = useState(initialData.title || '');

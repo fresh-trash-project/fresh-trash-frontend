@@ -6,7 +6,9 @@ const Label = ({ children, breadcrumbItems }) => {
       <div className="px-4">
         <div className="flex justify-between mt-1">
           {children || <div></div>}
-          <Breadcrumbs items={breadcrumbItems} />
+          <div className="hidden md:block">
+            <Breadcrumbs items={breadcrumbItems} />
+          </div>
         </div>
       </div>
     </div>

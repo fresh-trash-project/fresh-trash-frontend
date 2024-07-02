@@ -1,11 +1,11 @@
 import { useRecoilState } from 'recoil';
 import { userNameState } from '../../recoil/RecoilUserName';
-import { UserNameLogic } from '../entry/UserNameLogic';
+import { useUserNameLogic } from '../../hooks/entry/useUserNameLogic';
 
 const UserNameEditor = ({ isEditing }) => {
   const [userName, setUserName] = useRecoilState(userNameState);
   const { handleUserNameChange, handleDuplicationCheck, isDuplicate } =
-    UserNameLogic();
+    useUserNameLogic();
 
   return (
     <div className="flex items-center">

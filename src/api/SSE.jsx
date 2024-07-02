@@ -29,19 +29,21 @@ export const useSSE = () => {
         console.log('receivedData:', e.data);
       });
 
-      // 거래상태 변경 후 받는 알람
-      eventSource.addEventListener('waste-transaction-alarm', e => {
+      eventSource.addEventListener('product_status', e => {
         console.log('receivedData:', e.data);
       });
 
-      // eventSource.addEventListener('updated_product_status', e => {
-      //   console.log('receivedData:', e.data);
-      // });
+      eventSource.addEventListener('auction_status', e => {
+        console.log('receivedData:', e.data);
+      });
 
-      // 경고
-      // eventSource.addEventListener('flag', e => {
-      //   console.log('receivedData:', e.data);
-      // });
+      eventSource.addEventListener('pay_status', e => {
+        console.log('receivedData:', e.data);
+      });
+
+      eventSource.addEventListener('flag', e => {
+        console.log('receivedData:', e.data);
+      });
 
       eventSource.onmessage = e => {
         console.log('message event received:', e.data);

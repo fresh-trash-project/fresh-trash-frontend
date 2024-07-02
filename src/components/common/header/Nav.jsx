@@ -16,10 +16,9 @@ const Nav = () => {
     { path: '/ProductsList', label: '애물단지 거래' },
     { path: '/AuctionList', label: '애물단지 경매' },
   ];
-  // console.log(localStorage);
+
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
-    console.log(localStorage);
     setSignIn(false);
     setAlarmMsg([]); // Clear alarms on logout
     setAlarmOpen(false);
@@ -125,7 +124,7 @@ const Nav = () => {
                 </svg>
                 <span className="badge badge-xs badge-primary indicator-item bg-yellow-naples border-yellow-naples text-black rounded-full w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6">
                   <p className="sm:text-xs md:text-sm lg:text-md">
-                    {alarmMsg?.length || 0}
+                    {alarmMsg?.filter(item => item.readAt === null).length || 0}
                   </p>
                 </span>
               </div>
