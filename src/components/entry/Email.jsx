@@ -48,7 +48,6 @@ const Email = ({
           placeholder="인증 코드"
           value={code}
           onChange={e => {
-            e.preventDefault();
             setCode(e.target.value);
           }}
           extraButton={

@@ -13,7 +13,9 @@ const SignInForm = ({
   email,
   handleEmailChange,
   password,
+  setCurrentPassword,
   showCurrentPassword,
+  setShowCurrentPassword,
   handlePassword,
   handlePasswordVisibility,
 }) => {

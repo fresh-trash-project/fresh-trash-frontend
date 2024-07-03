@@ -7,6 +7,10 @@ import Password from '../entry/Password';
 import UserName from '../entry/UserName';
 import EntryButton from '../common/button/EntryButton';
 import useUserNameLogic from '../../hooks/entry/useUserNameLogic';
+import usePasswordLogic from '../../hooks/entry/usePasswordLogic';
+import { toast } from 'react-toastify';
+import { MESSAGES } from '../../../Constants';
+import { useEffect } from 'react';
 
 const SignUpForm = ({
   email,
@@ -18,7 +22,9 @@ const SignUpForm = ({
   handleSendCode,
   handleVerifyCode,
   password,
+  setCurrentPassword,
   showCurrentPassword,
+  setShowCurrentPassword,
   handlePassword,
   handlePasswordVisibility,
   validatePassword,
@@ -59,13 +65,13 @@ const SignUpForm = ({
         handleSendCode={handleSendCode}
         handleVerifyCode={handleVerifyCode}
       />
-
       <Password
         password={password}
         showCurrentPassword={showCurrentPassword}
         handlePassword={handlePassword}
         handlePasswordVisibility={handlePasswordVisibility}
       />
+
       <UserName
         handleUserNameChange={handleUserNameChange}
         handleDuplicationCheck={handleDuplicationCheck}
