@@ -20,8 +20,7 @@ const useEmailLogic = () => {
 
   const handleVerifyCode = async e => {
     e.preventDefault();
-    const confirmation = await verifyCode(email, code);
-    if (confirmation) setConfirmed(true);
+    await verifyCode(email, code, setConfirmed);
   };
 
   return {

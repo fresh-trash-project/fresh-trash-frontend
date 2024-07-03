@@ -68,7 +68,7 @@ const ProfileImageEditor = ({
       />
 
       {isEditing && (
-        <button>
+        <div>
           {!image || image === logoImg ? (
             <label
               htmlFor="avatarInput"
@@ -92,7 +92,7 @@ const ProfileImageEditor = ({
               <FaTimes className="text-white text-xl" />
             </button>
           )}
-        </button>
+        </div>
       )}
     </div>
   );

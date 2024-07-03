@@ -6,7 +6,7 @@ const UserNameEditor = ({ isEditing }) => {
   const [userName, setUserName] = useRecoilState(userNameState);
   const { handleUserNameChange, handleDuplicationCheck, isDuplicate } =
     useUserNameLogic();
-
+  console.log('중복여부:', isDuplicate);
   return (
     <div className="flex items-center">
       <input
@@ -21,7 +21,7 @@ const UserNameEditor = ({ isEditing }) => {
         <button
           onClick={handleDuplicationCheck}
           className="btn btn-sm ml-2"
-          disabled={!userName || isDuplicate}
+          disabled={!userName}
         >
           중복확인
         </button>

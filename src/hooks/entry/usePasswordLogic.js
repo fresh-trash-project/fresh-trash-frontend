@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { MESSAGES } from '../../../Constants';
-import { signInState } from '../../recoil/RecoilSignIn';
+import { signInPanelState, signInState } from '../../recoil/RecoilSignIn';
 import { useRecoilState } from 'recoil';
 import { changePassword } from '../../api/UserInfoAPI';
 import { useNavigate } from 'react-router-dom';
@@ -14,16 +14,19 @@ const usePasswordLogic = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [signIn, setSignIn] = useRecoilState(signInState);
+  const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
   const navigate = useNavigate();
 
-  const handlePassword =
-    (setter, validate = false) =>
-    e => {
-      setter(e.target.value);
-      if (validate) {
-        validatePassword(e.target.value);
+  const handlePassword = setter => e => {
+    const value = e.target.value;
+    setter(value);
+
+    if (!signInPanel && !validatePassword(value)) {
+      if (!toast.isActive('password-error')) {
+        toast.error(MESSAGES.INVALID_PASSWORD, { toastId: 'password-error' });
       }
-    };
+    }
+  };
 
   const handlePasswordVisibility = setter => e => {
     e.preventDefault();
@@ -34,11 +37,6 @@ const usePasswordLogic = () => {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    if (!passwordRegex.test(newPassword)) {
-      if (!toast.isActive('password-error')) {
-        toast.error(MESSAGES.INVALID_PASSWORD, { toastId: 'password-error' });
-      }
-    }
     return passwordRegex.test(newPassword);
   };
 
@@ -53,11 +51,7 @@ const usePasswordLogic = () => {
       return;
     }
 
-    try {
-      await changePassword(currentPassword, newPassword, setSignIn, navigate);
-    } catch (error) {
-      console.log('비밀번호 변경 오류:', error);
-    }
+    await changePassword(currentPassword, newPassword, setSignIn, navigate);
   };
 
   return {

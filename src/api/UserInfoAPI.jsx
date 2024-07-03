@@ -30,6 +30,7 @@ export const fetchUserName = async (
       }
       setIsDuplicate(false);
       setUserName(userName);
+
       return response.data;
     }
   } catch (error) {
