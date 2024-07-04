@@ -45,7 +45,7 @@ export const detailAuction = async (auctionId, navigate) => {
   try {
     const response = await axiosWithTokenAuctions.get(`${auctionId}`);
     if (response.status === 200) {
-      console.log('경매 상품 상세정보를 불러왔습니다.', response.data);
+      console.log(response.data);
       return response.data;
     }
   } catch (error) {
