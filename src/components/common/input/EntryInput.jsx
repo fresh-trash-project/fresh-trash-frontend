@@ -1,6 +1,6 @@
 import Icon from '../service/Icon';
 
-const Input = ({
+const EntryInput = ({
   iconPaths = [], // iconPaths는 객체배열[d, fillRule, clipRule]. path가 2개이상이거나 fillRule clipRule가진 아이콘있어서.
   type,
   placeholder,
@@ -23,4 +23,4 @@ const Input = ({
   </label>
 );
 
-export default Input;
+export default EntryInput;

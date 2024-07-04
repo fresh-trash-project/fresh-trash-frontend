@@ -19,6 +19,7 @@ const PasswordEditor = ({ isEditing, navigate }) => {
     handlePasswordChange,
     handlePasswordVisibility,
     validatePassword,
+    handlePasswordConfirm,
   } = usePasswordLogic();
 
   return (
@@ -31,7 +32,7 @@ const PasswordEditor = ({ isEditing, navigate }) => {
             className="w-full border-none focus:ring-0"
             disabled={!isEditing}
             value={currentPassword}
-            onChange={handlePassword(setCurrentPassword)}
+            onChange={handlePassword(setCurrentPassword, true)}
           />
 
           <button onClick={handlePasswordVisibility(setShowCurrentPassword)}>
@@ -48,7 +49,7 @@ const PasswordEditor = ({ isEditing, navigate }) => {
             className="w-full border-none focus:ring-0"
             disabled={!isEditing}
             value={newPassword}
-            onChange={handlePassword(setNewPassword, true)}
+            onChange={handlePassword(setNewPassword, false)}
           />
 
           <button onClick={handlePasswordVisibility(setShowNewPassword)}>
@@ -65,7 +66,7 @@ const PasswordEditor = ({ isEditing, navigate }) => {
             className="w-full border-none focus:ring-0"
             disabled={!isEditing}
             value={confirmPassword}
-            onChange={handlePassword(setConfirmPassword)}
+            onChange={handlePasswordConfirm(setConfirmPassword)}
           />
 
           <button onClick={handlePasswordVisibility(setShowConfirmPassword)}>

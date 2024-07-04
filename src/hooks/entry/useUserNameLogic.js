@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchUserName } from '../../api/UserInfoAPI';
 import { userNameState } from '../../recoil/RecoilUserName';
 import { useRecoilState } from 'recoil';
@@ -7,14 +7,13 @@ import { useNavigate } from 'react-router-dom';
 
 export const useUserNameLogic = () => {
   const [userName, setUserName] = useRecoilState(userNameState);
-  const [isDuplicate, setIsDuplicate] = useState(false);
+  const [isDuplicate, setIsDuplicate] = useState(true);
   const [signIn, setSignIn] = useRecoilState(signInState);
   const navigate = useNavigate();
 
   const handleUserNameChange = e => {
     const newUserName = e.target.value;
     setUserName(newUserName);
-    setIsDuplicate(false); // Reset duplicate status on new input
   };
 
   const handleDuplicationCheck = async e => {

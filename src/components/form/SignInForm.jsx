@@ -13,8 +13,9 @@ const SignInForm = ({
   email,
   handleEmailChange,
   password,
+  setCurrentPassword,
   showCurrentPassword,
-
+  setShowCurrentPassword,
   handlePassword,
   handlePasswordVisibility,
 }) => {
@@ -40,16 +41,19 @@ const SignInForm = ({
   };
 
   return (
-    <form className="flex flex-col items-center py-16 px-12 text-center md:justify-center md:h-full md:py-0">
+    <form
+      className="flex flex-col items-center py-16 px-12 text-center md:justify-center md:h-full md:py-0"
+      onSubmit={handleSignIn}
+    >
       <h1 className="font-bold m-0 text-[1.5rem] mb-5">SIGN IN</h1>
       <Email email={email} handleEmailChange={handleEmailChange} />
       <Password
         password={password}
         showCurrentPassword={showCurrentPassword}
-        // setShowCurrentPassword={setShowCurrentPassword}
         handlePassword={handlePassword}
         handlePasswordVisibility={handlePasswordVisibility}
       />
+
       <div className="text-slate-400 mt-4 mb-4 no-underline text-xs w-[23rem] flex justify-end">
         Forgot your password?
         <button
@@ -61,7 +65,7 @@ const SignInForm = ({
       </div>
       <SNSLogIn />
       <EntryButton
-        onClick={handleSignIn}
+        type="submit"
         disabled={email.length === 0 || password.length === 0}
       >
         로그인

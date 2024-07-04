@@ -5,7 +5,7 @@ import urlJoin from 'url-join';
 import { globalFileAPI } from '../../../variable';
 import { GoAlert } from 'react-icons/go';
 import { AuctionPay } from '../../api/AuctionAPI';
-import PortOne from 'portone';
+
 const PayContent = () => {
   const [auctionDetails, setAuctionDetails] = useState(null);
   const { auctionId } = useParams();

@@ -20,8 +20,7 @@ export const fetchCode = async email => {
           toastId: 'send-code-success',
         });
       }
-
-      return response.data;
+      // console.log(response);
     }
   } catch (error) {
     console.log(error.message);
@@ -37,7 +36,7 @@ export const fetchCode = async email => {
 };
 
 // 인증 코드 입력하고 확인버튼 눌렀을때
-export const verifyCode = async (email, code) => {
+export const verifyCode = async (email, code, setConfirmed) => {
   try {
     const response = await axiosWithTokenMail.post(`/verify`, {
       email: email,
@@ -50,6 +49,7 @@ export const verifyCode = async (email, code) => {
           toastId: 'verify-success',
         });
       }
+      setConfirmed(true);
 
       return response.data;
     }
