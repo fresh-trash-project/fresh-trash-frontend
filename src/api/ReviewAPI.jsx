@@ -1,6 +1,7 @@
 import { globalAuctionsAPI, globalProductsAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
-import { CONSOLE } from '../../Constants';
+import { toast } from 'react-toastify';
+import { MESSAGES, CONSOLE } from '../../Constants';
 
 const axiosWithTokenAuctions = createAxiosWithToken(globalAuctionsAPI);
 const axiosWithTokenProducts = createAxiosWithToken(globalProductsAPI);

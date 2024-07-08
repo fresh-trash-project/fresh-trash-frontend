@@ -29,6 +29,9 @@ export const MESSAGES = {
 
   //프로필 수정
   PROFILE_UPDATE_FAILURE: '프로필 수정에 실패했습니다.',
+
+  //평점
+  SEND_RATING_SUCCESS: '평점이 제출되었습니다.',
 };
 
 export const CONSOLE = {

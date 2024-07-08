@@ -6,6 +6,8 @@ import { readAlarm } from '../../../api/AlarmAPI';
 import { useState } from 'react';
 import RatingModal from '../modal/RatingModal';
 import { sendProductReview } from '../../../api/ReviewAPI';
+import { toast } from 'react-toastify';
+import { MESSAGES, CONSOLE } from '../../../../Constants';
 
 const Alarm = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
@@ -73,10 +75,14 @@ const Alarm = () => {
   const submitRating = async rating => {
     try {
       await sendProductReview(currentItem.alarmArgs.targetId, rating, navigate);
-      alert('평점이 제출되었습니다.');
+      if (!toast.isActive('send-rating-success')) {
+        toast.success(MESSAGES.SEND_RATING_SUCCESS, {
+          toastId: 'send-rating-success',
+        });
+      }
       closeRatingModal();
     } catch (error) {
-      console.error('Error:', error);
+      console.log(error.message);
     }
   };
 
