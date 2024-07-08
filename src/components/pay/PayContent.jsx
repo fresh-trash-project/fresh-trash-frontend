@@ -5,7 +5,7 @@ import urlJoin from 'url-join';
 import { globalFileAPI } from '../../../variable';
 import { GoAlert } from 'react-icons/go';
 import { AuctionPay } from '../../api/AuctionAPI';
-
+import { CONSOLE } from '../../../Constants';
 const PayContent = () => {
   const [auctionDetails, setAuctionDetails] = useState(null);
   const { auctionId } = useParams();
@@ -43,10 +43,10 @@ const PayContent = () => {
     IMP.request_pay(data, rsp => {
       if (rsp.success) {
         // 결제 성공 시 로직
-        console.log('결제 성공:', rsp);
+        console.log(CONSOLE.PAY_SUCCESS, rsp);
       } else {
         // 결제 실패 시 로직
-        console.error('결제 실패:', rsp);
+        console.error(CONSOLE.PAY_ERROR, rsp);
       }
     });
   };
