@@ -29,6 +29,30 @@ export const MESSAGES = {
 
   //프로필 수정
   PROFILE_UPDATE_FAILURE: '프로필 수정에 실패했습니다.',
+
+  //상품 등록
+  POST_SUCCESS: '상품 등록이 완료되었습니다.',
+
+  //상품 삭제
+  DELETE_SUCCESS: '상품이 삭제되었습니다.',
+  DELETE_ERROR: '삭제 중 오류가 발생했습니다.',
+
+  //상품 수정
+  EDIT_SUCCESS: '상품 정보 수정이 완료되었습니다. ',
+  EDIT_ERROR: '상품 정보 수정 중 오류가 발생했습니다.',
+
+  //위시리스트
+  ADD_LIKES: '나의 관심목록에 추가되었습니다.',
+  DELETE_LIKES: '나의 관심목록에서 삭제되었습니다.',
+
+  //입찰 완료
+  BIDDING_SUCCESS: '입찰이 완료되었습니다.',
+
+  //결제 완료
+  PAY_SUCCESS: '결제완료되었습니다.',
+
+  //신고
+  FLAG_SUCCESS: '신고 신청 완료',
 };
 
 export const CONSOLE = {
@@ -46,6 +70,25 @@ export const CONSOLE = {
   FETCH_MY_DONE_AUCTION_LIST_SUCCESS: '나의 완료된 경매 리스트를 불러왔습니다.',
   FETCH_MY_WINNING_BID_LIST_SUCCESS: '나의 낙찰 리스트를 불러왔습니다.',
 
-  FETCH_POSTS_ERROR: '게시글 목록을 가져오는 중 에러 발생',
-  FETCH_POSTS_SUCCESS: '게시글 목록을 가져오기 성공',
+  FETCH_POSTS_ERROR: '상품 목록을 가져오는 중 에러 발생',
+  FETCH_POSTS_SUCCESS: '상품 목록을 가져오기 성공',
+  FETCH_DETAIL_LIST_SUCCESS: '상품 상세정보를 불러오는데 성공',
+  EDIT_SUCCESS: '상품 수정 중 오류 발생',
+  DELETE_ERROR: '상품 삭제 중 오류 발생',
+
+  LIKES_ERROR: '관심상태를 업데이트하는 도중 오류가 발생했습니다.',
+
+  CHATROOM_SUCCESS: '채팅방 생성 성공',
+  CHAT_LIST_SUCCESS: '채팅방 목록 불러오는데 성공',
+  CHATROOM_OUT: '채팅방 나가기 성공',
+  CHAT_CONTENT: '채팅방 내용 불러오기 성공',
+
+  WEBSOCKET_OPEN: '웹소켓 연결이 열렸습니다.',
+  WEBSOCKET_ERROR: '웹소켓 연결을 실패했습니다.',
+  TRANSACTION_SUCCESS: '판매완료 요청 성공',
+  PRODUCT_DEAL_SUCCESS: '거래처리 변경 성공',
+  PARSING_ERROR: '사용자 정보를 파싱하는 도중 오류가 발생했습니다',
+
+  PAY_SUCCESS: '결제 성공',
+  PAY_ERROR: '결제 실패',
 };

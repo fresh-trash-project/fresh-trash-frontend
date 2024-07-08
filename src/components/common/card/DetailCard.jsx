@@ -14,6 +14,7 @@ import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
 import BidModal from '../modal/BidModal';
 import DateCounter from '../counter/DateCounter';
+import { CONSOLE } from '../../../../Constants';
 const DetailCard = ({
   postDetails,
   auctionDetails,
@@ -46,10 +47,7 @@ const DetailCard = ({
           : prevDetails.likeCount - 1,
       }));
     } catch (error) {
-      console.error(
-        '관심 상태를 업데이트하는 도중 오류가 발생했습니다:',
-        error,
-      );
+      console.error(CONSOLE.LIKES_ERROR, error);
     }
   };
 

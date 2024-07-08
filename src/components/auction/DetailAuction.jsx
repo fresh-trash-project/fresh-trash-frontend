@@ -9,6 +9,9 @@ import { LikesState } from '../../recoil/RecoilLikes';
 import { globalFileAPI } from '../../../variable';
 import DetailCard from '../common/card/DetailCard';
 import urlJoin from 'url-join';
+import { toast } from 'react-toastify';
+import { MESSAGES } from '../../../Constants';
+import { CONSOLE } from '../../../Constants';
 const DetailAuction = () => {
   const { auctionId } = useParams(); // URL 파라미터에서 auctionId 가져오기
   const { chatId } = useParams();
@@ -22,10 +25,7 @@ const DetailAuction = () => {
         setAuctionDetails(details);
         console.log(details);
       } catch (error) {
-        console.error(
-          '상품 상세 정보를 불러오는 도중 에러가 발생했습니다:',
-          error,
-        );
+        console.error(CONSOLE.FETCH_DETAIL_LIST_SUCCESS, error);
       }
     };
     fetchDetail();
@@ -65,7 +65,7 @@ const DetailAuction = () => {
 
       navigate('/AuctionList');
     } catch (error) {
-      console.error('제품 삭제 중 오류가 발생했습니다:', error);
+      toast.error(MESSAGES.DELETE_ERROR);
     }
   };
 

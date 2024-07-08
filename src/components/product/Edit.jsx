@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ProductForm from '../form/ProductForm';
 import { detailProduct } from '../../api/ProductAPI';
 
-const EditForm = () => {
+const Edit = () => {
   const { productId } = useParams();
   const [initialData, setInitialData] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,4 +39,4 @@ const EditForm = () => {
   );
 };
 
-export default EditForm;
+export default Edit;

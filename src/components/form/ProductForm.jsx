@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import urlJoin from 'url-join';
 import { globalFileAPI } from '../../../variable';
 import { updatePost, createPost } from '../../api/ProductAPI';
+import { toast } from 'react-toastify';
 const ProductForm = ({ initialData, isEditMode }) => {
   const [title, setTitle] = useState(initialData.title || '');
   const [content, setContent] = useState(initialData.content || '');
@@ -40,7 +41,7 @@ const ProductForm = ({ initialData, isEditMode }) => {
       if (validImageTypes.includes(file.type)) {
         setImgFile(file);
       } else {
-        alert('올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)');
+        toast.error('올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)');
         e.target.value = null;
       }
     }
@@ -157,6 +158,7 @@ const ProductForm = ({ initialData, isEditMode }) => {
             type="text"
             value={title}
             onChange={e => setTitle(e.target.value)}
+            placeholder="제목을 입력하세요"
             required
           />
         </div>
@@ -300,6 +302,7 @@ const ProductForm = ({ initialData, isEditMode }) => {
             value={content}
             onChange={e => setContent(e.target.value)}
             className="h-48 no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            placeholder="내용을 입력하세요"
             required
           />
         </div>
