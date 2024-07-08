@@ -22,7 +22,7 @@ export const router = createBrowserRouter([
     element: <Home />,
     errorElement: ({ error }) => {
       if (error.status === 404) {
-        return <div>404 Not Found 페이지를 표시할 수 없습니다. </div>;
+        return <div> 404 Not Found 페이지를 표시할 수 없습니다. </div>;
       }
     },
   },
