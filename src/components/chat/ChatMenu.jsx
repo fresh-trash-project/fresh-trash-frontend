@@ -9,7 +9,7 @@ const ChatMenu = ({ isOpen, messageList }) => {
       await deleteChat(chatId, navigate);
       navigate('/');
     } catch (error) {
-      console.error('제품 삭제 중 오류가 발생했습니다:', error);
+      console.error(error);
     }
   };
   return (

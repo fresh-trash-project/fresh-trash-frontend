@@ -1,7 +1,8 @@
 import { globalAuctionsAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
 import { CONSOLE } from '../../Constants';
-
+import { MESSAGES } from '../../Constants';
+import { toast } from 'react-toastify';
 const axiosWithTokenAuctions = createAxiosWithToken(globalAuctionsAPI);
 
 //경매 목록 요청
@@ -49,7 +50,7 @@ export const detailAuction = async (auctionId, navigate) => {
       return response.data;
     }
   } catch (error) {
-    console.log('경매 상품 상세정보를 가져오는 중 에러발생:', error.message);
+    console.log(error.message);
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
@@ -62,12 +63,17 @@ export const detailAuction = async (auctionId, navigate) => {
 //경매 상품 삭제
 export const deleteAuction = async (auctionId, navigate) => {
   try {
-    const response = await axiosWithTokenAuctions.delete(`${auctionId}`);
-    if (response === 204) {
-      console.log('경매 상품 삭제 성공');
+    const response = await axiosWithTokenAuctions.delete(`/${auctionId}`);
+    if (response.status === 204) {
+      console.log('삭제성공');
+      if (!toast.isActive('delete_product')) {
+        toast.success(MESSAGES.DELETE_SUCCESS, {
+          toastId: 'delete_product',
+        });
+      }
     }
   } catch (error) {
-    console.log('경매 상품 삭제가 완료되었습니다.', error.message);
+    console.log(error.message);
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
@@ -115,11 +121,15 @@ export const createAuction = async (
       },
     });
     if (response.status === 201) {
-      console.log('경매 제품 등록을 완료했습니다.');
+      if (!toast.isActive('post-success')) {
+        toast.success(MESSAGES.POST_SUCCESS, {
+          toastId: 'post-success',
+        });
+      }
       navigate('/AuctionList');
     }
   } catch (error) {
-    console.error('경매 제품 등록을 실패하였습니다.', error.message);
+    console.error(error.message);
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
@@ -146,11 +156,15 @@ export const AuctionBid = async (biddingPrice, auctionId, navigate) => {
       },
     );
     if (response.status === 200) {
-      console.log('입찰 완료되었습니다.');
+      if (!toast.isActive('bidding_success')) {
+        toast.success(MESSAGES.BIDDING_SUCCESS, {
+          toastId: 'bidding_success',
+        });
+      }
       navigate('/MyPage/MyAuctionList');
     }
   } catch (error) {
-    console.log('입찰 실패하였습니다.', error.message);
+    console.log(error.message);
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
@@ -165,9 +179,13 @@ export const AuctionPay = async auctionId => {
   try {
     const response = await axiosWithTokenAuctions.put(`${auctionId}/pay`);
     if (response.status === 200) {
-      console.log('결제완료되었습니다.');
+      if (!toast.isActive('pay_success')) {
+        toast.success(MESSAGES.PAY_SUCCESS, {
+          toastId: 'pay_success',
+        });
+      }
     }
   } catch (error) {
-    console.log('결제를 실패하였습니다.');
+    console.log(error.message);
   }
 };

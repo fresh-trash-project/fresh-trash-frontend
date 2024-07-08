@@ -8,64 +8,30 @@ import {
   detailProduct,
   likeProduct,
 } from '../../api/ProductAPI';
-import { chatPost } from '../../api/ChattingAPI';
 import { LikesState } from '../../recoil/RecoilLikes';
 import { globalFileAPI } from '../../../variable';
 import DetailCard from '../common/card/DetailCard';
 import urlJoin from 'url-join';
-
-const DetailPrduct = () => {
+import { toast } from 'react-toastify';
+import { MESSAGES } from '../../../Constants';
+import { CONSOLE } from '../../../Constants';
+const DetailProduct = () => {
   const { productId } = useParams(); // URL 파라미터에서 productId 가져오기
   console.log('아이디' + productId);
   const { chatId } = useParams();
   const [postDetails, setPostDetails] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-
   useEffect(() => {
     const fetchDetail = async () => {
       try {
         const details = await detailProduct(productId, navigate);
         setPostDetails(details);
       } catch (error) {
-        console.error(
-          '상품 상세 정보를 불러오는 도중 에러가 발생했습니다:',
-          error,
-        );
+        console.error(CONSOLE.FETCH_DETAIL_LIST_SUCCESS, error);
       }
     };
     fetchDetail();
   }, [productId]);
-
-  //관심 추가--------------------------------------
-  const [likeState, setLikeState] = useRecoilState(LikesState);
-  // const [hearted, setHearted] = useState(false);
-  const [like, setLike] = useState(false);
-  const handleLikeToggle = async () => {
-    try {
-      // 관심 상태를 토글하고 상태 업데이트
-      const newLikeState = !likeState[productId];
-      setLikeState({ ...likeState, [productId]: newLikeState });
-
-      // API 호출하여 관심 상태 업데이트
-      const response = await likeProduct(
-        productId,
-        newLikeState ? 'LIKE' : 'UNLIKE',
-        navigate,
-      );
-      console.log('하트상태', response.data);
-      setPostDetails(prevDetails => ({
-        ...prevDetails,
-        likeCount: newLikeState
-          ? prevDetails.likeCount + 1
-          : prevDetails.likeCount - 1,
-      }));
-    } catch (error) {
-      console.error(
-        '관심 상태를 업데이트하는 도중 오류가 발생했습니다:',
-        error,
-      );
-    }
-  };
 
   //수정하기 삭제하기 버튼 게시글 등록한 사람만 보이게------------------------
   useEffect(() => {
@@ -88,7 +54,7 @@ const DetailPrduct = () => {
 
       return user;
     } catch (error) {
-      console.error('사용자 정보를 파싱하는 도중 오류가 발생했습니다:', error);
+      console.error(CONSOLE.PARSING_ERROR, error);
       return null; // 또는 적절한 기본값 반환
     }
   };
@@ -101,7 +67,8 @@ const DetailPrduct = () => {
 
       navigate('/ProductsList');
     } catch (error) {
-      console.error('제품 삭제 중 오류가 발생했습니다:', error);
+      toast.error(MESSAGES.DELETE_ERROR);
+      console.log(error);
     }
   };
 
@@ -162,4 +129,4 @@ const DetailPrduct = () => {
     </div>
   );
 };
-export default DetailPrduct;
+export default DetailProduct;
