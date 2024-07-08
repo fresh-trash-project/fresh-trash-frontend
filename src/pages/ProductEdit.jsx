@@ -1,10 +1,10 @@
-import EditForm from '../components/product/EditForm';
+import Edit from '../components/product/Edit';
 import Header from '../components/common/header/Header';
 const ProductEdit = () => {
   return (
     <div>
       <Header />
-      <EditForm />
+      <Edit />
     </div>
   );
 };

@@ -15,7 +15,7 @@ import {
 } from '../../api/ChattingAPI';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
-import { ListFetch } from '../../api/ChattingAPI';
+import { CONSOLE } from '../../../Constants';
 const InputField = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { chatId, productId } = useParams();
@@ -87,7 +87,7 @@ const InputField = () => {
 
       return user;
     } catch (error) {
-      console.error('사용자 정보를 파싱하는 도중 오류가 발생했습니다:', error);
+      console.error(CONSOLE.PARSING_ERROR, error);
       return null;
     }
   };
@@ -115,16 +115,16 @@ const InputField = () => {
             try {
               const parsedMessage = JSON.parse(msg.body);
               setMessages(prevMessages => [...prevMessages, parsedMessage]);
-              console.log('WebSocket 연결이 열렸습니다.');
+              console.log(CONSOLE.WEBSOCKET_OPEN);
               console.log('수신한 메세지', parsedMessage);
             } catch (error) {
-              console.error('오류가 발생했습니다:', error);
+              console.error(error);
             }
           });
         };
         console.log(stompClient);
       } catch (error) {
-        console.error('웹소켓 연결을 실패했습니다.', error);
+        console.error(CONSOLE.WEBSOCKET_ERROR, error);
       }
     };
 

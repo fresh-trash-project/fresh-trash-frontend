@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import urlJoin from 'url-join';
 import { globalFileAPI } from '../../../variable';
 import { createAuction } from '../../api/AuctionAPI';
-
+import { toast } from 'react-toastify';
 const AuctionForm = ({ initialData, isEditMode }) => {
   const [title, setTitle] = useState(initialData.title || '');
   const [content, setContent] = useState(initialData.content || '');
@@ -44,28 +44,12 @@ const AuctionForm = ({ initialData, isEditMode }) => {
       if (validImageTypes.includes(file.type)) {
         setImgFile(file);
       } else {
-        alert('올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)');
+        toast.error('올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)');
         e.target.value = null;
       }
     }
   };
 
-  // const handleComplete = data => {
-  //   setAddress({
-  //     // address: data.address,
-  //     zipcode: data.zonecode,
-  //     state: data.sido,
-  //     city: data.sigungu,
-  //     district: data.bname,
-  //     detail: data.buildingName,
-  //   });
-  // };
-
-  // const handleOpenAddressModal = () => {
-  //   new window.daum.Postcode({
-  //     oncomplete: handleComplete,
-  //   }).open();
-  // };
   const handleMinimumBidChange = e => {
     const value = e.target.value;
     if (/^[0-9]\d*$/.test(value) || value === '') {
@@ -284,32 +268,6 @@ const AuctionForm = ({ initialData, isEditMode }) => {
           </div>
         </div>
 
-        {/* <div className="w-full px-3 mb-6">
-          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            주소
-          </label>
-          <div className="flex flex-col gap-1">
-            <div className="flex gap-3 items-center">
-              <input
-                type="text"
-                name="zipcode"
-                value={` ${address.state} ${address.city} ${address.district} ${address.detail}`}
-                onChange={e => setAddress(e.target.value)}
-                readOnly
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                placeholder="주소/위치를 입력해주세요."
-                required
-              />
-              <button
-                type="button"
-                onClick={handleOpenAddressModal}
-                className=" w-32  ml-4  bg-green-900 hover:bg-green-700 text-white font-bold py-2.5 px-4 rounded text-center "
-              >
-                주소검색
-              </button>
-            </div>
-          </div>
-        </div> */}
         <div className="w-full px-3 mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
             내용

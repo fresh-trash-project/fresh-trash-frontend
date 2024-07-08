@@ -1,5 +1,5 @@
 import React from 'react';
-import AddForm from '../components/add/AddForm';
+import AddForm from '../components/form/AddForm';
 import Header from '../components/common/header/Header';
 
 const ProductAdd = () => {

@@ -1,7 +1,8 @@
 import { globalProductsAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
 import { CONSOLE } from '../../Constants';
-
+import { toast } from 'react-toastify';
+import { MESSAGES } from '../../Constants';
 const axiosWithTokenProducts = createAxiosWithToken(globalProductsAPI);
 //목록페이지
 const fetchQuery = async (query, navigate) => {
@@ -17,10 +18,8 @@ const fetchQuery = async (query, navigate) => {
         pageable: responseData.pageable,
       };
     }
-
-    // 서버로부터 받은 데이터 반환
   } catch (error) {
-    console.error('게시물 목록을 가져오는 중 에러 발생:', error.message);
+    console.error(CONSOLE.FETCH_POSTS_ERROR, error.message);
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
@@ -82,11 +81,15 @@ export const createPost = async (
       },
     });
     if (response.status === 201) {
-      console.log('게시물 생성을 완료했습니다.', response.data);
+      if (!toast.isActive('post-success')) {
+        toast.success(MESSAGES.POST_SUCCESS, {
+          toastId: 'post-success',
+        });
+      }
       navigate('/ProductsList');
     }
   } catch (error) {
-    console.error('게시물 생성을 실패하였습니다.', error.message);
+    console.error(error.message);
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
@@ -101,11 +104,13 @@ export const detailProduct = async (productId, navigate) => {
   try {
     const response = await axiosWithTokenProducts.get(`/${productId}`);
     if (response.status === 200) {
-      console.log('상품 상세정보를 불러왔습니다:', response.data);
+      console.log(CONSOLE.FETCH_DETAIL_KUST_SUCCESS, response.data);
       return response.data; // 서버로부터 받은 데이터 반환
+    } else {
+      console.log('응답 상태 코드:', response.status); // 디버깅용 로그
     }
   } catch (error) {
-    console.error('상품 상세정보를 가져오는 중 에러 발생:', error.message);
+    console.error(error.message);
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
@@ -119,10 +124,14 @@ export const deleteProduct = async (productId, navigate) => {
   try {
     const response = await axiosWithTokenProducts.delete(`/${productId}`);
     if (response.status === 204) {
-      console.log('게시물 삭제 성공');
+      if (!toast.isActive('delete_product')) {
+        toast.success(MESSAGES.DELETE_SUCCESS, {
+          toastId: 'delete_product',
+        });
+      }
     }
   } catch (error) {
-    console.error('게시물을 삭제하는 중 오류가 발생했습니다:', error.message);
+    console.error(error.message);
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
@@ -177,12 +186,16 @@ export const updatePost = async (
       },
     );
     if (response.status === 200) {
-      console.log('폐기물 수정 성공', response.data);
+      if (!toast.isActive('edit-success')) {
+        toast.success(MESSAGES.EDIT_SUCCESS, {
+          toastId: 'edit-success',
+        });
+      }
       navigate(`/ProductDetail/${productId}`);
     }
     return response;
   } catch (error) {
-    console.error('폐기물 수정 실패', error.message);
+    console.error(CONSOLE.EDIT_SUCCESS, error.message);
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
@@ -200,10 +213,18 @@ export const likeProduct = async (productId, query, navigate) => {
 
     if (response.status === 200) {
       if (query === 'UNLIKE') {
-        console.log('관심목록 해제 성공');
+        if (!toast.isActive('delete_like')) {
+          toast.error(MESSAGES.DELETE_LIKES, {
+            toastId: 'delete_like',
+          });
+        }
         console.log(response);
       } else if (query === 'LIKE') {
-        console.log('관심목록 추가 성공');
+        if (!toast.isActive('add_like')) {
+          toast.success(MESSAGES.ADD_LIKES, {
+            toastId: 'add_like',
+          });
+        }
         console.log(response);
       }
 
