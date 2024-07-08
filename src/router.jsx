@@ -15,7 +15,6 @@ import AuctionDetail from './pages/AuctionDetail';
 import Chat from './pages/Chat';
 import ChatList from './pages/ChatList';
 import Pay from './pages/Pay';
-import OAuthCallback from './pages/OAuthCallback';
 
 export const router = createBrowserRouter([
   {
@@ -41,5 +40,4 @@ export const router = createBrowserRouter([
   { path: '/Chat/:chatId/:wasteId', element: <Chat /> },
   { path: 'MyPage/ChatList', element: <ChatList /> },
   { path: '/Pay/:auctionId', element: <Pay /> },
-  // { path: '/auth/callback', element: <OAuthCallback /> },
 ]);
