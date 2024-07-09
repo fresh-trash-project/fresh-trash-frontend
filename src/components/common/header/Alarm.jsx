@@ -5,6 +5,9 @@ import { IoMdClose } from 'react-icons/io';
 import { readAlarm } from '../../../api/AlarmAPI';
 import { useState } from 'react';
 import RatingModal from '../modal/RatingModal';
+import { sendProductReview } from '../../../api/ReviewAPI';
+import { toast } from 'react-toastify';
+import { MESSAGES, CONSOLE } from '../../../../Constants';
 
 const Alarm = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
@@ -26,24 +29,15 @@ const Alarm = () => {
   //알람타입에 따라 알람메시지 클릭했을때 링크 이동
   const getLinkByAlarmType = item => {
     switch (item.alarmType) {
-      // case 'CHAT':
-      //   return `/Chat/${item.alarmArgs.targetId}`;
-      case 'TRANSACTION':
+      case 'REQUEST_BOOKING':
+        return `/ProductDetail/${item.alarmArgs.targetId}`;
+      case 'CANCEL_BOOKING':
         return `/ProductDetail/${item.alarmArgs.targetId}`;
       case 'BIDDING':
         return `/Pay/${item.alarmArgs.targetId}`;
       default:
         return '/';
     }
-  };
-
-  //알람메시지 삭제
-  const removeAlarmMessage = id => {
-    setAlarmMsg(prevMessages => {
-      const updatedMessages = prevMessages.filter(msg => msg.id !== id);
-      localStorage.setItem('alarmMessages', JSON.stringify(updatedMessages));
-      return updatedMessages;
-    });
   };
 
   //알람메시지 읽음처리
@@ -60,10 +54,9 @@ const Alarm = () => {
     }
   };
 
-  //! 확인 필요
   const handleAlarmClick = async item => {
     await readAlarmMessage(item);
-    if (item.alarmType === 'RECEIVE') {
+    if (item.alarmType === 'REQUEST_REVIEW') {
       setCurrentItem(item);
       setShowRatingModal(true);
     } else {
@@ -74,10 +67,23 @@ const Alarm = () => {
     }
   };
 
-  //! 확인 필요
   const closeRatingModal = () => {
     setShowRatingModal(false);
     setCurrentItem(null);
+  };
+
+  const submitRating = async rating => {
+    try {
+      await sendProductReview(currentItem.alarmArgs.targetId, rating, navigate);
+      if (!toast.isActive('send-rating-success')) {
+        toast.success(MESSAGES.SEND_RATING_SUCCESS, {
+          toastId: 'send-rating-success',
+        });
+      }
+      closeRatingModal();
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -104,6 +110,7 @@ const Alarm = () => {
           className="cursor-pointer hover:text-green-current"
         >
           CLOSE
+          {/* <IoMdClose className="text-xl" /> */}
         </div>
       </div>
 
@@ -112,34 +119,19 @@ const Alarm = () => {
           <li
             key={item.id}
             onClick={() => handleAlarmClick(item)}
-            // onClick={() => readAlarmMessage(item)}
             className={`flex-nowrap border-b border-white border-opacity-30 flex flex-row items-center justify-between cursor-pointer ${item.readAt ? 'text-gray-500' : ''}`}
           >
-            <div className="w-72 truncate hover:whitespace-pre-wrap">
-              {item.alarmType !== 'TRANSACTION' ? (
-                <Link to={getLinkByAlarmType(item)}>{item.message}</Link>
-              ) : (
-                <span>{item.message}</span>
-              )}
-              {/* <Link to={getLinkByAlarmType(item)}>{item.message}</Link> */}
-            </div>
-            <div>
-              <IoMdClose
-                className="text-white text-xl hover:text-red-cinnabar"
-                onClick={e => {
-                  e.stopPropagation();
-                  removeAlarmMessage(item.id);
-                }}
-              />
+            <div className="w-80 truncate hover:whitespace-pre-wrap">
+              <Link to={getLinkByAlarmType(item)}>{item.message}</Link>
             </div>
           </li>
         ))}
       </ul>
       {showRatingModal && currentItem && (
         <RatingModal
-          type={currentItem.alarmType === 'RECEIVE' ? 'product' : 'auction'} //! 이부분 수정
-          id={currentItem.alarmArgs.targetId}
-          onClose={closeRatingModal}
+          showModal={showRatingModal}
+          closeModal={closeRatingModal}
+          submitRating={submitRating}
         />
       )}
     </div>

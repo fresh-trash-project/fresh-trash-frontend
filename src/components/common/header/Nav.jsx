@@ -1,14 +1,16 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { signInState, signInPanelState } from '../../../recoil/RecoilSignIn';
 import { useRecoilState } from 'recoil';
 import { AlarmMsgState, AlarmState } from '../../../recoil/RecoilAlarm';
 import NavEndButton from '../button/NavEndButton';
+import Cookies from 'js-cookie';
 
 const Nav = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
+  const navigate = useNavigate();
 
   const menuItems = [
     { path: '/', label: 'HOME' },
@@ -19,6 +21,8 @@ const Nav = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
+    // js-cookie를 사용하여 쿠키에서 accessToken 삭제
+    Cookies.remove('accessToken', { path: '/', domain: 'localhost' });
     setSignIn(false);
     setAlarmMsg([]); // Clear alarms on logout
     setAlarmOpen(false);
