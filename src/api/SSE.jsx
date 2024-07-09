@@ -12,8 +12,6 @@ export const useSSE = () => {
   useEffect(() => {
     if (signIn) {
       const accessToken = localStorage.getItem('accessToken');
-      if (!accessToken || eventSource) return;
-
       const headers = { Authorization: `Bearer ${accessToken}` };
 
       eventSource = new EventSourcePolyfill(`${globalNotisAPI}/subscribe`, {

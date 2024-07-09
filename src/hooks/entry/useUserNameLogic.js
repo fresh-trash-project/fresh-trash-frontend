@@ -14,6 +14,7 @@ export const useUserNameLogic = () => {
   const handleUserNameChange = e => {
     const newUserName = e.target.value;
     setUserName(newUserName);
+    // setIsDuplicate(true);
   };
 
   const handleDuplicationCheck = async e => {

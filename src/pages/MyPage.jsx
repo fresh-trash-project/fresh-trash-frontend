@@ -16,6 +16,7 @@ import NavigationCard from '../components/common/card/NavigationCard';
 import { changeUserInfo, fetchUserInfo } from '../api/UserInfoAPI';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import useUserNameLogic from '../hooks/entry/useUserNameLogic';
 
 const MyPage = () => {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ const MyPage = () => {
   const [image, setImage] = useState(logoImg);
   const [isEditing, setIsEditing] = useState(false);
   const [userName, setUserName] = useRecoilState(userNameState);
+  // const [isDuplicate, setIsDuplicate] = useState(true);
   const [address, setAddress] = useState({
     zipcode: '',
     state: '',
@@ -65,6 +67,8 @@ const MyPage = () => {
       link: 'ChatList',
     },
   ];
+
+  const { isDuplicate } = useUserNameLogic();
 
   //마이페이지 들어왔을때 유저정보 불러오기-------------------------------------------------------
   useEffect(() => {
@@ -153,6 +157,8 @@ const MyPage = () => {
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
               onClick={isEditing ? handleChangeUserInfo : handleEditProfile}
+              // disabled={userName.length === 0}
+              disabled={userName.length === 0}
             >
               {isEditing ? t('COMPLETE_PROFILE') : t('EDIT_PROFILE')}
             </button>
