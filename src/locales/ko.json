@@ -4,9 +4,6 @@
   "MY_PAGE": "마이페이지",
   "PRODUCT_DETAIL_PAGE": "상세페이지",
 
-  "NEW_NOTIFICATION": "새 알람",
-  "READ_NOTIFICATION": "읽은 알람",
-
   "ADD_PRODUCT": "애물단지 등록",
   "ADD_PRODUCT_VERB": "애물단지 등록하기",
   "PRODUCT_LIST": "애물단지 거래/나눔 목록",
@@ -14,103 +11,11 @@
   "TRADE_ITEM": "애물단지 거래",
   "AUCTION_ITEM": "애물단지 경매",
 
-  "MY_TRADE_HISTORY": "나의 거래 내역",
-  "MY_TRADE_HISTORY_PHRASE": "My Trade History",
-  "MY_SELL_HISTORY": "나의 판매 내역",
-  "MY_BUY_HISTORY": "나의 구매 내역",
-  "MY_AUCTION_HISTORY": "나의 경매 내역",
-  "MY_AUCTION_HISTORY_PHRASE": "My Auction History",
-  "MY_WINNING_HISTORY": "나의 낙찰 내역",
-  "MY_LIKES": "나의 관심 목록",
-  "MY_LIKES_PHRASE": "My Likes",
-  "MY_CHAT_LIST": "나의 채팅 목록",
-  "MY_CHAT_LIST_PHRASE": "My Chat List",
-
-  "SIGN_UP": "회원가입",
-  "SIGN_UP_UPPER_ENG": "SIGN UP",
-  "CREATE_ACCOUNT_UPPER_ENG": "CREATE ACCOUNT",
-  "VERIFY": "인증",
-  "VERIFICATION_CODE": "인증 코드",
-  "CONFIRM": "확인",
-
-  "LOGIN": "로그인",
-  "LOGIN_UPPER_ENG": "LOGIN",
-  "SIGN_IN_UPPER_ENG": "SIGN IN",
-  "LOGOUT": "로그아웃",
-  "FORGOT_PASSWORD_ENG": "Forgot your password?",
-  "CLICK_UPPER_ENG": "CLICK",
-
-  "PROFILE": "프로필",
-  "PROFILE_IMAGE": "프로필 이미지",
-  "EDIT_PROFILE": "프로필 수정",
-  "COMPLETE_PROFILE": "프로필 수정 완료",
-
-  "EMAIL": "이메일",
-
-  "PASSWORD": "비밀번호",
-  "CURRENT_PASSWORD": "현재 비밀번호",
-  "NEW_PASSWORD": "새 비밀번호",
-  "CONFIRM_PASSWORD": "새 비밀번호 확인",
-  "SAVE": "저장",
-
-  "USER_NAME": "사용자 이름",
-  "NICKNAME": "닉네임",
-  "DUPLICATION_CHECK": "중복확인",
-
-  "ADDRESS": "주소",
-  "SEARCH_ADDRESS": "주소검색",
-  "ADDRESS_DETAIL": "상세주소",
-  "ENTER_ADDRESS_LOCATION": "주소/위치를 입력하세요.",
-
-  "MY_RATING": "나의 평점",
-  "LEAVE_RATING": "평점을 남겨주세요",
-  "SUBMIT": "제출",
-
   "SELL_YOUR_FRESH_TRASH_UPPER_ENG": "SELL YOUR FRESH TRASH",
   "GET_YOUR_FRESH_TRASH_UPPER_ENG": "GET YOUR FRESH TRASH",
   "WIN_YOUR_FRESH_TRASH_UPPER_ENG": "WIN YOUR FRESH TRASH",
   "TRADING_PRODUCT": "애물단지 거래 중",
   "AUCTION_PRODUCT": "애물단지 경매 중",
-
-  "CATEGORY": "카테고리",
-  "SELECT_CATEGORY": "카테고리를 선택하세요",
-  "ALL": "전체",
-  "ELECTRONICS": "전자기기",
-  "CLOTHING": "의류",
-  "HOME_KITCHEN": "생활/주방",
-  "BEAUTY": "뷰티",
-  "HEALTH": "건강",
-  "SPORTS": "스포츠",
-  "BOOKS": "도서",
-  "TOYS_GAMES": "장난감/게임",
-  "FURNITURE_DECOR": "가구/인테리어",
-  "PET_SUPPLIES": "반려동물용품",
-  "PLANT_SUPPLIES": "식물",
-
-  "DAYS": "일 ",
-  "HOURS": "시간 ",
-  "MINUTES": "분 ",
-  "SECONDS": "초 ",
-
-  "LIKES": "관심수",
-  "VIEWS": "조회수",
-  "CREATED_AT": "작성일",
-  "BY_VIEWS": "조회순",
-  "BY_LIKES": "관심순",
-  "BY_NEWEST": "최신순",
-  "BY_PRICE": "가격순",
-  "ADD_TO_LIKES": "관심추가",
-
-  "START_CHAT": "채팅하기",
-  "CHAT_LIST": "채팅목록",
-  "JOIN_BID": "입찰 참여",
-
-  "CHAT_ROOM": "애물단지 채팅방",
-  "CHAT": "채팅을 입력하세요",
-  "SEND_CHAT": "전송",
-
-  "VIEW_DETAILS": "상세보기",
-  "WON": "원",
 
   "OPEN_ENG": "Open",
   "OPEN_UPPER_ENG": "Open",
@@ -118,61 +23,28 @@
   "CLOSE_ENG": "Close",
   "CLOSE_UPPER_ENG": "CLOSE",
 
-  "PREV": "이전",
-  "NEXT": "다음",
+  "WON": "원",
+  "SUBMIT": "제출",
+  "SAVE": "저장",
+  "EDIT": "수정하기",
+  "DELETE": "삭제하기",
+  "ONGOING_UPPER_ENG": "ONGOING",
+  "VIEW_NOW_ENG": "View Now",
+  "SHOW_MORE": "더보기",
+
+  "ADD_TO_LIKES": "관심추가",
+  "VIEW_DETAILS": "상세보기",
+
+  "IMAGE": "이미지",
+  "POST_IMAGE": "게시물 이미지",
 
   "SELECT": "선택",
   "DISTRICT": "지역",
   "TITLE": "제목",
   "ENTER_TITLE": "제목을 입력하세요",
 
-  "BID_AUCTION": "경매 입찰",
-  "BID_ITEM": "입찰 상품",
-  "END_DATE": "마감 일자",
-  "PLACE_BID": "입찰 하기",
-
-  "AUCTION_PERIOD": "경매 기간",
-  "AUCTION_WON": "낙찰되었습니다.",
-
-  "ONGOING_AUCTIONS": "경매중",
-  "ONGOING_SELLING": "판매중",
-  "DONE_AUCTIONS": "경매완료",
-  "DONE_SELLING": "판매완료",
-  "DONE_BUYING": "구매완료",
-  "RESERVED": "예약중",
-  "WON_BIDS": "낙찰",
-
-  "IMAGE": "이미지",
-  "POST_IMAGE": "게시물 이미지",
-
-  "ITEM_STATUS": "제품 상태",
-  "BEST": "최상",
-  "GOOD": "상",
-  "NORMAL": "중",
-  "WORST": "하",
-
-  "PRICE": "가격",
-  "SHARING": "나눔",
-  "ENTER_PRICE": "가격을 입력하세요(0 입력 시 나눔)",
-  "MINIMUM_BID": "최소 가격",
-  "ENTER_MINIMUM_BID": "최소 가격을 입력하세요",
-  "CURRENT_PRICE": "현재가",
-  "BID_AMOUNT": "입찰 금액",
-
   "CONTENT": "내용",
   "ENTER_CONTENT": "내용을 입력하세요",
   "POST_ITEM": "등록하기",
-  "EDIT_ITEM": "수정하기",
-  "EDIT": "수정하기",
-  "DELETE": "삭제하기",
-
-  "PAY": "결제하기",
-  "AUCTION_PAYMENT": "애물단지 경매 결제",
-  "PAYMENT_PRODUCT_INFO": "결제 상품 정보",
-  "PAY_WITHIN_A_WEEK": "일주일 이내로 결제하세요.",
-  "PAY_NOW": "을 입금하세요.",
-
-  "ONGOING_UPPER_ENG": "ONGOING",
-  "VIEW_NOW_ENG": "View Now",
-  "SHOW_MORE": "Show More"
+  "EDIT_ITEM": "수정하기"
 }

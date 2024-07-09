@@ -4,9 +4,6 @@
   "MY_PAGE": "My Page",
   "PRODUCT_DETAIL_PAGE": "Product Detail Page",
 
-  "NEW_NOTIFICATION": "New",
-  "READ_NOTIFICATION": "Read",
-
   "ADD_PRODUCT": "Add Product",
   "ADD_PRODUCT_VERB": "UPLOAD PRODUCT",
   "PRODUCT_LIST": "Product List",
@@ -14,103 +11,11 @@
   "TRADE_ITEM": "Trade Item",
   "AUCTION_ITEM": "Auction Item",
 
-  "MY_TRADE_HISTORY": "My Trade History",
-  "MY_TRADE_HISTORY_PHRASE": "Bought, Sold, and Selling Items",
-  "MY_SELL_HISTORY": "My Sell History",
-  "MY_BUY_HISTORY": "My Buy History",
-  "MY_AUCTION_HISTORY": "My Auction History",
-  "MY_AUCTION_HISTORY_PHRASE": "Auctions and Bids",
-  "MY_WINNING_HISTORY": "My Winning History",
-  "MY_LIKES": "My Likes",
-  "MY_LIKES_PHRASE": "Items you liked",
-  "MY_CHAT_LIST": "My Chat List",
-  "MY_CHAT_LIST_PHRASE": "Your Chat List",
-
-  "SIGN_UP": "Sign Up",
-  "SIGN_UP_UPPER_ENG": "SIGN UP",
-  "CREATE_ACCOUNT_UPPER_ENG": "CREATE ACCOUNT",
-  "VERIFY": "Verify",
-  "VERIFICATION_CODE": "Verification Code",
-  "CONFIRM": "Confirm",
-
-  "LOGIN": "Login",
-  "LOGIN_UPPER_ENG": "LOGIN",
-  "SIGN_IN_UPPER_ENG": "SIGN IN",
-  "LOGOUT": "Logout",
-  "FORGOT_PASSWORD_ENG": "Forgot your password?",
-  "CLICK_UPPER_ENG": "CLICK",
-
-  "PROFILE": "Profile",
-  "PROFILE_IMAGE": "Profile Image",
-  "EDIT_PROFILE": "Edit Profile",
-  "COMPLETE_PROFILE": "Complete Editing Profile",
-
-  "EMAIL": "Email",
-
-  "PASSWORD": "Password",
-  "CURRENT_PASSWORD": "Current Password",
-  "NEW_PASSWORD": "New Password",
-  "CONFIRM_PASSWORD": "Confirm Password",
-  "SAVE": "SAVE",
-
-  "USER_NAME": "User Name",
-  "NICKNAME": "User Name",
-  "DUPLICATION_CHECK": "CHECK",
-
-  "ADDRESS": "Address",
-  "SEARCH_ADDRESS": "SEARCH",
-  "ADDRESS_DETAIL": "Detail",
-  "ENTER_ADDRESS_LOCATION": "Enter Address & Location",
-
-  "MY_RATING": "My Rating",
-  "LEAVE_RATING": "Leave a Rating",
-  "SUBMIT": "Submit",
-
   "SELL_YOUR_FRESH_TRASH_UPPER_ENG": "SELL YOUR FRESH TRASH",
   "GET_YOUR_FRESH_TRASH_UPPER_ENG": "GET YOUR FRESH TRASH",
   "WIN_YOUR_FRESH_TRASH_UPPER_ENG": "WIN YOUR FRESH TRASH",
   "TRADING_PRODUCT": "TRADING PRODUCT",
   "AUCTION_PRODUCT": "AUCTION PRODUCT",
-
-  "CATEGORY": "Category",
-  "SELECT_CATEGORY": "Select Category",
-  "ALL": "All",
-  "ELECTRONICS": "Electronics",
-  "CLOTHING": "Clothing",
-  "HOME_KITCHEN": "Home & Kitchen",
-  "BEAUTY": "Beauty",
-  "HEALTH": "Health",
-  "SPORTS": "Sports",
-  "BOOKS": "Books",
-  "TOYS_GAMES": "Toys & Games",
-  "FURNITURE_DECOR": "Furniture & Decor",
-  "PET_SUPPLIES": "Pet Supplies",
-  "PLANT_SUPPLIES": "Plant Supplies",
-
-  "DAYS": " days ",
-  "HOURS": "h",
-  "MINUTES": "m",
-  "SECONDS": "s",
-
-  "LIKES": "Likes",
-  "VIEWS": "Views",
-  "CREATED_AT": "Created At",
-  "BY_VIEWS": "Views",
-  "BY_LIKES": "Likes",
-  "BY_NEWEST": "Newest",
-  "BY_PRICE": "Price",
-  "ADD_TO_LIKES": "Add to Likes",
-
-  "START_CHAT": "Start Chat",
-  "CHAT_LIST": "Chat List",
-  "JOIN_BID": "Join Bid",
-
-  "CHAT_ROOM": "Chat Room",
-  "CHAT": "Type your message",
-  "SEND_CHAT": "Send",
-
-  "VIEW_DETAILS": "View Details",
-  "WON": "KRW",
 
   "OPEN_ENG": "Open",
   "OPEN_UPPER_ENG": "Open",
@@ -118,61 +23,28 @@
   "CLOSE_ENG": "Close",
   "CLOSE_UPPER_ENG": "CLOSE",
 
-  "PREV": "PREV",
-  "NEXT": "NEXT",
+  "WON": "KRW",
+  "SUBMIT": "Submit",
+  "SAVE": "Save",
+  "EDIT": "Edit",
+  "DELETE": "Delete",
+  "ONGOING_UPPER_ENG": "ONGOING",
+  "VIEW_NOW_ENG": "View Now",
+  "SHOW_MORE": "Show More",
+
+  "ADD_TO_LIKES": "Add to Likes",
+  "VIEW_DETAILS": "View Details",
+
+  "IMAGE": "Image",
+  "POST_IMAGE": "Post Image",
 
   "SELECT": "Select",
   "DISTRICT": "District",
   "TITLE": "Title",
   "ENTER_TITLE": "Enter Title",
 
-  "BID_AUCTION": "Bid Auction",
-  "BID_ITEM": "Bid Item",
-  "END_DATE": "End Date",
-  "PLACE_BID": "Place Bid",
-
-  "AUCTION_PERIOD": "Auction Period",
-  "AUCTION_WON": "You have won the auction!",
-
-  "ONGOING_AUCTIONS": "Ongoing",
-  "ONGOING_SELLING": "Ongoing",
-  "DONE_AUCTIONS": "Completed",
-  "DONE_SELLING": "Sold",
-  "DONE_BUYING": "Bought",
-  "RESERVED": "Reserved",
-  "WON_BIDS": "Won Bids",
-
-  "IMAGE": "Image",
-  "POST_IMAGE": "Post Image",
-
-  "ITEM_STATUS": "Product Status",
-  "BEST": "Best",
-  "GOOD": "Good",
-  "NORMAL": "Normal",
-  "WORST": "Worst",
-
-  "PRICE": "Price",
-  "SHARING": "Sharing",
-  "ENTER_PRICE": "Enter Price(Enter 0 for sharing)",
-  "MINIMUM_BID": "Minimum Bid",
-  "ENTER_MINIMUM_BID": "Enter Minimum Bid",
-  "CURRENT_PRICE": "Current Price",
-  "BID_AMOUNT": "Bid Amount",
-
   "CONTENT": "Content",
   "ENTER_CONTENT": "Enter Content",
   "POST_ITEM": "Post Item",
-  "EDIT_ITEM": "Edit Item",
-  "EDIT": "Edit",
-  "DELETE": "Delete",
-
-  "PAY": "Pay",
-  "AUCTION_PAYMENT": "Auction Payment",
-  "PAYMENT_PRODUCT_INFO": "Product Info",
-  "PAY_WITHIN_A_WEEK": "Please pay within a week.",
-  "PAY_NOW": " Pay Now",
-
-  "ONGOING_UPPER_ENG": "ONGOING",
-  "VIEW_NOW_ENG": "View Now",
-  "SHOW_MORE": "더 보기"
+  "EDIT_ITEM": "Edit Item"
 }

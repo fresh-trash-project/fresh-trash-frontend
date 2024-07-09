@@ -1,0 +1,25 @@
+{
+  "PROFILE": "프로필",
+  "PROFILE_IMAGE": "프로필 이미지",
+  "EDIT_PROFILE": "프로필 수정",
+  "COMPLETE_PROFILE": "프로필 수정 완료",
+
+  "EMAIL": "이메일",
+
+  "PASSWORD": "비밀번호",
+  "CURRENT_PASSWORD": "현재 비밀번호",
+  "NEW_PASSWORD": "새 비밀번호",
+  "CONFIRM_PASSWORD": "새 비밀번호 확인",
+
+  "USER_NAME": "사용자 이름",
+  "NICKNAME": "닉네임",
+  "DUPLICATION_CHECK": "중복확인",
+
+  "ADDRESS": "주소",
+  "SEARCH_ADDRESS": "주소검색",
+  "ADDRESS_DETAIL": "상세주소",
+  "ENTER_ADDRESS_LOCATION": "주소/위치를 입력하세요.",
+
+  "MY_RATING": "나의 평점",
+  "LEAVE_RATING": "평점을 남겨주세요"
+}

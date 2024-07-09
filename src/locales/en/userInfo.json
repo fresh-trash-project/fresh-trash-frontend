@@ -1,0 +1,25 @@
+{
+  "PROFILE": "Profile",
+  "PROFILE_IMAGE": "Profile Image",
+  "EDIT_PROFILE": "Edit Profile",
+  "COMPLETE_PROFILE": "Complete Editing Profile",
+
+  "EMAIL": "Email",
+
+  "PASSWORD": "Password",
+  "CURRENT_PASSWORD": "Current Password",
+  "NEW_PASSWORD": "New Password",
+  "CONFIRM_PASSWORD": "Confirm Password",
+
+  "USER_NAME": "User Name",
+  "NICKNAME": "User",
+  "DUPLICATION_CHECK": "CHECK",
+
+  "ADDRESS": "Address",
+  "SEARCH_ADDRESS": "Search",
+  "ADDRESS_DETAIL": "Detail",
+  "ENTER_ADDRESS_LOCATION": "Enter Address & Location",
+
+  "MY_RATING": "My Rating",
+  "LEAVE_RATING": "Leave a Rating"
+}
