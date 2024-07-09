@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { globalNotisAPI } from '../../variable';
-import { EventSource } from 'event-source-polyfill';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 import { signInState } from '../recoil/RecoilSignIn';
 import { useEffect } from 'react';
 
@@ -12,8 +12,7 @@ export const useSSE = () => {
   useEffect(() => {
     if (signIn) {
       const accessToken = localStorage.getItem('accessToken');
-      if (!accessToken) return;
-      if (EventSource) return;
+      if (!accessToken || eventSource) return;
 
       const headers = { Authorization: `Bearer ${accessToken}` };
 
