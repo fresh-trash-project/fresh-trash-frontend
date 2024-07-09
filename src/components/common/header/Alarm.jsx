@@ -8,6 +8,7 @@ import RatingModal from '../modal/RatingModal';
 import { sendProductReview } from '../../../api/ReviewAPI';
 import { toast } from 'react-toastify';
 import { MESSAGES, CONSOLE } from '../../../../Constants';
+import { useTranslation } from 'react-i18next';
 
 const Alarm = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
@@ -16,6 +17,7 @@ const Alarm = () => {
   const [showRatingModal, setShowRatingModal] = useState(false); // 평점 모달 상태 추가
   const [currentItem, setCurrentItem] = useState(null); // 현재 클릭된 알람 메시지 저장
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleTabClick = tab => {
     setActiveTab(tab);
@@ -96,20 +98,20 @@ const Alarm = () => {
             onClick={() => handleTabClick('new')}
             className={`px-4 py-2 rounded ${activeTab === 'new' ? 'bg-green-current text-white' : 'bg-gray-200'} hover:bg-green-current hover:text-white`}
           >
-            새 알람
+            {t('NEW_NOTIFICATION')}
           </button>
           <button
             onClick={() => handleTabClick('read')}
             className={`px-4 py-2 rounded ${activeTab === 'read' ? 'bg-green-current text-white' : 'bg-gray-200'} hover:bg-green-current hover:text-white`}
           >
-            읽은 알람
+            {t('READ_NOTIFICATION')}
           </button>
         </div>
         <div
           onClick={() => setAlarmOpen(false)}
           className="cursor-pointer hover:text-green-current"
         >
-          CLOSE
+          {t('CLOSE_UPPER_ENG')}
           {/* <IoMdClose className="text-xl" /> */}
         </div>
       </div>

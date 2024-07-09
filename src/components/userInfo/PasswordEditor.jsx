@@ -1,7 +1,9 @@
 import { VscEye } from 'react-icons/vsc';
 import usePasswordLogic from '../../hooks/entry/usePasswordLogic';
+import { useTranslation } from 'react-i18next';
 
 const PasswordEditor = ({ isEditing, navigate }) => {
+  const { t } = useTranslation();
   const {
     currentPassword,
     setCurrentPassword,
@@ -28,7 +30,7 @@ const PasswordEditor = ({ isEditing, navigate }) => {
         <label className="input input-bordered mb-2 w-2/3 flex">
           <input
             type={showCurrentPassword ? 'text' : 'password'}
-            placeholder="현재 비밀번호"
+            placeholder={t('CURRENT_PASSWORD')}
             className="w-full border-none focus:ring-0"
             disabled={!isEditing}
             value={currentPassword}
@@ -45,7 +47,7 @@ const PasswordEditor = ({ isEditing, navigate }) => {
         <label className="input input-bordered mb-2 w-2/3 flex">
           <input
             type={showNewPassword ? 'text' : 'password'}
-            placeholder="새 비밀번호"
+            placeholder={t('NEW_PASSWORD')}
             className="w-full border-none focus:ring-0"
             disabled={!isEditing}
             value={newPassword}
@@ -62,7 +64,7 @@ const PasswordEditor = ({ isEditing, navigate }) => {
         <label className="input input-bordered mb-2 w-2/3 flex">
           <input
             type={showConfirmPassword ? 'text' : 'password'}
-            placeholder="새 비밀번호 확인"
+            placeholder={t('CONFIRM_PASSWORD')}
             className="w-full border-none focus:ring-0"
             disabled={!isEditing}
             value={confirmPassword}
@@ -84,7 +86,7 @@ const PasswordEditor = ({ isEditing, navigate }) => {
             !validatePassword(newPassword)
           }
         >
-          저장
+          {t('SAVE')}
         </button>
       </div>
     </div>

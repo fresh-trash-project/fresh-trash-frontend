@@ -9,7 +9,9 @@ import ListNav from '../common/header/ListNav';
 import Label from '../common/label/Label';
 import { toast } from 'react-toastify';
 import { CONSOLE } from '../../../Constants';
+import { useTranslation } from 'react-i18next';
 const List = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   //회원만 등록페이지 접근-------------------------------
   const [signIn, setSignIn] = useRecoilState(signInState);
@@ -125,7 +127,7 @@ const List = () => {
         handleSearch={handleSearch}
         product={posts}
       />
-      <Label breadcrumbItems={['홈', '애물단지 거래/나눔']}>
+      <Label breadcrumbItems={[t('HOME'), t('PRODUCT_LIST')]}>
         <div className="flex ">
           <button
             className={`tab ${
@@ -135,7 +137,7 @@ const List = () => {
             }`}
             onClick={handleSortByViews}
           >
-            조회순
+            {t('BY_VIEWS')}
           </button>
           <button
             className={`tab ${
@@ -145,7 +147,7 @@ const List = () => {
             }`}
             onClick={handleSortByLikes}
           >
-            관심순
+            {t('BY_LIKES')}
           </button>
           <button
             className={`tab  ${
@@ -155,7 +157,7 @@ const List = () => {
             }`}
             onClick={handleSortByCreated}
           >
-            최신순
+            {t('BY_NEWEST')}
           </button>
         </div>
       </Label>

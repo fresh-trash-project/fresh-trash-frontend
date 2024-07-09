@@ -6,9 +6,12 @@ import { globalFileAPI } from '../../../variable';
 import { GoAlert } from 'react-icons/go';
 import { AuctionPay } from '../../api/AuctionAPI';
 import { CONSOLE } from '../../../Constants';
+import { useTranslation } from 'react-i18next';
+import Label from '../common/label/Label';
 const PayContent = () => {
   const [auctionDetails, setAuctionDetails] = useState(null);
   const { auctionId } = useParams();
+  const { t } = useTranslation();
   useEffect(() => {
     // const IMP = window.IMP; // 생략 가능
     // IMP.init('imp37862406'); // 예: imp00000000a
@@ -55,18 +58,26 @@ const PayContent = () => {
   };
   return (
     <div className="container">
-      <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
+      <Label breadcrumbItems={[t('HOME'), t('AUCTION_PAYMENT')]}>
+        <div
+          role="tab"
+          className="tab border-2 scale-110 font-bold bg-green-brunswick text-white"
+        >
+          {t('PAYMENT_PRODUCT_INFO')}
+        </div>
+      </Label>
+      {/* <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
         <ul>
-          <li>홈</li>
-          <li>애물단지 경매 결제</li>
+          <li>{t('HOME')}</li>
+          <li>{t('AUCTION_PAYMENT')}</li>
         </ul>
       </div>
       <div className="flex justify-center items-center text-xl font-semibold bg-gray-100 w-40 h-12 rounded-t-md p-2">
         <p>결제 상품 정보</p>
       </div>
-      <hr className="mb-8 md: border-2 border-gray-100 dark:border-gray-800" />
+      <hr className="mb-8 md: border-2 border-gray-100 dark:border-gray-800" /> */}
       {/* <p className="text-xl font-semibold my-6">결제 상품 정보</p> */}
-      <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
+      <div className="mt-20 lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
         {' '}
         <div className="shrink-0 max-w-md mx-auto">
           <img
@@ -83,7 +94,7 @@ const PayContent = () => {
           </div>
           <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
             <div className=" flex items-center text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-              {auctionDetails && auctionDetails.finalBid}원
+              {auctionDetails && auctionDetails.finalBid} {t('WON')}
             </div>
           </div>
           <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
@@ -94,7 +105,7 @@ const PayContent = () => {
           <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
             <div className=" flex items-center text-2xl text-red-600 sm:text-xl dark:text-white">
               <GoAlert color="red" />
-              일주일 이내로 결제하세요.
+              {t('PAY_WITHIN_A_WEEK')}
             </div>
           </div>
         </div>
@@ -103,15 +114,17 @@ const PayContent = () => {
 
       <div className=" mt-4 pt-12 lg:pb-8 xl:px-40 xl:container  2xl:px-60">
         <div className="flex flex-col items-center justify-center pt-2 h-96 text-3xl border-4 border-gray-100 lg:pt-4  lg: px-4 sm:px-4 xl:px-2  xl:container mx-auto">
-          <p className="mb-4">낙찰되었습니다.</p>
+          <p className="mb-4">{t('AUCTION_WON')}</p>
           <p className="mb-4">
-            {auctionDetails && auctionDetails.finalBid}원을 입금하세요.
+            {auctionDetails && auctionDetails.finalBid}
+            {t('WON')}
+            {t('PAY_NOW')}
           </p>
           <button
             className=" py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-brunswick rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100"
             onClick={requestPay}
           >
-            결제하기
+            {t('PAY')}
           </button>
         </div>
       </div>

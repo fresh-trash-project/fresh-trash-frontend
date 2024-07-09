@@ -1,5 +1,7 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 function PaginationButton({ setPage, page, totalPages }) {
+  const { t } = useTranslation();
   const pagesPerGroup = 4;
   const currentGroup = Math.floor(page / pagesPerGroup);
   const getPageNumbers = () =>
@@ -33,7 +35,7 @@ function PaginationButton({ setPage, page, totalPages }) {
         disabled={page === 0}
         className="join-item btn mr-4"
       >
-        이전
+        {t('PREV')}
       </button>
       {getPageNumbers().map(pageNumber => (
         <button
@@ -50,7 +52,7 @@ function PaginationButton({ setPage, page, totalPages }) {
         disabled={page === totalPages - 1}
         className="join-item btn "
       >
-        다음
+        {t('NEXT')}
       </button>
     </div>
   );

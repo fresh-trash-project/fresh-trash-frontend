@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const DateCounter = ({ startDate, endDate }) => {
+  const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState(
     calculateTimeLeft(startDate, endDate),
   );
@@ -21,7 +23,7 @@ const DateCounter = ({ startDate, endDate }) => {
 
     if (now < start) {
       timeLeft = {
-        message: `OPEN ${startDate}`,
+        message: `${t('OPEN_UPPER_ENG')} ${startDate}`,
       };
     } else if (now < end) {
       const difference = end - now;
@@ -33,7 +35,7 @@ const DateCounter = ({ startDate, endDate }) => {
       };
     } else {
       timeLeft = {
-        message: 'CLOSE',
+        message: t('CLOSE_UPPER_ENG'),
       };
     }
 
@@ -46,8 +48,13 @@ const DateCounter = ({ startDate, endDate }) => {
         <div className="text-gray-400 font-semibold">{timeLeft.message}</div>
       ) : (
         <div className="text-gray-400 font-semibold">
-          {timeLeft.days}일 {timeLeft.hours}시간 {timeLeft.minutes}분{' '}
-          {timeLeft.seconds}초
+          {timeLeft.days}
+          {t('DAYS')} {timeLeft.hours}
+          {t('HOURS')} {timeLeft.minutes}
+          {t('MINUTES')} {timeLeft.seconds}
+          {t('SECONDS')}
+          {/* {timeLeft.days}일 {timeLeft.hours}시간 {timeLeft.minutes}분{' '}
+          {timeLeft.seconds}초 */}
         </div>
       )}
     </div>

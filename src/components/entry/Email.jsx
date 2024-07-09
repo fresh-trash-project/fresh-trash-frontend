@@ -1,5 +1,6 @@
 import EntryInput from '../common/input/EntryInput';
 import InputButton from '../common/button/InputButton';
+import { useTranslation } from 'react-i18next';
 
 const Email = ({
   showVerificationButton = false,
@@ -12,6 +13,7 @@ const Email = ({
   handleSendCode = null,
   handleVerifyCode = null,
 }) => {
+  const { t } = useTranslation();
   const emailIconPaths = [
     {
       d: 'M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z',
@@ -36,7 +38,7 @@ const Email = ({
               onClick={handleSendCode}
               disabled={!email}
             >
-              인증
+              {t('VERIFY')}
             </InputButton>
           )
         }
@@ -45,7 +47,7 @@ const Email = ({
       {email && codeSent && confirmed === false && (
         <EntryInput
           type="text"
-          placeholder="인증 코드"
+          placeholder={t('VERIFICATION_CODE')}
           value={code}
           onChange={e => {
             setCode(e.target.value);
@@ -56,7 +58,7 @@ const Email = ({
               onClick={handleVerifyCode}
               disabled={!code}
             >
-              확인
+              {t('CONFIRM')}
             </InputButton>
           }
         />

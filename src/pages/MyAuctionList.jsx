@@ -10,6 +10,7 @@ import { PaginationButton } from 'flowbite-react';
 import TradeTabs from '../components/common/button/TradeTab';
 import Label from '../components/common/label/Label';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const MyAuctionList = () => {
   const [mySellListOpen, setMySellListOpen] = useState(true);
@@ -22,6 +23,7 @@ const MyAuctionList = () => {
   const [totalOngoing, setTotalOngoing] = useState(0);
   const [totalClose, setTotalClose] = useState(0);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     handleDoneAuction();
@@ -82,7 +84,9 @@ const MyAuctionList = () => {
       />
 
       {/* 라벨------------------------------------------------------------------------ */}
-      <Label breadcrumbItems={['홈', '마이페이지', '나의 경매내역']}>
+      <Label
+        breadcrumbItems={[t('HOME'), t('MY_PAGE'), t('MY_AUCTION_HISTORY')]}
+      >
         <div>
           {mySellListOpen && (
             <div>
@@ -91,14 +95,14 @@ const MyAuctionList = () => {
                 onClick={handleOnAuction}
                 className={`tab ${onSale && 'border-2 scale-110 font-bold bg-green-brunswick text-white'}`}
               >
-                경매중 ({totalOngoing})
+                {t('ONGOING_AUCTIONS')} ({totalOngoing})
               </div>
               <div
                 role="tab"
                 onClick={handleDoneAuction}
                 className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-green-brunswick text-white'}`}
               >
-                경매완료 ({totalClose})
+                {t('DONE_AUCTIONS')} ({totalClose})
               </div>
             </div>
           )}
@@ -107,7 +111,7 @@ const MyAuctionList = () => {
               role="tab"
               className="tab border-2 scale-110 font-bold bg-green-brunswick text-white"
             >
-              낙찰 ({totalBuy})
+              {t('WON_BIDS')} ({totalBuy})
             </div>
           )}
         </div>
@@ -125,7 +129,7 @@ const MyAuctionList = () => {
           disabled={page === 0}
           className="join-item btn mr-4"
         >
-          이전
+          {t('PREV')}
         </PaginationButton>
 
         <PaginationButton
@@ -133,7 +137,7 @@ const MyAuctionList = () => {
           disabled={page === totalPage - 1}
           className="join-item btn ml-4"
         >
-          다음
+          {t('NEXT')}
         </PaginationButton>
       </div>
     </div>

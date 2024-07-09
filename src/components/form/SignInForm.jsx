@@ -8,6 +8,7 @@ import EntryButton from '../common/button/EntryButton';
 import SNSLogIn from '../entry/SNSLogIn';
 import { toast } from 'react-toastify';
 import { MESSAGES } from '../../../Constants';
+import { useTranslation } from 'react-i18next';
 
 const SignInForm = ({
   email,
@@ -21,6 +22,7 @@ const SignInForm = ({
 }) => {
   const [signIn, setSignIn] = useRecoilState(signInState);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleSignIn = async e => {
     e.preventDefault();
@@ -45,7 +47,9 @@ const SignInForm = ({
       className="flex flex-col items-center py-16 px-12 text-center md:justify-center md:h-full md:py-0"
       onSubmit={handleSignIn}
     >
-      <h1 className="font-bold m-0 text-[1.5rem] mb-5">SIGN IN</h1>
+      <h1 className="font-bold m-0 text-[1.5rem] mb-5">
+        {t('SIGN_IN_UPPER_ENG')}
+      </h1>
       <Email email={email} handleEmailChange={handleEmailChange} />
       <Password
         password={password}
@@ -55,12 +59,12 @@ const SignInForm = ({
       />
 
       <div className="text-slate-400 mt-4 mb-4 no-underline text-xs w-[23rem] flex justify-end">
-        Forgot your password?
+        {t('FORGOT_PASSWORD_ENG')}
         <button
           className="ml-1 cursor-pointer hover:text-green-brunswick hover:font-bold"
           onClick={handlePasswordReset}
         >
-          CLICK
+          {t('CLICK_UPPER_ENG')}
         </button>
       </div>
       <SNSLogIn />
@@ -68,7 +72,7 @@ const SignInForm = ({
         type="submit"
         disabled={email.length === 0 || password.length === 0}
       >
-        로그인
+        {t('LOGIN_UPPER_ENG')}
       </EntryButton>
     </form>
   );

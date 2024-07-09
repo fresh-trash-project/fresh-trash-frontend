@@ -11,6 +11,7 @@ import usePasswordLogic from '../../hooks/entry/usePasswordLogic';
 import { toast } from 'react-toastify';
 import { MESSAGES } from '../../../Constants';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const SignUpForm = ({
   email,
@@ -34,6 +35,7 @@ const SignUpForm = ({
   const [userName, setUserName] = useRecoilState(userNameState);
   const { isDuplicate, handleUserNameChange, handleDuplicationCheck } =
     useUserNameLogic();
+  const { t } = useTranslation();
 
   const handleSignUp = async e => {
     e.preventDefault();
@@ -53,7 +55,9 @@ const SignUpForm = ({
       className="flex flex-col items-center py-16 px-12 text-center md:justify-center md:h-full md:py-0"
       onSubmit={handleSignUp}
     >
-      <h1 className="font-bold m-0 text-[1.5rem] mb-5">CREATE ACCOUNT</h1>
+      <h1 className="font-bold m-0 text-[1.5rem] mb-5">
+        {t('CREATE_ACCOUNT_UPPER_ENG')}
+      </h1>
       <Email
         showVerificationButton={true}
         email={email}
@@ -86,7 +90,7 @@ const SignUpForm = ({
           isDuplicate
         }
       >
-        회원 가입
+        {t('SIGN_UP_UPPER_ENG')}
       </EntryButton>
     </form>
   );

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IoFootsteps } from 'react-icons/io5';
 
 const Rating = ({ averageRating }) => {
   const [greenBarWidth, setGreenBarWidth] = useState();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const updateGreenBarWidth = () => {
@@ -26,7 +28,7 @@ const Rating = ({ averageRating }) => {
     <div className="rating flex flex-col mt-14">
       <div className="flex justify-between mb-2">
         <div className="my-rating rounded-lg p-2 bg-green-paleaqua ">
-          나의 평점
+          {t('MY_RATING')}
         </div>
         <div className="rating-value rounded-lg p-2 bg-green-paleaqua ">
           {averageRating + ' / 5'}

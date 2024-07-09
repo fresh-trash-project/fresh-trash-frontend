@@ -2,8 +2,10 @@ import { userNameState } from '../../recoil/RecoilUserName';
 import EntryInput from '../common/input/EntryInput';
 import InputButton from '../common/button/InputButton';
 import { useRecoilState } from 'recoil';
+import { useTranslation } from 'react-i18next';
 
 const UserName = ({ handleUserNameChange, handleDuplicationCheck }) => {
+  const { t } = useTranslation();
   const [userName, setUserName] = useRecoilState(userNameState);
   const userNameIconPaths = [
     {
@@ -15,7 +17,7 @@ const UserName = ({ handleUserNameChange, handleDuplicationCheck }) => {
       <EntryInput
         iconPaths={userNameIconPaths}
         type="text"
-        placeholder="User Name"
+        placeholder={t('USER_NAME')}
         value={userName}
         onChange={handleUserNameChange}
         extraButton={
@@ -24,7 +26,7 @@ const UserName = ({ handleUserNameChange, handleDuplicationCheck }) => {
             onClick={handleDuplicationCheck}
             disabled={!userName}
           >
-            중복확인
+            {t('DUPLICATION_CHECK')}
           </InputButton>
         }
       />

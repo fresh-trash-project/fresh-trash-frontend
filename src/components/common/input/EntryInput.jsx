@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import Icon from '../service/Icon';
 
 const EntryInput = ({
@@ -7,20 +8,24 @@ const EntryInput = ({
   value,
   onChange,
   extraButton = null,
-}) => (
-  <label
-    className={`input input-bordered flex items-center gap-2 mt-2 mb-2 w-[23rem] ${placeholder === '인증 코드' ? 'w-[20rem]' : 'w-[23rem]'}`}
-  >
-    {iconPaths.length > 0 && <Icon iconPaths={iconPaths} />}
-    <input
-      type={type}
-      className="grow border-0 focus:ring-0"
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-    />
-    {extraButton}
-  </label>
-);
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <label
+      className={`input input-bordered flex items-center gap-2 mt-2 mb-2 w-[23rem] ${placeholder === t('VERIFICATION_CODE') ? 'w-[20rem]' : 'w-[23rem]'}`}
+    >
+      {iconPaths.length > 0 && <Icon iconPaths={iconPaths} />}
+      <input
+        type={type}
+        className="grow border-0 focus:ring-0"
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+      />
+      {extraButton}
+    </label>
+  );
+};
 
 export default EntryInput;

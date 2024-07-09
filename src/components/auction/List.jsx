@@ -8,7 +8,9 @@ import PaginationButton from '../common/pagination/PaginationButton';
 import Label from '../common/label/Label';
 
 import ListNav from '../common/header/ListNav';
+import { useTranslation } from 'react-i18next';
 const List = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   //회원만 등록페이지 접근-------------------------------
   const [signIn, setSignIn] = useRecoilState(signInState);
@@ -121,7 +123,7 @@ const List = () => {
         auction={posts}
       />
 
-      <Label breadcrumbItems={['홈', '애물단지 경매']}>
+      <Label breadcrumbItems={[t('HOME'), t('AUCTION_LIST')]}>
         <div className="flex ">
           <button
             className={`tab ${
@@ -131,7 +133,7 @@ const List = () => {
             }`}
             onClick={handleSortByViews}
           >
-            조회순
+            {t('BY_VIEWS')}
           </button>
           <button
             className={`tab ${
@@ -141,7 +143,7 @@ const List = () => {
             }`}
             onClick={handleSortByFinalBid}
           >
-            가격순
+            {t('BY_PRICE')}
           </button>
           <button
             className={`tab  ${
@@ -151,7 +153,7 @@ const List = () => {
             }`}
             onClick={handleSortByCreated}
           >
-            최신순
+            {t('BY_NEWEST')}
           </button>
         </div>
       </Label>

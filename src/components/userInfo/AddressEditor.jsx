@@ -1,9 +1,12 @@
+import { useTranslation } from 'react-i18next';
+
 const AddressEditor = ({
   address,
   setAddress,
   isEditing,
   handleSearchAddress,
 }) => {
+  const { t } = useTranslation();
   const handleAddressChange = e => {
     const { name, value } = e.target;
     setAddress(prevAddress => ({
@@ -18,7 +21,7 @@ const AddressEditor = ({
         <input
           type="text"
           name="search"
-          placeholder="주소검색"
+          placeholder={t('SEARCH_ADDRESS')}
           className="input input-bordered w-full"
           disabled={!isEditing}
           value={`${address.zipcode} ${address.state} ${address.city} ${address.district}`}
@@ -26,14 +29,14 @@ const AddressEditor = ({
         />
         {isEditing && (
           <button onClick={handleSearchAddress} className="btn btn-sm ml-2">
-            주소검색
+            {t('SEARCH_ADDRESS')}
           </button>
         )}
       </div>
       <input
         type="text"
         name="detail"
-        placeholder="상세주소"
+        placeholder={t('ADDRESS_DETAIL')}
         className="input input-bordered w-full"
         disabled={!isEditing}
         value={address.detail}

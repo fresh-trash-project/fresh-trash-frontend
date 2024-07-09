@@ -16,7 +16,9 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
 import { CONSOLE } from '../../../Constants';
+import { useTranslation } from 'react-i18next';
 const InputField = () => {
+  const { t } = useTranslation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { chatId, productId } = useParams();
   const navigate = useNavigate();
@@ -185,7 +187,7 @@ const InputField = () => {
             {messageContent &&
               messageContent.chatRoom &&
               messageContent.chatRoom.productTitle}
-            ' 애물단지 채팅방
+            ' {t('CHAT_ROOM')}
           </p>
 
           <div className="flex">
@@ -228,7 +230,7 @@ const InputField = () => {
                               )
                             }
                           >
-                            <p>판매완료</p>
+                            <p>{t('DONE_SELLING')}</p>
                           </li>
                         )}
                       {messageContent.chatRoom &&
@@ -241,7 +243,7 @@ const InputField = () => {
                             )
                           }
                         >
-                          <p> 예약중</p>
+                          <p>{t('RESERVED')}</p>
                         </li>
                       ) : (
                         <li
@@ -252,7 +254,7 @@ const InputField = () => {
                             )
                           }
                         >
-                          <p> 판매중으로 변경</p>
+                          <p> {t('ONGOING_SELLING')}</p>
                         </li>
                       )}
                     </ul>
@@ -262,7 +264,7 @@ const InputField = () => {
                       className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                     >
                       <li>
-                        <p>판매완료된 상품입니다.</p>
+                        <p>{t('DONE_SELLING')}</p>
                       </li>
                     </ul>
                   )}
@@ -287,7 +289,7 @@ const InputField = () => {
           <input
             value={inputMessage}
             onChange={e => setInputMessage(e.target.value)}
-            placeholder="채팅을 입력하세요"
+            placeholder={t('CHAT')}
             className="flex-1 border rounded-full px-4 py-2 focus:outline-none"
           />
           <button
@@ -301,7 +303,7 @@ const InputField = () => {
             }
             className="bg-gray-300 text-white rounded-full p-2 ml-2 focus:outline-none"
           >
-            전송
+            {t('SEND_CHAT')}
           </button>
         </div>
       </div>

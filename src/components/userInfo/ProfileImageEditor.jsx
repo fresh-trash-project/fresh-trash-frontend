@@ -3,6 +3,7 @@ import { FaCamera, FaTimes } from 'react-icons/fa';
 import { changeUserInfo } from '../../api/UserInfoAPI';
 import { globalFileAPI } from '../../../variable';
 import urlJoin from 'url-join';
+import { useTranslation } from 'react-i18next';
 
 const ProfileImageEditor = ({
   image,
@@ -13,6 +14,8 @@ const ProfileImageEditor = ({
   address,
   isEditing,
 }) => {
+  const { t } = useTranslation();
+
   const handleImageChange = async e => {
     const file = e.target.files[0];
     if (file) {
@@ -23,7 +26,6 @@ const ProfileImageEditor = ({
     } else {
       setImage(logoImg);
     }
-    console.log('이미지파일 객체:', imgFile);
   };
 
   //이미지 파일 경로-----------------------------getImgUrl 함수를 통해 서버로부터 반환된 파일 이름을 URL로 변환
@@ -42,16 +44,10 @@ const ProfileImageEditor = ({
   };
 
   const handleDeleteImage = async () => {
-    try {
-      const response = await changeUserInfo(userName, address, null);
-      if (response) {
-        setImage(logoImg); // 로고 이미지로 재설정
-        setImgFile(null); // 파일 객체 제거
-      } else {
-        console.error('Failed to delete image:', response);
-      }
-    } catch (error) {
-      console.error('Error deleting image:', error);
+    const response = await changeUserInfo(userName, address, null);
+    if (response) {
+      setImage(logoImg); // 로고 이미지로 재설정
+      setImgFile(null); // 파일 객체 제거
     }
   };
 
@@ -59,7 +55,7 @@ const ProfileImageEditor = ({
     <div className="w-72 mx-auto md:mx-10 border rounded-full relative">
       <img
         src={imgFile ? URL.createObjectURL(imgFile) : getImgUrl(image)}
-        alt="프로필 이미지"
+        alt={t('PROFILE_IMAGE')}
         className={'w-full h-full object-cover'}
         onError={e => {
           console.error(e.target.src);

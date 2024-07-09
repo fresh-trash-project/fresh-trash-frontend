@@ -15,7 +15,10 @@ import urlJoin from 'url-join';
 import { toast } from 'react-toastify';
 import { MESSAGES } from '../../../Constants';
 import { CONSOLE } from '../../../Constants';
+import Label from '../common/label/Label';
+import { useTranslation } from 'react-i18next';
 const DetailProduct = () => {
+  const { t } = useTranslation();
   const { productId } = useParams(); // URL 파라미터에서 productId 가져오기
   console.log('아이디' + productId);
   const { chatId } = useParams();
@@ -82,13 +85,19 @@ const DetailProduct = () => {
   return (
     <div>
       <div className="container">
-        <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
+        <Label
+          breadcrumbItems={[
+            t('CATEGORY'),
+            `${postDetails && postDetails.productCategory}`,
+          ]}
+        />
+        {/* <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
           <ul>
             <li>카테고리</li>
             <li>{postDetails && postDetails.productCategory}</li>
           </ul>
-        </div>
-        <div className="flex flex-row-reverse mt-12">
+        </div> */}
+        <div className="flex flex-row-reverse mt-20">
           <div className="mr-28 dropdown dropdown-end">
             {currentUser &&
               postDetails &&
@@ -103,7 +112,7 @@ const DetailProduct = () => {
                   >
                     <li>
                       <Link to={`/ProductEdit/${postDetails.id}`}>
-                        <p>수정하기</p>
+                        <p>{t('EDIT')}</p>
                       </Link>
                     </li>
                     <li>
@@ -112,7 +121,7 @@ const DetailProduct = () => {
                           handleDelete(postDetails && postDetails.id)
                         }
                       >
-                        삭제하기
+                        {t('DELETE')}
                       </p>
                     </li>
                   </ul>
