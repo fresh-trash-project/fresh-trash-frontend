@@ -10,13 +10,13 @@ const LanguageSwitcher = () => {
   return (
     <div className="flex -space-x-3 md:-space-x-1 lg:space-x-1">
       <button
-        className="btn btn-ghost btn-circle text-xs md:text-[1rem] lg:text-lg justify-end"
+        className="btn btn-ghost btn-circle text-xs md:text-[1rem] lg:text-lg justify-end text-green-brunswick"
         onClick={() => changeLanguage('en')}
       >
         ENG
       </button>
       <button
-        className="btn btn-ghost btn-circle text-xs md:text-[1rem] lg:text-lg justify-end"
+        className="btn btn-ghost btn-circle text-xs md:text-[1rem] lg:text-lg justify-end text-green-brunswick"
         onClick={() => changeLanguage('ko')}
       >
         KOR

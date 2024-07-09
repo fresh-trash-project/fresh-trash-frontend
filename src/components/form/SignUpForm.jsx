@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { MESSAGES } from '../../../Constants';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../common/button/LanguageSwitcher';
 
 const SignUpForm = ({
   email,
@@ -51,48 +52,53 @@ const SignUpForm = ({
   };
 
   return (
-    <form
-      className="flex flex-col items-center py-16 px-12 text-center md:justify-center md:h-full md:py-0"
-      onSubmit={handleSignUp}
-    >
-      <h1 className="font-bold m-0 text-[1.5rem] mb-5">
-        {t('CREATE_ACCOUNT_UPPER_ENG')}
-      </h1>
-      <Email
-        showVerificationButton={true}
-        email={email}
-        code={code}
-        setCode={setCode}
-        codeSent={codeSent}
-        confirmed={confirmed}
-        handleEmailChange={handleEmailChange}
-        handleSendCode={handleSendCode}
-        handleVerifyCode={handleVerifyCode}
-      />
-      <Password
-        password={password}
-        showCurrentPassword={showCurrentPassword}
-        handlePassword={handlePassword}
-        handlePasswordVisibility={handlePasswordVisibility}
-      />
-
-      <UserName
-        handleUserNameChange={handleUserNameChange}
-        handleDuplicationCheck={handleDuplicationCheck}
-      />
-      <EntryButton
-        type="submit"
-        disabled={
-          !confirmed ||
-          password.length === 0 ||
-          validatePassword(password) === false ||
-          userName.length === 0 ||
-          isDuplicate
-        }
+    <div>
+      <div className="md:mb-12">
+        <LanguageSwitcher />
+      </div>
+      <form
+        className="flex flex-col items-center py-12 px-12 text-center md:justify-center md:h-full md:py-0"
+        onSubmit={handleSignUp}
       >
-        {t('SIGN_UP_UPPER_ENG')}
-      </EntryButton>
-    </form>
+        <h1 className="font-bold m-0 text-[1.5rem] mb-5">
+          {t('CREATE_ACCOUNT_UPPER_ENG')}
+        </h1>
+        <Email
+          showVerificationButton={true}
+          email={email}
+          code={code}
+          setCode={setCode}
+          codeSent={codeSent}
+          confirmed={confirmed}
+          handleEmailChange={handleEmailChange}
+          handleSendCode={handleSendCode}
+          handleVerifyCode={handleVerifyCode}
+        />
+        <Password
+          password={password}
+          showCurrentPassword={showCurrentPassword}
+          handlePassword={handlePassword}
+          handlePasswordVisibility={handlePasswordVisibility}
+        />
+
+        <UserName
+          handleUserNameChange={handleUserNameChange}
+          handleDuplicationCheck={handleDuplicationCheck}
+        />
+        <EntryButton
+          type="submit"
+          disabled={
+            !confirmed ||
+            password.length === 0 ||
+            validatePassword(password) === false ||
+            userName.length === 0 ||
+            isDuplicate
+          }
+        >
+          {t('SIGN_UP_UPPER_ENG')}
+        </EntryButton>
+      </form>
+    </div>
   );
 };
 

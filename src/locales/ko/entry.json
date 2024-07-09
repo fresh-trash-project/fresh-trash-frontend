@@ -1,13 +1,13 @@
 {
   "SIGN_UP": "회원가입",
-  "SIGN_UP_UPPER_ENG": "SIGN UP",
+  "SIGN_UP_UPPER_ENG": "회원가입",
   "CREATE_ACCOUNT_UPPER_ENG": "CREATE ACCOUNT",
   "VERIFY": "인증",
-  "VERIFICATION_CODE": "인증 코드",
+  "VERIFICATION_CODE": "인증코드",
   "CONFIRM": "확인",
 
   "LOGIN": "로그인",
-  "LOGIN_UPPER_ENG": "LOGIN",
+  "LOGIN_UPPER_ENG": "로그인",
   "SIGN_IN_UPPER_ENG": "SIGN IN",
   "LOGOUT": "로그아웃",
   "FORGOT_PASSWORD_ENG": "Forgot your password?",
