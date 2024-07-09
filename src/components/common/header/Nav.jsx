@@ -5,6 +5,8 @@ import { AlarmMsgState, AlarmState } from '../../../recoil/RecoilAlarm';
 import NavEndButton from '../button/NavEndButton';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../button/LanguageSwitcher';
+import { FaSignInAlt, FaUserPlus, FaUser, FaSignOutAlt } from 'react-icons/fa';
 
 const Nav = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
@@ -71,27 +73,16 @@ const Nav = () => {
 
       {/*Nav바 오른쪽 구성 ------------------------------------------------------------------------------------------------- */}
       <div className="navbar-end flex flex-col items-end -space-y-7 md:-space-y-4 lg:-space-y-1  ">
-        <div className="flex -space-x-3 md:-space-x-1 lg:space-x-1">
-          <button
-            className="btn btn-ghost btn-circle text-xs md:text-[1rem] lg:text-lg justify-end"
-            onClick={() => i18n.changeLanguage('en')}
-          >
-            ENG
-          </button>
-          <button
-            className="btn btn-ghost btn-circle text-xs md:text-[1rem] lg:text-lg justify-end"
-            onClick={() => i18n.changeLanguage('ko')}
-          >
-            KOR
-          </button>
-        </div>
+        <LanguageSwitcher />
+
         {!signIn ? (
-          <div className="flex md:space-x-1">
+          <div className="flex space-x-1">
             {/* 로그인 버튼  */}
             <NavEndButton
               to="/SignUpSignIn"
               onClick={() => setSignInPanel(true)}
               text={t('LOGIN')}
+              icon={<FaSignInAlt />}
             />
 
             {/* 회원가입 버튼  */}
@@ -99,19 +90,26 @@ const Nav = () => {
               to="/SignUpSignIn"
               onClick={() => setSignInPanel(false)}
               text={t('SIGN_UP')}
+              icon={<FaUserPlus />}
             />
           </div>
         ) : (
-          <div className="flex md:space-x-1">
+          <div className="flex space-x-1">
             {/* 마이페이지 버튼  */}
             <NavEndButton
               to="/MyPage"
               onClick={() => setSignInPanel(true)}
               text={t('MY_PAGE')}
+              icon={<FaUser />}
             />
 
             {/* 로그아웃 버튼  */}
-            <NavEndButton to="/" onClick={handleLogout} text={t('LOGOUT')} />
+            <NavEndButton
+              to="/"
+              onClick={handleLogout}
+              text={t('LOGOUT')}
+              icon={<FaSignOutAlt />}
+            />
             {/* 알람버튼 */}
             <button
               className="btn btn-ghost btn-circle flex items-end outline-none w-auto "
