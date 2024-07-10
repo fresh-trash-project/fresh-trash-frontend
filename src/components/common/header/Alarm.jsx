@@ -134,6 +134,10 @@ const Alarm = () => {
           showModal={showRatingModal}
           closeModal={closeRatingModal}
           submitRating={submitRating}
+
+          // type={currentItem.alarmType === 'RECEIVE' ? 'product' : 'auction'} //! 이부분 수정
+          // id={currentItem.alarmArgs.targetId}
+          // onClose={() => setShowRatingModal(false)}
         />
       )}
     </div>
