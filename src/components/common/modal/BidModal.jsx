@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 // import AuctionBid from '../../../api/AuctionAPI';
 import { AuctionBid } from '../../../api/AuctionAPI';
+import { useTranslation } from 'react-i18next';
+
 const BidModal = ({ isOpen, onClose, data }) => {
+  const { t } = useTranslation();
   const [biddingPrice, setBiddingPrice] = useState('');
   const navigate = useNavigate();
   const { auctionId } = useParams();
@@ -23,19 +26,26 @@ const BidModal = ({ isOpen, onClose, data }) => {
   return (
     <dialog open className="modal">
       <div className="modal-box max-h-screen ">
-        <p className="font-bold text-lg">경매 입찰</p>
+        <p className="font-bold text-lg">{t('BID_AUCTION')}</p>
+        {/* <p className="font-bold text-lg">경매 입찰</p> */}
         <div className="py-4">
-          <p>입찰 상품</p>
+          <p>{t('BID_ITEM')}</p>
           <div className="mt-3 p-4 bg-gray-100">
-            <p>제목 {data.title}</p>
-            <p>마감 일자 {data.endedAt}</p>
+            <p>
+              {t('TITLE')} {data.title}
+            </p>
+            <p>
+              {t('END_DATE')} {data.endedAt}
+            </p>
           </div>
         </div>
         <form onSubmit={handleSubmit}>
-          <p className="mt-3">입찰하기</p>
+          <p className="mt-3">{t('PLACE_BID')}</p>
           <div className="mt-3 p-4 bg-gray-100">
-            <p>현재가 {data.finalBid}</p>
-            <label>입찰금액</label>
+            <p>
+              {t('CURRENT_PRICE')} {data.finalBid}
+            </p>
+            <label>{t('BID_AMOUNT')}</label>
             <input
               type="number"
               onChange={handleBiddingChange}
@@ -44,10 +54,10 @@ const BidModal = ({ isOpen, onClose, data }) => {
           </div>
           <div className="modal-action">
             <button className="btn" type="submit">
-              입찰하기
+              {t('PLACE_BID')}
             </button>
             <button className="btn" onClick={onClose}>
-              닫기
+              {t('CLOSE')}
             </button>
           </div>
         </form>

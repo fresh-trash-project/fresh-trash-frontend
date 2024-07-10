@@ -1,3 +1,5 @@
+import LanguageSwitcher from '../common/button/LanguageSwitcher';
+
 const EntryContainer = ({
   title,
   phrase,

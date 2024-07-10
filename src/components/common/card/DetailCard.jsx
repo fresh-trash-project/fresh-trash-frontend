@@ -15,12 +15,15 @@ import urlJoin from 'url-join';
 import BidModal from '../modal/BidModal';
 import DateCounter from '../counter/DateCounter';
 import { CONSOLE } from '../../../../Constants';
+import { useTranslation } from 'react-i18next';
+
 const DetailCard = ({
   postDetails,
   auctionDetails,
   currentUser,
   productId,
 }) => {
+  const { t } = useTranslation();
   const data = postDetails || auctionDetails;
   const [modalOpen, setModalOpen] = useState(false);
   //관심 추가--------------------------------------
@@ -87,7 +90,8 @@ const DetailCard = ({
                           document.getElementById('my_modal_1').showModal()
                         }
                       >
-                        {data && data.memberResponse.nickname} 프로필
+                        {data && data.memberResponse.nickname} {t('PROFILE')}
+                        {/* {data && data.memberResponse.nickname} 프로필 */}
                       </button>
                       <dialog id="my_modal_1" className="modal">
                         <div className="modal-box">
@@ -134,7 +138,8 @@ const DetailCard = ({
 
                           <div className="modal-action">
                             <form method="dialog">
-                              <button className="btn">Close</button>
+                              <button className="btn">{t('CLOSE_ENG')}</button>
+                              {/* <button className="btn">Close</button> */}
                             </form>
                           </div>
                         </div>
@@ -183,14 +188,26 @@ const DetailCard = ({
               {postDetails ? (
                 <div className="flex justify-between">
                   <div className="flex">
-                    <p className="mr-3">관심수 {data && data.likeCount} </p>
-                    <p>조회수 {data && data.viewCount} </p>
+                    <p className="mr-3">
+                      {t('LIKES')} {data && data.likeCount}
+                    </p>
+                    <p>
+                      {t('VIEWS')} {data && data.viewCount}
+                    </p>
+                    {/* <p className="mr-3">관심수 {data && data.likeCount} </p>
+                    <p>조회수 {data && data.viewCount} </p> */}
                   </div>
-                  <div>작성일 {data && data.createdAt} </div>
+                  <div>
+                    {t('CREATED_AT')} {data && data.createdAt}
+                  </div>
+                  {/* <div>작성일 {data && data.createdAt} </div> */}
                 </div>
               ) : (
                 <div className="flex justify-between">
-                  <div>조회수 {data && data.viewCount} </div>
+                  <div>
+                    {t('VIEWS')} {data && data.viewCount}
+                  </div>
+                  {/* <div>조회수 {data && data.viewCount} </div> */}
                   <div>
                     <DateCounter
                       startDate={data && data.startedAt}
@@ -214,7 +231,8 @@ const DetailCard = ({
                       ) : (
                         <IoHeartOutline className="w-5 h-5 -ms-2 me-2" />
                       )}
-                      <p>관심추가</p>
+                      <p>{t('ADD_TO_LIKES')}</p>
+                      {/* <p>관심추가</p> */}
                     </button>
                     {currentUser &&
                     data &&
@@ -225,13 +243,15 @@ const DetailCard = ({
                         onClick={handleChat}
                       >
                         <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
-                        채팅하기
+                        {t('START_CHAT')}
+                        {/* 채팅하기 */}
                       </button>
                     ) : (
                       <Link to="/MyPage/ChatList">
                         <button className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
                           <MdOutlineChatBubbleOutline className="w-5 h-5 -ms-2 me-2" />
-                          채팅목록
+                          {t('CHAT_LIST')}
+                          {/* 채팅목록 */}
                         </button>
                       </Link>
                     )}
@@ -242,7 +262,8 @@ const DetailCard = ({
                       className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-800 rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100"
                       onClick={() => setModalOpen(true)}
                     >
-                      입찰 참여
+                      {t('JOIN_BID')}
+                      {/* 입찰 참여 */}
                     </button>
                     <BidModal
                       isOpen={modalOpen}

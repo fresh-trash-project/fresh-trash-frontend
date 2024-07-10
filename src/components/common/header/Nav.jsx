@@ -4,6 +4,9 @@ import { useRecoilState } from 'recoil';
 import { AlarmMsgState, AlarmState } from '../../../recoil/RecoilAlarm';
 import NavEndButton from '../button/NavEndButton';
 import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../button/LanguageSwitcher';
+import { FaSignInAlt, FaUserPlus, FaUser, FaSignOutAlt } from 'react-icons/fa';
 
 const Nav = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
@@ -11,12 +14,13 @@ const Nav = () => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const menuItems = [
-    { path: '/', label: 'HOME' },
-    { path: '/ProductAdd', label: '애물단지 등록' },
-    { path: '/ProductsList', label: '애물단지 거래' },
-    { path: '/AuctionList', label: '애물단지 경매' },
+    { path: '/', label: t('HOME') },
+    { path: '/ProductAdd', label: t('ADD_PRODUCT') },
+    { path: '/ProductsList', label: t('PRODUCT_LIST') },
+    { path: '/AuctionList', label: t('AUCTION_LIST') },
   ];
 
   const handleLogout = () => {
@@ -68,41 +72,43 @@ const Nav = () => {
       </div>
 
       {/*Nav바 오른쪽 구성 ------------------------------------------------------------------------------------------------- */}
-      <div className="navbar-end ">
+      <div className="navbar-end flex flex-col items-end -space-y-7 md:-space-y-4 lg:-space-y-1  ">
+        <LanguageSwitcher />
+
         {!signIn ? (
-          <div className="flex ">
+          <div className="flex space-x-1">
             {/* 로그인 버튼  */}
             <NavEndButton
               to="/SignUpSignIn"
               onClick={() => setSignInPanel(true)}
-              text="로그인"
-              width="w-12 md:w-[3.5rem] lg:w-[4.5rem]"
+              text={t('LOGIN')}
+              icon={<FaSignInAlt />}
             />
 
             {/* 회원가입 버튼  */}
             <NavEndButton
               to="/SignUpSignIn"
               onClick={() => setSignInPanel(false)}
-              text="회원가입"
-              width="w-13 md:w-[4.5rem] lg:w-[6rem]"
+              text={t('SIGN_UP')}
+              icon={<FaUserPlus />}
             />
           </div>
         ) : (
-          <div className="flex space-x-[0.5px]">
+          <div className="flex space-x-1">
             {/* 마이페이지 버튼  */}
             <NavEndButton
               to="/MyPage"
               onClick={() => setSignInPanel(true)}
-              text="마이페이지"
-              width="w-14 md:w-20 lg:w-[6.5rem]"
+              text={t('MY_PAGE')}
+              icon={<FaUser />}
             />
 
             {/* 로그아웃 버튼  */}
             <NavEndButton
               to="/"
               onClick={handleLogout}
-              text="로그아웃"
-              width="w-13 md:w-[4.5rem] lg:w-[6rem]"
+              text={t('LOGOUT')}
+              icon={<FaSignOutAlt />}
             />
             {/* 알람버튼 */}
             <button

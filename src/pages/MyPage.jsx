@@ -15,13 +15,17 @@ import Rating from '../components/userInfo/Rating';
 import NavigationCard from '../components/common/card/NavigationCard';
 import { changeUserInfo, fetchUserInfo } from '../api/UserInfoAPI';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import useUserNameLogic from '../hooks/entry/useUserNameLogic';
 
 const MyPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [imgFile, setImgFile] = useState('');
   const [image, setImage] = useState(logoImg);
   const [isEditing, setIsEditing] = useState(false);
   const [userName, setUserName] = useRecoilState(userNameState);
+  // const [isDuplicate, setIsDuplicate] = useState(true);
   const [address, setAddress] = useState({
     zipcode: '',
     state: '',
@@ -33,42 +37,43 @@ const MyPage = () => {
   const [averageRating, setAverageRating] = useState(0);
   const [activeTab, setActiveTab] = useState('nickname');
   const tabs = [
-    { name: 'nickname', label: '닉네임' },
-    { name: 'address', label: '주소' },
-    { name: 'password', label: '비밀번호' },
+    { name: 'nickname', label: t('NICKNAME') },
+    { name: 'address', label: t('ADDRESS') },
+    { name: 'password', label: t('PASSWORD') },
   ];
   const navigationItems = [
     {
       image: add,
-      title: '나의 거래 내역',
-      phrase: 'My Trade List',
+      title: t('MY_TRADE_HISTORY'),
+      phrase: t('MY_TRADE_HISTORY_PHRASE'),
       link: 'MyTradeList',
     },
     {
       image: auction,
-      title: '나의 경매 내역',
-      phrase: 'My Auction List',
+      title: t('MY_AUCTION_HISTORY'),
+      phrase: t('MY_AUCTION_HISTORY_PHRASE'),
       link: 'MyAuctionList',
     },
     {
       image: heart,
-      title: '나의 관심 목록',
-      phrase: 'MY Likes',
+      title: t('MY_LIKES'),
+      phrase: t('MY_LIKES_PHRASE'),
       link: 'MyLikes',
     },
     {
       image: chat,
-      title: '나의 채팅 목록',
-      phrase: 'My Chat List',
+      title: t('MY_CHAT_LIST'),
+      phrase: t('MY_CHAT_LIST_PHRASE'),
       link: 'ChatList',
     },
   ];
+
+  const { isDuplicate } = useUserNameLogic();
 
   //마이페이지 들어왔을때 유저정보 불러오기-------------------------------------------------------
   useEffect(() => {
     const getUserInfo = async () => {
       const myInfo = await fetchUserInfo(navigate);
-      console.log('마이페이지 들어왔을때 받은 데이터: ', myInfo);
       setUserName(myInfo.nickname);
       setAddress(myInfo.address);
       setAverageRating(myInfo.rating);
@@ -152,8 +157,10 @@ const MyPage = () => {
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
               onClick={isEditing ? handleChangeUserInfo : handleEditProfile}
+              // disabled={userName.length === 0}
+              disabled={userName.length === 0}
             >
-              {isEditing ? '프로필 수정 완료' : '프로필 수정'}
+              {isEditing ? t('COMPLETE_PROFILE') : t('EDIT_PROFILE')}
             </button>
           </div>
 
@@ -161,7 +168,7 @@ const MyPage = () => {
           <div className="w-full flex flex-col">
             <div className="mx-auto mt-8 md:mx-14">
               {/* 탭----------------------------------------------------------------------------------------- */}
-              <div className="tabs tabs-boxed mb-16">
+              <div className="tabs tabs-boxed mb-16 py-2">
                 {tabs.map(tab => (
                   <button
                     key={tab.name}

@@ -1,0 +1,9 @@
+{
+  "ONGOING_AUCTIONS": "경매중",
+  "ONGOING_SELLING": "판매중",
+  "DONE_AUCTIONS": "경매완료",
+  "DONE_SELLING": "판매완료",
+  "DONE_BUYING": "구매완료",
+  "RESERVED": "예약중",
+  "WON_BIDS": "낙찰"
+}
