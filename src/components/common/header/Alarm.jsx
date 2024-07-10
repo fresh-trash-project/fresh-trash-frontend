@@ -67,6 +67,7 @@ const Alarm = () => {
     }
   };
 
+
   const closeRatingModal = () => {
     setShowRatingModal(false);
     setCurrentItem(null);
