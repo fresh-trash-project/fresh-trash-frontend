@@ -6,7 +6,7 @@ import {
   fetchMyAuctionClose,
   fetchMyAuctionOngoing,
 } from '../api/UserAuctionAPI';
-import { PaginationButton } from 'flowbite-react';
+import PaginationButton from '../components/common/pagination/PaginationButton';
 import TradeTabs from '../components/common/button/TradeTab';
 import Label from '../components/common/label/Label';
 import { useNavigate } from 'react-router-dom';
@@ -16,17 +16,38 @@ const MyAuctionList = () => {
   const [myBuyListOpen, setMyBuyListOpen] = useState(false);
   const [onSale, setOnSale] = useState(true);
   const [myList, setMyList] = useState([]);
-  const [page, setPage] = useState(0);
+  const [pageBuy, setPageBuy] = useState(0);
+  const [pageOngoing, setPageOngoing] = useState(0);
+  const [pageClose, setPageClose] = useState(0);
+
+  const [totalPageBuy, setTotalPageBuy] = useState(0);
+  const [totalPageOngoing, setTotalPageOngoing] = useState(0);
+  const [totalPageClose, setTotalPageClose] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [totalBuy, setTotalBuy] = useState(0);
   const [totalOngoing, setTotalOngoing] = useState(0);
   const [totalClose, setTotalClose] = useState(0);
   const navigate = useNavigate();
-
   useEffect(() => {
-    handleDoneAuction();
-    handleOnAuction();
-  }, [page]);
+    const fetchAllData = async () => {
+      await handleDoneAuction();
+      await handleOnAuction();
+    };
+    fetchAllData();
+    if (mySellListOpen) {
+      if (onSale) {
+        handleOnAuction();
+      } else {
+        handleDoneAuction();
+      }
+    } else if (myBuyListOpen) {
+      handleMyBuyListOpen();
+    }
+  }, [pageBuy, pageOngoing, pageClose]);
+  // useEffect(() => {
+  //   handleDoneAuction();
+  //   handleOnAuction();
+  // }, [pageBuy, pageOngoing, pageClose]);
 
   const handleMySellListOpen = async () => {
     setMySellListOpen(true);
@@ -37,37 +58,28 @@ const MyAuctionList = () => {
   const handleMyBuyListOpen = async () => {
     setMyBuyListOpen(true);
     setMySellListOpen(false);
-    const dataBuyList = await fetchMyBid(page, navigate);
+    const dataBuyList = await fetchMyBid(pageBuy, navigate);
     setMyList(dataBuyList.content);
-    setTotalPage(dataBuyList.totalPages);
+    setTotalPageBuy(dataBuyList.totalPages);
     setTotalBuy(dataBuyList.totalElements);
   };
 
   const handleOnAuction = async () => {
     setOnSale(true);
-    const ongoingList = await fetchMyAuctionOngoing(page, navigate);
+    const ongoingList = await fetchMyAuctionOngoing(pageOngoing, navigate);
     console.log(ongoingList);
     setMyList(ongoingList.content);
-    setTotalPage(ongoingList.totalPages);
+    setTotalPageOngoing(ongoingList.totalPages);
     setTotalOngoing(ongoingList.totalElements);
   };
 
   const handleDoneAuction = async () => {
     setOnSale(false);
-    const closeList = await fetchMyAuctionClose(page, navigate);
+    const closeList = await fetchMyAuctionClose(pageClose, navigate);
     console.log(closeList);
     setMyList(closeList.content);
-    setTotalPage(closeList.totalPages);
+    setTotalPageClose(closeList.totalPages);
     setTotalClose(closeList.totalElements);
-  };
-
-  //페이지네이션-------------------------------------
-  const handlePreviousPage = () => {
-    setPage(prevPage => Math.max(prevPage - 1, 0)); // 이전 페이지로 이동
-  };
-
-  const handleNextPage = () => {
-    setPage(prevPage => Math.min(prevPage + 1, totalPage - 1)); // 다음 페이지로 이동
   };
 
   return (
@@ -120,21 +132,20 @@ const MyAuctionList = () => {
       </div>
 
       <div className=" container flex justify-center mb-16">
-        <PaginationButton
-          onClick={handlePreviousPage}
-          disabled={page === 0}
-          className="join-item btn mr-4"
-        >
-          이전
-        </PaginationButton>
-
-        <PaginationButton
-          onClick={handleNextPage}
-          disabled={page === totalPage - 1}
-          className="join-item btn ml-4"
-        >
-          다음
-        </PaginationButton>
+        {mySellListOpen && (
+          <PaginationButton
+            setPage={onSale ? setPageOngoing : setPageClose}
+            page={onSale ? pageOngoing : pageClose}
+            totalPages={onSale ? totalPageOngoing : totalPageClose}
+          />
+        )}
+        {myBuyListOpen && (
+          <PaginationButton
+            setPage={setPageBuy}
+            page={pageBuy}
+            totalPages={totalPageBuy}
+          />
+        )}
       </div>
     </div>
   );
