@@ -5,8 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 const UserNameEditor = ({ isEditing }) => {
   const [userName, setUserName] = useRecoilState(userNameState);
-  const { handleUserNameChange, handleDuplicationCheck, isDuplicate } =
-    useUserNameLogic();
+  const { handleUserNameChange, handleDuplicationCheck } = useUserNameLogic();
   const { t } = useTranslation();
 
   return (

@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { signInPanelState, signInState } from '../../recoil/RecoilSignIn';
-import { userNameState } from '../../recoil/RecoilUserName';
+import { duplicationState, userNameState } from '../../recoil/RecoilUserName';
 import { signUpAccount } from '../../api/EntryAPI';
 import Email from '../entry/Email';
 import Password from '../entry/Password';
@@ -34,8 +34,8 @@ const SignUpForm = ({
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
   const [userName, setUserName] = useRecoilState(userNameState);
-  const { isDuplicate, handleUserNameChange, handleDuplicationCheck } =
-    useUserNameLogic();
+  const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
+  const { handleUserNameChange, handleDuplicationCheck } = useUserNameLogic();
   const { t } = useTranslation();
 
   const handleSignUp = async e => {

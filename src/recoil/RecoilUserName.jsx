@@ -5,7 +5,7 @@ export const userNameState = atom({
   default: '',
 });
 
-// export const duplicationState = atom({
-//   key: 'duplication',
-//   default: false,
-// });
+export const duplicationState = atom({
+  key: 'duplication',
+  default: false,
+});
