@@ -13,3 +13,7 @@ function App() {
 }
 
 export default App;
+
+/*
+App 컴포넌트에서는 Outlet을 사용하여 하위 라우트가 렌더링되도록 합니다. 
+*/

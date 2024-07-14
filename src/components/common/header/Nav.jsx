@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../button/LanguageSwitcher';
 import { FaSignInAlt, FaUserPlus, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { useState } from 'react';
 
 const Nav = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
@@ -15,28 +16,37 @@ const Nav = () => {
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const [showSubMenu, setShowSubMenu] = useState(false);
 
   const menuItems = [
     { path: '/', label: t('HOME') },
+    signIn && {
+      path: '/MyPage',
+      label: t('MY_PAGE'),
+      subMenu: [
+        { path: '/MyPage/MyTradeList', label: t('MY_TRADE_HISTORY') },
+        { path: '/MyPage/MyAuctionList', label: t('MY_AUCTION_HISTORY') },
+        { path: '/MyPage/MyLikes', label: t('MY_LIKES') },
+      ],
+    },
     { path: '/ProductAdd', label: t('ADD_PRODUCT') },
     { path: '/ProductsList', label: t('PRODUCT_LIST') },
     { path: '/AuctionList', label: t('AUCTION_LIST') },
-  ];
+  ].filter(Boolean); // filter(Boolean)을 사용하여 배열에서 false 값 제거
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
-    // js-cookie를 사용하여 쿠키에서 accessToken 삭제
     Cookies.remove('accessToken', { path: '/', domain: 'localhost' });
     setSignIn(false);
-    setAlarmMsg([]); // Clear alarms on logout
+    setAlarmMsg([]);
     setAlarmOpen(false);
   };
 
   return (
     <div className="navbar bg-green-brunswick text-white px-2 lg:pr-7 ">
       <div className="navbar-start">
-        <div className="dropdown ">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle ">
+        <div className="dropdown">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -53,13 +63,64 @@ const Nav = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm top-[68px] md:top-[72px] lg:top-20 dropdown-content z-[1] p-2 bg-green-brunswick rounded-box w-60 h-60 text-white"
+            className="menu menu-sm top-[68px] md:top-[72px] lg:top-20 dropdown-content z-[1] p-2 bg-green-brunswick rounded-box w-60 h-auto text-white"
           >
             {menuItems.map(item => (
-              <li key={item.path} className="font-bold h-10 py-2">
-                <Link to={item.path} className="lg:text-[1rem]">
-                  {item.label}
-                </Link>
+              <li key={item.path} className="font-bold h-auto py-2">
+                <div
+                  className="flex justify-between items-center"
+                  onClick={() => item.subMenu && setShowSubMenu(!showSubMenu)}
+                >
+                  <Link to={item.path} className="lg:text-[1rem]">
+                    {item.label}
+                  </Link>
+                  {item.subMenu && (
+                    <button>
+                      {showSubMenu ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          className="w-4 h-4"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          className="w-4 h-4"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M6 9l6 6 6-6"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                  )}
+                </div>
+                {item.subMenu && showSubMenu && (
+                  <ul className="pl-4 border-l-2 border-white">
+                    {item.subMenu.map(subItem => (
+                      <li key={subItem.path} className="font-normal h-8 py-1">
+                        <Link to={subItem.path} className="lg:text-[0.9rem]">
+                          {subItem.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>
@@ -70,22 +131,16 @@ const Nav = () => {
           FRESH TRASH
         </Link>
       </div>
-
-      {/*Nav바 오른쪽 구성 ------------------------------------------------------------------------------------------------- */}
-      <div className="navbar-end flex flex-col items-end -space-y-4 md:-space-y-2 lg:-space-y-0 ">
+      <div className="navbar-end flex flex-col items-end -space-y-4 md:-space-y-2 lg:-space-y-0">
         <LanguageSwitcher padding="px-2" />
-
         {!signIn ? (
-          <div className="flex space-x-1  ">
-            {/* 로그인 버튼  */}
+          <div className="flex space-x-1">
             <NavEndButton
               to="/SignUpSignIn"
               onClick={() => setSignInPanel(true)}
               text={t('LOGIN')}
               icon={<FaSignInAlt />}
             />
-
-            {/* 회원가입 버튼  */}
             <NavEndButton
               to="/SignUpSignIn"
               onClick={() => setSignInPanel(false)}
@@ -94,28 +149,21 @@ const Nav = () => {
             />
           </div>
         ) : (
-          <div
-            className="flex space-x-1 
-          "
-          >
-            {/* 마이페이지 버튼  */}
+          <div className="flex space-x-1">
             <NavEndButton
               to="/MyPage"
               onClick={() => setSignInPanel(true)}
               text={t('MY_PAGE')}
               icon={<FaUser />}
             />
-
-            {/* 로그아웃 버튼  */}
             <NavEndButton
               to="/"
               onClick={handleLogout}
               text={t('LOGOUT')}
               icon={<FaSignOutAlt />}
             />
-            {/* 알람버튼 */}
             <button
-              className="btn btn-ghost btn-circle flex items-end outline-none w-auto "
+              className="btn btn-ghost btn-circle flex items-end outline-none w-auto"
               onClick={() => {
                 setAlarmOpen(true);
               }}
@@ -148,4 +196,5 @@ const Nav = () => {
     </div>
   );
 };
+
 export default Nav;
