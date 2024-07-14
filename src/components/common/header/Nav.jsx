@@ -133,6 +133,7 @@ const Nav = () => {
       </div>
       <div className="navbar-end flex flex-col items-end -space-y-4 md:-space-y-2 lg:-space-y-0">
         <LanguageSwitcher padding="px-2" />
+
         {!signIn ? (
           <div className="flex space-x-1">
             <NavEndButton
@@ -149,7 +150,7 @@ const Nav = () => {
             />
           </div>
         ) : (
-          <div className="flex space-x-1">
+          <div className="flex space-x-1 ">
             <NavEndButton
               to="/MyPage"
               onClick={() => setSignInPanel(true)}
@@ -163,12 +164,12 @@ const Nav = () => {
               icon={<FaSignOutAlt />}
             />
             <button
-              className="btn btn-ghost btn-circle flex items-end outline-none w-auto"
+              className=" btn-circle flex items-end outline-none w-auto h-auto"
               onClick={() => {
                 setAlarmOpen(true);
               }}
             >
-              <div className="indicator">
+              <div className="indicator ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8"

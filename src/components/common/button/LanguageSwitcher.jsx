@@ -8,7 +8,7 @@ const LanguageSwitcher = ({ padding }) => {
   };
 
   return (
-    <div className="inline-flex border border-white rounded-md overflow-hidden">
+    <div className="inline-flex border-2 border-white rounded-md overflow-hidden">
       <button
         className={`${padding} text-xs md:text-[1rem] lg:text-lg focus:outline-none transition-transform duration-200 ${i18n.language === 'en' ? 'bg-green-brunswick text-white shadow-lg font-extrabold' : 'bg-gray-200 text-gray-400'}`}
         onClick={() => changeLanguage('en')}
