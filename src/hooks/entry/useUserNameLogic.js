@@ -11,7 +11,7 @@ export const useUserNameLogic = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [userName, setUserName] = useRecoilState(userNameState);
 
-  const handleUserNameChange = (e, setIsDuplicate) => {
+  const handleUserNameChange = e => {
     const newUserName = e.target.value;
     setUserName(newUserName);
     setIsDuplicate(true); // 중복 확인이 필요함을 표시

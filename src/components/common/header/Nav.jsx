@@ -72,11 +72,11 @@ const Nav = () => {
       </div>
 
       {/*Nav바 오른쪽 구성 ------------------------------------------------------------------------------------------------- */}
-      <div className="navbar-end flex flex-col items-end -space-y-4 md:-space-y-2 lg:-space-y-0  ">
+      <div className="navbar-end flex flex-col items-end -space-y-4 md:-space-y-2 lg:-space-y-0 ">
         <LanguageSwitcher padding="px-2" />
 
         {!signIn ? (
-          <div className="flex space-x-1">
+          <div className="flex space-x-1  ">
             {/* 로그인 버튼  */}
             <NavEndButton
               to="/SignUpSignIn"
@@ -94,7 +94,10 @@ const Nav = () => {
             />
           </div>
         ) : (
-          <div className="flex space-x-1">
+          <div
+            className="flex space-x-1 
+          "
+          >
             {/* 마이페이지 버튼  */}
             <NavEndButton
               to="/MyPage"
