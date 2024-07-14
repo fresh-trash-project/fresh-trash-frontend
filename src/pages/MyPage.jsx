@@ -1,4 +1,3 @@
-import Header from '../components/common/header/Header';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { duplicationState, userNameState } from '../recoil/RecoilUserName';
@@ -136,8 +135,6 @@ const MyPage = () => {
   //JSX----------------------------------------------------------------------------------------------
   return (
     <div>
-      <Header />
-
       <div className="px-5">
         <div className="md:flex">
           {/* 프로필 이미지 수정---------------------------------------------------------------------- */}

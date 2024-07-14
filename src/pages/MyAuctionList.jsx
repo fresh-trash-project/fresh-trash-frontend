@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/common/header/Header';
 import MyTradeCards from '../components/common/card/MyTradeCards';
 import {
   fetchMyBid,
@@ -74,7 +73,6 @@ const MyAuctionList = () => {
 
   return (
     <div>
-      <Header />
       <TradeTabs
         mySellListOpen={mySellListOpen}
         myBuyListOpen={myBuyListOpen}

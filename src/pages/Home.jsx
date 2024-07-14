@@ -1,6 +1,4 @@
-import Header from '../components/common/header/Header';
 import Hero from '../components/home/Hero';
-import Footer from '../components/common/footer/Footer';
 import NavigationCard from '../components/common/card/NavigationCard';
 import add from '../assets/add2.jpg';
 import auction from '../assets/auction3.jpg';
@@ -58,7 +56,6 @@ const Home = () => {
   //JSX-----------------------------------------------------------------------------------
   return (
     <div>
-      <Header />
       <Hero />
       <div className="cards bg-white py-10 px-3 ">
         {navigationCardItems.map((card, index) => (
@@ -71,7 +68,6 @@ const Home = () => {
           />
         ))}
       </div>
-      <Footer />
     </div>
   );
 };

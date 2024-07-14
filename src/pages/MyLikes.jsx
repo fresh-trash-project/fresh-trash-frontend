@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/common/header/Header';
 import MyTradeCards from '../components/common/card/MyTradeCards';
 import { fetchMyLikes } from '../api/UserLikesAPI';
 import PaginationButton from '../components/common/pagination/PaginationButton';
@@ -35,7 +34,6 @@ const MyLikes = () => {
 
   return (
     <div>
-      <Header />
       <div className="navbar flex-row justify-between bg-white shadow-md px-4">
         <CategoryDropDown handleCategoryChange={handleCategoryChange} />
       </div>
