@@ -1,8 +1,10 @@
 import ProductCard from './ProductCard';
 import RatingModal from '../modal/RatingModal';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const MyTradeCards = ({ myList, type, myBuyListOpen }) => {
+  const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
 
@@ -31,7 +33,7 @@ const MyTradeCards = ({ myList, type, myBuyListOpen }) => {
                 onClick={() => openModal(item.id)}
                 style={{ display: 'inline-block', margin: 'auto' }}
               >
-                <p className="font-semibold">경매 거래후기 보내기</p>
+                <p className="font-semibold">{t('SEND_AUCTION_REVIEW')}</p>
               </button>
             </div>
           )}

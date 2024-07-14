@@ -1,39 +1,68 @@
-// src/components/modal/RatingModal.jsx
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { sendProductReview, sendAuctionReview } from '../../../api/ReviewAPI';
 import { useTranslation } from 'react-i18next';
+import { CONSOLE } from '../../../../Constants';
 
-const RatingModal = ({ showModal, closeModal, submitRating }) => {
+const RatingModal = ({ type, id, onClose }) => {
   const [rating, setRating] = useState(0);
+  const [content, setContent] = useState('');
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const handleRatingChange = newRating => {
+    setRating(newRating);
+  };
+
+  const handleContentChange = event => {
+    setContent(event.target.value);
+  };
+
+  const handleSubmit = async () => {
+    if (type === 'product') {
+      await sendProductReview(id, rating, navigate);
+    } else if (type === 'auction') {
+      await sendAuctionReview(id, rating, content, navigate);
+    }
+    console.log(CONSOLE.SEND_RATING_SUCCESS, `: ${rating}`);
+    onClose();
+  };
+
   return (
-    <div
-      className={`fixed inset-0 flex items-center justify-center ${showModal ? 'block' : 'hidden'}`}
-    >
-      <div className="bg-black opacity-50 absolute inset-0"></div>
-      <div className="bg-white p-8 rounded-lg z-10 ">
-        <h2 className="text-2xl mb-4">{t('LEAVE_RATING')}</h2>
-        <div className="flex justify-center mb-4">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+      <div className="bg-white p-4 rounded-lg shadow-lg">
+        <h2 className="text-xl font-bold mb-4 flex justify-center">
+          {t('LEAVE_RATING')}
+        </h2>
+        <div className="flex justify-between mb-4">
           {[1, 2, 3, 4, 5].map(num => (
-            <span
+            <button
               key={num}
-              className={`text-3xl cursor-pointer ${rating >= num ? 'text-yellow-saffron' : 'text-gray-300'}`}
-              onClick={() => setRating(num)}
+              className={`p-2 rounded ${rating === num ? 'bg-yellow-saffron' : 'bg-gray-300'}`}
+              onClick={() => handleRatingChange(num)}
             >
-              ★
-            </span>
+              {num}
+            </button>
           ))}
         </div>
+        {type === 'auction' && (
+          <textarea
+            value={content}
+            onChange={handleContentChange}
+            className="w-full p-2 mb-4 border rounded"
+            placeholder={t('WRITE_REVIEW')}
+          />
+        )}
         <div className="flex justify-center">
           <button
-            onClick={() => submitRating(rating)}
             className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+            onClick={handleSubmit}
           >
             {t('SUBMIT')}
           </button>
           <button
-            onClick={closeModal}
             className="bg-gray-500 text-white px-4 py-2 rounded"
+            onClick={onClose}
           >
             {t('CLOSE')}
           </button>

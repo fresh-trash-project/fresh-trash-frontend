@@ -17,10 +17,14 @@ export const sendProductReview = async (productId, rate, navigate) => {
     );
     if (response.status === 201) {
       console.log(response.data);
+      toast.success(MESSAGES.SEND_RATING_SUCCESS);
     }
     return response.data;
   } catch (error) {
     console.error(error.message);
+    if (error.response.status === 400) {
+      toast.error(MESSAGES.ALREADY_SENT_RATING);
+    }
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
@@ -45,6 +49,9 @@ export const sendAuctionReview = async (auctionId, rate, content, navigate) => {
     return response.data;
   } catch (error) {
     console.error(error.message);
+    if (error.response.status === 400) {
+      toast.error(MESSAGES.ALREADY_SENT_RATING);
+    }
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
