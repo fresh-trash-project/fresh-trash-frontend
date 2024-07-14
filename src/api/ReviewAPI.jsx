@@ -17,13 +17,21 @@ export const sendProductReview = async (productId, rate, navigate) => {
     );
     if (response.status === 201) {
       console.log(response.data);
-      toast.success(MESSAGES.SEND_RATING_SUCCESS);
+      if (!toast.isActive('send-rating-success')) {
+        toast.success(MESSAGES.SEND_RATING_SUCCESS, {
+          toastId: 'send-rating-success',
+        });
+      }
+      return response.data;
     }
-    return response.data;
   } catch (error) {
     console.error(error.message);
     if (error.response.status === 400) {
-      toast.error(MESSAGES.ALREADY_SENT_RATING);
+      if (!toast.isActive('already-sent-rating')) {
+        toast.error(MESSAGES.ALREADY_SENT_RATING, {
+          toastId: 'already-sent-rating',
+        });
+      }
     }
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
@@ -45,12 +53,21 @@ export const sendAuctionReview = async (auctionId, rate, content, navigate) => {
     );
     if (response.status === 201) {
       console.log(response.data);
+      if (!toast.isActive('send-rating-success')) {
+        toast.success(MESSAGES.SEND_RATING_SUCCESS, {
+          toastId: 'send-rating-success',
+        });
+      }
     }
     return response.data;
   } catch (error) {
     console.error(error.message);
     if (error.response.status === 400) {
-      toast.error(MESSAGES.ALREADY_SENT_RATING);
+      if (!toast.isActive('already-sent-rating')) {
+        toast.error(MESSAGES.ALREADY_SENT_RATING, {
+          toastId: 'already-sent-rating',
+        });
+      }
     }
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);

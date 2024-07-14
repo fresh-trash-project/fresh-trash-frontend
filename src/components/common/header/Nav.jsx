@@ -53,7 +53,7 @@ const Nav = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm top-[83px] dropdown-content z-[1] p-2 bg-green-brunswick rounded-box w-60 h-60 text-white"
+            className="menu menu-sm top-[70px] md:top-[76px] lg:top-[83px] dropdown-content z-[1] p-2 bg-green-brunswick rounded-box w-60 h-60 text-white"
           >
             {menuItems.map(item => (
               <li key={item.path} className="font-bold h-10 py-2">
