@@ -104,7 +104,6 @@ export const fetchUserInfo = async navigate => {
   try {
     const response = await axiosWithTokenMembers.get('');
     if (response.status === 200) {
-      console.log('API쪽 성공했을때 데이터: ', response.data);
       return response.data;
     }
   } catch (error) {
