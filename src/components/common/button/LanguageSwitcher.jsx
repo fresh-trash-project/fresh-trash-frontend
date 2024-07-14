@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-const LanguageSwitcher = () => {
+const LanguageSwitcher = ({ padding }) => {
   const { i18n } = useTranslation();
 
   const changeLanguage = language => {
@@ -8,15 +8,15 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <div className="flex -space-x-3 md:-space-x-1 lg:space-x-1">
+    <div className="inline-flex border border-white rounded-md overflow-hidden">
       <button
-        className="btn btn-ghost btn-circle text-xs md:text-[1rem] lg:text-lg justify-end"
+        className={`${padding} text-xs md:text-[1rem] lg:text-lg focus:outline-none transition-transform duration-200 ${i18n.language === 'en' ? 'bg-green-brunswick text-white shadow-lg font-extrabold' : 'bg-gray-200 text-gray-400'}`}
         onClick={() => changeLanguage('en')}
       >
         ENG
       </button>
       <button
-        className="btn btn-ghost btn-circle text-xs md:text-[1rem] lg:text-lg justify-end "
+        className={`${padding} text-xs md:text-[1rem] lg:text-lg focus:outline-none transition-transform duration-200 ${i18n.language === 'ko' ? 'bg-green-brunswick text-white shadow-lg font-extrabold' : 'bg-gray-200 text-gray-400'}`}
         onClick={() => changeLanguage('ko')}
       >
         KOR

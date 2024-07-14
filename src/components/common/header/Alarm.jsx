@@ -71,7 +71,7 @@ const Alarm = ({ currentPage, totalPages, setCurrentPage, fetchAlarmData }) => {
 
   return (
     <div
-      className={`menu absolute top-[85px] md:top-[97px] lg:top-[110px] ${alarmOpen ? 'right-0' : '-right-full'} bg-green-brunswick h-96 rounded-box z-50 text-[0.6rem] mr-2 md:w-96 transition-all duration-300`}
+      className={`menu absolute top-[74px] md:top-[78px] lg:top-[98px] ${alarmOpen ? 'right-0' : '-right-full'} bg-green-brunswick h-96 rounded-box z-50 text-[0.6rem] mr-2 md:w-96 transition-all duration-300`}
     >
       <div className="menu-title flex items-center justify-between bg-yellow-naples rounded-box mb-2 px-4 py-2">
         <div className="flex space-x-1">

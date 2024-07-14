@@ -53,7 +53,7 @@ const Nav = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm top-[70px] md:top-[76px] lg:top-[83px] dropdown-content z-[1] p-2 bg-green-brunswick rounded-box w-60 h-60 text-white"
+            className="menu menu-sm top-[68px] md:top-[72px] lg:top-20 dropdown-content z-[1] p-2 bg-green-brunswick rounded-box w-60 h-60 text-white"
           >
             {menuItems.map(item => (
               <li key={item.path} className="font-bold h-10 py-2">
@@ -72,8 +72,8 @@ const Nav = () => {
       </div>
 
       {/*Nav바 오른쪽 구성 ------------------------------------------------------------------------------------------------- */}
-      <div className="navbar-end flex flex-col items-end -space-y-7 md:-space-y-4 lg:-space-y-1  ">
-        <LanguageSwitcher />
+      <div className="navbar-end flex flex-col items-end -space-y-4 md:-space-y-2 lg:-space-y-0  ">
+        <LanguageSwitcher padding="px-2" />
 
         {!signIn ? (
           <div className="flex space-x-1">
