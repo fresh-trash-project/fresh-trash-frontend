@@ -9,7 +9,8 @@ const AddForm = () => {
   return (
     <div>
       <Label breadcrumbItems={[t('HOME_UPPER_ENG'), t('ADD_PRODUCT')]}>
-        <div className=" xl:container mx-auto">
+        {/* <div className=" xl:container mx-auto"> 이부분 아래와 같이 그냥 div로 수정했음*/}
+        <div>
           <select
             name=""
             id=""

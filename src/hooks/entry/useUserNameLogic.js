@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 import { fetchUserName } from '../../api/UserInfoAPI';
-import { userNameState } from '../../recoil/RecoilUserName';
+import { duplicationState, userNameState } from '../../recoil/RecoilUserName';
 import { useRecoilState } from 'recoil';
 import { signInState } from '../../recoil/RecoilSignIn';
 import { useNavigate } from 'react-router-dom';
 
 export const useUserNameLogic = () => {
   const navigate = useNavigate();
-  const [isDuplicate, setIsDuplicate] = useState(true);
+  const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [userName, setUserName] = useRecoilState(userNameState);
 
   const handleUserNameChange = e => {
     const newUserName = e.target.value;
     setUserName(newUserName);
-    // setIsDuplicate(true);
+    setIsDuplicate(true); // 중복 확인이 필요함을 표시
   };
 
   const handleDuplicationCheck = async e => {
@@ -29,8 +29,8 @@ export const useUserNameLogic = () => {
   };
 
   return {
-    isDuplicate,
-    setIsDuplicate,
+    // isDuplicate,
+    // setIsDuplicate,
     handleUserNameChange,
     handleDuplicationCheck,
   };

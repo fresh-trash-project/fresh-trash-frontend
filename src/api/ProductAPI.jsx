@@ -1,8 +1,7 @@
 import { globalProductsAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
-import { CONSOLE } from '../../Constants';
 import { toast } from 'react-toastify';
-import { MESSAGES } from '../../Constants';
+import { MESSAGES, CONSOLE } from '../../Constants';
 const axiosWithTokenProducts = createAxiosWithToken(globalProductsAPI);
 //목록페이지
 const fetchQuery = async (query, navigate) => {

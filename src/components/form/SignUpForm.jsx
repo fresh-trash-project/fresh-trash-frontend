@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { signInPanelState, signInState } from '../../recoil/RecoilSignIn';
-import { userNameState } from '../../recoil/RecoilUserName';
+import { duplicationState, userNameState } from '../../recoil/RecoilUserName';
 import { signUpAccount } from '../../api/EntryAPI';
 import Email from '../entry/Email';
 import Password from '../entry/Password';
@@ -34,8 +34,8 @@ const SignUpForm = ({
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
   const [userName, setUserName] = useRecoilState(userNameState);
-  const { isDuplicate, handleUserNameChange, handleDuplicationCheck } =
-    useUserNameLogic();
+  const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
+  const { handleUserNameChange, handleDuplicationCheck } = useUserNameLogic();
   const { t } = useTranslation();
 
   const handleSignUp = async e => {
@@ -53,11 +53,11 @@ const SignUpForm = ({
 
   return (
     <div>
-      <div className="md:mb-12">
-        <LanguageSwitcher />
+      <div className="md:mb-12 ml-1 mt-1">
+        <LanguageSwitcher padding="px-2 py-2 lg:py-1" />
       </div>
       <form
-        className="flex flex-col items-center py-12 px-12 text-center md:justify-center md:h-full md:py-0"
+        className="flex flex-col items-center py-12 px-12 text-center md:justify-center md:h-full md:py-0 min-w-[20rem]"
         onSubmit={handleSignUp}
       >
         <h1 className="font-bold m-0 text-[1.5rem] mb-5">

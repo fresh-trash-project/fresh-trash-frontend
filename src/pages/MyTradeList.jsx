@@ -84,7 +84,6 @@ const MyTradeList = () => {
 
   return (
     <div>
-      <Header />
       <TradeTabs
         mySellListOpen={mySellListOpen}
         myBuyListOpen={myBuyListOpen}

@@ -1,7 +1,6 @@
-import Header from '../components/common/header/Header';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { userNameState } from '../recoil/RecoilUserName';
+import { duplicationState, userNameState } from '../recoil/RecoilUserName';
 import logoImg from '../assets/logo.png';
 import add from '../assets/add1.jpg';
 import auction from '../assets/auction2.jpg';
@@ -16,7 +15,6 @@ import NavigationCard from '../components/common/card/NavigationCard';
 import { changeUserInfo, fetchUserInfo } from '../api/UserInfoAPI';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useUserNameLogic from '../hooks/entry/useUserNameLogic';
 
 const MyPage = () => {
   const { t } = useTranslation();
@@ -25,7 +23,7 @@ const MyPage = () => {
   const [image, setImage] = useState(logoImg);
   const [isEditing, setIsEditing] = useState(false);
   const [userName, setUserName] = useRecoilState(userNameState);
-  // const [isDuplicate, setIsDuplicate] = useState(true);
+  const [isDuplicate, setIsDuplicate] = useRecoilState(duplicationState);
   const [address, setAddress] = useState({
     zipcode: '',
     state: '',
@@ -68,8 +66,6 @@ const MyPage = () => {
     },
   ];
 
-  const { isDuplicate } = useUserNameLogic();
-
   //마이페이지 들어왔을때 유저정보 불러오기-------------------------------------------------------
   useEffect(() => {
     const getUserInfo = async () => {
@@ -88,6 +84,7 @@ const MyPage = () => {
           detail: '',
         });
       }
+      setIsDuplicate(false);
     };
     getUserInfo();
   }, []);
@@ -138,8 +135,6 @@ const MyPage = () => {
   //JSX----------------------------------------------------------------------------------------------
   return (
     <div>
-      <Header />
-
       <div className="px-5">
         <div className="md:flex">
           {/* 프로필 이미지 수정---------------------------------------------------------------------- */}
@@ -157,8 +152,7 @@ const MyPage = () => {
             <button
               className="btn btn-wide mx-auto mt-2 md:mx-14"
               onClick={isEditing ? handleChangeUserInfo : handleEditProfile}
-              // disabled={userName.length === 0}
-              disabled={userName.length === 0}
+              disabled={isEditing && (userName.length === 0 || isDuplicate)}
             >
               {isEditing ? t('COMPLETE_PROFILE') : t('EDIT_PROFILE')}
             </button>

@@ -45,11 +45,11 @@ const SignInForm = ({
 
   return (
     <div>
-      <div className="md:mb-12">
-        <LanguageSwitcher />
+      <div className="md:mb-12 ml-1 mt-1">
+        <LanguageSwitcher padding="px-2 py-2 lg:py-1" />
       </div>
       <form
-        className="flex flex-col items-center py-12 px-12 text-center md:justify-center md:h-full md:py-0"
+        className="flex flex-col items-center py-12 px-12 text-center md:justify-center md:h-full md:py-0 min-w-[20rem]"
         onSubmit={handleSignIn}
       >
         <h1 className="font-bold m-0 text-[1.5rem] mb-5">

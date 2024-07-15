@@ -12,7 +12,7 @@ const NavigationCard = ({ title, phrase, link, image }) => {
       <div className="card-body ">
         <h2 className="card-title">{title}</h2>
         <p>{phrase}</p>
-        <Link to={link} className="card-actions justify-end">
+        <Link to={link} className="card-actions justify-end focus:outline-none">
           <button className="btn text-white bg-green-brunswick border-green-brunswick hover:bg-green-brunswick hover:opacity-90 hover:scale-110">
             {t('VIEW_NOW_ENG')}
           </button>
