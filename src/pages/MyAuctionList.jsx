@@ -46,10 +46,6 @@ const MyAuctionList = () => {
       handleMyBuyListOpen();
     }
   }, [pageBuy, pageOngoing, pageClose]);
-  // useEffect(() => {
-  //   handleDoneAuction();
-  //   handleOnAuction();
-  // }, [pageBuy, pageOngoing, pageClose]);
 
   const handleMySellListOpen = async () => {
     setMySellListOpen(true);
@@ -139,21 +135,6 @@ const MyAuctionList = () => {
       </div>
 
       <div className=" container flex justify-center mb-16">
-        {/* <PaginationButton
-          onClick={handlePreviousPage}
-          disabled={page === 0}
-          className="join-item btn mr-4"
-        >
-          {t('PREV')}
-        </PaginationButton>
-
-        <PaginationButton
-          onClick={handleNextPage}
-          disabled={page === totalPage - 1}
-          className="join-item btn ml-4"
-        >
-          {t('NEXT')}
-        </PaginationButton> */}
         {mySellListOpen && (
           <PaginationButton
             setPage={onSale ? setPageOngoing : setPageClose}

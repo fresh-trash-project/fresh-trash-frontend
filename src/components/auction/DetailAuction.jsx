@@ -80,11 +80,17 @@ const DetailAuction = () => {
   return (
     <div>
       <Label
+        padding="py-2"
         breadcrumbItems={[
-          t('CATEGORY'),
-          `${auctionDetails && auctionDetails.productCategory}`,
+          t('HOME'),
+          t('AUCTION_ITEM'),
+          t('PRODUCT_DETAIL_PAGE'),
         ]}
-      />
+      >
+        {`${t('CATEGORY')}`}
+        <span className="border-l-2 border-green-brunswick mx-2" />
+        {`${auctionDetails && auctionDetails.productCategory}`}
+      </Label>
       <div className="container">
         {/* <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
           <ul>
