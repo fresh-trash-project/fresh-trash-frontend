@@ -6,7 +6,8 @@ import ProductCard from '../common/card/ProductCard';
 import { useNavigate } from 'react-router-dom';
 import PaginationButton from '../common/pagination/PaginationButton';
 import Label from '../common/label/Label';
-
+import { toast } from 'react-toastify';
+import { MESSAGES, CONSOLE } from '../../../Constants';
 import ListNav from '../common/header/ListNav';
 import { useTranslation } from 'react-i18next';
 const List = () => {
@@ -16,7 +17,7 @@ const List = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
   const handleRegistrationPageAccess = () => {
     if (!signIn) {
-      alert('로그인한 회원만 등록 페이지에 접근할 수 있습니다.');
+      toast.error('로그인한 회원만 등록 페이지에 접근할 수 있습니다.');
     } else {
       navigate('/ProductAdd');
     }
@@ -55,7 +56,7 @@ const List = () => {
         setPosts(auctionList);
         setTotalPage(auctionList.totalPages);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error(CONSOLE.FETCH_POSTS_ERROR, error);
       }
     };
 
@@ -81,9 +82,9 @@ const List = () => {
       await deletePost(postId, navigate);
       // 상태에서 해당 제품을 제거합니다.
       setPosts(posts.filter(wastes => wastes.id !== postId));
-      console.log('제품이 성공적으로 삭제되었습니다.');
+      console.log(CONSOLE.DELETE_SUCCESS);
     } catch (error) {
-      console.error('제품 삭제 중 오류가 발생했습니다:', error);
+      console.error(CONSOLE.DELETE_ERROR, error);
     }
   };
 
@@ -106,7 +107,7 @@ const List = () => {
         setSearchResults(result);
       }
     } catch (error) {
-      console.error('검색 중 에러 발생:', error);
+      console.error(CONSOLE.SEARCH_ERROR, error);
     }
   };
 

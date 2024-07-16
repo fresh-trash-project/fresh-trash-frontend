@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-// import AuctionBid from '../../../api/AuctionAPI';
+import { toast } from 'react-toastify';
+import { MESSAGES,CONSOLE } from '../../../../Constants';
 import { AuctionBid } from '../../../api/AuctionAPI';
 import { useTranslation } from 'react-i18next';
 
@@ -14,7 +15,7 @@ const BidModal = ({ isOpen, onClose, data }) => {
     if (/^[0-9]\d*$/.test(value) || value === '') {
       setBiddingPrice(value);
     } else {
-      alert('양수를 입력하세요.');
+      toast.error(MESSAGES.POSITIVE_NUMBER);
     }
   };
   const handleSubmit = async e => {

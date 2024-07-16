@@ -139,7 +139,7 @@ const MyAuctionList = () => {
       </div>
 
       <div className=" container flex justify-center mb-16">
-        <PaginationButton
+        {/* <PaginationButton
           onClick={handlePreviousPage}
           disabled={page === 0}
           className="join-item btn mr-4"
@@ -153,7 +153,21 @@ const MyAuctionList = () => {
           className="join-item btn ml-4"
         >
           {t('NEXT')}
-        </PaginationButton>
+        </PaginationButton> */}
+        {mySellListOpen && (
+          <PaginationButton
+            setPage={onSale ? setPageOngoing : setPageClose}
+            page={onSale ? pageOngoing : pageClose}
+            totalPages={onSale ? totalPageOngoing : totalPageClose}
+          />
+        )}
+        {myBuyListOpen && (
+          <PaginationButton
+            setPage={setPageBuy}
+            page={pageBuy}
+            totalPages={totalPageBuy}
+          />
+        )}
       </div>
     </div>
   );

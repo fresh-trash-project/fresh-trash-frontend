@@ -5,7 +5,6 @@ const ProductAdd = () => {
   return (
     <div>
       <AddForm />
-      {/* <AddForm2 /> */}
     </div>
   );
 };

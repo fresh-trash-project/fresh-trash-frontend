@@ -35,7 +35,7 @@ const InputField = () => {
 
         setMessageContent(messageList);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error(CONSOLE.CHAT_CONTENT_ERROR, error);
       }
     };
     fetchData(chatId);
@@ -118,7 +118,7 @@ const InputField = () => {
               const parsedMessage = JSON.parse(msg.body);
               setMessages(prevMessages => [...prevMessages, parsedMessage]);
               console.log(CONSOLE.WEBSOCKET_OPEN);
-              console.log('수신한 메세지', parsedMessage);
+              console.log(CONSOLE.RECEIVED_MESSAGE, parsedMessage);
             } catch (error) {
               console.error(error);
             }
@@ -145,7 +145,7 @@ const InputField = () => {
   //채팅 메세지 전송-------------------------------
   const sendMessage = (chatId, memberId) => {
     if (!inputMessage.trim()) return;
-    console.log('전송한 메세지', inputMessage);
+    console.log(CONSOLE.SEND_MESSAGE, inputMessage);
     const destination = `/app/${chatId}/message/${memberId}`;
     stompClient.publish({
       destination,

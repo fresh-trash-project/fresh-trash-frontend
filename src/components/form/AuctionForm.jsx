@@ -5,6 +5,7 @@ import urlJoin from 'url-join';
 import { globalFileAPI } from '../../../variable';
 import { createAuction } from '../../api/AuctionAPI';
 import { toast } from 'react-toastify';
+import { MESSAGES } from '../../../Constants';
 import { useTranslation } from 'react-i18next';
 const AuctionForm = ({ initialData, isEditMode }) => {
   const { t } = useTranslation();
@@ -47,7 +48,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
       if (validImageTypes.includes(file.type)) {
         setImgFile(file);
       } else {
-        toast.error('올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)');
+        toast.error(MESSAGES.IMG_TYPE_CHANGE);
         e.target.value = null;
       }
     }
@@ -58,7 +59,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
     if (/^[0-9]\d*$/.test(value) || value === '') {
       setMinimumBid(value);
     } else {
-      alert('양수를 입력하세요.');
+      toast.error(MESSAGES.POSITIVE_NUMBER);
     }
   };
   const formatDateTime = dateTime => {

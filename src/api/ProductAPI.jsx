@@ -73,7 +73,7 @@ export const createPost = async (
     console.log('imgFile', imgFile);
     formData.append('imgFile', imgFile);
     formData.append('productRequest', blob);
-
+    console.log('formData:', formData);
     const response = await axiosWithTokenProducts.post(``, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -105,8 +105,6 @@ export const detailProduct = async (productId, navigate) => {
     if (response.status === 200) {
       console.log(CONSOLE.FETCH_DETAIL_KUST_SUCCESS, response.data);
       return response.data; // 서버로부터 받은 데이터 반환
-    } else {
-      console.log('응답 상태 코드:', response.status); // 디버깅용 로그
     }
   } catch (error) {
     console.error(error.message);
@@ -139,6 +137,11 @@ export const deleteProduct = async (productId, navigate) => {
     throw error;
   }
 };
+async function base64ToFile(base64String, fileName) {
+  const response = await fetch(base64String);
+  const blob = await response.blob();
+  return new File([blob], fileName, { type: blob.type });
+}
 //폐기물 수정
 export const updatePost = async (
   productId,
@@ -171,8 +174,13 @@ export const updatePost = async (
     const json = JSON.stringify(productRequest);
     const blob = new Blob([json], { type: 'application/json' });
     var formData = new FormData();
-    console.log(imgFile);
-    formData.append('imgFile', imgFile);
+    if (imgFile) {
+      // 이미지 파일이 base64 문자열일 경우 File 객체로 변환
+      const file = await base64ToFile(imgFile, 'image.png');
+      formData.append('imgFile', file);
+    }
+
+    // formData.append('imgFile', imgFile);
     formData.append('productRequest', blob);
 
     const response = await axiosWithTokenProducts.put(
@@ -230,7 +238,6 @@ export const likeProduct = async (productId, query, navigate) => {
       return response.data;
     }
   } catch (error) {
-    console.error('관심목록 추가 실패:', error.message);
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');
