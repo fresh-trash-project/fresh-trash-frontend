@@ -27,6 +27,7 @@ const Nav = () => {
         { path: '/MyPage/MyTradeList', label: t('MY_TRADE_HISTORY') },
         { path: '/MyPage/MyAuctionList', label: t('MY_AUCTION_HISTORY') },
         { path: '/MyPage/MyLikes', label: t('MY_LIKES') },
+        { path: '/MyPage/ChatList', label: t('MY_CHAT_LIST') },
       ],
     },
     { path: '/ProductAdd', label: t('ADD_PRODUCT') },
