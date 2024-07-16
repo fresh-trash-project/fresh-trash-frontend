@@ -84,19 +84,13 @@ const DetailProduct = () => {
 
   return (
     <div>
+      <Label
+        breadcrumbItems={[
+          t('CATEGORY'),
+          `${postDetails && postDetails.productCategory}`,
+        ]}
+      />
       <div className="container">
-        <Label
-          breadcrumbItems={[
-            t('CATEGORY'),
-            `${postDetails && postDetails.productCategory}`,
-          ]}
-        />
-        {/* <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
-          <ul>
-            <li>카테고리</li>
-            <li>{postDetails && postDetails.productCategory}</li>
-          </ul>
-        </div> */}
         <div className="flex flex-row-reverse mt-20">
           <div className="mr-28 dropdown dropdown-end">
             {currentUser &&
