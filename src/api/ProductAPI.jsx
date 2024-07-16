@@ -178,13 +178,11 @@ export const updatePost = async (
       // 이미지 파일이 base64 문자열일 경우 File 객체로 변환
       const file = await base64ToFile(imgFile, 'image.png');
       formData.append('imgFile', file);
-      console.log('imgFile type:', typeof file);
     }
-    console.log(imgFile);
+
     // formData.append('imgFile', imgFile);
     formData.append('productRequest', blob);
-    console.log('formData_img:', formData.get('imgFile'));
-    console.log('type확인', typeof formData.get('imgFile'));
+
     const response = await axiosWithTokenProducts.put(
       `/${productId}`,
       formData,
