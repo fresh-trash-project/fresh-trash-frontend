@@ -73,7 +73,7 @@ export const createPost = async (
     console.log('imgFile', imgFile);
     formData.append('imgFile', imgFile);
     formData.append('productRequest', blob);
-
+    console.log('formData:', formData);
     const response = await axiosWithTokenProducts.post(``, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -137,6 +137,11 @@ export const deleteProduct = async (productId, navigate) => {
     throw error;
   }
 };
+async function base64ToFile(base64String, fileName) {
+  const response = await fetch(base64String);
+  const blob = await response.blob();
+  return new File([blob], fileName, { type: blob.type });
+}
 //폐기물 수정
 export const updatePost = async (
   productId,
@@ -169,10 +174,17 @@ export const updatePost = async (
     const json = JSON.stringify(productRequest);
     const blob = new Blob([json], { type: 'application/json' });
     var formData = new FormData();
+    if (imgFile) {
+      // 이미지 파일이 base64 문자열일 경우 File 객체로 변환
+      const file = await base64ToFile(imgFile, 'image.png');
+      formData.append('imgFile', file);
+      console.log('imgFile type:', typeof file);
+    }
     console.log(imgFile);
-    formData.append('imgFile', imgFile);
+    // formData.append('imgFile', imgFile);
     formData.append('productRequest', blob);
-
+    console.log('formData_img:', formData.get('imgFile'));
+    console.log('type확인', typeof formData.get('imgFile'));
     const response = await axiosWithTokenProducts.put(
       `/${productId}`,
       formData,

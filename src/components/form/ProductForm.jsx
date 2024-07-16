@@ -35,14 +35,17 @@ const ProductForm = ({ initialData, isEditMode }) => {
       detail: '',
     },
   );
+  const getImgeUrl = fileName => {
+    return urlJoin(globalFileAPI, `${fileName}`);
+  };
   const [imgFile, setImgFile] = useState(initialData.fileName || null);
-
+  // const [imgFile, setImgFile] = useState(null);
   const navigate = useNavigate();
   const { productId } = useParams();
   const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-
   const handleImageChange = e => {
     const file = e.target.files[0];
+    console.log('file', file);
     if (file) {
       if (validImageTypes.includes(file.type)) {
         setImgFile(file);
@@ -51,6 +54,11 @@ const ProductForm = ({ initialData, isEditMode }) => {
         e.target.value = null;
       }
     }
+    // else {
+    //   toast.error('Please select an image file.');
+    //   file = initialData.fileName;
+    //   setImgFile(file);
+    // }
   };
 
   const handleComplete = data => {
@@ -72,6 +80,7 @@ const ProductForm = ({ initialData, isEditMode }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+
     const postData = {
       title,
       content,
@@ -114,9 +123,6 @@ const ProductForm = ({ initialData, isEditMode }) => {
     } catch (error) {
       console.error(error);
     }
-  };
-  const getImgeUrl = fileName => {
-    return urlJoin(globalFileAPI, `${fileName}`);
   };
 
   return (
