@@ -1,0 +1,15 @@
+{
+  "SIGN_UP": "Sign Up",
+  "SIGN_UP_UPPER_ENG": "SIGN UP",
+  "CREATE_ACCOUNT_UPPER_ENG": "CREATE ACCOUNT",
+  "VERIFY": "Verify",
+  "VERIFICATION_CODE": "Verification Code",
+  "CONFIRM": "Confirm",
+
+  "LOGIN": "Login",
+  "LOGIN_UPPER_ENG": "LOGIN",
+  "SIGN_IN_UPPER_ENG": "SIGN IN",
+  "LOGOUT": "Logout",
+  "FORGOT_PASSWORD_ENG": "Forgot your password?",
+  "CLICK_UPPER_ENG": "CLICK"
+}

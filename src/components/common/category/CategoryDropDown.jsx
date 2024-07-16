@@ -1,50 +1,52 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const CategoryDropDown = ({ handleCategoryChange }) => {
+  const { t } = useTranslation();
   return (
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn m-1">
-        카테고리
+        {t('CATEGORY')}
       </div>
       <ul
         tabIndex={0}
         className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
       >
         <li onClick={() => handleCategoryChange('전체')}>
-          <p>전체</p>
+          <p>{t('ALL')}</p>
         </li>
         <li onClick={() => handleCategoryChange('ELECTRONICS')}>
-          <p>전자기기</p>
+          <p>{t('ELECTRONICS')}</p>
         </li>
         <li onClick={() => handleCategoryChange('CLOTHING')}>
-          <p>의류</p>
+          <p>{t('CLOTHING')}</p>
         </li>
         <li onClick={() => handleCategoryChange('HOME_KITCHEN')}>
-          <p>생활/주방</p>
+          <p>{t('HOME_KITCHEN')}</p>
         </li>
         <li onClick={() => handleCategoryChange('BEAUTY')}>
-          <p>뷰티</p>
+          <p>{t('BEAUTY')}</p>
         </li>
         <li onClick={() => handleCategoryChange('HEALTH')}>
-          <p>건강</p>
+          <p>{t('HEALTH')}</p>
         </li>
         <li onClick={() => handleCategoryChange('SPORTS')}>
-          <p>스포츠</p>
+          <p>{t('SPORTS')}</p>
         </li>
         <li onClick={() => handleCategoryChange('BOOKS')}>
-          <p>도서</p>
+          <p>{t('BOOKS')}</p>
         </li>
         <li onClick={() => handleCategoryChange('TOYS_GAMES')}>
-          <p>장난감/게임</p>
+          <p>{t('TOYS_GAMES')}</p>
         </li>
         <li onClick={() => handleCategoryChange('FURNITURE_DECOR')}>
-          <p>가구/인테리어</p>
+          <p>{t('FURNITURE_DECOR')}</p>
         </li>
         <li onClick={() => handleCategoryChange('PET_SUPPLIES')}>
-          <p>반려동물용품</p>
+          <p>{t('PET_SUPPLIES')}</p>
         </li>
         <li onClick={() => handleCategoryChange('PLANT_SUPPLIES')}>
-          <p>식물</p>
+          <p>{t('PLANT_SUPPLIES')}</p>
         </li>
       </ul>
     </div>

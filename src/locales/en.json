@@ -1,0 +1,50 @@
+{
+  "HOME": "Home",
+  "HOME_UPPER_ENG": "HOME",
+  "MY_PAGE": "My Page",
+  "PRODUCT_DETAIL_PAGE": "Product Detail Page",
+
+  "ADD_PRODUCT": "Add Product",
+  "ADD_PRODUCT_VERB": "UPLOAD PRODUCT",
+  "PRODUCT_LIST": "Product List",
+  "AUCTION_LIST": "Auction List",
+  "TRADE_ITEM": "Trade Item",
+  "AUCTION_ITEM": "Auction Item",
+
+  "SELL_YOUR_FRESH_TRASH_UPPER_ENG": "SELL YOUR FRESH TRASH",
+  "GET_YOUR_FRESH_TRASH_UPPER_ENG": "GET YOUR FRESH TRASH",
+  "WIN_YOUR_FRESH_TRASH_UPPER_ENG": "WIN YOUR FRESH TRASH",
+  "TRADING_PRODUCT": "TRADING PRODUCT",
+  "AUCTION_PRODUCT": "AUCTION PRODUCT",
+
+  "OPEN_ENG": "Open",
+  "OPEN_UPPER_ENG": "Open",
+  "CLOSE": "Close",
+  "CLOSE_ENG": "Close",
+  "CLOSE_UPPER_ENG": "CLOSE",
+
+  "WON": "KRW",
+  "SUBMIT": "Submit",
+  "SAVE": "Save",
+  "EDIT": "Edit",
+  "DELETE": "Delete",
+  "ONGOING_UPPER_ENG": "ONGOING",
+  "VIEW_NOW_ENG": "View Now",
+  "SHOW_MORE": "Show More",
+
+  "ADD_TO_LIKES": "Add to Likes",
+  "VIEW_DETAILS": "View Details",
+
+  "IMAGE": "Image",
+  "POST_IMAGE": "Post Image",
+
+  "SELECT": "Select",
+  "DISTRICT": "District",
+  "TITLE": "Title",
+  "ENTER_TITLE": "Enter Title",
+
+  "CONTENT": "Content",
+  "ENTER_CONTENT": "Enter Content",
+  "POST_ITEM": "Post Item",
+  "EDIT_ITEM": "Edit Item"
+}

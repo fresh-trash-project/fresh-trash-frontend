@@ -1,6 +1,4 @@
-import Header from '../components/common/header/Header';
 import Hero from '../components/home/Hero';
-import Footer from '../components/common/footer/Footer';
 import NavigationCard from '../components/common/card/NavigationCard';
 import add from '../assets/add2.jpg';
 import auction from '../assets/auction3.jpg';
@@ -8,26 +6,28 @@ import sell from '../assets/sell1.jpg';
 import { useRecoilState } from 'recoil';
 import { signInState } from '../recoil/RecoilSignIn';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
+  const { t } = useTranslation();
   const navigationCardItems = [
     {
       image: add,
-      title: '애물단지 등록하기',
-      phrase: 'SELL YOUR FRESH TRASH',
+      title: t('ADD_PRODUCT_VERB'),
+      phrase: t('SELL_YOUR_FRESH_TRASH_UPPER_ENG'),
       link: 'ProductAdd',
     },
     {
       image: sell,
-      title: '애물단지 거래 중...',
-      phrase: 'GET YOUR FRESH TRASH',
+      title: t('TRADING_PRODUCT'),
+      phrase: t('GET_YOUR_FRESH_TRASH_UPPER_ENG'),
       link: 'ProductsList',
     },
     {
       image: auction,
-      title: '애물단지 경매 중...',
-      phrase: 'GET YOUR FRESH TRASH',
+      title: t('AUCTION_PRODUCT'),
+      phrase: t('WIN_YOUR_FRESH_TRASH_UPPER_ENG'),
       link: 'AuctionList',
     },
   ];
@@ -56,7 +56,6 @@ const Home = () => {
   //JSX-----------------------------------------------------------------------------------
   return (
     <div>
-      <Header />
       <Hero />
       <div className="cards bg-white py-10 px-3 ">
         {navigationCardItems.map((card, index) => (
@@ -69,7 +68,6 @@ const Home = () => {
           />
         ))}
       </div>
-      <Footer />
     </div>
   );
 };

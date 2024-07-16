@@ -3,6 +3,7 @@ import { FaPlus } from 'react-icons/fa6';
 import { FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import CategoryDropDown from '../category/CategoryDropDown';
+import { useTranslation } from 'react-i18next';
 const ListNav = ({
   handleCategoryChange,
   isSearchVisible,
@@ -14,6 +15,7 @@ const ListNav = ({
   auction,
   product,
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="navbar flex-row justify-between bg-base-100 shadow-md">
       <div className="flex">
@@ -32,9 +34,12 @@ const ListNav = ({
               className="select select-bordered rounded-r-none "
               onChange={e => setSearchType(e.target.value)}
             >
-              <option>선택</option>
+              <option>{t('SELECT')}</option>
+              <option value="district">{t('DISTRICT')}</option>
+              <option value="title">{t('TITLE')}</option>
+              {/* <option>선택</option>
               <option value="district">지역</option>
-              <option value="title">제목</option>
+              <option value="title">제목</option> */}
             </select>
             <div>
               <div>
@@ -63,17 +68,17 @@ const ListNav = ({
               className="select select-bordered join-item "
               onChange={e => setSearchType(e.target.value)}
             >
-              <option>선택</option>
-              <option value="district">지역</option>
-              <option value="title">제목</option>
+              <option>{t('SELECT')}</option>
+              <option value="district">{t('DISTRICT')}</option>
+              <option value="title">{t('TITLE')}</option>
             </select>
           ) : (
             <select
               className="select select-bordered join-item "
               onChange={e => setSearchType(e.target.value)}
             >
-              <option>선택</option>
-              <option value="title">제목</option>
+              <option>{t('SELECT')}</option>
+              <option value="title">{t('TITLE')}</option>
             </select>
           )}
 

@@ -30,9 +30,9 @@ export const MESSAGES = {
   //프로필 수정
   PROFILE_UPDATE_FAILURE: '프로필 수정에 실패했습니다.',
 
-
   //평점
   SEND_RATING_SUCCESS: '평점이 제출되었습니다.',
+  ALREADY_SENT_RATING: '평점을 이미 제출했습니다.',
 
   //상품 등록
   POST_SUCCESS: '상품 등록이 완료되었습니다.',
@@ -57,7 +57,6 @@ export const MESSAGES = {
 
   //신고
   FLAG_SUCCESS: '신고 신청 완료',
-
 };
 
 export const CONSOLE = {
@@ -96,4 +95,6 @@ export const CONSOLE = {
 
   PAY_SUCCESS: '결제 성공',
   PAY_ERROR: '결제 실패',
+
+  SEND_RATING_SUCCESS: '평점 제출',
 };

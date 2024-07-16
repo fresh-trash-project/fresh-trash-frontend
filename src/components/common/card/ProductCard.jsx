@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
 import DateCounter from '../counter/DateCounter';
+import { useTranslation } from 'react-i18next';
 const ProductCard = ({ product, auction }) => {
+  const { t } = useTranslation();
+
   const data = product || auction;
 
   const getImgeUrl = fileName => {
@@ -38,7 +41,11 @@ const ProductCard = ({ product, auction }) => {
           {product ? (
             <div className="flex items-center">
               <button className="mr-2"></button>
-              <div>관심수 {data.likeCount}</div>
+              <div>
+                {' '}
+                {t('LIKES')} {data.likeCount}
+              </div>
+              {/* <div>관심수 {data.likeCount}</div> */}
             </div>
           ) : (
             <div className="flex items-center">
@@ -55,7 +62,8 @@ const ProductCard = ({ product, auction }) => {
         {product ? (
           <div className="flex justify-between">
             <span className="text-2xl font-bold text-gray-900 ">
-              {data.productPrice}원
+              {data.productPrice} {t('WON')}
+              {/* {data.productPrice}원 */}
             </span>
             <a
               href={`/ProductDetail/${data.id}`}
@@ -64,13 +72,15 @@ const ProductCard = ({ product, auction }) => {
               }}
               className="text-white bg-green-900 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  "
             >
-              상세보기
+              {t('VIEW_DETAILS')}
+              {/* 상세보기 */}
             </a>
           </div>
         ) : (
           <div className="flex justify-between">
             <span className="text-2xl font-bold text-gray-900 ">
-              {data.finalBid}원
+              {data.finalBid} {t('WON')}
+              {/* {data.finalBid}원 */}
             </span>
             <a
               href={`/AuctionDetail/${data.id}`}
@@ -79,7 +89,8 @@ const ProductCard = ({ product, auction }) => {
               }}
               className="text-white bg-green-900 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  "
             >
-              상세보기
+              {t('VIEW_DETAILS')}
+              {/* 상세보기 */}
             </a>
           </div>
         )}

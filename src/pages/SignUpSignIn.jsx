@@ -29,7 +29,6 @@ const SignUpSignIn = () => {
     handlePasswordVisibility,
     validatePassword,
   } = usePasswordLogic();
-  // useUserNameLogic은 SignUpForm에서만 필요하니까 SignUpForm에서 import해서 prop drilling을 줄였다.
 
   // CSS에서 rem 단위는 html 태그의 폰트 사이즈를 기준으로 삼기 때문에, html 폰트 사이즈를 변경하면 rem을 사용하는 모든 요소의 크기가 영향을 받는다.
   return (
@@ -150,10 +149,10 @@ ${signIn ? 'translate-x-0 opacity-1 z-10' : 'translate-x-full opacity-0 z-0'}
 
 
 로그인 -> 회원가입으로
-${signIn ? 'translate-x-[22rem] opacity-1 z-10' : 'translate-x-0 opacity-0 z-0'}
+${signIn ? 'translate-x-[30rem] opacity-1 z-10' : 'translate-x-0 opacity-0 z-0'}
 
 회원가입 -> 로그인으로 
-${signIn ? 'translate-x-[22rem] opacity-0 z-0' : 'translate-x-0 opacity-1 z-10'}
+${signIn ? 'translate-x-[30rem] opacity-0 z-0' : 'translate-x-0 opacity-1 z-10'}
 
 
 */

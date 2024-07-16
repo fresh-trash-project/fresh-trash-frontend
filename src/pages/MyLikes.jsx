@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/common/header/Header';
 import MyTradeCards from '../components/common/card/MyTradeCards';
 import { fetchMyLikes } from '../api/UserLikesAPI';
 import PaginationButton from '../components/common/pagination/PaginationButton';
 import Label from '../components/common/label/Label';
 import { useNavigate } from 'react-router-dom';
 import CategoryDropDown from '../components/common/category/CategoryDropDown';
+import { useTranslation } from 'react-i18next';
 const MyLikes = () => {
+  const { t } = useTranslation();
   const [myLikes, setMyLikes] = useState([]);
   const [totalLikes, setTotalLikes] = useState(0);
   const [page, setPage] = useState(0);
@@ -33,18 +34,17 @@ const MyLikes = () => {
 
   return (
     <div>
-      <Header />
       <div className="navbar flex-row justify-between bg-white shadow-md px-4">
         <CategoryDropDown handleCategoryChange={handleCategoryChange} />
       </div>
 
       {/* 라벨------------------------------------------------------------------------ */}
-      <Label breadcrumbItems={['홈', '마이페이지', '나의 관심목록']}>
+      <Label breadcrumbItems={[t('HOME'), t('MY_PAGE'), t('MY_LIKES')]}>
         <div
           role="tab"
           className="tab border-2 scale-110 font-bold bg-green-brunswick text-white"
         >
-          찜 ({totalLikes})
+          {t('LIKES')} ({totalLikes})
         </div>
       </Label>
 

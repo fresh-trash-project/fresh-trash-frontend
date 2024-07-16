@@ -12,7 +12,10 @@ import urlJoin from 'url-join';
 import { toast } from 'react-toastify';
 import { MESSAGES } from '../../../Constants';
 import { CONSOLE } from '../../../Constants';
+import Label from '../common/label/Label';
+import { useTranslation } from 'react-i18next';
 const DetailAuction = () => {
+  const { t } = useTranslation();
   const { auctionId } = useParams(); // URL 파라미터에서 auctionId 가져오기
   const { chatId } = useParams();
   const [auctionDetails, setAuctionDetails] = useState(null);
@@ -77,13 +80,19 @@ const DetailAuction = () => {
   return (
     <div>
       <div className="container">
-        <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
+        <Label
+          breadcrumbItems={[
+            t('CATEGORY'),
+            `${auctionDetails && auctionDetails.productCategory}`,
+          ]}
+        />
+        {/* <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
           <ul>
             <li>카테고리</li>
             <li>{auctionDetails && auctionDetails.productCategory}</li>
           </ul>
-        </div>
-        <div className="flex flex-row-reverse mt-12">
+        </div> */}
+        <div className="flex flex-row-reverse mt-20">
           <div className="mr-28 dropdown dropdown-end">
             {currentUser &&
               auctionDetails &&
@@ -102,7 +111,7 @@ const DetailAuction = () => {
                           handleDelete(auctionDetails && auctionDetails.id)
                         }
                       >
-                        삭제하기
+                        {t('DELETE')}
                       </p>
                     </li>
                   </ul>

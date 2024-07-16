@@ -1,0 +1,16 @@
+{
+  "CATEGORY": "Category",
+  "SELECT_CATEGORY": "Select Category",
+  "ALL": "All",
+  "ELECTRONICS": "Electronics",
+  "CLOTHING": "Clothing",
+  "HOME_KITCHEN": "Home & Kitchen",
+  "BEAUTY": "Beauty",
+  "HEALTH": "Health",
+  "SPORTS": "Sports",
+  "BOOKS": "Books",
+  "TOYS_GAMES": "Toys & Games",
+  "FURNITURE_DECOR": "Furniture & Decor",
+  "PET_SUPPLIES": "Pet Supplies",
+  "PLANT_SUPPLIES": "Plant Supplies"
+}

@@ -1,5 +1,3 @@
-import { Md12Mp } from 'react-icons/md';
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -11,9 +9,6 @@ export default {
   theme: {
     container: {
       center: true,
-    },
-    daisyui: {
-      theme: false,
     },
     extend: {
       aspectRatio: {

@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { globalNotisAPI } from '../../variable';
-import { EventSourcePolyfill } from 'event-source-polyfill';
+import { EventSource } from 'event-source-polyfill';
 import { signInState } from '../recoil/RecoilSignIn';
 import { useEffect } from 'react';
 
@@ -12,11 +12,13 @@ export const useSSE = () => {
   useEffect(() => {
     if (signIn) {
       const accessToken = localStorage.getItem('accessToken');
-      if (!accessToken || eventSource) return;
+      // if (!accessToken || eventSource) return;
+      if (!accessToken) return;
+      if (EventSource) return;
 
       const headers = { Authorization: `Bearer ${accessToken}` };
 
-      eventSource = new EventSourcePolyfill(`${globalNotisAPI}/subscribe`, {
+      eventSource = new EventSource(`${globalNotisAPI}/subscribe`, {
         heartbeatTimeout: 30 * 60 * 1000,
         headers, //인증토큰을 보냈을때 서버가 데이터를 보내준다.
       });

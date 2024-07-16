@@ -10,8 +10,10 @@ import TradeTabs from '../components/common/button/TradeTab';
 import Label from '../components/common/label/Label';
 import { useNavigate } from 'react-router-dom';
 import PaginationButton from '../components/common/pagination/PaginationButton';
+import { useTranslation } from 'react-i18next';
 
 const MyTradeList = () => {
+  const { t } = useTranslation();
   const [mySellListOpen, setMySellListOpen] = useState(true);
   const [myBuyListOpen, setMyBuyListOpen] = useState(false);
   const [onSale, setOnSale] = useState(true);
@@ -82,7 +84,6 @@ const MyTradeList = () => {
 
   return (
     <div>
-      <Header />
       <TradeTabs
         mySellListOpen={mySellListOpen}
         myBuyListOpen={myBuyListOpen}
@@ -92,7 +93,7 @@ const MyTradeList = () => {
       />
 
       {/* 라벨------------------------------------------------------------------------ */}
-      <Label breadcrumbItems={['홈', '마이페이지', '나의 거래내역']}>
+      <Label breadcrumbItems={[t('HOME'), t('MY_PAGE'), t('MY_TRADE_HISTORY')]}>
         <div>
           {mySellListOpen && (
             <div>
@@ -101,14 +102,14 @@ const MyTradeList = () => {
                 onClick={handleOnSale}
                 className={`tab ${onSale && 'border-2 scale-110 font-bold bg-green-brunswick text-white'}`}
               >
-                판매중 ({totalOngoing})
+                {t('ONGOING_SELLING')} ({totalOngoing})
               </div>
               <div
                 role="tab"
                 onClick={handleDoneSale}
                 className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-green-brunswick text-white'}`}
               >
-                판매완료 ({totalClose})
+                {t('DONE_SELLING')} ({totalClose})
               </div>
             </div>
           )}
@@ -117,7 +118,7 @@ const MyTradeList = () => {
               role="tab"
               className="tab border-2 scale-110 font-bold bg-green-brunswick text-white"
             >
-              거래완료 ({totalBuy})
+              {t('DONE_BUYING')} ({totalBuy})
             </div>
           )}
         </div>

@@ -1,0 +1,16 @@
+{
+  "CATEGORY": "카테고리",
+  "SELECT_CATEGORY": "카테고리를 선택하세요",
+  "ALL": "전체",
+  "ELECTRONICS": "전자기기",
+  "CLOTHING": "의류",
+  "HOME_KITCHEN": "생활/주방",
+  "BEAUTY": "뷰티",
+  "HEALTH": "건강",
+  "SPORTS": "스포츠",
+  "BOOKS": "도서",
+  "TOYS_GAMES": "장난감/게임",
+  "FURNITURE_DECOR": "가구/인테리어",
+  "PET_SUPPLIES": "반려동물용품",
+  "PLANT_SUPPLIES": "식물"
+}

@@ -5,7 +5,9 @@ import urlJoin from 'url-join';
 import { globalFileAPI } from '../../../variable';
 import { createAuction } from '../../api/AuctionAPI';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 const AuctionForm = ({ initialData, isEditMode }) => {
+  const { t } = useTranslation();
   const [title, setTitle] = useState(initialData.title || '');
   const [content, setContent] = useState(initialData.content || '');
   const [productCategory, setProductCategory] = useState(
@@ -34,6 +36,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
   const navigate = useNavigate();
   const { auctionId } = useParams();
   const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
   const handleValueChange = newValue => {
     console.log('newValue:', newValue);
     setValue(newValue);
@@ -102,7 +105,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
       <div className="flex flex-wrap -mx-3 ">
         <div className="w-full px-3 mb-6">
           <p className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            이미지
+            {t('IMAGE')}
           </p>
           <label
             htmlFor="imgFile"
@@ -121,7 +124,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             {imgFile && (
               <img
                 src={URL.createObjectURL(imgFile)}
-                alt="게시물 이미지"
+                alt={t('POST_IMAGE')}
                 className="w-36 h-36"
               />
             )}
@@ -129,20 +132,20 @@ const AuctionForm = ({ initialData, isEditMode }) => {
         </div>
         <div className="w-full px-3 mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            제목
+            {t('TITLE')}
           </label>
           <input
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-gray-500"
             type="text"
             value={title}
             onChange={e => setTitle(e.target.value)}
-            placeholder="제목을 입력하세요"
+            placeholder={t('ENTER_TITLE')}
             required
           />
         </div>
         <div className="w-full px-3 mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            카테고리
+            {t('CATEGORY')}
           </label>
           <div className="relative">
             <select
@@ -151,18 +154,18 @@ const AuctionForm = ({ initialData, isEditMode }) => {
               onChange={e => setProductCategory(e.target.value)}
               required
             >
-              <option value="">카테고리를 선택하세요</option>
-              <option value="ELECTRONICS">전자기기</option>
-              <option value="CLOTHING">의류</option>
-              <option value="HOME_KITCHEN">생활/주방</option>
-              <option value="BEAUTY">뷰티</option>
-              <option value="HEALTH">건강</option>
-              <option value="SPORTS">스포츠</option>
-              <option value="BOOKS">도서</option>
-              <option value="TOYS_GAMES">장난감/게임</option>
-              <option value="FURNITURE_DECOR">가구/인테리어</option>
-              <option value="PET_SUPPLIES">반려동물용품</option>
-              <option value="PLANT_SUPPLIES">식물</option>
+              <option value="">{t('SELECT_CATEGORY')}</option>
+              <option value="ELECTRONICS">{t('ELECTRONICS')}</option>
+              <option value="CLOTHING">{t('CLOTHING')}</option>
+              <option value="HOME_KITCHEN">{t('HOME_KITCHEN')}</option>
+              <option value="BEAUTY">{t('BEAUTY')}</option>
+              <option value="HEALTH">{t('HEALTH')}</option>
+              <option value="SPORTS">{t('SPORTS')}</option>
+              <option value="BOOKS">{t('BOOKS')}</option>
+              <option value="TOYS_GAMES">{t('TOYS_GAMES')}</option>
+              <option value="FURNITURE_DECOR">{t('FURNITURE_DECOR')}</option>
+              <option value="PET_SUPPLIES">{t('PET_SUPPLIES')}</option>
+              <option value="PLANT_SUPPLIES">{t('PLANT_SUPPLIES')}</option>
             </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
               <svg
@@ -177,11 +180,11 @@ const AuctionForm = ({ initialData, isEditMode }) => {
         </div>
         <div className="w-full px-3 mb-6">
           <div className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            경매제품 상태
+            {t('ITEM_STATUS')}
           </div>
           <div className="flex">
             <label className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2">
-              최상
+              {t('BEST')}
             </label>
             <input
               type="radio"
@@ -193,7 +196,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
               className="radio checked:bg-green-900 mr-5"
             />
             <label className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2">
-              상
+              {t('GOOD')}
             </label>
             <input
               type="radio"
@@ -205,7 +208,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
               className="radio checked:bg-green-900 mr-5"
             />
             <label className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2">
-              중
+              {t('NORMAL')}
             </label>
             <input
               type="radio"
@@ -217,7 +220,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
               className="radio checked:bg-green-900 mr-5"
             />
             <label className="block uppercase tracking-wide mr-1.5 text-gray-700 text-xs font-bold mb-2">
-              하
+              {t('WORST')}
             </label>
             <input
               type="radio"
@@ -232,7 +235,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
         </div>
         <div className="w-full px-3 mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            최소 가격
+            {t('MINIMUM_BID')}
           </label>
           <input
             className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -240,7 +243,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             name="minimumBid"
             value={minimumBid}
             onChange={handleMinimumBidChange}
-            placeholder="가격을 입력하세요."
+            placeholder={t('ENTER_MINIMUM_BID')}
             required
           />
         </div>
@@ -248,7 +251,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
         <div className="w-full px-3 mb-6">
           <div className="">
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-              경매기간
+              {t('AUCTION_PERIOD')}
             </label>
             <div className="flex items-center">
               <input
@@ -270,13 +273,13 @@ const AuctionForm = ({ initialData, isEditMode }) => {
 
         <div className="w-full px-3 mb-6">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            내용
+            {t('CONTENT')}
           </label>
           <textarea
             value={content}
             onChange={e => setContent(e.target.value)}
             className="h-48 no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            placeholder="내용을 입력하세요"
+            placeholder={t('ENTER_CONTENT')}
             required
           />
         </div>
@@ -285,7 +288,7 @@ const AuctionForm = ({ initialData, isEditMode }) => {
             className=" bg-green-900 hover:bg-green-700 text-white font-bold mt-3 py-3 px-4 rounded bg-green-900!important"
             type="submit"
           >
-            {'등록하기'}
+            {t('POST_ITEM')}
           </button>
         </div>
       </div>

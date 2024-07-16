@@ -1,18 +1,19 @@
 import { useRecoilState } from 'recoil';
 import { userNameState } from '../../recoil/RecoilUserName';
 import { useUserNameLogic } from '../../hooks/entry/useUserNameLogic';
+import { useTranslation } from 'react-i18next';
 
 const UserNameEditor = ({ isEditing }) => {
   const [userName, setUserName] = useRecoilState(userNameState);
-  const { handleUserNameChange, handleDuplicationCheck, isDuplicate } =
-    useUserNameLogic();
-  console.log('중복여부:', isDuplicate);
+  const { handleUserNameChange, handleDuplicationCheck } = useUserNameLogic();
+  const { t } = useTranslation();
+
   return (
     <div className="flex items-center">
       <input
         type="text"
         className={'input input-bordered w-1/2'}
-        placeholder="닉네임"
+        placeholder={t('USER_NAME')}
         value={userName}
         onChange={handleUserNameChange}
         disabled={!isEditing}
@@ -23,7 +24,7 @@ const UserNameEditor = ({ isEditing }) => {
           className="btn btn-sm ml-2"
           disabled={!userName}
         >
-          중복확인
+          {t('DUPLICATION_CHECK')}
         </button>
       )}
     </div>
