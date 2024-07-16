@@ -66,27 +66,19 @@ const PayContent = () => {
           {t('PAYMENT_PRODUCT_INFO')}
         </div>
       </Label>
-      {/* <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
-        <ul>
-        <li>{t('HOME')}</li>
-        <li>{t('AUCTION_PAYMENT')}</li>
-        </ul>
-        </div>
-        <div className="flex justify-center items-center text-xl font-semibold bg-gray-100 w-40 h-12 rounded-t-md p-2">
-        <p>결제 상품 정보</p>
-        </div>
-        <hr className="mb-8 md: border-2 border-gray-100 dark:border-gray-800" /> */}
-      {/* <p className="text-xl font-semibold my-6">결제 상품 정보</p> */}
+
       <div className="container">
         <div className="mt-20 lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
           {' '}
           <div className="shrink-0 max-w-md mx-auto">
-            <img
+            {/* <img
               src={getImgeUrl(auctionDetails && auctionDetails.fileName)}
               alt={auctionDetails && auctionDetails.title}
-            />
+            /> */}
+            <img src="http://via.placeholder.com/640x480" />
           </div>
-          <div className="grid grid-cols-1 sm:mt-8 lg:mt-0">
+          {/* <div className="grid grid-cols-1  sm:mt-8 lg:mt-0"> */}
+          <div className="grid grid-cols-1 m-12 lg:m-0">
             {/* <hr className="my-6 md:my-8  border-gray-200 dark:border-gray-800" /> */}
             <div className="flex items-center">
               <h1 className="text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
@@ -95,12 +87,12 @@ const PayContent = () => {
             </div>
             <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
               <div className=" flex items-center text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                {auctionDetails && auctionDetails.finalBid} {t('WON')}
+                {auctionDetails && auctionDetails.finalBid}2000 {t('WON')}
               </div>
             </div>
             <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
               <div className=" flex items-center text-2xl  text-gray-900 sm:text-xl dark:text-white">
-                {auctionDetails && auctionDetails.content}
+                {auctionDetails && auctionDetails.content}lorem
               </div>
             </div>
             <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
