@@ -57,7 +57,7 @@ const PayContent = () => {
     return urlJoin(globalFileAPI, `${fileName}`);
   };
   return (
-    <div className="container">
+    <div>
       <Label breadcrumbItems={[t('HOME'), t('AUCTION_PAYMENT')]}>
         <div
           role="tab"
@@ -68,64 +68,66 @@ const PayContent = () => {
       </Label>
       {/* <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
         <ul>
-          <li>{t('HOME')}</li>
-          <li>{t('AUCTION_PAYMENT')}</li>
+        <li>{t('HOME')}</li>
+        <li>{t('AUCTION_PAYMENT')}</li>
         </ul>
-      </div>
-      <div className="flex justify-center items-center text-xl font-semibold bg-gray-100 w-40 h-12 rounded-t-md p-2">
+        </div>
+        <div className="flex justify-center items-center text-xl font-semibold bg-gray-100 w-40 h-12 rounded-t-md p-2">
         <p>결제 상품 정보</p>
-      </div>
-      <hr className="mb-8 md: border-2 border-gray-100 dark:border-gray-800" /> */}
+        </div>
+        <hr className="mb-8 md: border-2 border-gray-100 dark:border-gray-800" /> */}
       {/* <p className="text-xl font-semibold my-6">결제 상품 정보</p> */}
-      <div className="mt-20 lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
-        {' '}
-        <div className="shrink-0 max-w-md mx-auto">
-          <img
-            src={getImgeUrl(auctionDetails && auctionDetails.fileName)}
-            alt={auctionDetails && auctionDetails.title}
-          />
+      <div className="container">
+        <div className="mt-20 lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
+          {' '}
+          <div className="shrink-0 max-w-md mx-auto">
+            <img
+              src={getImgeUrl(auctionDetails && auctionDetails.fileName)}
+              alt={auctionDetails && auctionDetails.title}
+            />
+          </div>
+          <div className="grid grid-cols-1 sm:mt-8 lg:mt-0">
+            {/* <hr className="my-6 md:my-8  border-gray-200 dark:border-gray-800" /> */}
+            <div className="flex items-center">
+              <h1 className="text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
+                {auctionDetails && auctionDetails.title}
+              </h1>
+            </div>
+            <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
+              <div className=" flex items-center text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
+                {auctionDetails && auctionDetails.finalBid} {t('WON')}
+              </div>
+            </div>
+            <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
+              <div className=" flex items-center text-2xl  text-gray-900 sm:text-xl dark:text-white">
+                {auctionDetails && auctionDetails.content}
+              </div>
+            </div>
+            <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
+              <div className=" flex items-center text-2xl text-red-600 sm:text-xl dark:text-white">
+                <GoAlert color="red" />
+                {t('PAY_WITHIN_A_WEEK')}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="grid grid-cols-1 sm:mt-8 lg:mt-0">
-          {/* <hr className="my-6 md:my-8  border-gray-200 dark:border-gray-800" /> */}
-          <div className="flex items-center">
-            <h1 className="text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-              {auctionDetails && auctionDetails.title}
-            </h1>
-          </div>
-          <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
-            <div className=" flex items-center text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-              {auctionDetails && auctionDetails.finalBid} {t('WON')}
-            </div>
-          </div>
-          <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
-            <div className=" flex items-center text-2xl  text-gray-900 sm:text-xl dark:text-white">
-              {auctionDetails && auctionDetails.content}
-            </div>
-          </div>
-          <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
-            <div className=" flex items-center text-2xl text-red-600 sm:text-xl dark:text-white">
-              <GoAlert color="red" />
-              {t('PAY_WITHIN_A_WEEK')}
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr className="my-6 md:my-8 border-2 border-gray-100 dark:border-gray-800" />
+        <hr className="my-6 md:my-8 border-2 border-gray-100 dark:border-gray-800" />
 
-      <div className=" mt-4 pt-12 lg:pb-8 xl:px-40 xl:container  2xl:px-60">
-        <div className="flex flex-col items-center justify-center pt-2 h-96 text-3xl border-4 border-gray-100 lg:pt-4  lg: px-4 sm:px-4 xl:px-2  xl:container mx-auto">
-          <p className="mb-4">{t('AUCTION_WON')}</p>
-          <p className="mb-4">
-            {auctionDetails && auctionDetails.finalBid}
-            {t('WON')}
-            {t('PAY_NOW')}
-          </p>
-          <button
-            className=" py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-brunswick rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100"
-            onClick={requestPay}
-          >
-            {t('PAY')}
-          </button>
+        <div className=" mt-4 pt-12 lg:pb-8 xl:px-40 xl:container  2xl:px-60">
+          <div className="flex flex-col items-center justify-center pt-2 h-96 text-3xl border-4 border-gray-100 lg:pt-4  lg: px-4 sm:px-4 xl:px-2  xl:container mx-auto">
+            <p className="mb-4">{t('AUCTION_WON')}</p>
+            <p className="mb-4">
+              {auctionDetails && auctionDetails.finalBid}
+              {t('WON')}
+              {t('PAY_NOW')}
+            </p>
+            <button
+              className=" py-2.5 px-5 text-sm font-medium text-white focus:outline-none bg-green-brunswick rounded-lg border border-gray-200 hover:bg-white hover:text-gray-900 focus:z-10 focus:ring-4 focus:ring-gray-100"
+              onClick={requestPay}
+            >
+              {t('PAY')}
+            </button>
+          </div>
         </div>
       </div>
     </div>

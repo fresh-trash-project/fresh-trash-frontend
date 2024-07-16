@@ -85,11 +85,13 @@ const DetailProduct = () => {
   return (
     <div>
       <Label
-        breadcrumbItems={[
-          t('CATEGORY'),
-          `${postDetails && postDetails.productCategory}`,
-        ]}
-      />
+        padding="py-2"
+        breadcrumbItems={[t('HOME'), t('TRADE_ITEM'), t('PRODUCT_DETAIL_PAGE')]}
+      >
+        {`${t('CATEGORY')}`}
+        <span className="border-l-2 border-green-brunswick mx-2" />
+        {`${postDetails && postDetails.productCategory}`}
+      </Label>
       <div className="container">
         <div className="flex flex-row-reverse mt-20">
           <div className="mr-28 dropdown dropdown-end">
