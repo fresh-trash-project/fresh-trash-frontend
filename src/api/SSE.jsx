@@ -12,9 +12,9 @@ export const useSSE = () => {
   useEffect(() => {
     if (signIn) {
       const accessToken = localStorage.getItem('accessToken');
-      // if (!accessToken || eventSource) return;
-      if (!accessToken) return;
-      if (EventSource) return;
+      if (!accessToken || true) return;
+      // if (!accessToken) return;
+      // if (true) return;
 
       const headers = { Authorization: `Bearer ${accessToken}` };
 

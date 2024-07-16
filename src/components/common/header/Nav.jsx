@@ -7,7 +7,8 @@ import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../button/LanguageSwitcher';
 import { FaSignInAlt, FaUserPlus, FaUser, FaSignOutAlt } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchAllAlarms } from '../../../api/AlarmAPI';
 
 const Nav = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
@@ -17,6 +18,19 @@ const Nav = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const [showSubMenu, setShowSubMenu] = useState(false);
+
+  useEffect(() => {
+    const getAllAlarms = async () => {
+      const allAlarms = await fetchAllAlarms(navigate);
+      setAlarmMsg(allAlarms);
+    };
+
+    if (signIn) {
+      getAllAlarms();
+    }
+  }, [signIn, navigate, setAlarmMsg]);
+
+  const unreadCount = alarmMsg.filter(item => !item.readAt).length;
 
   const menuItems = [
     { path: '/', label: t('HOME') },
@@ -187,7 +201,8 @@ const Nav = () => {
                 </svg>
                 <span className="badge badge-xs badge-primary indicator-item bg-yellow-naples border-yellow-naples text-black rounded-full w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6">
                   <p className="sm:text-xs md:text-sm lg:text-md">
-                    {alarmMsg?.filter(item => item.readAt === null).length || 0}
+                    {/* {alarmMsg?.filter(item => item.readAt === null).length || 0} */}
+                    {unreadCount}
                   </p>
                 </span>
               </div>

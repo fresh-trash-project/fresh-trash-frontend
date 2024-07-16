@@ -111,15 +111,17 @@ const Alarm = ({ currentPage, totalPages, setCurrentPage, fetchAlarmData }) => {
         ))}
       </ul>
 
-      {/* 페이지  */}
-      <div className="flex justify-between px-4 py-2 mt-5 bg-yellow-naples rounded-box">
+      {/* 전체 페이지 알람 받을때 */}
+      <div className="flex justify-between px-4 py-6 mt-5 bg-yellow-naples rounded-box"></div>
+
+      {/* 페이지별 알람 받을때 */}
+      {/* <div className="flex justify-between px-4 py-2 mt-5 bg-yellow-naples rounded-box">
         <button
           onClick={() => handleClickPage(currentPage - 1)}
           className={`px-4 py-2 rounded cursor-pointer ${currentPage === 0 ? 'bg-gray-300' : 'bg-gray-200 hover:bg-green-current hover:text-white'}`}
           disabled={currentPage === 0}
         >
-          <IoIosArrowBack />
-          {/* {t('PREV')} */}
+          <IoIosArrowBack />       
         </button>
         <button
           onClick={() => handleClickPage(currentPage + 1)}
@@ -127,9 +129,8 @@ const Alarm = ({ currentPage, totalPages, setCurrentPage, fetchAlarmData }) => {
           disabled={currentPage === totalPages - 1}
         >
           <IoIosArrowForward />
-          {/* {t('NEXT')} */}
         </button>
-      </div>
+      </div>  */}
 
       {/* 모달 */}
       {showRatingModal && currentItem && (

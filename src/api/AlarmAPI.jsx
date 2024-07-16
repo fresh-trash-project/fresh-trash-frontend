@@ -5,6 +5,33 @@ import { CONSOLE } from '../../Constants';
 const axiosWithToken = createAxiosWithToken(globalNotisAPI);
 
 //전체 알림 조회
+// 알림 API 호출 수정
+export const fetchAllAlarms = async navigate => {
+  let page = 0;
+  let allAlarms = [];
+  let hasMore = true;
+
+  try {
+    while (hasMore) {
+      const response = await axiosWithToken.get(`?page=${page}`);
+      if (response.status === 200) {
+        allAlarms = [...allAlarms, ...response.data.content];
+        hasMore = !response.data.last; // 마지막 페이지가 아니면 true
+        page++;
+      }
+    }
+    return allAlarms;
+  } catch (error) {
+    console.log(error.message);
+    if (error.response && error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+      localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
+    }
+    throw error;
+  }
+};
+
 export const fetchAlarm = async (page, navigate) => {
   try {
     const response = await axiosWithToken.get(`?page=${page}`);
