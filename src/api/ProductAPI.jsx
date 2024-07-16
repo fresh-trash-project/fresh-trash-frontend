@@ -105,8 +105,6 @@ export const detailProduct = async (productId, navigate) => {
     if (response.status === 200) {
       console.log(CONSOLE.FETCH_DETAIL_KUST_SUCCESS, response.data);
       return response.data; // 서버로부터 받은 데이터 반환
-    } else {
-      console.log('응답 상태 코드:', response.status); // 디버깅용 로그
     }
   } catch (error) {
     console.error(error.message);
@@ -230,7 +228,6 @@ export const likeProduct = async (productId, query, navigate) => {
       return response.data;
     }
   } catch (error) {
-    console.error('관심목록 추가 실패:', error.message);
     if (error.response.status === 401) {
       console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
       localStorage.removeItem('accessToken');

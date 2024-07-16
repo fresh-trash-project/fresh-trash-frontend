@@ -42,7 +42,7 @@ const DetailCard = ({
         newLikeState ? 'LIKE' : 'UNLIKE',
         navigate,
       );
-      console.log('하트상태', response.data);
+      console.log(CONSOLE.LIKES_STATE, response.data);
       setLike(prevDetails => ({
         ...prevDetails,
         likeCount: newLikeState

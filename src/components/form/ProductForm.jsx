@@ -5,6 +5,7 @@ import urlJoin from 'url-join';
 import { globalFileAPI } from '../../../variable';
 import { updatePost, createPost } from '../../api/ProductAPI';
 import { toast } from 'react-toastify';
+import { MESSAGES, CONSOLE } from '../../../Constants';
 import { useTranslation } from 'react-i18next';
 const ProductForm = ({ initialData, isEditMode }) => {
   const { t } = useTranslation();
@@ -46,7 +47,7 @@ const ProductForm = ({ initialData, isEditMode }) => {
       if (validImageTypes.includes(file.type)) {
         setImgFile(file);
       } else {
-        toast.error('올바른 이미지 형식을 선택하세요. (JPEG, JPG, PNG)');
+        toast.error(MESSAGES.IMG_TYPE_CHANGE);
         e.target.value = null;
       }
     }
@@ -111,7 +112,7 @@ const ProductForm = ({ initialData, isEditMode }) => {
         );
       }
     } catch (error) {
-      console.error('Error submitting post:', error);
+      console.error(error);
     }
   };
   const getImgeUrl = fileName => {
@@ -161,7 +162,7 @@ const ProductForm = ({ initialData, isEditMode }) => {
           <input
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:border-gray-500"
             type="text"
-            value={t('TITLE')}
+            value={title}
             onChange={e => setTitle(e.target.value)}
             placeholder={t('ENTER_TITLE')}
             required

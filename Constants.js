@@ -57,6 +57,10 @@ export const MESSAGES = {
 
   //신고
   FLAG_SUCCESS: '신고 신청 완료',
+
+  //형식오류
+  IMG_TYPE_CHANGE: '올바른 이미지 형식을 선택하세요.(JPEG, JPG, PNG)',
+  POSITIVE_NUMBER: '양수를 입력하세요.',
 };
 
 export const CONSOLE = {
@@ -78,17 +82,23 @@ export const CONSOLE = {
   FETCH_POSTS_SUCCESS: '상품 목록을 가져오기 성공',
   FETCH_DETAIL_LIST_SUCCESS: '상품 상세정보를 불러오는데 성공',
   EDIT_SUCCESS: '상품 수정 중 오류 발생',
+  DELETE_SUCCESS: '상품 삭제 성공',
   DELETE_ERROR: '상품 삭제 중 오류 발생',
-
+  ADD_ERROR: '상품 등록을 실패하였습니다.',
   LIKES_ERROR: '관심상태를 업데이트하는 도중 오류가 발생했습니다.',
-
+  LIKES_STATE: '하트상태',
+  SEARCH_ERROR: '검색 중 오류 발생',
   CHATROOM_SUCCESS: '채팅방 생성 성공',
   CHAT_LIST_SUCCESS: '채팅방 목록 불러오는데 성공',
+  CHAT_LIST_ERROR: '채팅방 목록 불러오는 중 오류 발생',
   CHATROOM_OUT: '채팅방 나가기 성공',
   CHAT_CONTENT: '채팅방 내용 불러오기 성공',
-
+  CHAT_CONTENT_ERROR: '채팅방 내용 불러오는 중 오류 발생',
+  RECEIVED_MESSAGE: '수신한 메세지',
+  SEND_MESSAGE: '전송 메세지',
   WEBSOCKET_OPEN: '웹소켓 연결이 열렸습니다.',
   WEBSOCKET_ERROR: '웹소켓 연결을 실패했습니다.',
+
   TRANSACTION_SUCCESS: '판매완료 요청 성공',
   PRODUCT_DEAL_SUCCESS: '거래처리 변경 성공',
   PARSING_ERROR: '사용자 정보를 파싱하는 도중 오류가 발생했습니다',

@@ -65,7 +65,6 @@ export const deleteAuction = async (auctionId, navigate) => {
   try {
     const response = await axiosWithTokenAuctions.delete(`/${auctionId}`);
     if (response.status === 204) {
-      console.log('삭제성공');
       if (!toast.isActive('delete_product')) {
         toast.success(MESSAGES.DELETE_SUCCESS, {
           toastId: 'delete_product',

@@ -55,7 +55,7 @@ const DetailAuction = () => {
 
       return user;
     } catch (error) {
-      console.error('사용자 정보를 파싱하는 도중 오류가 발생했습니다:', error);
+      console.error(CONSOLE.PARSING_ERROR, error);
       return null; // 또는 적절한 기본값 반환
     }
   };
@@ -79,13 +79,13 @@ const DetailAuction = () => {
 
   return (
     <div>
+      <Label
+        breadcrumbItems={[
+          t('CATEGORY'),
+          `${auctionDetails && auctionDetails.productCategory}`,
+        ]}
+      />
       <div className="container">
-        <Label
-          breadcrumbItems={[
-            t('CATEGORY'),
-            `${auctionDetails && auctionDetails.productCategory}`,
-          ]}
-        />
         {/* <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">
           <ul>
             <li>카테고리</li>

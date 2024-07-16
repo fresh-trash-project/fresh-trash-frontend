@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListFetch } from '../../api/ChattingAPI';
 import { useTranslation } from 'react-i18next';
-
+import { MESSAGES, CONSOLE } from '../../../Constants';
 const ChatList = ({ isOpen, currentUser }) => {
   //채팅 목록 불러오기
   const { t } = useTranslation();
@@ -19,7 +19,7 @@ const ChatList = ({ isOpen, currentUser }) => {
         setUserList(prevList => [...prevList, ...list.content]);
         setPage(list.totalElements);
       } catch (error) {
-        console.log('Error fetching data:', error);
+        console.log(CONSOLE.CHAT_LIST_ERROR, error);
       }
     };
     fetchData();
