@@ -4,7 +4,7 @@ import { AlarmState, AlarmMsgState } from '../../../recoil/RecoilAlarm';
 import Alarm from './Alarm';
 import { signInState } from '../../../recoil/RecoilSignIn';
 import { useEffect, useState } from 'react';
-import { fetchAlarm, fetchAllAlarms } from '../../../api/AlarmAPI';
+import { fetchAllAlarms } from '../../../api/AlarmAPI';
 import { useSSE } from '../../../api/SSE';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const Header = () => {
     const allAlarms = await fetchAllAlarms(navigate);
     setAlarmMsg(allAlarms);
   };
-  // 알람 데이터 가져오기
+  // 알람 데이터 페이지별 가져오기
   // const fetchAlarmData = async page => {
   //   const data = await fetchAlarm(page, navigate);
   //   setAlarmMsg(data.content);

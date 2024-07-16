@@ -47,7 +47,8 @@ const Alarm = ({ currentPage, totalPages, setCurrentPage, fetchAlarmData }) => {
   const readAlarmMessage = async item => {
     if (!item.readAt) {
       await readAlarm(item.id, navigate);
-      fetchAlarmData(currentPage);
+      fetchAlarmData();
+      // fetchAlarmData(currentPage); 페이지별 알림 받을때
     }
   };
 

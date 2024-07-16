@@ -201,7 +201,7 @@ const Nav = () => {
                 </svg>
                 <span className="badge badge-xs badge-primary indicator-item bg-yellow-naples border-yellow-naples text-black rounded-full w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6">
                   <p className="sm:text-xs md:text-sm lg:text-md">
-                    {/* {alarmMsg?.filter(item => item.readAt === null).length || 0} */}
+                    {/* {alarmMsg?.filter(item => item.readAt === null).length || 0}  페이지별 안읽은 알림 갯수*/}
                     {unreadCount}
                   </p>
                 </span>
