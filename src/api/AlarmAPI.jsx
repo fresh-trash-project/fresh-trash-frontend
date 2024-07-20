@@ -52,11 +52,6 @@ export const readAlarm = async (notisId, navigate) => {
     }
   } catch (error) {
     console.log(error.message);
-    console.error(
-      `Error reading alarm ${notisId}:`,
-      error.message,
-      error.response ? error.response.data : 'No response data',
-    );
   }
   if (error.response && error.response.status === 401) {
     console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
