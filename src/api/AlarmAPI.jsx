@@ -4,11 +4,31 @@ import { CONSOLE } from '../../Constants';
 
 const axiosWithToken = createAxiosWithToken(globalNotisAPI);
 
-//전체 알림 조회
-export const fetchAlarm = async (page, navigate) => {
+//전체 안읽은 알림 조회
+export const fetchUnreadAlarm = async (page, navigate) => {
   try {
-    const response = await axiosWithToken.get(`?page=${page}`);
+    const response = await axiosWithToken.get(`?isRead=false&page=${page}`);
     if (response.status === 200) {
+      console.log(response.data);
+      return response.data;
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+  if (error.response.status === 401) {
+    console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+    localStorage.removeItem('accessToken');
+    navigate('/signupsignin');
+  }
+  throw error;
+};
+
+//전체 읽은 알림 조회
+export const fetchReadAlarm = async (page, navigate) => {
+  try {
+    const response = await axiosWithToken.get(`?isRead=true&page=${page}`);
+    if (response.status === 200) {
+      console.log(response.data);
       return response.data;
     }
   } catch (error) {
@@ -32,8 +52,13 @@ export const readAlarm = async (notisId, navigate) => {
     }
   } catch (error) {
     console.log(error.message);
+    console.error(
+      `Error reading alarm ${notisId}:`,
+      error.message,
+      error.response ? error.response.data : 'No response data',
+    );
   }
-  if (error.response.status === 401) {
+  if (error.response && error.response.status === 401) {
     console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
     localStorage.removeItem('accessToken');
     navigate('/signupsignin');

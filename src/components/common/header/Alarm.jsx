@@ -7,10 +7,16 @@ import { useState } from 'react';
 import RatingModal from '../modal/RatingModal';
 import { useTranslation } from 'react-i18next';
 
-const Alarm = ({ currentPage, totalPages, setCurrentPage, fetchAlarmData }) => {
+const Alarm = ({
+  currentPage,
+  totalPages,
+  setCurrentPage,
+  fetchAlarmData,
+  activeTab,
+  setActiveTab,
+}) => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
-  const [activeTab, setActiveTab] = useState('new'); // 'new' or 'read'
   const [showRatingModal, setShowRatingModal] = useState(false); // 평점 모달 상태 추가
   const [currentItem, setCurrentItem] = useState(null); // 현재 클릭된 알람 메시지 저장
   const navigate = useNavigate();
@@ -22,12 +28,7 @@ const Alarm = ({ currentPage, totalPages, setCurrentPage, fetchAlarmData }) => {
     fetchAlarmData(0, tab);
   };
 
-  const displayedMessages =
-    alarmMsg && alarmMsg.length > 0
-      ? activeTab === 'new'
-        ? alarmMsg.filter(msg => !msg.readAt)
-        : alarmMsg.filter(msg => msg.readAt)
-      : [];
+  const displayedMessages = alarmMsg || [];
 
   //알람타입에 따라 알람메시지 클릭했을때 링크 이동
   const getLinkByAlarmType = item => {
@@ -47,7 +48,7 @@ const Alarm = ({ currentPage, totalPages, setCurrentPage, fetchAlarmData }) => {
   const readAlarmMessage = async item => {
     if (!item.readAt) {
       await readAlarm(item.id, navigate);
-      fetchAlarmData(currentPage);
+      fetchAlarmData(currentPage, activeTab);
     }
   };
 
@@ -66,7 +67,7 @@ const Alarm = ({ currentPage, totalPages, setCurrentPage, fetchAlarmData }) => {
 
   const handleClickPage = pageNumber => {
     setCurrentPage(pageNumber);
-    fetchAlarmData(pageNumber);
+    fetchAlarmData(pageNumber, activeTab);
   };
 
   return (

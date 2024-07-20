@@ -9,7 +9,7 @@ import LanguageSwitcher from '../button/LanguageSwitcher';
 import { FaSignInAlt, FaUserPlus, FaUser, FaSignOutAlt } from 'react-icons/fa';
 import { useState } from 'react';
 
-const Nav = () => {
+const Nav = ({ totalUnreadCount }) => {
   const [signIn, setSignIn] = useRecoilState(signInState);
   const [signInPanel, setSignInPanel] = useRecoilState(signInPanelState);
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
@@ -187,7 +187,8 @@ const Nav = () => {
                 </svg>
                 <span className="badge badge-xs badge-primary indicator-item bg-yellow-naples border-yellow-naples text-black rounded-full w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6">
                   <p className="sm:text-xs md:text-sm lg:text-md">
-                    {alarmMsg?.filter(item => item.readAt === null).length || 0}
+                    {/* {alarmMsg?.filter(item => item.readAt === null).length || 0} */}
+                    {totalUnreadCount || 0}
                   </p>
                 </span>
               </div>
