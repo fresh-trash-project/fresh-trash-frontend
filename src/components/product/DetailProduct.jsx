@@ -90,7 +90,7 @@ const DetailProduct = () => {
       >
         {`${t('CATEGORY')}`}
         <span className="border-l-2 border-green-brunswick mx-2" />
-        {`${postDetails && postDetails.productCategory}`}
+        {`${postDetails && t(postDetails.productCategory)}`}
       </Label>
       <div className="container">
         <div className="flex flex-row-reverse mt-20">
