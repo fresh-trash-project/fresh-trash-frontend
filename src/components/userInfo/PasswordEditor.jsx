@@ -77,7 +77,7 @@ const PasswordEditor = ({ isEditing, navigate }) => {
         </label>
         <button
           className="btn btn-sm ml-2"
-          onClick={() => handlePasswordChange(navigate)}
+          onClick={e => handlePasswordChange(e)}
           disabled={
             currentPassword === '' ||
             newPassword === '' ||
