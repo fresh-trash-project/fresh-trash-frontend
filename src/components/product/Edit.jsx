@@ -28,12 +28,14 @@ const Edit = () => {
   }
 
   return (
-    <div className="xl:container ">
+    <div>
       <Label
         breadcrumbItems={[t('HOME'), t('PRODUCT_DETAIL_PAGE'), t('EDIT')]}
       />
-      <div className=" flex justify-center mt-20  ">
-        <ProductForm initialData={initialData} isEditMode={true} />
+      <div className="xl:container ">
+        <div className=" flex justify-center mt-20  ">
+          <ProductForm initialData={initialData} isEditMode={true} />
+        </div>
       </div>
     </div>
     // <div className="pt-4 lg:pt-5 pb-4 lg:pb-8 px-4 xl:px-2 xl:container mx-auto">
