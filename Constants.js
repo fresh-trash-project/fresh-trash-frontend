@@ -19,9 +19,10 @@ export const MESSAGES = {
   PASSWORD_UPDATE_SUCCESS:
     '비밀번호가 성공적으로 변경되었습니다. 잠시 후 로그아웃됩니다. 새 비밀번호로 다시 로그인 하세요.',
 
-  //회원가입, 로그인
+  //회원가입, 로그인, 로그아웃
   SIGN_UP_SUCCESS: '성공적으로 회원가입 되었습니다. 로그인 하세요.',
   USER_NOT_FOUND_ERROR: '유저 정보가 존재하지 않습니다. 회원 가입 먼저 하세요.',
+  LOGOUT_FAILED: '로그아웃에 실패했습니다',
 
   //닉네임
   USERNAME_AVAILABLE: '사용 가능한 닉네임입니다.',
