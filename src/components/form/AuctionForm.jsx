@@ -158,15 +158,15 @@ const AuctionForm = ({ initialData, isEditMode }) => {
               <option value="">{t('SELECT_CATEGORY')}</option>
               <option value="ELECTRONICS">{t('ELECTRONICS')}</option>
               <option value="CLOTHING">{t('CLOTHING')}</option>
-              <option value="HOME KITCHEN">{t('HOME_KITCHEN')}</option>
+              <option value="HOME_KITCHEN">{t('HOME_KITCHEN')}</option>
               <option value="BEAUTY">{t('BEAUTY')}</option>
               <option value="HEALTH">{t('HEALTH')}</option>
               <option value="SPORTS">{t('SPORTS')}</option>
               <option value="BOOKS">{t('BOOKS')}</option>
-              <option value="TOYS GAMES">{t('TOYS_GAMES')}</option>
+              <option value="TOYS_GAMES">{t('TOYS_GAMES')}</option>
               <option value="FURNITURE">{t('FURNITURE_DECOR')}</option>
-              <option value="PET SUPPLIES">{t('PET_SUPPLIES')}</option>
-              <option value="PLANT SUPPLIES">{t('PLANT_SUPPLIES')}</option>
+              <option value="PET_SUPPLIES">{t('PET_SUPPLIES')}</option>
+              <option value="PLANT_SUPPLIES">{t('PLANT_SUPPLIES')}</option>
             </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
               <svg
