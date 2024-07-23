@@ -1,5 +1,4 @@
-import { globalMailAPI } from '../../variable';
-import { globalAuthAPI } from '../../variable';
+import { globalMailAPI, globalAuthAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
 import { toast } from 'react-toastify';
 import { MESSAGES } from '../../Constants';
@@ -20,7 +19,7 @@ export const fetchCode = async email => {
           toastId: 'send-code-success',
         });
       }
-      // console.log('인증코드 확인: ', response);
+      console.log('인증코드 확인: ', response);
     }
   } catch (error) {
     console.log(error.message);
@@ -165,6 +164,27 @@ export const fetchTempPassword = async email => {
           toastId: 'password-reset-wrong-email',
         });
       }
+    }
+    throw error;
+  }
+};
+
+// 로그아웃 버튼 눌렀을때
+export const logoutAccount = async (setSignIn, navigate) => {
+  try {
+    const response = await axiosWithTokenAuth.delete('/logout');
+
+    if (response.status === 204) {
+      localStorage.removeItem('accessToken');
+      setSignIn(false);
+      navigate('/SignUpSignIn');
+    }
+  } catch (error) {
+    console.log(error.message);
+    if (!toast.isActive('logout-failed')) {
+      toast.error(MESSAGES.LOGOUT_FAILED, {
+        toastId: 'logout-failed',
+      });
     }
     throw error;
   }

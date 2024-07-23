@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../button/LanguageSwitcher';
 import { FaSignInAlt, FaUserPlus, FaUser, FaSignOutAlt } from 'react-icons/fa';
 import { useState } from 'react';
+import { logoutAccount } from '../../../api/EntryAPI';
 
 const Nav = ({ totalUnreadCount }) => {
   const [signIn, setSignIn] = useRecoilState(signInState);
@@ -35,7 +36,8 @@ const Nav = ({ totalUnreadCount }) => {
     { path: '/AuctionList', label: t('AUCTION_LIST') },
   ].filter(Boolean); // filter(Boolean)을 사용하여 배열에서 false 값 제거
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logoutAccount(setSignIn, navigate);
     localStorage.removeItem('accessToken');
     Cookies.remove('accessToken', { path: '/', domain: 'localhost' });
     setSignIn(false);
