@@ -19,7 +19,7 @@ export const fetchCode = async email => {
           toastId: 'send-code-success',
         });
       }
-      console.log('인증코드 확인: ', response);
+      // console.log('인증코드 확인: ', response); 이메일로 인증코드 안 보내질때 확인
     }
   } catch (error) {
     console.log(error.message);
