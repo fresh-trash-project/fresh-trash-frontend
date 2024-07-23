@@ -26,17 +26,21 @@ const MyTradeCards = ({ myList, type, myBuyListOpen }) => {
             key={item.id}
             product={type === 'product' ? item : undefined}
             auction={type === 'auction' ? item : undefined}
+            showReviewButton={type === 'auction' && myBuyListOpen}
+            onReviewButtonClick={() => openModal(item.id)}
           />
-          {myBuyListOpen && (
+          {/* {myBuyListOpen && (
             <div className="text-center mt-2">
               <button
                 onClick={() => openModal(item.id)}
-                style={{ display: 'inline-block', margin: 'auto' }}
+                // style={{ display: 'inline-block', margin: 'auto' }}
               >
-                <p className="font-semibold">{t('SEND_AUCTION_REVIEW')}</p>
+                <p className="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600">
+                  {t('SEND_AUCTION_REVIEW')}
+                </p>
               </button>
             </div>
-          )}
+          )} */}
         </div>
       ))}
       {modalOpen && selectedItemId && (
