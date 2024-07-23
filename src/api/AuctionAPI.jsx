@@ -160,7 +160,7 @@ export const AuctionBid = async (biddingPrice, auctionId, navigate) => {
           toastId: 'bidding_success',
         });
       }
-      navigate('/MyPage/MyAuctionList');
+      navigate('/AuctionList');
     }
   } catch (error) {
     console.log(error.message);
