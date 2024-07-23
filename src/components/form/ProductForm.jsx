@@ -299,7 +299,7 @@ const ProductForm = ({ initialData, isEditMode }) => {
               <button
                 type="button"
                 onClick={handleOpenAddressModal}
-                className=" w-32  ml-4  bg-green-900 hover:bg-green-700 text-white font-bold py-2.5 px-4 rounded text-center "
+                className=" w-32  ml-4  bg-green-900 hover:bg-green-700 text-white font-bold py-2.5 px-4 rounded text-center text-sm "
               >
                 {t('SEARCH_ADDRESS')}
               </button>

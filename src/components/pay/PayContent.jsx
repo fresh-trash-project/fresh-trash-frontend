@@ -71,11 +71,11 @@ const PayContent = () => {
         <div className="mt-20 lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
           {' '}
           <div className="shrink-0 max-w-md mx-auto">
-            {/* <img
+            <img
               src={getImgeUrl(auctionDetails && auctionDetails.fileName)}
               alt={auctionDetails && auctionDetails.title}
-            /> */}
-            <img src="http://via.placeholder.com/640x480" />
+            />
+            {/* <img src="http://via.placeholder.com/640x480" /> */}
           </div>
           {/* <div className="grid grid-cols-1  sm:mt-8 lg:mt-0"> */}
           <div className="grid grid-cols-1 m-12 lg:m-0">
@@ -87,12 +87,12 @@ const PayContent = () => {
             </div>
             <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
               <div className=" flex items-center text-2xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                {auctionDetails && auctionDetails.finalBid}2000 {t('WON')}
+                {auctionDetails && auctionDetails.finalBid} {t('WON')}
               </div>
             </div>
             <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
               <div className=" flex items-center text-2xl  text-gray-900 sm:text-xl dark:text-white">
-                {auctionDetails && auctionDetails.content}lorem
+                {auctionDetails && auctionDetails.content}
               </div>
             </div>
             <div className=" sm:items-center sm:gap-4 sm:flex justify-between">
