@@ -5,12 +5,14 @@ import auction from '../assets/auction3.jpg';
 import sell from '../assets/sell1.jpg';
 import { useRecoilState } from 'recoil';
 import { signInState } from '../recoil/RecoilSignIn';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../components/common/service/LoadingSpinner';
 
 const Home = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(true);
   const navigationCardItems = [
     {
       image: add,
@@ -39,6 +41,7 @@ const Home = () => {
       setSignIn(true);
       localStorage.setItem('accessToken', accessToken);
     }
+    setLoading(false);
   }, []);
 
   function getCookies(name) {
@@ -51,6 +54,10 @@ const Home = () => {
       }
     }
     return null;
+  }
+
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
   }
 
   //JSX-----------------------------------------------------------------------------------

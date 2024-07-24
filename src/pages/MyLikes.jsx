@@ -6,6 +6,8 @@ import Label from '../components/common/label/Label';
 import { useNavigate } from 'react-router-dom';
 import CategoryDropDown from '../components/common/category/CategoryDropDown';
 import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../components/common/service/LoadingSpinner';
+
 const MyLikes = () => {
   const { t } = useTranslation();
   const [myLikes, setMyLikes] = useState([]);
@@ -14,6 +16,7 @@ const MyLikes = () => {
   const [totalPage, setTotalPage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true); // 로딩 상태
 
   useEffect(() => {
     const getMyLikes = async () => {
@@ -21,16 +24,20 @@ const MyLikes = () => {
       setMyLikes(dataMyLikes.content);
       setTotalLikes(dataMyLikes.totalElements);
       setTotalPage(dataMyLikes.totalPages);
+      setLoading(false);
     };
     getMyLikes();
   }, [selectedCategory, page]);
 
   //카테고리--------------------------------
-
   const handleCategoryChange = category => {
     setSelectedCategory(category);
     setPage(0); // 카테고리가 변경될 때 페이지를 0으로 초기화합니다.
   };
+
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
+  }
 
   return (
     <div>

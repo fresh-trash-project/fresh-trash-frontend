@@ -17,6 +17,7 @@ import { MESSAGES } from '../../../Constants';
 import { CONSOLE } from '../../../Constants';
 import Label from '../common/label/Label';
 import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../common/service/LoadingSpinner';
 const DetailProduct = () => {
   const { t } = useTranslation();
   const { productId } = useParams(); // URL 파라미터에서 productId 가져오기
@@ -24,13 +25,16 @@ const DetailProduct = () => {
   const { chatId } = useParams();
   const [postDetails, setPostDetails] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchDetail = async () => {
       try {
         const details = await detailProduct(productId, navigate);
         setPostDetails(details);
+        setLoading(false);
       } catch (error) {
         console.error(CONSOLE.FETCH_DETAIL_LIST_SUCCESS, error);
+        setLoading(false);
       }
     };
     fetchDetail();
@@ -81,6 +85,10 @@ const DetailProduct = () => {
   };
 
   //채팅------------------------------------
+
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
+  }
 
   return (
     <div>

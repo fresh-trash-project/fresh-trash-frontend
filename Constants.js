@@ -37,6 +37,7 @@ export const MESSAGES = {
 
   //상품 등록
   POST_SUCCESS: '상품 등록이 완료되었습니다.',
+  POST_ACCESS_CONDITION: '로그인한 회원만 등록 페이지에 접근할 수 있습니다.',
 
   //상품 삭제
   DELETE_SUCCESS: '상품이 삭제되었습니다.',

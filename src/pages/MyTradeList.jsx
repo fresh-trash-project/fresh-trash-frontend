@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/common/header/Header';
 import MyTradeCards from '../components/common/card/MyTradeCards';
 import {
   fetchMyBuyList,
@@ -11,6 +10,7 @@ import Label from '../components/common/label/Label';
 import { useNavigate } from 'react-router-dom';
 import PaginationButton from '../components/common/pagination/PaginationButton';
 import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../components/common/service/LoadingSpinner';
 
 const MyTradeList = () => {
   const { t } = useTranslation();
@@ -91,7 +91,7 @@ const MyTradeList = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // 로딩 중일 때 표시할 내용
+    return <LoadingSpinner loading={loading} />;
   }
 
   return (

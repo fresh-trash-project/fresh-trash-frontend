@@ -14,12 +14,14 @@ import { MESSAGES } from '../../../Constants';
 import { CONSOLE } from '../../../Constants';
 import Label from '../common/label/Label';
 import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../common/service/LoadingSpinner';
 const DetailAuction = () => {
   const { t } = useTranslation();
   const { auctionId } = useParams(); // URL 파라미터에서 auctionId 가져오기
   const { chatId } = useParams();
   const [auctionDetails, setAuctionDetails] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -27,8 +29,10 @@ const DetailAuction = () => {
         const details = await detailAuction(auctionId, navigate);
         setAuctionDetails(details);
         console.log(details);
+        setLoading(false);
       } catch (error) {
         console.error(CONSOLE.FETCH_DETAIL_LIST_SUCCESS, error);
+        setLoading(false);
       }
     };
     fetchDetail();
@@ -77,6 +81,10 @@ const DetailAuction = () => {
     return urlJoin(globalFileAPI, `${fileName}`);
   };
 
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
+  }
+
   return (
     <div>
       <Label
@@ -89,7 +97,7 @@ const DetailAuction = () => {
       >
         {`${t('CATEGORY')}`}
         <span className="border-l-2 border-green-brunswick mx-2" />
-        {`${auctionDetails && auctionDetails.productCategory}`}
+        {`${auctionDetails && t(auctionDetails.productCategory)}`}
       </Label>
       <div className="container">
         {/* <div className="flex flex-row-reverse mr-16 mt-4 text-sm breadcrumbs 2xl:ml-8">

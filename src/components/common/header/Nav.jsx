@@ -9,6 +9,7 @@ import LanguageSwitcher from '../button/LanguageSwitcher';
 import { FaSignInAlt, FaUserPlus, FaUser, FaSignOutAlt } from 'react-icons/fa';
 import { useState } from 'react';
 import { logoutAccount } from '../../../api/EntryAPI';
+import LoadingSpinner from '../service/LoadingSpinner';
 
 const Nav = ({ totalUnreadCount }) => {
   const [signIn, setSignIn] = useRecoilState(signInState);
@@ -18,6 +19,7 @@ const Nav = ({ totalUnreadCount }) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const [showSubMenu, setShowSubMenu] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const menuItems = [
     { path: '/', label: t('HOME') },
@@ -37,13 +39,19 @@ const Nav = ({ totalUnreadCount }) => {
   ].filter(Boolean); // filter(Boolean)을 사용하여 배열에서 false 값 제거
 
   const handleLogout = async () => {
+    setLoading(true);
     await logoutAccount(setSignIn, navigate);
     localStorage.removeItem('accessToken');
     Cookies.remove('accessToken', { path: '/', domain: 'localhost' });
     setSignIn(false);
     setAlarmMsg([]);
     setAlarmOpen(false);
+    setLoading(false);
   };
+
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
+  }
 
   return (
     <div className="navbar bg-green-brunswick text-white px-2 lg:pr-7 ">

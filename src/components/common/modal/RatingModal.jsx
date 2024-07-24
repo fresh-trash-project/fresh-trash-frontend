@@ -9,6 +9,7 @@ const RatingModal = ({ type, id, onClose }) => {
   const [content, setContent] = useState('');
   const navigate = useNavigate();
   const { t } = useTranslation();
+  // const [loading, setLoading] = useState(false);
 
   const handleRatingChange = newRating => {
     setRating(newRating);

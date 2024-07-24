@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { MESSAGES, CONSOLE } from '../../../Constants';
 import ListNav from '../common/header/ListNav';
 import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../common/service/LoadingSpinner';
 const List = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -17,9 +18,13 @@ const List = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
   const handleRegistrationPageAccess = () => {
     if (!signIn) {
-      toast.error('로그인한 회원만 등록 페이지에 접근할 수 있습니다.');
-    } else {
-      navigate('/ProductAdd');
+      if (!toast.isActive('post_access_condition')) {
+        toast.error(MESSAGES.POST_ACCESS_CONDITION, {
+          toastId: 'post_access_condition',
+        });
+      } else {
+        navigate('/ProductAdd');
+      }
     }
   };
 
@@ -33,6 +38,8 @@ const List = () => {
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [sort, setSort] = useState('createdAt,desc');
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async category => {
       try {
@@ -55,8 +62,10 @@ const List = () => {
 
         setPosts(auctionList);
         setTotalPage(auctionList.totalPages);
+        setLoading(false);
       } catch (error) {
         console.error(CONSOLE.FETCH_POSTS_ERROR, error);
+        setLoading(false);
       }
     };
 
@@ -110,6 +119,10 @@ const List = () => {
       console.error(CONSOLE.SEARCH_ERROR, error);
     }
   };
+
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
+  }
 
   return (
     <div>

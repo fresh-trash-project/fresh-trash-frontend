@@ -10,6 +10,7 @@ import TradeTabs from '../components/common/button/TradeTab';
 import Label from '../components/common/label/Label';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../components/common/service/LoadingSpinner';
 
 const MyAuctionList = () => {
   const [mySellListOpen, setMySellListOpen] = useState(true);
@@ -19,6 +20,7 @@ const MyAuctionList = () => {
   const [pageBuy, setPageBuy] = useState(0);
   const [pageOngoing, setPageOngoing] = useState(0);
   const [pageClose, setPageClose] = useState(0);
+  const [loading, setLoading] = useState(true); // 로딩 상태
 
   const [totalPageBuy, setTotalPageBuy] = useState(0);
   const [totalPageOngoing, setTotalPageOngoing] = useState(0);
@@ -34,6 +36,7 @@ const MyAuctionList = () => {
     const fetchAllData = async () => {
       await handleDoneAuction();
       await handleOnAuction();
+      setLoading(false);
     };
     fetchAllData();
   }, []);
@@ -83,6 +86,10 @@ const MyAuctionList = () => {
     setTotalPageClose(closeList.totalPages);
     setTotalClose(closeList.totalElements);
   };
+
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
+  }
 
   return (
     <div>

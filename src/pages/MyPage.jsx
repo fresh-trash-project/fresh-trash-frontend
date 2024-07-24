@@ -15,9 +15,11 @@ import NavigationCard from '../components/common/card/NavigationCard';
 import { changeUserInfo, fetchUserInfo } from '../api/UserInfoAPI';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../components/common/service/LoadingSpinner';
 
 const MyPage = () => {
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [imgFile, setImgFile] = useState('');
   const [image, setImage] = useState(logoImg);
@@ -85,6 +87,7 @@ const MyPage = () => {
         });
       }
       setIsDuplicate(false);
+      setLoading(false);
     };
     getUserInfo();
   }, []);
@@ -131,6 +134,10 @@ const MyPage = () => {
       },
     }).open();
   };
+
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
+  }
 
   //JSX----------------------------------------------------------------------------------------------
   return (
