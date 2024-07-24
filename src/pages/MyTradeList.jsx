@@ -34,22 +34,48 @@ const MyTradeList = () => {
 
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const fetchAllData = async () => {
+  //     await handleDoneSale();
+  //     await handleOnSale();
+  //   };
+  //   fetchAllData();
+  //   if (mySellListOpen) {
+  //     if (onSale) {
+  //       handleOnSale();
+  //     } else {
+  //       handleDoneSale();
+  //     }
+  //   } else if (myBuyListOpen) {
+  //     handleMyBuyListOpen();
+  //   }
+  // }, [pageBuy, pageOngoing, pageClose]);
   useEffect(() => {
     const fetchAllData = async () => {
-      await handleDoneSale();
-      await handleOnSale();
-    };
-    fetchAllData();
-    if (mySellListOpen) {
-      if (onSale) {
-        handleOnSale();
-      } else {
-        handleDoneSale();
+      if (mySellListOpen) {
+        await handleDoneSale();
+      } else if (myBuyListOpen) {
+        await handleMyBuyListOpen();
       }
-    } else if (myBuyListOpen) {
-      handleMyBuyListOpen();
-    }
-  }, [pageBuy, pageOngoing, pageClose]);
+    };
+
+    fetchAllData();
+  }, []);
+  useEffect(() => {
+    const fetchAllData = async () => {
+      if (mySellListOpen) {
+        if (onSale) {
+          await handleOnSale();
+        } else {
+          await handleDoneSale();
+        }
+      } else if (myBuyListOpen) {
+        await handleMyBuyListOpen();
+      }
+    };
+
+    fetchAllData();
+  }, [pageBuy, pageOngoing, pageClose, mySellListOpen, myBuyListOpen, onSale]);
 
   const handleMySellListOpen = async () => {
     setMySellListOpen(true);

@@ -30,23 +30,48 @@ const MyAuctionList = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  // useEffect(() => {
+  //   const fetchAllData = async () => {
+  //     await handleDoneAuction();
+  //     await handleOnAuction();
+  //   };
+  //   fetchAllData();
+  //   if (mySellListOpen) {
+  //     if (onSale) {
+  //       handleOnAuction();
+  //     } else {
+  //       handleDoneAuction();
+  //     }
+  //   } else if (myBuyListOpen) {
+  //     handleMyBuyListOpen();
+  //   }
+  // }, [pageBuy, pageOngoing, pageClose]);
   useEffect(() => {
     const fetchAllData = async () => {
-      await handleDoneAuction();
-      await handleOnAuction();
-    };
-    fetchAllData();
-    if (mySellListOpen) {
-      if (onSale) {
-        handleOnAuction();
-      } else {
-        handleDoneAuction();
+      if (mySellListOpen) {
+        await handleDoneAuction();
+      } else if (myBuyListOpen) {
+        await handleMyBuyListOpen();
       }
-    } else if (myBuyListOpen) {
-      handleMyBuyListOpen();
-    }
-  }, [pageBuy, pageOngoing, pageClose]);
+    };
 
+    fetchAllData();
+  }, []);
+  useEffect(() => {
+    const fetchAllData = async () => {
+      if (mySellListOpen) {
+        if (onSale) {
+          await handleOnAuction();
+        } else {
+          await handleDoneAuction();
+        }
+      } else if (myBuyListOpen) {
+        await handleMyBuyListOpen();
+      }
+    };
+
+    fetchAllData();
+  }, [pageBuy, pageOngoing, pageClose, mySellListOpen, myBuyListOpen, onSale]);
   const handleMySellListOpen = async () => {
     setMySellListOpen(true);
     setMyBuyListOpen(false);
