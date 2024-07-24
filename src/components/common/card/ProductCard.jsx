@@ -3,7 +3,12 @@ import { globalFileAPI } from '../../../../variable';
 import urlJoin from 'url-join';
 import DateCounter from '../counter/DateCounter';
 import { useTranslation } from 'react-i18next';
-const ProductCard = ({ product, auction }) => {
+const ProductCard = ({
+  product,
+  auction,
+  showReviewButton,
+  onReviewButtonClick,
+}) => {
   const { t } = useTranslation();
 
   const data = product || auction;
@@ -92,6 +97,17 @@ const ProductCard = ({ product, auction }) => {
               {t('VIEW_DETAILS')}
               {/* 상세보기 */}
             </a>
+          </div>
+        )}
+
+        {showReviewButton && (
+          <div className="text-center mt-2">
+            <button
+              onClick={onReviewButtonClick}
+              className="px-4 py-2 bg-yellow-saffron text-white font-semibold rounded hover:bg-yellow-naples"
+            >
+              {t('SEND_AUCTION_REVIEW')}
+            </button>
           </div>
         )}
       </div>
