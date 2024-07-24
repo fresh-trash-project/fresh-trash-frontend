@@ -3,7 +3,7 @@ import RatingModal from '../modal/RatingModal';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const MyTradeCards = ({ myList, type, myBuyListOpen }) => {
+const MyTradeCards = ({ type, myList, myBuyListOpen }) => {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);

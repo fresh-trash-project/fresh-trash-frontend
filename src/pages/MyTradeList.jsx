@@ -18,6 +18,7 @@ const MyTradeList = () => {
   const [myBuyListOpen, setMyBuyListOpen] = useState(false);
   const [onSale, setOnSale] = useState(true);
   const [myList, setMyList] = useState([]);
+  const [loading, setLoading] = useState(true); // 로딩 상태
 
   // 페이지 상태 추가
   const [pageBuy, setPageBuy] = useState(0);
@@ -38,18 +39,25 @@ const MyTradeList = () => {
     const fetchAllData = async () => {
       await handleDoneSale();
       await handleOnSale();
+      setLoading(false);
     };
     fetchAllData();
-    if (mySellListOpen) {
-      if (onSale) {
-        handleOnSale();
-      } else {
-        handleDoneSale();
+  }, []);
+
+  useEffect(() => {
+    const fetchFilteredData = async () => {
+      if (mySellListOpen) {
+        if (onSale) {
+          await handleOnSale();
+        } else {
+          await handleDoneSale();
+        }
+      } else if (myBuyListOpen) {
+        await handleMyBuyListOpen();
       }
-    } else if (myBuyListOpen) {
-      handleMyBuyListOpen();
-    }
-  }, [pageBuy, pageOngoing, pageClose]);
+    };
+    fetchFilteredData();
+  }, [pageBuy, pageOngoing, pageClose, mySellListOpen, myBuyListOpen, onSale]);
 
   const handleMySellListOpen = async () => {
     setMySellListOpen(true);
@@ -81,6 +89,10 @@ const MyTradeList = () => {
     setTotalPageClose(closeList.totalPages);
     setTotalClose(closeList.totalElements);
   };
+
+  if (loading) {
+    return <div>Loading...</div>; // 로딩 중일 때 표시할 내용
+  }
 
   return (
     <div>
@@ -126,7 +138,7 @@ const MyTradeList = () => {
 
       <div className="mt-16 pt-4 lg:pt-5 pb-4 px-20 lg:pb-8 xl:px-40 xl:container 2xl:px-60">
         <div className="pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto">
-          <MyTradeCards myList={myList} type="product" />
+          <MyTradeCards type="product" myList={myList} />
         </div>
       </div>
 

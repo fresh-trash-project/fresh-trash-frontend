@@ -50,7 +50,7 @@ const MyLikes = () => {
 
       <div className=" mt-16 pt-4  lg:pt-5 pb-4 px-20  lg:pb-8 xl:px-40 xl:container  2xl:px-60">
         <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto  ">
-          <MyTradeCards myList={myLikes} type="product" />
+          <MyTradeCards type="product" myList={myLikes} />
         </div>
       </div>
 

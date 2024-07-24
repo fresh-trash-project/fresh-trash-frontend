@@ -36,16 +36,22 @@ const MyAuctionList = () => {
       await handleOnAuction();
     };
     fetchAllData();
-    if (mySellListOpen) {
-      if (onSale) {
-        handleOnAuction();
-      } else {
-        handleDoneAuction();
+  }, []);
+
+  useEffect(() => {
+    const fetchFilteredData = async () => {
+      if (mySellListOpen) {
+        if (onSale) {
+          await handleOnAuction();
+        } else {
+          await handleDoneAuction();
+        }
+      } else if (myBuyListOpen) {
+        await handleMyBuyListOpen();
       }
-    } else if (myBuyListOpen) {
-      handleMyBuyListOpen();
-    }
-  }, [pageBuy, pageOngoing, pageClose]);
+    };
+    fetchFilteredData();
+  }, [pageBuy, pageOngoing, pageClose, mySellListOpen, myBuyListOpen, onSale]);
 
   const handleMySellListOpen = async () => {
     setMySellListOpen(true);
@@ -65,7 +71,6 @@ const MyAuctionList = () => {
   const handleOnAuction = async () => {
     setOnSale(true);
     const ongoingList = await fetchMyAuctionOngoing(pageOngoing, navigate);
-    console.log(ongoingList);
     setMyList(ongoingList.content);
     setTotalPageOngoing(ongoingList.totalPages);
     setTotalOngoing(ongoingList.totalElements);
@@ -74,7 +79,6 @@ const MyAuctionList = () => {
   const handleDoneAuction = async () => {
     setOnSale(false);
     const closeList = await fetchMyAuctionClose(pageClose, navigate);
-    console.log(closeList);
     setMyList(closeList.content);
     setTotalPageClose(closeList.totalPages);
     setTotalClose(closeList.totalElements);
@@ -127,9 +131,9 @@ const MyAuctionList = () => {
       <div className=" mt-16 pt-4  lg:pt-5 pb-4 px-20  lg:pb-8 xl:px-40 xl:container  2xl:px-60">
         <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto  ">
           <MyTradeCards
+            type="auction"
             myList={myList}
             myBuyListOpen={myBuyListOpen}
-            type="auction"
           />
         </div>
       </div>
