@@ -1,53 +1,60 @@
-import axios from 'axios';
+import { globalMembersAPI } from '../../variable';
+import { globalAuthAPI } from '../../variable';
+import createAxiosWithToken from './Axios';
+import { toast } from 'react-toastify';
+import { CONSOLE, MESSAGES } from '../../Constants';
 
-// const API_URL = 'http://localhost:3000';
-// const API = 'http://localhost:8080/api/v1';
-// const API_URL =
-//   'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
-const API_URL = import.meta.env.VITE_API_URL;
+const axiosWithTokenMembers = createAxiosWithToken(globalMembersAPI);
+const axiosWithTokenAuth = createAxiosWithToken(globalAuthAPI);
+
 //닉네임 중복 확인
-export const fetchUserNames = async (
+export const fetchUserName = async (
   setIsDuplicate,
-  setDuplicationMessage,
   userName,
   setUserName,
-  setRegisterMessage,
+  signIn,
+  navigate,
 ) => {
-  const accessToken = localStorage.getItem('access-token');
-
   try {
-    const response = await axios.get(`${API_URL}/api/v1/auth/check-nickname`, {
+    const response = await axiosWithTokenAuth.get('/check-nickname', {
       params: {
         nickname: userName,
       },
-      headers: { Authorization: `Bearer ${accessToken}` },
     });
 
-    console.log(response);
     if (response.status === 200) {
-      console.log(response);
-      setDuplicationMessage('사용 가능한 닉네임입니다.');
+      if (!toast.isActive('username-available')) {
+        toast.success(MESSAGES.USERNAME_AVAILABLE, {
+          toastId: 'username-available',
+        });
+      }
       setIsDuplicate(false);
       setUserName(userName);
+
+      return response.data;
     }
-    return response.data;
   } catch (error) {
-    console.log(error);
-    setRegisterMessage('에러');
+    console.log(error.message);
     if (error.response.status === 400) {
-      setDuplicationMessage('중복된 닉네임입니다.');
+      if (!toast.isActive('username-duplicate')) {
+        toast.error(MESSAGES.USERNAME_DUPLICATE, {
+          toastId: 'username-duplicate',
+        });
+      }
+
       setIsDuplicate(true);
     }
+    if (signIn && error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+      localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
+    }
+    throw error;
   }
 };
 
 //프로필 변경
-export const changeUserInfo = async (
-  userName,
-  address,
-  image,
-  setRegisterMessage,
-) => {
+export const changeUserInfo = async (userName, address, imgFile, navigate) => {
   try {
     const memberRequest = {
       nickname: userName,
@@ -61,66 +68,109 @@ export const changeUserInfo = async (
     };
     const json = JSON.stringify(memberRequest);
     const blob = new Blob([json], { type: 'application/json' });
+
     var formData = new FormData();
-    console.log(image);
-    formData.append('imgFile', image);
+
+    formData.append('imgFile', imgFile);
     formData.append('memberRequest', blob);
 
-    const accessToken = localStorage.getItem('access-token');
+    const response = await axiosWithTokenMembers.put('', formData);
 
-    const response = await axios.put(`${API_URL}/api/v1/members`, formData, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    console.log(response);
 
     if (response.status === 200) {
-      console.log('프로필 수정 성공');
+      return response.data;
     }
-    console.log(response);
-    return response;
   } catch (error) {
-    console.log(error);
-    setRegisterMessage('에러');
-    if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
-    }
-  }
-};
+    console.log(error.message);
 
-//사용자 평점
-export const fetchRating = async () => {
-  const accessToken = localStorage.getItem('access-token');
-  try {
-    const response = await axios.get(`${API_URL}/api/v1/members`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    console.log(response);
-    const averageRating = response.data.rating;
-    return averageRating;
-  } catch (error) {
-    console.error('Error fetching ratings: ', error);
-    if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
+    if (!toast.isActive('profile-update-failure')) {
+      toast.error(MESSAGES.PROFILE_UPDATE_FAILURE, {
+        toastId: 'profile-update-failure',
+      });
     }
+
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+      localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
+    }
+    throw error;
   }
 };
 
 //마이페이지 들어왔을때 유저정보 불러오기
-export const fetchUserInfo = async () => {
-  const accessToken = localStorage.getItem('access-token');
-
+export const fetchUserInfo = async navigate => {
   try {
-    const response = await axios.get(`${API_URL}/api/v1/members`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    console.log(response);
-    return response;
-  } catch (error) {
-    console.error('Error fetching: ', error);
-    if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
+    const response = await axiosWithTokenMembers.get('');
+    if (response.status === 200) {
+      return response.data;
     }
+  } catch (error) {
+    console.log(error.message);
+    if (error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+      localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
+    }
+    throw error;
+  }
+};
+
+//response.data.rating
+
+//비밀번호 변경
+export const changePassword = async (
+  oldPassword,
+  newPassword,
+  setSignIn,
+  navigate,
+) => {
+  try {
+    const passwordRequest = {
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    };
+
+    const response = await axiosWithTokenMembers.put(
+      '/change-password',
+      passwordRequest,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    if (response.status === 200) {
+      if (!toast.isActive('password-update-success')) {
+        toast.success(MESSAGES.PASSWORD_UPDATE_SUCCESS, {
+          toastId: 'password-update-success',
+        });
+      }
+
+      // 3초 후에 로그아웃 처리
+      setTimeout(() => {
+        setSignIn(false);
+        localStorage.removeItem('accessToken');
+        navigate('/SignUpSignIn');
+      }, 3000);
+
+      return response.data;
+    }
+  } catch (error) {
+    console.log(error.message);
+    if (!toast.isActive('password-update-failure')) {
+      toast.error(MESSAGES.PASSWORD_UPDATE_FAILURE, {
+        toastId: 'password-update-failure',
+      });
+    }
+
+    if (error.response && error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+      localStorage.removeItem('accessToken');
+      navigate('/signupsignin');
+    }
+    throw error;
   }
 };

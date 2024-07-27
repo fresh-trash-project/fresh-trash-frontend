@@ -1,4 +1,10 @@
+import DetailAuction from '../components/auction/DetailAuction';
+
 const AuctionDetail = () => {
-  return <div>AuctionDetail</div>;
+  return (
+    <div>
+      <DetailAuction />
+    </div>
+  );
 };
 export default AuctionDetail;

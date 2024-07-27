@@ -1,0 +1,9 @@
+{
+  "PRICE": "Price",
+  "SHARING": "Sharing",
+  "ENTER_PRICE": "Enter Price(Enter 0 for sharing)",
+  "MINIMUM_BID": "Minimum Bid",
+  "ENTER_MINIMUM_BID": "Enter Minimum Bid",
+  "CURRENT_PRICE": "Current Price",
+  "BID_AMOUNT": "Bid Amount"
+}

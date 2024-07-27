@@ -1,12 +1,9 @@
-import Footer from '../components/common/footer/Footer';
-import List from '../components/waste/List';
-import Header from '../components/common/header/Header';
+import List from '../components/product/List';
+
 const ProductsList = () => {
   return (
     <div>
-      <Header />
       <List />
-      <Footer />
     </div>
   );
 };

@@ -1,32 +1,51 @@
-import Header from '../components/common/header/Header';
 import Hero from '../components/home/Hero';
-import Footer from '../components/common/footer/Footer';
-import Card1 from '../components/common/card/Card1';
+import NavigationCard from '../components/common/card/NavigationCard';
 import add from '../assets/add2.jpg';
 import auction from '../assets/auction3.jpg';
 import sell from '../assets/sell1.jpg';
 import { useRecoilState } from 'recoil';
 import { signInState } from '../recoil/RecoilSignIn';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../components/common/service/LoadingSpinner';
 
 const Home = () => {
   const [signIn, setSignIn] = useRecoilState(signInState);
+  const { t } = useTranslation();
+  const [loading, setLoading] = useState(true);
+  const navigationCardItems = [
+    {
+      image: add,
+      title: t('ADD_PRODUCT_VERB'),
+      phrase: t('SELL_YOUR_FRESH_TRASH_UPPER_ENG'),
+      link: 'ProductAdd',
+    },
+    {
+      image: sell,
+      title: t('TRADING_PRODUCT'),
+      phrase: t('GET_YOUR_FRESH_TRASH_UPPER_ENG'),
+      link: 'ProductsList',
+    },
+    {
+      image: auction,
+      title: t('AUCTION_PRODUCT'),
+      phrase: t('WIN_YOUR_FRESH_TRASH_UPPER_ENG'),
+      link: 'AuctionList',
+    },
+  ];
 
-  //함수 -----------------------------------------------------------------------------------
   // 쿠키에서 access token을 가져와서 로컬스토리지에 저장
   useEffect(() => {
     const accessToken = getCookies('accessToken');
     if (accessToken) {
       setSignIn(true);
       localStorage.setItem('accessToken', accessToken);
-      console.log('쿠키에 있는 엑세스토큰:' + accessToken);
-      console.log('로컬스토리지에 있는 엑세스토큰:' + localStorage.accessToken);
     }
+    setLoading(false);
   }, []);
 
   function getCookies(name) {
     const cookies = document.cookie.split(';');
-    console.log(cookies);
     for (let i = 0; i < cookies.length; i++) {
       const cookie = cookies[i].trim();
       //쿠키랑 이름이(accessToken) 일치하면 쿠키값 반환
@@ -37,33 +56,25 @@ const Home = () => {
     return null;
   }
 
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
+  }
+
   //JSX-----------------------------------------------------------------------------------
   return (
     <div>
-      <Header />
       <Hero />
-      {/* <HeroVer2 /> */}
       <div className="cards bg-white py-10 px-3 ">
-        <Card1
-          image={add}
-          title="애물단지 등록하기"
-          phrase="SELL YOUR FRESH TRASH"
-          link="ProductAdd"
-        />
-        <Card1
-          image={sell}
-          title="애물단지 거래 중..."
-          phrase="GET YOUR FRESH TRASH"
-          link="ProductsList"
-        />
-        <Card1
-          image={auction}
-          title="애물단지 경매 중..."
-          phrase="GET YOUR FRESH TRASH"
-          link="AuctionList"
-        />
+        {navigationCardItems.map((card, index) => (
+          <NavigationCard
+            key={index}
+            image={card.image}
+            title={card.title}
+            phrase={card.phrase}
+            link={card.link}
+          />
+        ))}
       </div>
-      <Footer />
     </div>
   );
 };

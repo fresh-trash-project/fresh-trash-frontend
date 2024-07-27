@@ -1,4 +1,10 @@
+import List from '../components/auction/List';
+
 const AuctionList = () => {
-  return <div>AuctionList</div>;
+  return (
+    <div>
+      <List />
+    </div>
+  );
 };
 export default AuctionList;

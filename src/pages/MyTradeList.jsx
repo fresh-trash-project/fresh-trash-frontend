@@ -1,160 +1,165 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/common/header/Header';
 import MyTradeCards from '../components/common/card/MyTradeCards';
 import {
   fetchMyBuyList,
   fetchMySellClose,
   fetchMySellOngoing,
 } from '../api/UserTradeAPI';
-import { PaginationButton } from 'flowbite-react';
-//왜 안되지 되라
+import TradeTabs from '../components/common/button/TradeTab';
+import Label from '../components/common/label/Label';
+import { useNavigate } from 'react-router-dom';
+import PaginationButton from '../components/common/pagination/PaginationButton';
+import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../components/common/service/LoadingSpinner';
+
 const MyTradeList = () => {
+  const { t } = useTranslation();
   const [mySellListOpen, setMySellListOpen] = useState(true);
   const [myBuyListOpen, setMyBuyListOpen] = useState(false);
   const [onSale, setOnSale] = useState(true);
   const [myList, setMyList] = useState([]);
-  const [page, setPage] = useState(0);
-  const [totalPage, setTotalPage] = useState(0);
+  const [loading, setLoading] = useState(true); // 로딩 상태
+
+  // 페이지 상태 추가
+  const [pageBuy, setPageBuy] = useState(0);
+  const [pageOngoing, setPageOngoing] = useState(0);
+  const [pageClose, setPageClose] = useState(0);
+
+  const [totalPageBuy, setTotalPageBuy] = useState(0);
+  const [totalPageOngoing, setTotalPageOngoing] = useState(0);
+  const [totalPageClose, setTotalPageClose] = useState(0);
+
   const [totalBuy, setTotalBuy] = useState(0);
   const [totalOngoing, setTotalOngoing] = useState(0);
   const [totalClose, setTotalClose] = useState(0);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    handleOnSale();
-  }, [page]);
+    const fetchAllData = async () => {
+      await handleDoneSale();
+      await handleOnSale();
+      setLoading(false);
+    };
+    fetchAllData();
+  }, []);
+
+  useEffect(() => {
+    const fetchFilteredData = async () => {
+      if (mySellListOpen) {
+        if (onSale) {
+          await handleOnSale();
+        } else {
+          await handleDoneSale();
+        }
+      } else if (myBuyListOpen) {
+        await handleMyBuyListOpen();
+      }
+    };
+    fetchFilteredData();
+  }, [pageBuy, pageOngoing, pageClose, mySellListOpen, myBuyListOpen, onSale]);
 
   const handleMySellListOpen = async () => {
     setMySellListOpen(true);
     setMyBuyListOpen(false);
-    handleOnSale();
+    await handleOnSale();
   };
 
   const handleMyBuyListOpen = async () => {
     setMyBuyListOpen(true);
     setMySellListOpen(false);
-    const dataBuyList = await fetchMyBuyList(page);
+    const dataBuyList = await fetchMyBuyList(pageBuy, navigate);
     setMyList(dataBuyList.content);
-    setTotalPage(dataBuyList.totalPages);
+    setTotalPageBuy(dataBuyList.totalPages);
     setTotalBuy(dataBuyList.totalElements);
   };
 
   const handleOnSale = async () => {
     setOnSale(true);
-    const ongoingList = await fetchMySellOngoing(page);
+    const ongoingList = await fetchMySellOngoing(pageOngoing, navigate);
     setMyList(ongoingList.content);
-    setTotalPage(ongoingList.totalPages);
+    setTotalPageOngoing(ongoingList.totalPages);
     setTotalOngoing(ongoingList.totalElements);
   };
 
   const handleDoneSale = async () => {
     setOnSale(false);
-    const closeList = await fetchMySellClose(page);
+    const closeList = await fetchMySellClose(pageClose, navigate);
     setMyList(closeList.content);
-    setTotalPage(closeList.totalPages);
+    setTotalPageClose(closeList.totalPages);
     setTotalClose(closeList.totalElements);
   };
 
-  //페이지네이션-------------------------------------
-  const handlePreviousPage = () => {
-    setPage(prevPage => Math.max(prevPage - 1, 0)); // 이전 페이지로 이동
-  };
-
-  const handleNextPage = () => {
-    setPage(prevPage => Math.min(prevPage + 1, totalPage - 1)); // 다음 페이지로 이동
-  };
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
+  }
 
   return (
     <div>
-      <Header />
-      <div className="navbar flex-row justify-end bg-base-100 shadow-md">
-        <ul
-          className={`menu menu-horizontal bg-[var(--green-brunswick)] text-white rounded-box  `}
-        >
-          <li
-            className={`hover:scale-110 hover:font-bold ${mySellListOpen && 'bg-[var(--yellow-saffron)] rounded-xl text-[var(--green-brunswick)] font-semibold'}`}
-            onClick={handleMySellListOpen}
-          >
-            <p className=" text-xs md:text-sm">나의 판매내역</p>
-          </li>
-          <li
-            className={`hover:scale-110 hover:font-bold ${myBuyListOpen && 'bg-[var(--yellow-saffron)] rounded-xl text-[var(--green-brunswick)] font-semibold'}`}
-            onClick={handleMyBuyListOpen}
-          >
-            <p className=" text-xs md:text-sm">나의 구매내역</p>
-          </li>
-        </ul>
-      </div>
+      <TradeTabs
+        mySellListOpen={mySellListOpen}
+        myBuyListOpen={myBuyListOpen}
+        handleSellListOpen={handleMySellListOpen}
+        handleBuyListOpen={handleMyBuyListOpen}
+        isAuction={false}
+      />
 
       {/* 라벨------------------------------------------------------------------------ */}
-      <div role="tablist" className="tabs tabs-boxed shadow-md">
-        <div className="px-4">
+      <Label breadcrumbItems={[t('HOME'), t('MY_PAGE'), t('MY_TRADE_HISTORY')]}>
+        <div>
           {mySellListOpen && (
-            <div className="flex justify-between">
-              <div>
-                <div
-                  role="tab"
-                  onClick={handleOnSale}
-                  className={`tab ${onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
-                >
-                  판매중 ({totalOngoing})
-                </div>
-                <div
-                  role="tab"
-                  onClick={handleDoneSale}
-                  className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white'}`}
-                >
-                  판매완료 ({totalClose})
-                </div>
+            <div>
+              <div
+                role="tab"
+                onClick={handleOnSale}
+                className={`tab ${onSale && 'border-2 scale-110 font-bold bg-green-brunswick text-white'}`}
+              >
+                {t('ONGOING_SELLING')} ({totalOngoing})
               </div>
-              <div className="text-sm breadcrumbs">
-                <ul>
-                  <li>홈</li>
-                  <li>마이페이지</li>
-                  <li>나의 거래내역</li>
-                </ul>
+              <div
+                role="tab"
+                onClick={handleDoneSale}
+                className={`tab ${!onSale && 'border-2 scale-110 font-bold bg-green-brunswick text-white'}`}
+              >
+                {t('DONE_SELLING')} ({totalClose})
               </div>
             </div>
           )}
           {myBuyListOpen && (
-            <div className="flex justify-between">
-              <div
-                role="tab"
-                className="tab border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white"
-              >
-                거래완료 ({totalBuy})
-              </div>
-
-              <div className="text-sm breadcrumbs">
-                <ul>
-                  <li>홈</li>
-                  <li>마이페이지</li>
-                  <li>나의 거래내역</li>
-                </ul>
-              </div>
+            <div
+              role="tab"
+              className="tab border-2 scale-110 font-bold bg-green-brunswick text-white"
+            >
+              {t('DONE_BUYING')} ({totalBuy})
             </div>
           )}
         </div>
+      </Label>
+
+      <div className="mt-16 pt-4 lg:pt-5 pb-4 px-20 lg:pb-8 xl:px-40 xl:container 2xl:px-60">
+        <div className="pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto">
+          <MyTradeCards type="product" myList={myList} />
+        </div>
       </div>
 
-      <MyTradeCards myList={myList} />
-
-      <div className=" container flex justify-center mb-16">
-        <PaginationButton
-          onClick={handlePreviousPage}
-          disabled={page === 0}
-          className="join-item btn mr-4"
-        >
-          이전
-        </PaginationButton>
-        <PaginationButton
-          onClick={handleNextPage}
-          disabled={page === totalPage - 1}
-          className="join-item btn ml-4"
-        >
-          다음
-        </PaginationButton>
+      <div className="container flex justify-center mb-16">
+        {mySellListOpen && (
+          <PaginationButton
+            setPage={onSale ? setPageOngoing : setPageClose}
+            page={onSale ? pageOngoing : pageClose}
+            totalPages={onSale ? totalPageOngoing : totalPageClose}
+          />
+        )}
+        {myBuyListOpen && (
+          <PaginationButton
+            setPage={setPageBuy}
+            page={pageBuy}
+            totalPages={totalPageBuy}
+          />
+        )}
       </div>
     </div>
   );
 };
+
 export default MyTradeList;

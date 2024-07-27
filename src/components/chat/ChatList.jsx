@@ -1,49 +1,63 @@
 import React, { useEffect, useState } from 'react';
-import { AiFillAlert } from 'react-icons/ai';
-import { ListFetch } from '../../api/chat/api';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-const ChatList = ({ isOpen }) => {
+import { useNavigate } from 'react-router-dom';
+import { ListFetch } from '../../api/ChattingAPI';
+import { useTranslation } from 'react-i18next';
+import { MESSAGES, CONSOLE } from '../../../Constants';
+const ChatList = ({ isOpen, currentUser }) => {
   //채팅 목록 불러오기
+  const { t } = useTranslation();
   const [visibleUsers, setVisibleUsers] = useState(10); // 처음에 보여지는 사용자 수
+  const [currentPage, setCurrentPage] = useState(0);
   const [userList, setUserList] = useState([]);
-  const { chatId, wasteId } = useParams();
+  const [page, setPage] = useState();
   const navigate = useNavigate();
+
   useEffect(() => {
-    const fetchData = async (wasteId, chatId) => {
-      const list = await ListFetch(wasteId, chatId);
-      setUserList(list);
+    const fetchData = async () => {
+      try {
+        const list = await ListFetch(currentPage, navigate);
+        setUserList(prevList => [...prevList, ...list.content]);
+        setPage(list.totalElements);
+      } catch (error) {
+        console.log(CONSOLE.CHAT_LIST_ERROR, error);
+      }
     };
     fetchData();
-  }, [wasteId, chatId]);
-  //사용자 클릭시 해당 채팅으로 이동
-  const handleGoChatRoom = async (wasteId, chatId) => {
-    navigate(`/Chat/${wasteId}/${chatId}`);
+  }, [currentPage]);
+  const handleGoChatRoom = async (productId, chatId) => {
+    navigate(`/Chat/${productId}/${chatId}`);
   };
   const handleLoadMore = () => {
-    setVisibleUsers(prev => prev + 10); // 10명씩 추가로 보이도록 업데이트
+    setCurrentPage(prev => prev + 1); // 10명씩 추가로 보이도록 업데이트
   };
   return (
-    <div
-      className={`bg-gray-100 text-black w-40 h-screen top-0 left-0 transition-transform duration-300 ease-in-out transform overflow-y-auto ${isOpen ? '-translate-x-0' : 'translate-x-28'}`}
-    >
-      <ul className=" pt-4">
-        {userList.slice(0, visibleUsers).map((userList, index) => (
-          <li
-            key={index}
-            // onClick={handleGoChatRoom}
-            onClick={() => handleGoChatRoom(userList.id, userList.wasteId)}
-            className="px-6 py-3 hover:bg-gray-700 hover:text-white cursor-pointer"
-          >
-            {userList.wasteTitle} : {userList.buyerNickname}
-          </li>
+    <div>
+      <div>
+        {userList.map(userList => (
+          <ul key={userList.id} className=" pt-4">
+            <li
+              onClick={() => handleGoChatRoom(userList.id, userList.productId)}
+              className="px-6 py-3 hover:bg-gray-700 hover:text-white cursor-pointer"
+            >
+              {currentUser && currentUser.id === userList.buyerId ? (
+                <p>
+                  {userList.sellerNickname}-{userList.productTitle}
+                </p>
+              ) : (
+                <p>
+                  {userList.buyerNickname}- {userList.productTitle}
+                </p>
+              )}
+            </li>
+          </ul>
         ))}
-      </ul>
-      {visibleUsers < userList.length && (
+      </div>
+      {userList.length < page && (
         <button
-          className="mt-16 block w-full p-2 text-center  "
+          className=" block w-full p-2 text-center  "
           onClick={handleLoadMore}
         >
-          . . . 더 보기
+          . . .{t('SHOW_MORE')}
         </button>
       )}
     </div>

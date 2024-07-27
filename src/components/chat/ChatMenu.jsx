@@ -1,22 +1,21 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteChat } from '../../api/chat/api';
+import { deleteChat } from '../../api/ChattingAPI';
 
-const ChatMenu = ({ messageList }) => {
+const ChatMenu = ({ isOpen, messageList }) => {
   const navigate = useNavigate();
-  const handleDelete = async (wasteId, chatId) => {
+  const handleDelete = async chatId => {
     try {
-      await deleteChat(wasteId, chatId);
-      // setPosts(
-      //   messageList.filter(messageList => messageList.chatRoom.id !== chatId),
-      // );
+      await deleteChat(chatId, navigate);
       navigate('/');
     } catch (error) {
-      console.error('제품 삭제 중 오류가 발생했습니다:', error);
+      console.error(error);
     }
   };
   return (
-    <div className="w-16  space-y-10 py-1 border border-spacing-2  -translate-x-0 ">
+    <div
+      className={`w-16 space-y-10 py-1 border border-spacing-2   ${isOpen ? '-translate-x-0' : 'translate-x-80'}`}
+    >
       <ul>
         <li className="p-5">
           <svg
@@ -25,7 +24,7 @@ const ChatMenu = ({ messageList }) => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="h-6 w-6 cursor-pointer text-gray-500 transition-all hover:text-[var(--green-brunswick)]"
+            className="h-6 w-6 cursor-pointer text-gray-500 transition-all hover:text-green-brunswick"
           >
             <path
               strokeLinecap="round"
@@ -34,12 +33,11 @@ const ChatMenu = ({ messageList }) => {
             />
           </svg>
         </li>
-        {/* onClick={() => handleGoChatRoom(userList.wasteId, userList.id)} */}
         <li
           className="p-5"
           onClick={() =>
             handleDelete(
-              messageList.chatRoom && messageList.chatRoom.wasteId,
+              messageList.chatRoom && messageList.chatRoom.productId,
               messageList.chatRoom && messageList.chatRoom.id,
             )
           }
@@ -50,7 +48,7 @@ const ChatMenu = ({ messageList }) => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="h-6 w-6 cursor-pointer text-gray-500 hover:text-[var(--green-brunswick)]"
+            className="h-6 w-6 cursor-pointer text-gray-500 hover:text-green-brunswick"
           >
             <path
               strokeLinecap="round"

@@ -1,43 +1,62 @@
-import axios from 'axios';
+import { globalNotisAPI } from '../../variable';
+import createAxiosWithToken from './Axios';
+import { CONSOLE } from '../../Constants';
 
-// const API_URL = 'http://localhost:3000';
-// const API_URL = 'http://localhost:8080/api/v1';
-// const API_URL =
-//   'http://ec2-43-203-127-248.ap-northeast-2.compute.amazonaws.com:8080/api/v1';
-const API_URL = import.meta.env.VITE_API_URL;
-//전체 알람 조회
-export const fetchAlarm = async () => {
-  const accessToken = localStorage.getItem('access-token');
+const axiosWithToken = createAxiosWithToken(globalNotisAPI);
+
+//전체 안읽은 알림 조회
+export const fetchUnreadAlarm = async (page, navigate) => {
   try {
-    const response = await axios.get(`${API_URL}/api/v1/notis`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-
-    return response.data.content;
-  } catch (error) {
-    console.error('Error fetching: ', error);
-    if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
+    const response = await axiosWithToken.get(`?isRead=false&page=${page}`);
+    if (response.status === 200) {
+      console.log(response.data);
+      return response.data;
     }
+  } catch (error) {
+    console.log(error.message);
   }
+  if (error.response.status === 401) {
+    console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+    localStorage.removeItem('accessToken');
+    navigate('/signupsignin');
+  }
+  throw error;
+};
+
+//전체 읽은 알림 조회
+export const fetchReadAlarm = async (page, navigate) => {
+  try {
+    const response = await axiosWithToken.get(`?isRead=true&page=${page}`);
+    if (response.status === 200) {
+      console.log(response.data);
+      return response.data;
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+  if (error.response.status === 401) {
+    console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+    localStorage.removeItem('accessToken');
+    navigate('/signupsignin');
+  }
+  throw error;
 };
 
 //받은 알림 클릭시 PUT 요청 -> 알림읽음처리
-export const readAlarm = async notisId => {
-  const accessToken = localStorage.getItem('access-token');
-  console.log(localStorage);
-  console.log(accessToken);
+export const readAlarm = async (notisId, navigate) => {
   try {
-    const response = await axios.put(`${API_URL}/api/v1/notis/${notisId}`, null, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    console.log(response);
-  } catch (error) {
-    console.error('Error fetching: ', error);
-    if (error.response.status === 404) {
-      console.log('404에러: 토큰삭제 로그아웃');
-      localStorage.removeItem('access-token');
+    const response = await axiosWithToken.put(`/${notisId}`);
+    if (response.status === 200) {
+      console.log(CONSOLE.ALARM_READ, response.data);
+      return response.data;
     }
+  } catch (error) {
+    console.log(error.message);
   }
+  if (error.response && error.response.status === 401) {
+    console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+    localStorage.removeItem('accessToken');
+    navigate('/signupsignin');
+  }
+  throw error;
 };

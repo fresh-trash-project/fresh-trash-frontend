@@ -11,15 +11,17 @@ import {
   completePost,
   contentFetch,
   reportPost,
-  statusChange,
-} from '../../api/chat/api';
-import { useParams } from 'react-router-dom';
-// import { Stomp } from '@stomp/stompjs';
+  statusChat,
+} from '../../api/ChattingAPI';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
-// import { stompClientSetup } from '../../api/stompServer';
+import { CONSOLE } from '../../../Constants';
+import { useTranslation } from 'react-i18next';
 const InputField = () => {
+  const { t } = useTranslation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { chatId, wasteId } = useParams();
+  const { chatId, productId } = useParams();
+  const navigate = useNavigate();
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -27,32 +29,44 @@ const InputField = () => {
   const [messageContent, setMessageContent] = useState([]);
   const [messages, setMessages] = useState([]);
   useEffect(() => {
-    const fetchData = async (wasteId, chatId) => {
+    const fetchData = async chatId => {
       try {
-        const messageList = await contentFetch(wasteId, chatId);
-        // setMessages(messageList);
+        const messageList = await contentFetch(chatId, navigate);
+
         setMessageContent(messageList);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error(CONSOLE.CHAT_CONTENT_ERROR, error);
       }
     };
-    fetchData(wasteId, chatId);
-  }, [wasteId, chatId]);
-  //판매완료
-  const handleCompleted = async (wasteId, chatRoomId) => {
-    await completePost(wasteId, chatRoomId);
+    fetchData(chatId);
+  }, [chatId]);
+  //판매완료 (거래완료)
+  const handleCompleted = async () => {
+    await statusChat(chatId, 'COMPLETE_DEAL', navigate);
+    setMessageContent(prevContent => ({
+      ...prevContent,
+      chatRoom: { ...prevContent.chatRoom, sellStatus: 'CLOSE' },
+    }));
   };
-  //예약중 변경
+  //예약중 (예약 신청)
   const handleBooking = async () => {
-    await statusChange.sellStatus(chatId, 'BOOKING');
+    await statusChat(chatId, 'REQUEST_BOOKING', navigate);
+    setMessageContent(prevContent => ({
+      ...prevContent,
+      chatRoom: { ...prevContent.chatRoom, sellStatus: 'BOOKING' },
+    }));
   };
-  //판매중 변경
+  //판매중 변경(예약 취소)
   const handleOngoing = async () => {
-    await statusChange.sellStatus(chatId, 'ONGOING');
+    await statusChat(chatId, 'CANCEL_BOOKING', navigate);
+    setMessageContent(prevContent => ({
+      ...prevContent,
+      chatRoom: { ...prevContent.chatRoom, sellStatus: 'ONGOING' },
+    }));
   };
   //신고하기
   const handleReport = async chatRoomId => {
-    await reportPost(chatRoomId);
+    await reportPost(chatRoomId, navigate);
   };
   const [currentUser, setCurrentUser] = useState(null);
   //유저 정보 가져오기------------------------------------------------------
@@ -63,7 +77,7 @@ const InputField = () => {
   }, []);
   // 로컬 스토리지에서 사용자 정보 가져오기-----------------------
   const getCurrentUser = () => {
-    const userData = localStorage.getItem('access-token');
+    const userData = localStorage.getItem('accessToken');
 
     try {
       const [header, payload, signature] = userData.split('.');
@@ -75,7 +89,7 @@ const InputField = () => {
 
       return user;
     } catch (error) {
-      console.error('사용자 정보를 파싱하는 도중 오류가 발생했습니다:', error);
+      console.error(CONSOLE.PARSING_ERROR, error);
       return null;
     }
   };
@@ -83,43 +97,36 @@ const InputField = () => {
   const [stompClient, setStompClient] = useState(null);
 
   const [inputMessage, setInputMessage] = useState('');
-  // const access = localStorage.getItem('access-token');
   useEffect(() => {
     const initializeChat = async () => {
       try {
         const stomp = new Client({
           brokerURL: 'ws://localhost:8080/chat-ws',
-          // connectHeaders: {
-          //   Authorization: `Bearer ${access}`,
-          // },
           debug: str => {
             console.log(str);
           },
         });
         setStompClient(stomp);
-        // console.log(stomp);
-        // console.log(stompClient);
+
         stomp.activate();
 
         stomp.onConnect = () => {
           const subscriptionDestination = `/topic/chats.${chatId}`;
 
           stomp.subscribe(subscriptionDestination, msg => {
-            // console.log(JSON.parse(msg.body).message);
-            // console.log(JSON.parse(msg.body).createdAt);
             try {
               const parsedMessage = JSON.parse(msg.body);
               setMessages(prevMessages => [...prevMessages, parsedMessage]);
-              console.log('WebSocket 연결이 열렸습니다.');
-              console.log('수신한 메세지', parsedMessage);
+              console.log(CONSOLE.WEBSOCKET_OPEN);
+              console.log(CONSOLE.RECEIVED_MESSAGE, parsedMessage);
             } catch (error) {
-              console.error('오류가 발생했습니다:', error);
+              console.error(error);
             }
           });
         };
         console.log(stompClient);
       } catch (error) {
-        console.error('웹소켓 연결을 실패했습니다.', error);
+        console.error(CONSOLE.WEBSOCKET_ERROR, error);
       }
     };
 
@@ -127,11 +134,6 @@ const InputField = () => {
     initializeChat();
     console.log(stompClient);
 
-    // return () => {
-    //   if (stompClient && stompClient.connected) {
-    //     stompClient.deactivate();
-    //   }
-    // };
     // 컴포넌트 언마운트 시 연결 종료
     return () => {
       if (stompClient !== null) {
@@ -143,13 +145,12 @@ const InputField = () => {
   //채팅 메세지 전송-------------------------------
   const sendMessage = (chatId, memberId) => {
     if (!inputMessage.trim()) return;
-    console.log('전송한 메세지', inputMessage);
+    console.log(CONSOLE.SEND_MESSAGE, inputMessage);
     const destination = `/app/${chatId}/message/${memberId}`;
     stompClient.publish({
       destination,
       body: JSON.stringify({
         message: inputMessage,
-        // sender: currentUser,
       }),
     });
 
@@ -163,9 +164,14 @@ const InputField = () => {
         key={messageContent && messageContent.id}
         messageList={messageContent && messageContent}
       />
-      {isSidebarOpen && <ChatList isOpen={isSidebarOpen} />}
+      <div
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className={`bg-gray-100 text-black h-screen top-0 left-0 transition-transform duration-300 ease-in-out transform overflow-y-auto   ${isSidebarOpen ? '-translate-x-0' : 'translate-x-40'}`}
+      >
+        <ChatList isOpen={isSidebarOpen} currentUser={currentUser} />
+      </div>
       <div className=" z-30 h-screen flex flex-col w-7/12  ">
-        <div className="bg-[var(--yellow-naples)] p-2  text-white flex justify-between  items-center ">
+        <div className="bg-yellow-naples p-2  text-white flex justify-between  items-center ">
           <button
             className={`btn  text-black font-bold py-2 px-4    ${isSidebarOpen ? '' : ''}`}
             onClick={toggleSidebar}
@@ -180,8 +186,8 @@ const InputField = () => {
             '
             {messageContent &&
               messageContent.chatRoom &&
-              messageContent.chatRoom.wasteTitle}
-            ' 애물단지 채팅방
+              messageContent.chatRoom.productTitle}
+            ' {t('CHAT_ROOM')}
           </p>
 
           <div className="flex">
@@ -218,13 +224,13 @@ const InputField = () => {
                             onClick={() =>
                               handleCompleted(
                                 messageContent.chatRoom &&
-                                  messageContent.chatRoom.wasteId,
+                                  messageContent.chatRoom.productId,
                                 messageContent.chatRoom &&
                                   messageContent.chatRoom.id,
                               )
                             }
                           >
-                            <p>판매완료</p>
+                            <p>{t('DONE_SELLING')}</p>
                           </li>
                         )}
                       {messageContent.chatRoom &&
@@ -237,7 +243,7 @@ const InputField = () => {
                             )
                           }
                         >
-                          <p> 예약중</p>
+                          <p>{t('RESERVED')}</p>
                         </li>
                       ) : (
                         <li
@@ -248,7 +254,7 @@ const InputField = () => {
                             )
                           }
                         >
-                          <p> 판매중으로 변경</p>
+                          <p> {t('ONGOING_SELLING')}</p>
                         </li>
                       )}
                     </ul>
@@ -258,7 +264,7 @@ const InputField = () => {
                       className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
                     >
                       <li>
-                        <p>판매완료된 상품입니다.</p>
+                        <p>{t('DONE_SELLING')}</p>
                       </li>
                     </ul>
                   )}
@@ -276,7 +282,6 @@ const InputField = () => {
             messages={messages}
             messageContent={messageContent}
             user={currentUser}
-            // partner={messageContent}
           />
         </div>
         {/* ------채팅입력----- */}
@@ -284,7 +289,7 @@ const InputField = () => {
           <input
             value={inputMessage}
             onChange={e => setInputMessage(e.target.value)}
-            placeholder="채팅을 입력하세요"
+            placeholder={t('CHAT')}
             className="flex-1 border rounded-full px-4 py-2 focus:outline-none"
           />
           <button
@@ -298,7 +303,7 @@ const InputField = () => {
             }
             className="bg-gray-300 text-white rounded-full p-2 ml-2 focus:outline-none"
           >
-            전송
+            {t('SEND_CHAT')}
           </button>
         </div>
       </div>

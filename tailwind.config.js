@@ -4,13 +4,11 @@ export default {
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
     'node_modules/flowbite-react/lib/esm/**/*.js',
+    './node_modules/react-tailwindcss-datepicker/dist/index.esm.js',
   ],
   theme: {
     container: {
       center: true,
-    },
-    daisyui: {
-      theme: false,
     },
     extend: {
       aspectRatio: {
@@ -41,7 +39,7 @@ export default {
 
         'yellow-saffron': '#f8c765',
         'yellow-naples': '#f7d865',
-
+        'yellow-deep': '#ffbf00',
         'red-cinnabar': '#e3492b',
         'red-tomato': '#fc6042',
 
@@ -53,9 +51,16 @@ export default {
       },
     },
   },
-  plugins: [
-    require('daisyui'),
-    require('flowbite/plugin'),
-    require('tailwind-scrollbar'),
-  ],
+  plugins: [daisyui, flowbite / plugin, tailwind - scrollbar],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          primary: '#275a53',
+          '--tab-bg': '#275a53',
+          '--tab-border-color': '#275a53',
+        },
+      },
+    ],
+  },
 };

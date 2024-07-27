@@ -1,0 +1,9 @@
+{
+  "PRICE": "가격",
+  "SHARING": "나눔",
+  "ENTER_PRICE": "가격을 입력하세요(0 입력 시 나눔)",
+  "MINIMUM_BID": "최소 가격",
+  "ENTER_MINIMUM_BID": "최소 가격을 입력하세요",
+  "CURRENT_PRICE": "현재가",
+  "BID_AMOUNT": "입찰 금액"
+}

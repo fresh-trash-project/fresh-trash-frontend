@@ -1,18 +1,53 @@
-import ProductCard from '../../waste/ProductCard';
+import ProductCard from './ProductCard';
+import RatingModal from '../modal/RatingModal';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-const MyTradeCards = ({ myList }) => {
-  console.log(myList);
+const MyTradeCards = ({ type, myList, myBuyListOpen }) => {
+  const { t } = useTranslation();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState(null);
+
+  const openModal = id => {
+    setSelectedItemId(id);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedItemId(null);
+    setModalOpen(false);
+  };
 
   return (
-    <div className=" pt-4 px-20 lg:pt-5 pb-4 lg:pb-8 lg:px-36 xl:px-40 xl:container mx-auto 2xl:px-60 ">
-      <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 xl:px-2 mb-20 xl:container mx-auto">
-        <div className="grid gap-6 justify-items-center md:grid-cols-2  lg:grid-cols-3 item_ list ">
-          {myList.map(wastes => (
-            <ProductCard key={wastes.id} wastes={wastes} />
-          ))}
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 justify-center">
+      {myList.map(item => (
+        <div key={item.id}>
+          <ProductCard
+            key={item.id}
+            product={type === 'product' ? item : undefined}
+            auction={type === 'auction' ? item : undefined}
+            showReviewButton={type === 'auction' && myBuyListOpen}
+            onReviewButtonClick={() => openModal(item.id)}
+          />
+          {/* {myBuyListOpen && (
+            <div className="text-center mt-2">
+              <button
+                onClick={() => openModal(item.id)}
+                // style={{ display: 'inline-block', margin: 'auto' }}
+              >
+                <p className="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600">
+                  {t('SEND_AUCTION_REVIEW')}
+                </p>
+              </button>
+            </div>
+          )} */}
         </div>
-      </div>
+      ))}
+      {modalOpen && selectedItemId && (
+        <RatingModal type="auction" id={selectedItemId} onClose={closeModal} />
+      )}
     </div>
   );
 };
+
 export default MyTradeCards;

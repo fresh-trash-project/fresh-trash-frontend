@@ -1,137 +1,147 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AlarmState, AlarmMsgState } from '../../../recoil/RecoilAlarm';
 import { useRecoilState } from 'recoil';
-import { IoMdClose } from 'react-icons/io';
-import { useEffect, useState } from 'react';
-import { signInState } from '../../../recoil/RecoilSignIn';
-import { fetchAlarm, readAlarm } from '../../../api/AlarmAPI';
+import { IoIosArrowBack, IoIosArrowForward, IoMdClose } from 'react-icons/io';
+import { readAlarm } from '../../../api/AlarmAPI';
+import { useState } from 'react';
+import RatingModal from '../modal/RatingModal';
+import { useTranslation } from 'react-i18next';
 
-const Alarm = () => {
+const Alarm = ({
+  currentPage,
+  totalPages,
+  setCurrentPage,
+  fetchAlarmData,
+  activeTab,
+  setActiveTab,
+}) => {
   const [alarmOpen, setAlarmOpen] = useRecoilState(AlarmState);
   const [alarmMsg, setAlarmMsg] = useRecoilState(AlarmMsgState);
-  const [isHovered, setIsHovered] = useState(false);
-  const [signIn, setSignIn] = useRecoilState(signInState);
-  const accessToken = localStorage.getItem('access-token');
+  const [showRatingModal, setShowRatingModal] = useState(false); // 평점 모달 상태 추가
+  const [currentItem, setCurrentItem] = useState(null); // 현재 클릭된 알람 메시지 저장
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
-  // const originalText =
-  // '채팅이 왔습니다. 글자가 많으면 점점점 표시되고 호버하면 다 보이도록 만들고 있습니다. 이곳에 알람 메시지를 받아와야 합니다.  ';
+  const handleTabClick = tab => {
+    setActiveTab(tab);
+    setCurrentPage(0); // 탭 변경 시 페이지 초기화
+    fetchAlarmData(0, tab);
+  };
+
+  const displayedMessages = alarmMsg || [];
 
   //알람타입에 따라 알람메시지 클릭했을때 링크 이동
   const getLinkByAlarmType = item => {
     switch (item.alarmType) {
-      case 'CHAT':
-        return `/Chat/${item.alarmArgs.targetId}`;
-      case 'TRANSACTION':
+      case 'REQUEST_BOOKING':
         return `/ProductDetail/${item.alarmArgs.targetId}`;
-
+      case 'CANCEL_BOOKING':
+        return `/ProductDetail/${item.alarmArgs.targetId}`;
+      case 'BIDDING':
+        return `/Pay/${item.alarmArgs.targetId}`;
       default:
-        return '/MyPage';
+        return '/';
     }
   };
 
-  //알람메시지 삭제
-  const removeAlarmMessage = id => {
-    setAlarmMsg(prevMessages => {
-      const updatedMessages = prevMessages.filter(msg => msg.id !== id);
-      localStorage.setItem('alarmMessages', JSON.stringify(updatedMessages));
-      return updatedMessages;
-    });
-  };
-
-  //알람메시지 읽음처리 -> 메시지 개수 바뀌면 다시 로드되게
+  //알람메시지 읽음처리
   const readAlarmMessage = async item => {
-    await readAlarm(item.id);
-    const fetchedAlarms = await fetchAlarm();
-    setAlarmMsg(fetchedAlarms);
+    if (!item.readAt) {
+      await readAlarm(item.id, navigate);
+      fetchAlarmData(currentPage, activeTab);
+    }
   };
 
-  // JSX -----------------------------------------------------------------------------------------------
+  const handleAlarmClick = async item => {
+    await readAlarmMessage(item);
+    if (item.alarmType === 'REQUEST_REVIEW') {
+      setCurrentItem(item);
+      setShowRatingModal(true);
+    } else {
+      const link = getLinkByAlarmType(item);
+      if (link) {
+        navigate(link);
+      }
+    }
+  };
+
+  const handleClickPage = pageNumber => {
+    setCurrentPage(pageNumber);
+    fetchAlarmData(pageNumber, activeTab);
+  };
+
   return (
     <div
-      className={`menu absolute top-[70px] ${
-        alarmOpen ? 'right-0' : '-right-full'
-      } bg-[var(--green-brunswick)] h-96 rounded-box z-50 text-[0.6rem] mr-2 md:w-96 md:mr-5`}
+      className={`menu absolute top-[71px] md:top-[78px] lg:top-[98px] ${alarmOpen ? 'right-0' : '-right-full'} bg-green-brunswick h-96 rounded-box z-50 text-[0.6rem] mr-2 md:w-96 transition-all duration-300`}
     >
-      <div className="menu-title flex items-center justify-between bg-[var(--yellow-naples)] rounded-box mb-2">
-        <p>알람 ({alarmMsg.length})</p>
-
+      <div className="menu-title flex items-center justify-between bg-yellow-naples rounded-box mb-2 px-4 py-2">
+        <div className="flex space-x-1">
+          <button
+            onClick={() => handleTabClick('new')}
+            className={`px-4 py-2 rounded ${activeTab === 'new' ? 'bg-green-current text-white' : 'bg-gray-200'} hover:bg-green-current hover:text-white`}
+          >
+            {t('NEW_NOTIFICATION')}
+          </button>
+          <button
+            onClick={() => handleTabClick('read')}
+            className={`px-4 py-2 rounded ${activeTab === 'read' ? 'bg-green-current text-white' : 'bg-gray-200'} hover:bg-green-current hover:text-white`}
+          >
+            {t('READ_NOTIFICATION')}
+          </button>
+        </div>
         <div
-          onClick={() => {
-            setAlarmOpen(false);
-          }}
-          className="cursor-pointer"
+          onClick={() => setAlarmOpen(false)}
+          className="cursor-pointer hover:text-green-current"
         >
-          CLOSE
+          {t('CLOSE_UPPER_ENG')}
+          {/* <IoMdClose className="text-xl" /> */}
         </div>
       </div>
 
       <ul className="h-60 overflow-y-scroll scrollbar scrollbar-thumb-yellow-naples scrollbar-track-white-ivory text-white md:text-sm">
-        {alarmMsg.map(
-          item =>
-            item && (
-              <li
-                key={item.id}
-                onClick={() => readAlarmMessage(item)}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                className={`flex-nowrap border-b border-white border-opacity-30 flex flex-row items-center justify-between cursor-pointer  `}
-              >
-                <div className={`w-72`}>
-                  {isHovered ? (
-                    <Link to={getLinkByAlarmType(item)}>
-                      {/*프론트에서 메시지 가져올때 {originalText} */}
-                      {item.message}
-                    </Link>
-                  ) : (
-                    <Link to={getLinkByAlarmType(item)} className="truncate">
-                      {/*프론트에서 메시지 가져올때 {originalText} */}
-                      {item.message}
-                    </Link>
-                  )}
-                </div>
-
-                <div>
-                  <IoMdClose
-                    className="text-white transition text-xl hover:text-[var(--red-cinnabar)]"
-                    onClick={() => removeAlarmMessage(item.id)}
-                  />
-                </div>
-              </li>
-            ),
-        )}
-
-        {/* <li className="border-b border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li>
-        <li className="border-b border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li>
-        <li className="border-b-[1px] border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li>
-        <li className="border-b-[1px] border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li>
-        <li className="border-b-[1px] border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li>
-        <li className="border-b-[1px] border-white border-opacity-30">
-          <Link>
-            <p>낙찰되었습니다. 축하합니다.</p>
-          </Link>
-        </li> */}
+        {displayedMessages.map(item => (
+          <li
+            key={item.id}
+            onClick={() => handleAlarmClick(item)}
+            className={`flex-nowrap border-b border-white border-opacity-30 flex flex-row items-center justify-between cursor-pointer ${item.readAt ? 'text-gray-500' : ''}`}
+          >
+            <div className="w-80 truncate hover:whitespace-pre-wrap">
+              <Link to={getLinkByAlarmType(item)}>{item.message}</Link>
+            </div>
+          </li>
+        ))}
       </ul>
+
+      {/* 페이지  */}
+      <div className="flex justify-between px-4 py-2 mt-5 bg-yellow-naples rounded-box">
+        <button
+          onClick={() => handleClickPage(currentPage - 1)}
+          className={`px-4 py-2 rounded cursor-pointer ${currentPage === 0 ? 'bg-gray-300' : 'bg-gray-200 hover:bg-green-current hover:text-white'}`}
+          disabled={currentPage === 0}
+        >
+          <IoIosArrowBack />
+          {/* {t('PREV')} */}
+        </button>
+        <button
+          onClick={() => handleClickPage(currentPage + 1)}
+          className={`px-4 py-2 rounded cursor-pointer ${currentPage === totalPages - 1 ? 'bg-gray-300' : 'bg-gray-200 hover:bg-green-current hover:text-white'}`}
+          disabled={currentPage === totalPages - 1}
+        >
+          <IoIosArrowForward />
+          {/* {t('NEXT')} */}
+        </button>
+      </div>
+
+      {/* 모달 */}
+      {showRatingModal && currentItem && (
+        <RatingModal
+          type="product"
+          id={currentItem.alarmArgs.targetId}
+          onClose={() => setShowRatingModal(false)}
+        />
+      )}
     </div>
   );
 };
+
 export default Alarm;

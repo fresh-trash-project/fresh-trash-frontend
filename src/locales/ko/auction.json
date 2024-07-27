@@ -1,0 +1,10 @@
+{
+  "JOIN_BID": "입찰 참여",
+  "BID_AUCTION": "경매 입찰",
+  "PLACE_BID": "입찰 하기",
+  "BID_ITEM": "입찰 상품",
+  "END_DATE": "마감 일자",
+  "AUCTION_PERIOD": "경매 기간",
+  "AUCTION_WON": "낙찰되었습니다.",
+  "SEND_AUCTION_REVIEW": "경매 거래후기 보내기"
+}

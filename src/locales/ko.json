@@ -1,0 +1,50 @@
+{
+  "HOME": "홈",
+  "HOME_UPPER_ENG": "HOME",
+  "MY_PAGE": "마이페이지",
+  "PRODUCT_DETAIL_PAGE": "상세페이지",
+
+  "ADD_PRODUCT": "애물단지 등록",
+  "ADD_PRODUCT_VERB": "애물단지 등록하기",
+  "PRODUCT_LIST": "애물단지 거래/나눔 목록",
+  "AUCTION_LIST": "애물단지 경매 목록",
+  "TRADE_ITEM": "애물단지 거래",
+  "AUCTION_ITEM": "애물단지 경매",
+
+  "SELL_YOUR_FRESH_TRASH_UPPER_ENG": "SELL YOUR FRESH TRASH",
+  "GET_YOUR_FRESH_TRASH_UPPER_ENG": "GET YOUR FRESH TRASH",
+  "WIN_YOUR_FRESH_TRASH_UPPER_ENG": "WIN YOUR FRESH TRASH",
+  "TRADING_PRODUCT": "애물단지 거래 중",
+  "AUCTION_PRODUCT": "애물단지 경매 중",
+
+  "OPEN_ENG": "Open",
+  "OPEN_UPPER_ENG": "Open",
+  "CLOSE": "닫기",
+  "CLOSE_ENG": "Close",
+  "CLOSE_UPPER_ENG": "CLOSE",
+
+  "WON": "원",
+  "SUBMIT": "제출",
+  "SAVE": "저장",
+  "EDIT": "수정하기",
+  "DELETE": "삭제하기",
+  "ONGOING_UPPER_ENG": "ONGOING",
+  "VIEW_NOW_ENG": "View Now",
+  "SHOW_MORE": "더보기",
+
+  "ADD_TO_LIKES": "관심추가",
+  "VIEW_DETAILS": "상세보기",
+
+  "IMAGE": "이미지",
+  "POST_IMAGE": "게시물 이미지",
+
+  "SELECT": "선택",
+  "DISTRICT": "지역",
+  "TITLE": "제목",
+  "ENTER_TITLE": "제목을 입력하세요",
+
+  "CONTENT": "내용",
+  "ENTER_CONTENT": "내용을 입력하세요",
+  "POST_ITEM": "등록하기",
+  "EDIT_ITEM": "수정하기"
+}

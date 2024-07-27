@@ -1,143 +1,75 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/common/header/Header';
 import MyTradeCards from '../components/common/card/MyTradeCards';
-import { fetchMyLikes } from '../api/UserTradeAPI';
-import { PaginationButton } from 'flowbite-react';
+import { fetchMyLikes } from '../api/UserLikesAPI';
+import PaginationButton from '../components/common/pagination/PaginationButton';
+import Label from '../components/common/label/Label';
+import { useNavigate } from 'react-router-dom';
+import CategoryDropDown from '../components/common/category/CategoryDropDown';
+import { useTranslation } from 'react-i18next';
+import LoadingSpinner from '../components/common/service/LoadingSpinner';
 
 const MyLikes = () => {
+  const { t } = useTranslation();
   const [myLikes, setMyLikes] = useState([]);
   const [totalLikes, setTotalLikes] = useState(0);
-  const [filteredLikes, setFilteredLikes] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('전체');
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true); // 로딩 상태
 
   useEffect(() => {
     const getMyLikes = async () => {
-      const dataMyLikes = await fetchMyLikes(page);
+      const dataMyLikes = await fetchMyLikes(selectedCategory, page, navigate);
       setMyLikes(dataMyLikes.content);
       setTotalLikes(dataMyLikes.totalElements);
       setTotalPage(dataMyLikes.totalPages);
+      setLoading(false);
     };
     getMyLikes();
-  }, [page]);
+  }, [selectedCategory, page]);
 
-  // useEffect(() => {
-  //   filterLikes(selectedCategory, myLikes); // Filter likes whenever the selected category changes
-  // }, [selectedCategory]);
-
-  // const filterLikes = (selectedCategory, myLikes) => {
-  //   const filtered =
-  //     selectedCategory === '전체'
-  //       ? myLikes
-  //       : myLikes.filter(data => data.content.wasteCategory === selectedCategory);
-  //   setFilteredLikes(filtered);
-  // };
-
-  // const handleCategoryChange = (category) => {
-  //   setSelectedCategory(category);
-  //   setPage(0); // Reset page to the first page
-  // };
-
-  //페이지네이션-------------------------------------
-  const handlePreviousPage = () => {
-    setPage(prevPage => Math.max(prevPage - 1, 0)); // 이전 페이지로 이동
+  //카테고리--------------------------------
+  const handleCategoryChange = category => {
+    setSelectedCategory(category);
+    setPage(0); // 카테고리가 변경될 때 페이지를 0으로 초기화합니다.
   };
 
-  const handleNextPage = () => {
-    setPage(prevPage => Math.min(prevPage + 1, totalPage - 1)); // 다음 페이지로 이동
-  };
+  if (loading) {
+    return <LoadingSpinner loading={loading} />;
+  }
 
   return (
     <div>
-      <Header />
       <div className="navbar flex-row justify-between bg-white shadow-md px-4">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn bg-gray-200">
-            카테고리
-          </div>
-          <ul
-            tabIndex={0}
-            className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            <li onClick={() => handleCategoryChange('전체')}>
-              <p>전체</p>
-            </li>
-            <li onClick={() => handleCategoryChange('ELECTRONICS')}>
-              <p>전자기기</p>
-            </li>
-            <li onClick={() => handleCategoryChange('CLOTHING')}>
-              <p>의류</p>
-            </li>
-            <li onClick={() => handleCategoryChange('HOME_KITCHEN')}>
-              <p>생활/주방</p>
-            </li>
-            <li onClick={() => handleCategoryChange('BEAUTY')}>
-              <p>뷰티</p>
-            </li>
-            <li onClick={() => handleCategoryChange('HEALTH')}>
-              <p>건강</p>
-            </li>
-            <li onClick={() => handleCategoryChange('SPORTS')}>
-              <p>스포츠</p>
-            </li>
-            <li onClick={() => handleCategoryChange('BOOKS')}>
-              <p>도서</p>
-            </li>
-            <li onClick={() => handleCategoryChange('TOYS_GAMES')}>
-              <p>장난감/게임</p>
-            </li>
-            <li onClick={() => handleCategoryChange('FURNITURE_DECOR')}>
-              <p>가구/인테리어</p>
-            </li>
-            <li onClick={() => handleCategoryChange('PET_SUPPLIES')}>
-              <p>반려동물용품</p>
-            </li>
-            <li onClick={() => handleCategoryChange('PLANT_SUPPLIES')}>
-              <p>식물</p>
-            </li>
-          </ul>
-        </div>
+        <CategoryDropDown handleCategoryChange={handleCategoryChange} />
       </div>
 
       {/* 라벨------------------------------------------------------------------------ */}
-      <div role="tablist" className="tabs tabs-boxed shadow-md ">
-        <div className="px-4">
-          <div className="flex justify-between">
-            <div
-              role="tab"
-              className={`tab border-2 scale-110 font-bold bg-[var(--green-brunswick)] text-white`}
-            >
-              찜 ({totalLikes})
-            </div>
-            <div className=" text-sm breadcrumbs">
-              <ul>
-                <li>홈</li>
-                <li>마이페이지</li>
-                <li>나의 관심목록</li>
-              </ul>
-            </div>
-          </div>
+      <Label breadcrumbItems={[t('HOME'), t('MY_PAGE'), t('MY_LIKES')]}>
+        <div
+          role="tab"
+          className="tab border-2 scale-110 font-bold bg-green-brunswick text-white"
+        >
+          {t('LIKES')} ({totalLikes})
+        </div>
+      </Label>
+
+      <div className=" mt-16 pt-4  lg:pt-5 pb-4 px-20  lg:pb-8 xl:px-40 xl:container  2xl:px-60">
+        <div className=" pt-2 lg:pt-4 pb-4 lg:pb-8 px-4 sm:px-4 xl:px-2 mb-20 xl:container mx-auto  ">
+          <MyTradeCards type="product" myList={myLikes} />
         </div>
       </div>
 
-      <MyTradeCards myList={myLikes} />
-
       <div className=" container flex justify-center mb-16">
         <PaginationButton
-          onClick={handlePreviousPage}
-          disabled={page === 0}
-          className="join-item btn mr-4"
-        >
-          이전
-        </PaginationButton>
-        <PaginationButton
-          onClick={handleNextPage}
-          disabled={page === totalPage - 1}
-          className="join-item btn ml-4"
-        >
-          다음
-        </PaginationButton>
+          // handlePreviousPage={handlePreviousPage}
+          // handleNextPage={handleNextPage}
+          // number={getPageNumbers}
+          setPage={setPage}
+          page={page}
+          totalPages={totalPage}
+        />
       </div>
     </div>
   );
