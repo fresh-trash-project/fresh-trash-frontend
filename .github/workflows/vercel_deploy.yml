@@ -12,13 +12,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
+        run: |
+          apt-get update && apt-get install -y ruby curl
+          gem install mustache
       - name: creates output
         run: sh ./build.sh
       - name: Create freshtrash directory and move output
         run: |
           mkdir -p freshtrash
           mv output/* freshtrash/
+      - name: Verify freshtrash directory
+        run: |
+          echo "Contents of freshtrash directory:"
+          ls -la freshtrash
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
