@@ -20,15 +20,19 @@ jobs:
         run: |
           chmod +x ./build.sh
           ./build.sh
-      - name: Create freshtrash directory and move output
+      - name: Create freshtrash directory and move all projects files
         run: |
           mkdir -p freshtrash
-          mv output/* freshtrash/
-          rm -rf output
+          shopt -s extglob
+          mv !(freshtrash|.git|.github) freshtrash/
       - name: Verify freshtrash directory
         run: |
           echo "Contents of freshtrash directory:"
           ls -la freshtrash
+      - name: Clean up root directory
+        run: |
+          shopt -s extglob
+          rm -rf !(freshtrash|.git|.github)
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
