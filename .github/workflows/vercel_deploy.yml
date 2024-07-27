@@ -45,7 +45,7 @@ jobs:
         with:
           source-directory: 'freshtrash'
           destination-github-username: 'sgoldenbird'
-          destination-repository-name: 'open-group-Projects'
+          destination-repository-name: 'open-team-Projects'
           user-email: sgoldenbird@gmail.com
           commit-message: 'Deploy Fresh Trash'
           target-branch: main
