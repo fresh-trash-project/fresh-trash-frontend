@@ -8,17 +8,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: pandoc/latex
+
     steps:
       - uses: actions/checkout@v3
-      - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
-      - name: creates output
-        run: sh ./build.sh
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y ruby curl
+          gem install mustache
+      - name: Run build script
+        run: |
+          chmod +x ./build.sh
+          ./build.sh
       - name: Create freshtrash directory and move output
         run: |
           mkdir -p freshtrash
           mv output/* freshtrash/
+      - name: Verify freshtrash directory
+        run: |
+          echo "Contents of freshtrash directory:"
+          ls -la freshtrash
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
@@ -31,5 +40,6 @@ jobs:
           user-email: sgoldenbird@gmail.com
           commit-message: 'Deploy Fresh Trash'
           target-branch: main
+          target-directory: 'freshtrash'
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
