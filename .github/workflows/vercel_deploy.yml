@@ -22,33 +22,33 @@ jobs:
           ./build.sh
       - name: Create freshtrash directory and move output contents
         run: |
-          mkdir -p freshtrash
-          mv output/* freshtrash/
+          mkdir -p fresh-trash
+          mv output/* fresh-trash/
           rm -rf output
       - name: Move all remaining project files
         run: |
           shopt -s extglob
-          rsync -av --progress ./* freshtrash/ --exclude freshtrash --exclude .git --exclude .github
-      - name: Verify freshtrash directory
+          rsync -av --progress ./* fresh-trash/ --exclude fresh-trash --exclude .git --exclude .github
+      - name: Verify fresh-trash directory
         run: |
-          echo "Contents of freshtrash directory:"
-          ls -la freshtrash
+          echo "Contents of fresh-trash directory:"
+          ls -la fresh-trash
       - name: Clean up root directory
         run: |
           shopt -s extglob
-          rm -rf !(freshtrash|.git|.github)
+          rm -rf !(fresh-trash|.git|.github)
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
         with:
-          source-directory: 'freshtrash'
+          source-directory: 'fresh-trash'
           destination-github-username: 'sgoldenbird'
           destination-repository-name: 'open-team-deploy'
           user-email: sgoldenbird@gmail.com
           commit-message: 'Deploy Fresh Trash'
           target-branch: main
-          target-directory: 'freshtrash'
+          target-directory: 'fresh-trash'
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
