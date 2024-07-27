@@ -24,6 +24,7 @@ jobs:
         run: |
           mkdir -p freshtrash
           mv output/* freshtrash/
+          rm -rf output
       - name: Verify freshtrash directory
         run: |
           echo "Contents of freshtrash directory:"
