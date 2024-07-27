@@ -27,15 +27,16 @@ jobs:
           rm -rf output
       - name: Move all remaining project files
         run: |
-          mv * freshtrash/
-          mv .[^.]* freshtrash/
+          shopt -s extglob
+          rsync -av --progress ./* freshtrash/ --exclude freshtrash --exclude .git --exclude .github
       - name: Verify freshtrash directory
         run: |
           echo "Contents of freshtrash directory:"
           ls -la freshtrash
       - name: Clean up root directory
         run: |
-          rm -rf *
+          shopt -s extglob
+          rm -rf !(freshtrash|.git|.github)
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
