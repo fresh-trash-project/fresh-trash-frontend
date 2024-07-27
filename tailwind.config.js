@@ -51,11 +51,7 @@ export default {
       },
     },
   },
-  plugins: [
-    require('daisyui'),
-    require('flowbite/plugin'),
-    require('tailwind-scrollbar'),
-  ],
+  plugins: [daisyui, flowbite / plugin, tailwind - scrollbar],
   daisyui: {
     themes: [
       {
