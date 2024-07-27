@@ -12,19 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install mustache (to update the date)
-        run: |
-          apt-get update && apt-get install -y ruby
-          gem install mustache
+        run: apk add ruby && gem install mustache
       - name: creates output
         run: sh ./build.sh
       - name: Create freshtrash directory and move output
         run: |
           mkdir -p freshtrash
           mv output/* freshtrash/
-      - name: Verify freshtrash directory
-        run: |
-          echo "Contents of freshtrash directory:"
-          ls -la freshtrash
       - name: Pushes to another repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
@@ -35,7 +29,7 @@ jobs:
           destination-github-username: 'sgoldenbird'
           destination-repository-name: 'open-group-Projects'
           user-email: sgoldenbird@gmail.com
-          commit-message: 'vercel deploy'
+          commit-message: 'Deploy Fresh Trash'
           target-branch: main
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
