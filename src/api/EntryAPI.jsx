@@ -1,7 +1,8 @@
 import { globalMailAPI, globalAuthAPI } from '../../variable';
 import createAxiosWithToken from './Axios';
 import { toast } from 'react-toastify';
-import { MESSAGES } from '../../Constants';
+import { MESSAGES, CONSOLE } from '../../Constants';
+import Cookies from 'js-cookie';
 
 const axiosWithTokenMail = createAxiosWithToken(globalMailAPI);
 const axiosWithTokenAuth = createAxiosWithToken(globalAuthAPI);
@@ -176,6 +177,7 @@ export const logoutAccount = async (setSignIn, navigate) => {
 
     if (response.status === 204) {
       localStorage.removeItem('accessToken');
+      Cookies.remove('accessToken', { path: '/', domain: 'localhost' });
       setSignIn(false);
       navigate('/SignUpSignIn');
     }
@@ -185,6 +187,13 @@ export const logoutAccount = async (setSignIn, navigate) => {
       toast.error(MESSAGES.LOGOUT_FAILED, {
         toastId: 'logout-failed',
       });
+    }
+    if (error.response && error.response.status === 401) {
+      console.log(CONSOLE.RESOURCE_NOT_FOUND_ERROR);
+      localStorage.removeItem('accessToken');
+      Cookies.remove('accessToken', { path: '/', domain: 'localhost' });
+      setSignIn(false);
+      navigate('/SignUpSignIn');
     }
     throw error;
   }

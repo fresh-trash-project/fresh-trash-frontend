@@ -3,7 +3,6 @@ import { signInState, signInPanelState } from '../../../recoil/RecoilSignIn';
 import { useRecoilState } from 'recoil';
 import { AlarmMsgState, AlarmState } from '../../../recoil/RecoilAlarm';
 import NavEndButton from '../button/NavEndButton';
-import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../button/LanguageSwitcher';
 import { FaSignInAlt, FaUserPlus, FaUser, FaSignOutAlt } from 'react-icons/fa';
@@ -40,13 +39,15 @@ const Nav = ({ totalUnreadCount }) => {
 
   const handleLogout = async () => {
     setLoading(true);
-    await logoutAccount(setSignIn, navigate);
-    localStorage.removeItem('accessToken');
-    Cookies.remove('accessToken', { path: '/', domain: 'localhost' });
-    setSignIn(false);
-    setAlarmMsg([]);
-    setAlarmOpen(false);
-    setLoading(false);
+    try {
+      await logoutAccount(setSignIn, navigate);
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setAlarmMsg([]);
+      setAlarmOpen(false);
+      setLoading(false);
+    }
   };
 
   if (loading) {
