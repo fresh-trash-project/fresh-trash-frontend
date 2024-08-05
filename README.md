@@ -32,7 +32,7 @@
 
 ## Tech Stacks
 
-<img src="https://ifh.cc/g/GAfc86.jpg" />
+<a href='https://ifh.cc/v-tC6F6l' target='_blank'><img src='https://ifh.cc/g/tC6F6l.jpg' border='0'></a>
 
 ## 와이어프레임
 
